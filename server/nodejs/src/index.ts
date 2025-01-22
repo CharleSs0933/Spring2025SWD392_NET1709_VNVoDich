@@ -5,6 +5,7 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 // ROUTE IMPORTS
+import courseRoutes from "./routes/courseRoutes";
 
 // CONFIGURATIONS
 dotenv.config();
@@ -21,6 +22,8 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.send("This is home route");
 });
+
+app.use("/courses", courseRoutes);
 
 // SERVER
 const port = Number(process.env.PORT) || 3000;
