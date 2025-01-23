@@ -1,7 +1,17 @@
 import Image from "next/image";
+import NonDashboardNavbar from "./components/NonDashboardNavbar";
+import Footer from "./components/Footer";
+import Landing from "./components/Landing";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]"></div>
+    <div className="flex flex-col min-h-screen w-full">
+      <NonDashboardNavbar />
+      <main className="flex flex-grow justify-center items-center w-full h-full">
+        <Landing />
+      </main>
+
+      <Footer />
+    </div>
   );
 }
