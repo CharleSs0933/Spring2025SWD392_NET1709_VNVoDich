@@ -3,6 +3,8 @@ import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 import { Toaster } from "sonner";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -24,9 +26,11 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${dmSans.className} mx-auto w-full h-full justify-center items-center`}
-      >
+        >
+        <Header/>
         <Providers>{children}</Providers>
         <Toaster richColors closeButton />
+        <Footer/>
       </body>
     </html>
   );

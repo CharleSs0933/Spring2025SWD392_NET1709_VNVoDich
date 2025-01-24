@@ -9,7 +9,7 @@ const customBaseQuery = async (
   extraOptions: any
 ) => {
   const baseQuery = fetchBaseQuery({
-    baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
+    baseUrl: "http://localhost:8000",
     // prepareHeaders: async (headers) => {
     //   const token = await window.Clerk?.session?.getToken();
     //   if (token) {
@@ -58,30 +58,42 @@ const customBaseQuery = async (
 };
 
 export const api = createApi({
-  baseQuery: customBaseQuery,
+  baseQuery: fetchBaseQuery({
+    baseUrl: "http://localhost:8000",
+  }),
   reducerPath: "api",
   tagTypes: ["Courses"],
   endpoints: (build) => ({
     getCourses: build.query<
       Course[],
-      {
-        page?: number;
-        pageSize?: number;
-        subject?: string;
-        grade?: number;
-        status?: string;
-      }
+      Partial<Course>
     >({
-      query: ({ page, pageSize, subject, grade, status }) => ({
-        url: "/courses",
+      query: ({
+        subject,
+        grade,
+        status,
+        description,
+        price,
+        title,
+        id,
+        total_lessons,
+        tutor_id,
+      }) => ({
+        url: "/Courses",
         params: {
-          page,
-          pageSize,
           subject,
           grade,
           status,
+          description,
+          price,
+          title,
+          id,
+          total_lessons,
+          tutor_id,
         },
       }),
+      transformResponse: (response: { message: string; data: Course[] }) =>
+        response.data,
       providesTags: ["Courses"],
     }),
   }),
