@@ -28,6 +28,9 @@ export const getCourses = async (
       where: filters,
       skip,
       take: pageSizeNum,
+      include: {
+        tutor: true,
+      },
     });
 
     // Đếm tổng số bản ghi
@@ -37,12 +40,12 @@ export const getCourses = async (
     res.json({
       message: "Courses retrieved successfully",
       data: courses,
-      pagination: {
-        total: totalCourses,
-        page: pageNum,
-        pageSize: pageSizeNum,
-        totalPages: Math.ceil(totalCourses / pageSizeNum),
-      },
+      // pagination: {
+      //   total: totalCourses,
+      //   page: pageNum,
+      //   pageSize: pageSizeNum,
+      //   totalPages: Math.ceil(totalCourses / pageSizeNum),
+      // },
     });
   } catch (error: any) {
     res.status(500).json({ message: "Error retrieving courses", error });
