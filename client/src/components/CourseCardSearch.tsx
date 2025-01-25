@@ -10,7 +10,7 @@ const CourseCardSearch = ({
   return (
     <div
       onClick={onClick}
-      className={`bg-customgreys-secondarybg overflow-hidden rounded-lg hover:bg-white-100/10 transition 
+      className={` mx-4 bg-customgreys-secondarybg overflow-hidden rounded-lg shadow-lg group hover:bg-white-100/10 transition 
         duration-200 flex flex-col cursor-pointer border-2 h-full group ${
           isSelected ? "border-primary-600" : "border-transparent"
         }`}
@@ -25,7 +25,7 @@ const CourseCardSearch = ({
         />
       </div>
       <div className="flex-grow flex flex-col justify-between w-full h-full p-6">
-        <div>
+        <div className="group-hover:text-black">
           <h2 className="text-md lg:text-lg font-semibold line-clamp-2">
             {course.title}
           </h2>
@@ -36,11 +36,11 @@ const CourseCardSearch = ({
             By {course.tutor?.id}
           </p>
           <div className="flex justify-between items-center mt-1">
-            <span className="text-primary-500 font-semibold">
+            <span className="text-primary-500 text-2xl font-semibold group-hover:text-red-500">
               {formatPrice(course.price)}
             </span>
             <span className="text-customgreys-dirtyGrey text-sm">
-              0 Enrolled
+              1000 Enrolled
             </span>
           </div>
         </div>

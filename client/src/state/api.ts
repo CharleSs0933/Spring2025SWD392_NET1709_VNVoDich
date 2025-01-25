@@ -1,4 +1,4 @@
-import { Course } from "@/types";
+import { Course, User } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query";
 import { toast } from "sonner";
@@ -62,41 +62,58 @@ export const api = createApi({
     baseUrl: "http://localhost:8000",
   }),
   reducerPath: "api",
-  tagTypes: ["Courses"],
+  tagTypes: ["Courses", "Tutors"],
   endpoints: (build) => ({
     getCourses: build.query<
       Course[],
-      Partial<Course>
+      {
+        page?: number;
+        pageSize?: number;
+        subject?: string;
+        grade?: number;
+        status?: string;
+      }
     >({
       query: ({
         subject,
         grade,
         status,
-        description,
-        price,
-        title,
-        id,
-        total_lessons,
-        tutor_id,
+        page,
+        pageSize,
       }) => ({
         url: "/Courses",
         params: {
+          page,
+          pageSize,
           subject,
           grade,
           status,
-          description,
-          price,
-          title,
-          id,
-          total_lessons,
-          tutor_id,
         },
       }),
-      transformResponse: (response: { message: string; data: Course[] }) =>
-        response.data,
+      transformResponse: (response: { message: string; data: Course[] }) => response.data,
       providesTags: ["Courses"],
+    }),
+
+    getTutors: build.query<
+      User[],
+      {
+        id?: number;
+        email?: string;
+        full_name?: string;
+        phone?: string;
+        role?: string;
+        google_id?: string;
+        timezone?: string;
+      }
+    >({
+      query: ({ id, email, full_name, phone, role, google_id, timezone }) => ({
+        url: "/Tutors",
+        params: { id, email, full_name, phone, role, google_id, timezone },
+      }),
+      transformResponse: (response: { message: string; data: User[] }) => response.data,
+      providesTags: ["Tutors"],
     }),
   }),
 });
 
-export const { useGetCoursesQuery } = api;
+export const { useGetCoursesQuery, useGetTutorsQuery } = api;

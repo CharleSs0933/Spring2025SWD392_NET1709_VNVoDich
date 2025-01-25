@@ -3,7 +3,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="bg-customgreys-secondarybg bottom-0 w-full py-8 mt-10 text-center text-sm">
+    <div className="bg-customgreys-secondarybg bottom-0 w-full py-8  text-center text-sm">
       <p>&copy; 2024 Tutor Platform. All Rights Reserved</p>
       <div className="mt-2">
         {["About", "Privacy Policy", "Licensing", "Contact"].map((item) => (
