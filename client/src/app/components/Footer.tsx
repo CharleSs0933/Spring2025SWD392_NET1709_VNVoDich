@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import Eyes from "./eyes";
 
 const Footer = () => {
   return (
@@ -16,6 +17,9 @@ const Footer = () => {
             {item}
           </Link>
         ))}
+      </div>
+      <div className="flex justify-center items-center mt-4">
+        <Eyes/>
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ const HomePageBody4 = () => {
       <div className="bg-transparent mx-32">
         <div className="flex justify-center my-10 items-center">
           <div className="w-[30%]">
-            <h1 className="text-orange-600 font-bold text-3xl text-center">
+            <h1 className="text-orange-600 font-bold text-4xl text-center tracking-widest">
               Meet With Our Professional Menter.
             </h1>
           </div>

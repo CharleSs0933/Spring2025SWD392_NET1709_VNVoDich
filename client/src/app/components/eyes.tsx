@@ -39,14 +39,20 @@ const Eyes = () => {
   }, []);
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="eye bg-white rounded-full border-4 border-black w-24 h-24 flex justify-center items-center m-4 relative overflow-hidden">
-        <div className="pupil bg-black rounded-full w-8 h-8 absolute"></div>
-      </div>
-      <div className="eye bg-white rounded-full border-4 border-black w-24 h-24 flex justify-center items-center m-4 relative overflow-hidden">
-        <div className="pupil bg-black rounded-full w-8 h-8 absolute"></div>
-      </div>
+    <div className="flex flex-col justify-center items-center border rounded-full bg-white-50  shadow-xl py-3">
+  <div className="flex">
+    <div className="eye bg-white rounded-full border-4 border-black w-20 h-20 mb-9 flex justify-center items-center m-4 relative overflow-hidden">
+      <div className="pupil bg-black rounded-full w-8 h-8 absolute"></div>
     </div>
+    <div className="eye bg-white rounded-full border-4 border-black w-20 h-20 mb-9 flex justify-center items-center m-4 relative overflow-hidden">
+      <div className="pupil bg-black rounded-full w-8 h-8 absolute"></div>
+    </div>
+  </div>
+  <div className="flex justify-center items-center text-5xl font-bold z-10 mt-4 rotate-90 text-black">
+    (
+  </div>
+</div>
+
   );
 };
 
