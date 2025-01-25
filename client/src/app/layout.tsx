@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
+import { Toaster } from "sonner";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -25,6 +26,7 @@ export default function RootLayout({
         className={`${dmSans.className} mx-auto w-full h-full justify-center items-center`}
       >
         <Providers>{children}</Providers>
+        <Toaster richColors closeButton />
       </body>
     </html>
   );

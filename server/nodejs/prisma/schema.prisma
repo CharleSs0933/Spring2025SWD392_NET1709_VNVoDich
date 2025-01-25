@@ -85,7 +85,7 @@ model Course {
   subject       String
   status        CourseStatus @default(Draft)
 
-  Tutor    Tutor @relation(fields: [tutor_id], references: [id])
+  tutor    Tutor @relation(fields: [tutor_id], references: [id])
   tutor_id Int
 
   availabilitys       Availability[]
