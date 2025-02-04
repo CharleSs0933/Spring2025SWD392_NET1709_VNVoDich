@@ -20,7 +20,6 @@ export const AnimatedTestimonials = ({
 }) => {
   const [active, setActive] = useState(0);
   const [randomRotateY , setRandomRotateY] = useState(80)
-  console.log(testimonials, 'okk rồi')
   const handleNext = () => {
     setActive((prev) => (prev + 1) % testimonials.length);
   };

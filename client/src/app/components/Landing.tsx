@@ -1,25 +1,32 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { useCarousel } from "@/hooks/useCarousel";
-import { useGetCoursesQuery } from "@/state/api";
+import { useGetCoursesQuery } from "@/lib/features/api/api";
 import CourseCardSearch from "@/components/CourseCardSearch";
 import { useRouter } from "next/navigation";
 import LoadingSkeleton from "./LoadingSkeletion";
+import { useDispatch } from "react-redux";
+import { addCourse } from "@/lib/features/courses/coursesSlice";
 
 
 const Landing = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const currentImage = useCarousel({ totalImages: 3 });
   const {
     data: courses,
     isLoading,
     isError,
-  } = useGetCoursesQuery({ pageSize: 6 });
-
+  } = useGetCoursesQuery({ pageSize: 10 , page: 1});
+ useEffect(() => {
+  if(courses){
+    dispatch(addCourse(courses))
+  }
+ }, [courses , dispatch])
   const handleCourseClick = (courseId: number) => {
     router.push(`search?id=${courseId}`, { scroll: false });
   };
@@ -54,7 +61,7 @@ const Landing = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {courses &&
-            courses.map((course, index) => (
+            courses.slice(0,6).map((course, index) => (
               <div key={course.id}>
                 <CourseCardSearch
                   course={course}

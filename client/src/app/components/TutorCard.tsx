@@ -1,5 +1,5 @@
 import { useCarousel } from "@/hooks/useCarousel";
-import { useGetCoursesQuery, useGetTutorsQuery } from "@/state/api";
+import { useGetCoursesQuery, useGetTutorsQuery } from "@/lib/features/api/api";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import LoadingSkeleton from "./LoadingSkeletion";
@@ -58,7 +58,6 @@ const TutorCard = () => {
 
     }
   }, [tutor, courses]); 
-  console.log(testimonials, 'ok chưa')
   if (isCoursesLoading || isTutorsLoading) return <LoadingSkeleton />;
 
   return (

@@ -1,12 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+// import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {};
+// const initialState = {};
 
-export const globalSlice = createSlice({
-  name: "global",
-  initialState,
-  reducers: {},
-});
+// export const globalSlice = createSlice({
+//   name: "global",
+//   initialState,
+//   reducers: {},
+// });
 
-export const {} = globalSlice.actions;
-export default globalSlice.reducer;
+// export const {} = globalSlice.actions;
+// export default globalSlice.reducer;
