@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import LoadingSkeleton from "./LoadingSkeletion";
 import { AnimatedTestimonials } from "./ui/animated-testimonials";
+import { useDispatch } from "react-redux";
+import { addTutor } from "@/lib/features/tutor/tutorSlice";
 
 interface Testimonial {
   quote: string;
@@ -24,13 +26,18 @@ const TutorCard = () => {
     "https://images.unsplash.com/photo-1624561172888-ac93c696e10c?q=80&w=2592&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   ]
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  
+  const dispatch = useDispatch()
   const {
     data: tutor,
     isLoading: isTutorsLoading,
     isError: isTutorsError,
   } = useGetTutorsQuery({});
   
+  useEffect(() => {
+    if(tutor){
+      dispatch(addTutor(tutor))
+    }
+  },[tutor, dispatch])
   const {
     data: courses,
     isLoading: isCoursesLoading,
