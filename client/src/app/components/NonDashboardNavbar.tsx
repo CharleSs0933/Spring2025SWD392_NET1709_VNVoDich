@@ -11,8 +11,7 @@ const NonDashboardNavbar = () => {
         <Image
           src={Logo}
           alt="LogoLMS"
-          sizes="(max-width: 768px) 5vw, (max-width: 1200px) 3vw, 2vw"
-          className="object-contain w-28"
+          className="object-contain w-28 rounded-xl"
         />
 
         <div className="flex items-center mx-auto">

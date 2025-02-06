@@ -9,12 +9,16 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useGetCoursesQuery } from "@/state/api";
 import CourseCardSearch from "@/components/CourseCardSearch";
 import { useRouter } from "next/navigation";
-import background from "../asset/background.png";
+import backgroundHero from "../asset/backgroundHero.png";
+import about from "../asset/about.png";
 import {
   TbChecklist,
   TbCalendarMonth,
   TbCoins,
   TbStarFilled,
+  TbCrosshair,
+  TbChartRadar,
+  TbUserPentagon,
 } from "react-icons/tb";
 
 const LoadingSkeleton = () => {
@@ -50,6 +54,98 @@ const LoadingSkeleton = () => {
   );
 };
 
+const FeatureBox = ({
+  icon: Icon,
+  title,
+  description,
+}: {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+}) => {
+  return (
+    <div className="box p-3 max-w-72 shadow-[0_0_15px_2px_rgba(0,0,0,0.1)] rounded-xl">
+      <div className="flex items-center justify-center bg-gray-700 w-12 h-12 rounded-full text-white">
+        <Icon className="text-xl text-white-50" />
+      </div>
+      <div>
+        <p className="font-bold text-2xl">{title}</p>
+        <span>{description}</span>
+      </div>
+    </div>
+  );
+};
+
+const AboutItem = ({
+  icon: Icon,
+  title,
+  description,
+}: {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+}) => {
+  return (
+    <li className="flex items-center gap-4 py-2">
+      <div className="flex items-center justify-center bg-gray-700 size-16 rounded-full shrink-0">
+        <Icon className="text-4xl text-white-50" />
+      </div>
+      <div>
+        <p className="font-bold">{title}</p>
+        <span>{description}</span>
+      </div>
+    </li>
+  );
+};
+
+const features = [
+  {
+    icon: TbStarFilled,
+    title: "Experienced Tutors",
+    description:
+      "Our tutors are experienced and certified to ensure high-quality teaching.",
+  },
+  {
+    icon: TbChecklist,
+    title: "Tailored Learning Plans",
+    description:
+      "We create personalized learning plans tailored to each child's needs.",
+  },
+  {
+    icon: TbCalendarMonth,
+    title: "Flexible Scheduling",
+    description:
+      "Choose a schedule that fits your family’s lifestyle—weekends or evenings.",
+  },
+  {
+    icon: TbCoins,
+    title: "Affordable Rates",
+    description:
+      "We offer affordable pricing and flexible packages to fit your budget.",
+  },
+];
+
+const aboutItems = [
+  {
+    icon: TbCrosshair,
+    title: "Our Goal:",
+    description:
+      '"Engaging Interactive Features" — Study includes fun, interactive lessons and group activities that keep students engaged.',
+  },
+  {
+    icon: TbChartRadar,
+    title: "Mission:",
+    description:
+      "To empower the next generation of learners to become lifelong learners, critical thinkers, and confident individuals who are ready to succeed in an ever-changing world.",
+  },
+  {
+    icon: TbUserPentagon,
+    title: "Vision:",
+    description:
+      "At Study, we believe in fostering a learning environment built on the foundation of trust, collaboration, and creativity.",
+  },
+];
+
 const Landing = () => {
   const router = useRouter();
   const currentImage = useCarousel({ totalImages: 3 });
@@ -58,8 +154,6 @@ const Landing = () => {
     isLoading,
     isError,
   } = useGetCoursesQuery({ pageSize: 10, status: "Published" });
-
-  console.log(courses);
 
   const handleCourseClick = (courseId: number) => {
     router.push(`search?id=${courseId}`, { scroll: false });
@@ -70,75 +164,77 @@ const Landing = () => {
   return (
     <div>
       {/* Hero section */}
-      <div className="container w-full h-full">
-        <section className="relative">
-          {/* <Image src={background} alt="Education Background Image" /> */}
-          <div className="bg-gray-600 w-screen h-screen" />
-          <section className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2">
-            <h1 className="font-extrabold text-3xl text-white-100 max-w-80">
+      <div className="pb-16">
+        <section className="relative w-full h-full">
+          <Image
+            src={backgroundHero}
+            alt="Education Background Image"
+            className="object-cover"
+          />
+          {/* <div className="bg-gray-600 w-auto h-screen" /> */}
+          <section className="absolute top-1/2 left-1/4 -translate-x-1/3 -translate-y-1/2">
+            <h1 className="font-extrabold text-6xl text-white-100 text-left max-w-2xl">
               Empowering Minds, One Learner at a Time.
             </h1>
             <p className="text-gray-300 mb-5">
               Explore our wide range of courses and programs.
             </p>
-            <div className="px-3 py-2 bg-gray-800 text-gray-200 rounded-xl">
+            <div className="max-w-80 px-3 py-2 bg-gray-800 text-gray-200 rounded-xl">
               Book Your First Session Now!
             </div>
           </section>
         </section>
       </div>
 
+      {/* About */}
+      <div className=" h-auto mx-auto py-16">
+        <div className="flex justify-center items-center gap-12 ">
+          <div className="flex ">
+            <Image className="max-w-xl" src={about} alt="Image About #Name" />
+          </div>
+          <div className="flex flex-col max-w-xl">
+            <p className="text-gray-600 font-bold mb-3">About Study</p>
+            <h2
+              className="text-4xl text-customgreys-darkGrey font-extrabold
+            mb-8"
+            >
+              The Place Where Your Kids
+              <span className="text-gray-400"> Experience</span>
+            </h2>
+            <span>A Platform for Interactive Learning</span>
+            <ul className="mt-4 space-y-4">
+              {aboutItems.map((item, index) => (
+                <AboutItem
+                  key={index}
+                  icon={item.icon}
+                  title={item.title}
+                  description={item.description}
+                />
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+
       {/* Why choose us? */}
-      <div className="mx-auto py-4 flex">
-        <div className="flex mx-auto gap-8">
-          <div className="box p-3 max-w-72 shadow-[0_0_15px_2px_rgba(0,0,0,0.1)] rounded-xl">
-            <div className="flex items-center justify-center bg-gray-700 w-12 h-12 rounded-full text-white">
-              <TbStarFilled className="text-xl text-white-50" />
-            </div>
-            <div>
-              <p className="font-bold text-2xl">Experience Tutors</p>
-              <span>
-                Our tutors are experienced and certified to ensure high-quality
-                teaching.
-              </span>
-            </div>
-          </div>
-          <div className="box p-3 max-w-72 shadow-[0_0_15px_2px_rgba(0,0,0,0.1)] rounded-xl">
-            <div className="flex items-center justify-center bg-gray-700 w-12 h-12 rounded-full text-white">
-              <TbChecklist className="text-xl text-white-50" />
-            </div>
-            <div>
-              <p className="font-bold text-2xl">Tailored Learning Plans</p>
-              <span>
-                We create personalized learning plans tailored to each child's
-                needs.
-              </span>
-            </div>
-          </div>
-          <div className="box p-3 max-w-72 shadow-[0_0_15px_2px_rgba(0,0,0,0.1)] rounded-xl">
-            <div className="flex items-center justify-center bg-gray-700 w-12 h-12 rounded-full text-white">
-              <TbCalendarMonth className="text-xl text-white-50" />
-            </div>
-            <div>
-              <p className="font-bold text-2xl">Flexible Scheduling</p>
-              <span>
-                Choose a schedule that fits your family’s lifestyle—weekends or
-                evenings.
-              </span>
-            </div>
-          </div>
-          <div className="box p-3 max-w-72 shadow-[0_0_15px_2px_rgba(0,0,0,0.1)] rounded-xl">
-            <div className="flex items-center justify-center bg-gray-700 w-12 h-12 rounded-full text-white">
-              <TbCoins className="text-xl text-white-50" />
-            </div>
-            <div>
-              <p className="font-bold text-2xl">Affordable Rates</p>
-              <span>
-                We offer affordable pricing and flexible packages to fit your
-                budget.
-              </span>
-            </div>
-          </div>
+      <div className="py-16 flex flex-col">
+        <div>
+          <p>Core Features</p>
+          <h2>
+            Why
+            <span>Choose</span>
+            Study
+          </h2>
+        </div>
+        <div className="flex mx-auto gap-10">
+          {features.map((feature, index) => (
+            <FeatureBox
+              key={index}
+              icon={feature.icon}
+              title={feature.title}
+              description={feature.description}
+            />
+          ))}
         </div>
       </div>
     </div>
