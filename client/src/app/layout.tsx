@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
@@ -24,19 +24,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname();
-  const isHomepage = pathname === "/";
   return (
     <html lang="en">
-      <body
-        className={`${dmSans.className} flex flex-col`}
-        >
-        <Header/>
-        <main className={`${isHomepage ? "" : "flex-1 pt-[4%]" }`}>
-        <Providers>{children}</Providers>
+      <body className={`${dmSans.className} flex flex-col`}>
+        <main className="mx-auto w-full h-full justify-center items-center">
+          <Providers>{children}</Providers>
         </main>
         <Toaster richColors closeButton />
-        <Footer/>
       </body>
     </html>
   );
