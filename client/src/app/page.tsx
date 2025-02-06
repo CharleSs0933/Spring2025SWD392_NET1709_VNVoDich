@@ -9,6 +9,8 @@ import HomePageBody1 from "./components/HomePage/HomePageBody1";
 import HomePageBody2 from "./components/HomePage/HomePageBody2";
 import HomePageBody3 from "./components/HomePage/HomePageBody3";
 import HomePageBody4 from "./components/HomePage/HomePageBody4";
+import HomePageBG from "./components/HomePage/HomePageBG";
+import About from "./components/HomePage/About";
 export default function Home() {
   const words = [
     { text: "Grow" },
@@ -93,8 +95,9 @@ export default function Home() {
         </div>
       </div>
 
-      <HomePageBody1 />
-
+      {/* <HomePageBody1 /> */}
+      <About/>
+      <HomePageBG/>
       <HomePageBody2 />
       <HomePageBody3 />
       <HomePageBody4 />
