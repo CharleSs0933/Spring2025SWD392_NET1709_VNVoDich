@@ -85,6 +85,11 @@ export const api = createApi({
       providesTags: ["Courses"],
     }),
 
+    getCourse: build.query<Course, string>({
+      query: (id) => `courses/${id}`,
+      providesTags: (result, error, id) => [{ type: "Courses", id }],
+    }),
+
     getTutors: build.query<
       User[],
       {
@@ -108,4 +113,4 @@ export const api = createApi({
   }),
 });
 
-export const { useGetCoursesQuery, useGetTutorsQuery } = api;
+export const { useGetCoursesQuery, useGetCourseQuery, useGetTutorsQuery } = api;

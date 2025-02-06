@@ -41,7 +41,7 @@ const Courses = () => {
   }, [courses, searchTerm, selectedCategory]);
 
   const handleEdit = (course: Course) => {
-    router.push(`/teacher/courses/${course.id}`, { scroll: false });
+    router.push(`/tutor/courses/${course.id}`, { scroll: false });
   };
 
   const handleDelete = async (course: Course) => {

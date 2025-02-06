@@ -12,9 +12,17 @@ export interface Course {
 
   tutor?: Tutor;
   // availabilitys?: Availability[];
-  // lessons?: Lesson[];
+  lessons?: Lesson[];
   // courseSubscriptions?: CourseSubscription[];
   // courseReviews?: CourseReview[];
+}
+
+export interface Lesson {
+  id: number;
+  title: string;
+  description?: string;
+  learning_objectives?: string;
+  materials_needed?: string;
 }
 
 export interface User {
@@ -77,4 +85,18 @@ export interface TeacherCourseCardProps {
 export interface ToolbarProps {
   onSearch: (search: string) => void;
   onCategoryChange: (category: string) => void;
+}
+
+export interface CourseFormData {
+  courseTitle: string;
+  courseDescription: string;
+  courseSubject: string;
+  coursePrice: string;
+  courseStatus: boolean;
+}
+
+export interface CustomFixedModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  children: ReactNode;
 }
