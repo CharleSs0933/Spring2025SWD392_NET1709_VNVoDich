@@ -1,18 +1,106 @@
+"use client";
 import Image from "next/image";
-import NonDashboardNavbar from "./components/NonDashboardNavbar";
-import Footer from "./components/Footer";
-import Landing from "./components/Landing";
-import CourseDetail from "./components/CourseDetail";
-
+import React from "react";
+import banner from "@/app/asset/img/banner4.jpg";
+import { TypewriterEffect } from "./components/ui/typewriter-effect";
+import { SparklesCore } from "./components/ui/SparklesPreview";
+import LazyLoad from "./components/LazzyLoad";
+import HomePageBody1 from "./components/HomePage/HomePageBody1";
+import HomePageBody2 from "./components/HomePage/HomePageBody2";
+import HomePageBody3 from "./components/HomePage/HomePageBody3";
+import HomePageBody4 from "./components/HomePage/HomePageBody4";
+import HomePageBG from "./components/HomePage/HomePageBG";
+import About from "./components/HomePage/About";
 export default function Home() {
-  return (
-    <div className="flex flex-col min-h-screen w-full">
-      <NonDashboardNavbar />
-      <main className="flex flex-grow justify-center items-center w-full h-full">
-        <CourseDetail />
-      </main>
+  const words = [
+    { text: "Grow" },
+    { text: "Yours" },
+    { text: "Skills" },
+    { text: "to" },
+    { text: "Advance" },
+  ];
+  const words2 = [{ text: "Your" }, { text: "Career" }, { text: "Path" }];
 
-      <Footer />
+  return (
+    <div>
+      <div className="relative">
+        <Image
+          src={banner}
+          alt="banner"
+          height={1000}
+          width={1000}
+          className="h-screen object-cover w-full opacity-20"
+        />
+
+        <div className="absolute top-52 flex items-center justify-center z-10 text-center w-full">
+          <div className="text-center flex flex-col gap-20">
+            <TypewriterEffect words={words} />
+
+            <div className="h-[8rem] w-full flex flex-col items-center justify-center overflow-hidden rounded-md">
+              <TypewriterEffect words={words2} />
+
+              <div className=" w-[700px] h-7 relative">
+                <div className="absolute inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-[8px] w-1/2 blur-sm" />
+                <div className="absolute inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-px w-1/2" />
+                <div className="absolute inset-x-60 top-0 bg-gradient-to-r from-transparent via-sky-500 to-transparent h-[5px] w-1/2 blur-sm" />
+                <div className="absolute inset-x-60 top-0 bg-gradient-to-r from-transparent via-sky-500 to-transparent h-px w-1/2" />
+
+                <SparklesCore
+                  background="transparent"
+                  minSize={0.4}
+                  maxSize={1}
+                  particleDensity={2000}
+                  className="w-full h-full absolute top-0 left-0"
+                  particleColor="#F8C8DC"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="absolute top-[420px]  z-10 text-center w-full  text-lg">
+          <LazyLoad
+            threshold={0.2}
+            animationDuration={0.5}
+            initialStyle={{ opacity: 0, y: 30 }}
+            animateStyle={{ opacity: 1, y: 0 }}
+          >
+            <div className=" flex items-center justify-center gap-5">
+              <div>No Credit Card Required</div>
+              <div className="border-l-2 border h-4 w-0 border-red-500" />
+
+              <div>7 Days Trial</div>
+              <div className="border-l-2 border h-4 border-red-500" />
+              <div>Free For Teachers</div>
+            </div>
+          </LazyLoad>
+        </div>
+
+        <div className="absolute top-[480px] w-full ">
+          <LazyLoad
+            threshold={0.2}
+            animationDuration={0.5}
+            initialStyle={{ opacity: 0, y: -30 }}
+            animateStyle={{ opacity: 1, y: 0 }}
+          >
+            <div className="flex justify-center">
+              <button className="relative inline-flex w-[15%] h-16 overflow-hidden rounded-md p-[5px] focus:outline-none focus:ring-2  focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
+                <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+                <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-md bg-slate-950 px-5 py-2 text-2xl font-medium text-white backdrop-blur-3xl">
+                  Get Started Now
+                </span>
+              </button>
+            </div>
+          </LazyLoad>
+        </div>
+      </div>
+
+      {/* <HomePageBody1 /> */}
+      <About/>
+      <HomePageBG/>
+      <HomePageBody2 />
+      <HomePageBody3 />
+      <HomePageBody4 />
     </div>
   );
 }
