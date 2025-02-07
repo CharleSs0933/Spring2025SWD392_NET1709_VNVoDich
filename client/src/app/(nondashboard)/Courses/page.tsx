@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import { useGetCoursesQuery, useGetTutorsQuery } from "@/lib/features/api/api";
 import { FocusCards } from "../../components/ui/focus-cards";
 import searchCourses from "../../components/searchCourses";

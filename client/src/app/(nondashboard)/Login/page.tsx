@@ -3,7 +3,6 @@ import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import logo from "@/app/asset/img/logo.png";
-import bg from "../../../public/bg-login3.png";
 import { FaGoogle } from "react-icons/fa";
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -89,7 +88,7 @@ const Login = () => {
   return (
     <div className="relative w-full h-[800px] overflow-hidden">
       <Image
-        src={bg}
+        src={"bg-login3.png"}
         alt="Background"
         fill
         objectFit="cover"

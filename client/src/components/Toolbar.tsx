@@ -7,9 +7,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ToolbarProps } from "@/types";
-// import { courseCategories } from "@/lib/utils";
+import { courseSubjects } from "@/lib/utils";
 
-const Toolbar = ({ onSearch, onCategoryChange }: ToolbarProps) => {
+const Toolbar = ({ onSearch, onSubjectChange }: ToolbarProps) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearch = (value: string) => {
@@ -26,25 +26,28 @@ const Toolbar = ({ onSearch, onCategoryChange }: ToolbarProps) => {
         placeholder="Search courses"
         className="w-full px-5 h-12 bg-customgreys-primarybg placeholder-customgreys-dirtyGrey text-customgreys-dirtyGrey border-none rounded-md focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
       />
-      {/* <Select onValueChange={onCategoryChange}>
-        <SelectTrigger className="toolbar__select">
-          <SelectValue placeholder="Categories" />
+      <Select onValueChange={onSubjectChange}>
+        <SelectTrigger className="h-12 w-[180px] bg-customgreys-primarybg text-customgreys-dirtyGrey border-none">
+          <SelectValue placeholder="Subjects" />
         </SelectTrigger>
         <SelectContent className="bg-customgreys-primarybg hover:bg-customgreys-primarybg">
-          <SelectItem value="all" className="toolbar__select-item">
-            All Categories
+          <SelectItem
+            value="all"
+            className="cursor-pointer hover:!bg-gray-100 hover:!text-customgreys-darkGrey"
+          >
+            All Subjects
           </SelectItem>
-          {courseCategories.map((category) => (
+          {courseSubjects.map((subject) => (
             <SelectItem
-              key={category.value}
-              value={category.value}
-              className="toolbar__select-item"
+              key={subject.value}
+              value={subject.value}
+              className="cursor-pointer hover:!bg-gray-100 hover:!text-customgreys-darkGrey"
             >
-              {category.label}
+              {subject.label}
             </SelectItem>
           ))}
         </SelectContent>
-      </Select> */}
+      </Select>
     </div>
   );
 };

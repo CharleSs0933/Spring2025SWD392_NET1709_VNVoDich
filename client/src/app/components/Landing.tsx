@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import LoadingSkeleton from "./LoadingSkeletion";
 import { useDispatch } from "react-redux";
 import { addCourse } from "@/lib/features/courses/coursesSlice";
+import { courseSubjects } from "@/lib/utils";
 
 const Landing = () => {
   const router = useRouter();
@@ -47,13 +48,13 @@ const Landing = () => {
         className="mx-auto py-7"
       >
         <div className="flex  gap-9 mb-8 justify-center items-center">
-          {courses &&
-            courses.map((tag, index) => (
+          {courseSubjects &&
+            courseSubjects.map((subject, index) => (
               <span
                 key={index}
                 className="lg:w-[100px] lg:h-[40px] text-center rounded-tr-[15px] rounded-bl-[15px] flex items-center justify-center bg-neutral-200 text-black font-semibold rounded-md text-sm hover:bg-rose-500 hover:text-white-100"
               >
-                {tag.subject}
+                {subject.label}
               </span>
             ))}
         </div>
