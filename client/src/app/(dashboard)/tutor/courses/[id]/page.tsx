@@ -20,6 +20,7 @@ import DroppableComponent from "./Droppable";
 import { courseSchema } from "@/lib/schemas";
 import { CourseFormData } from "@/types";
 import LessonModal from "./LessonModal";
+import { courseSubjects } from "@/lib/utils";
 
 const CourseEditor = () => {
   const router = useRouter();
@@ -139,15 +140,7 @@ const CourseEditor = () => {
                   label="Course Subject"
                   type="select"
                   placeholder="Select subject here"
-                  options={[
-                    { value: "technology", label: "Technology" },
-                    { value: "science", label: "Science" },
-                    { value: "mathematics", label: "Mathematics" },
-                    {
-                      value: "Artificial Intelligence",
-                      label: "Artificial Intelligence",
-                    },
-                  ]}
+                  options={courseSubjects}
                   initialValue={course?.subject}
                 />
                 <CustomFormField

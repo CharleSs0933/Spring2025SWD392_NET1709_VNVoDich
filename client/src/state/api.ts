@@ -90,6 +90,23 @@ export const api = createApi({
       providesTags: (result, error, id) => [{ type: "Courses", id }],
     }),
 
+    createCourse: build.mutation<Course, { tutor_id: string }>({
+      query: (body) => ({
+        url: `courses`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Courses"],
+    }),
+
+    deleteCourse: build.mutation<{ message: string }, number>({
+      query: (id) => ({
+        url: `courses/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Courses"],
+    }),
+
     getTutors: build.query<
       User[],
       {
@@ -113,4 +130,10 @@ export const api = createApi({
   }),
 });
 
-export const { useGetCoursesQuery, useGetCourseQuery, useGetTutorsQuery } = api;
+export const {
+  useGetCoursesQuery,
+  useGetCourseQuery,
+  useCreateCourseMutation,
+  useDeleteCourseMutation,
+  useGetTutorsQuery,
+} = api;

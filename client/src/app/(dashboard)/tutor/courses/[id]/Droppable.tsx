@@ -38,10 +38,10 @@ export default function DroppableComponent() {
                   <div
                     ref={draggableProvider.innerRef}
                     {...draggableProvider.draggableProps}
-                    className={`droppable-lesson ${
+                    className={`mb-4 p-2 rounded ${
                       lessonIndex % 2 === 0
-                        ? "droppable-lesson--even"
-                        : "droppable-lesson--odd"
+                        ? "bg-customgreys-dirtyGrey/30"
+                        : "bg-customgreys-secondarybg"
                     }`}
                   >
                     <LessonHeader
@@ -73,14 +73,17 @@ const LessonHeader = ({
   const dispatch = useAppDispatch();
 
   return (
-    <div className="droppable-lesson__header" {...dragHandleProps}>
-      <div className="droppable-lesson__title-wrapper">
-        <div className="droppable-lesson__title-container">
-          <div className="droppable-lesson__title">
+    <div
+      className=" flex justify-between items-center mb-2 bg-black/30 p-1 rounded"
+      {...dragHandleProps}
+    >
+      <div className="w-full flex flex-col gap-1">
+        <div className="w-full flex items-center justify-between">
+          <div className="flex items-center">
             <GripVertical className="h-6 w-6 mb-1" />
             <h3 className="text-lg font-medium">{lesson.title}</h3>
           </div>
-          <div className="droppable-chapter__actions">
+          <div className="flex items-center gap-[1px]">
             <Button
               type="button"
               variant="ghost"
@@ -102,7 +105,9 @@ const LessonHeader = ({
           </div>
         </div>
         {lesson.description && (
-          <p className="droppable-lesson__description">{lesson.description}</p>
+          <p className="text-sm text-customgreys-dirtyGrey ml-6">
+            {lesson.description}
+          </p>
         )}
       </div>
     </div>

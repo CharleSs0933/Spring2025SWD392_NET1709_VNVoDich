@@ -84,7 +84,7 @@ export interface TeacherCourseCardProps {
 
 export interface ToolbarProps {
   onSearch: (search: string) => void;
-  onCategoryChange: (category: string) => void;
+  onSubjectChange: (subject: string) => void;
 }
 
 export interface CourseFormData {
