@@ -15,7 +15,7 @@ body,
   @apply bg-customgreys-primarybg;
 }
 
-@layer base {
+/* @layer base {
   :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
@@ -42,6 +42,14 @@ body,
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .dark {
     --background: 240 10% 3.9%;
@@ -68,6 +76,78 @@ body,
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+} */
+
+@layer base {
+  :root {
+    --sidebar-background: theme("colors.customgreys.primarybg");
+    --sidebar-foreground: theme("colors.white.50");
+    --sidebar-primary: theme("colors.primary.700");
+    --sidebar-primary-foreground: theme("colors.white.50");
+    --sidebar-accent: theme("colors.customgreys.darkerGrey");
+    --sidebar-accent-foreground: theme("colors.customgreys.dirtyGrey");
+    --sidebar-border: theme("colors.customgreys.secondarybg");
+    --sidebar-ring: theme("colors.primary.700");
+    --popover: theme("colors.customgreys.primarybg");
+    --popover-foreground: theme("colors.white.50");
+
+    --background: theme("colors.customgreys.primarybg");
+    --foreground: theme("colors.white.50");
+
+    --primary: theme("colors.primary.700");
+    --primary-foreground: theme("colors.white.50");
+
+    --muted: theme("colors.primary.600");
+    --muted-foreground: theme("colors.customgreys.dirtyGrey");
+
+    --accent: theme("colors.primary.600");
+    --accent-foreground: theme("colors.white.50");
+
+    --border: theme("colors.customgreys.secondarybg");
+    --ring: theme("colors.primary.700");
+
+    --card: theme("colors.customgreys.primarybg");
+    --card-foreground: theme("colors.white.50");
+  }
+
+  .dark {
+    --sidebar-background: theme("colors.customgreys.primarybg");
+    --sidebar-foreground: theme("colors.white.50");
+    --sidebar-primary: theme("colors.primary.700");
+    --sidebar-primary-foreground: theme("colors.white.50");
+    --sidebar-accent: theme("colors.customgreys.darkerGrey");
+    --sidebar-accent-foreground: theme("colors.customgreys.dirtyGrey");
+    --sidebar-border: theme("colors.customgreys.secondarybg");
+    --sidebar-ring: theme("colors.primary.700");
+    --popover: theme("colors.customgreys.primarybg");
+    --popover-foreground: theme("colors.white.50");
+
+    --background: theme("colors.customgreys.primarybg");
+    --foreground: theme("colors.white.50");
+
+    --primary: theme("colors.primary.700");
+    --primary-foreground: theme("colors.white.50");
+
+    --muted: theme("colors.primary.600");
+    --muted-foreground: theme("colors.customgreys.dirtyGrey");
+
+    --accent: theme("colors.primary.600");
+    --accent-foreground: theme("colors.white.50");
+
+    --border: theme("colors.customgreys.secondarybg");
+    --ring: theme("colors.primary.700");
+
+    --card: theme("colors.customgreys.primarybg");
+    --card-foreground: theme("colors.white.50");
   }
 }
 

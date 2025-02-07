@@ -8,6 +8,7 @@ import LazyLoad from "./components/LazzyLoad";
 import TutorProfessinal from "./components/HomePage/TutorProfessinal";
 import About from "./components/HomePage/About";
 import Introduce from "./components/HomePage/Introduce";
+import Header from "./components/Header";
 export default function Home() {
   const words = [
     { text: "Grow" },
@@ -20,6 +21,7 @@ export default function Home() {
 
   return (
     <div>
+      <Header />
       <div className="relative">
         <Image
           src={banner}

@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useGetCoursesQuery, useGetTutorsQuery } from "@/lib/features/api/api";
-import { FocusCards } from "../components/ui/focus-cards";
-import searchCourses from "../components/searchCourses";
+import { FocusCards } from "../../components/ui/focus-cards";
+import searchCourses from "../../components/searchCourses";
 import gsap from "gsap";
 const Page = () => {
   const [page, setPage] = useState(1);
