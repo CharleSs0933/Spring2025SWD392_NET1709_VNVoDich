@@ -60,3 +60,13 @@ export interface Testimonial {
   designation: string;
   src: string;
 }
+
+export interface Children {
+  id: number;
+  age: number;
+  grade_level: string;
+  learning_goals: string;
+  full_name: string;
+  password: string;
+  parent_id: number;
+}

@@ -12,6 +12,7 @@ const Page = () => {
   const { data: tutors } = useGetTutorsQuery({});
   const { data: courses, isLoading, isError } = useGetCoursesQuery({ pageSize, page });
   const containerRef = useRef(null);
+  
   const handlePrevious = () => {
     if (page > 1) setPage((prev) => prev - 1);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -44,7 +45,7 @@ const Page = () => {
     searchTerm,
   })
   return (
-    <div ref={containerRef} className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+    <div ref={containerRef} className="w-full mx-auto py-16 px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-10">
         <h1 className="text-5xl font-bold text-gray-300 mb-4 font-serif tracking-widest">
           Master New Skills

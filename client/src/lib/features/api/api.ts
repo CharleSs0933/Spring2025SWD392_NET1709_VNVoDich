@@ -1,4 +1,4 @@
-import { Course, User } from "@/types";
+import { Children, Course, User } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query";
 import { toast } from "sonner";
@@ -58,11 +58,9 @@ const customBaseQuery = async (
 };
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8000",
-  }),
+  baseQuery: customBaseQuery,
   reducerPath: "api",
-  tagTypes: ["Courses", "Tutors"],
+  tagTypes: ["Courses", "Tutors", "Children"],
   endpoints: (build) => ({
     getCourses: build.query<
       Course[],
@@ -74,13 +72,7 @@ export const api = createApi({
         status?: string;
       }
     >({
-      query: ({
-        subject,
-        grade,
-        status,
-        page,
-        pageSize,
-      }) => ({
+      query: ({ subject, grade, status, page, pageSize }) => ({
         url: "/Courses",
         params: {
           page,
@@ -90,8 +82,19 @@ export const api = createApi({
           status,
         },
       }),
-      transformResponse: (response: { message: string; data: Course[] }) => response.data,
       providesTags: ["Courses"],
+    }),
+
+    getCourse: build.query<Course, string>({
+      query: (id) => `courses/${id}`,
+      providesTags: (result, error, id) => [{ type: "Courses", id }],
+    }),
+
+    getChildren: build.query<Children[], any>({
+      query: () => ({
+        url: "/children",
+      }),
+      providesTags: ["Children"],
     }),
 
     getTutors: build.query<
@@ -110,10 +113,16 @@ export const api = createApi({
         url: "/Tutors",
         params: { id, email, full_name, phone, role, google_id, timezone },
       }),
-      transformResponse: (response: { message: string; data: User[] }) => response.data,
+transformResponse: (response: { message: string; data: User[] }) =>
+        response.data,
       providesTags: ["Tutors"],
     }),
   }),
 });
 
-export const { useGetCoursesQuery, useGetTutorsQuery } = api;
+export const {
+  useGetCoursesQuery,
+  useGetCourseQuery,
+  useGetTutorsQuery,
+  useGetChildrenQuery,
+} = api;

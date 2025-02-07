@@ -90,7 +90,7 @@ export const Card = React.memo(
     },[])
 
     return (
-      <div className="flex gap-[5%]">
+      <div className="flex ">
         <div
           ref={cardRef}
           onMouseEnter={handleMouseEnter}
@@ -156,11 +156,19 @@ export const Card = React.memo(
         </div>
         <div
           className={cn(
-            "flex justify-center items-center transition-all duration-300",
+            "flex  justify-center items-center transition-all duration-300",
             hovered !== null && hovered === index ? "opacity-1" : "opacity-0"
           )}
         >
-          Video
+          <video
+            src="https://res.cloudinary.com/dq11x4tkw/video/upload/v1730914573/videos/072516-9-cortado_ihrtev.mp4"
+            width={500}
+            loop
+            autoPlay
+            muted
+            height={200}
+            className="object-cover"
+          />
         </div>
       </div>
     );
@@ -180,7 +188,7 @@ export function FocusCards({
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-1 gap-10 max-w-7xl md:px-8 w-full">
+    <div className="grid grid-cols-1 md:grid-cols-1 gap-10  md:px-8 w-full">
       {courses.map((course, index) => {
         const tutor = tutors?.find((t) => t.id === course.tutor_id);
         
