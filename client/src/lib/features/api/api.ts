@@ -58,9 +58,7 @@ const customBaseQuery = async (
 };
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8000",
-  }),
+  baseQuery: customBaseQuery,
   reducerPath: "api",
   tagTypes: ["Courses", "Tutors"],
   endpoints: (build) => ({
@@ -74,13 +72,7 @@ export const api = createApi({
         status?: string;
       }
     >({
-      query: ({
-        subject,
-        grade,
-        status,
-        page,
-        pageSize,
-      }) => ({
+      query: ({ subject, grade, status, page, pageSize }) => ({
         url: "/Courses",
         params: {
           page,
@@ -90,7 +82,6 @@ export const api = createApi({
           status,
         },
       }),
-      transformResponse: (response: { message: string; data: Course[] }) => response.data,
       providesTags: ["Courses"],
     }),
 
@@ -110,7 +101,6 @@ export const api = createApi({
         url: "/Tutors",
         params: { id, email, full_name, phone, role, google_id, timezone },
       }),
-      transformResponse: (response: { message: string; data: User[] }) => response.data,
       providesTags: ["Tutors"],
     }),
   }),

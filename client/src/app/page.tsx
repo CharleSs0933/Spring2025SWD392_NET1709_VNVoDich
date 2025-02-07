@@ -11,6 +11,8 @@ import HomePageBody3 from "./components/HomePage/HomePageBody3";
 import HomePageBody4 from "./components/HomePage/HomePageBody4";
 import HomePageBG from "./components/HomePage/HomePageBG";
 import About from "./components/HomePage/About";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 export default function Home() {
   const words = [
     { text: "Grow" },
@@ -23,6 +25,7 @@ export default function Home() {
 
   return (
     <div>
+      <Header />
       <div className="relative">
         <Image
           src={banner}
@@ -96,11 +99,13 @@ export default function Home() {
       </div>
 
       {/* <HomePageBody1 /> */}
-      <About/>
-      <HomePageBG/>
+      <About />
+      <HomePageBG />
       <HomePageBody2 />
       <HomePageBody3 />
       <HomePageBody4 />
+
+      <Footer />
     </div>
   );
 }
