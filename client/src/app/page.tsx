@@ -9,6 +9,7 @@ import TutorProfessinal from "./components/HomePage/TutorProfessinal";
 import About from "./components/HomePage/About";
 import Introduce from "./components/HomePage/Introduce";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 export default function Home() {
   const words = [
     { text: "Grow" },
@@ -99,6 +100,8 @@ export default function Home() {
       <About/>
       <Introduce />
       <TutorProfessinal />
+      <Footer/>
     </div>
+
   );
 }
