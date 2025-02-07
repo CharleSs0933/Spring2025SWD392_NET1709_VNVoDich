@@ -12,7 +12,6 @@ import LoadingSkeleton from "./LoadingSkeletion";
 import { useDispatch } from "react-redux";
 import { addCourse } from "@/lib/features/courses/coursesSlice";
 
-
 const Landing = () => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -21,12 +20,12 @@ const Landing = () => {
     data: courses,
     isLoading,
     isError,
-  } = useGetCoursesQuery({ pageSize: 10 , page: 1});
- useEffect(() => {
-  if(courses){
-    dispatch(addCourse(courses))
-  }
- }, [courses , dispatch])
+  } = useGetCoursesQuery({ pageSize: 10, page: 1 });
+  useEffect(() => {
+    if (courses) {
+      dispatch(addCourse(courses));
+    }
+  }, [courses, dispatch]);
   const handleCourseClick = (courseId: number) => {
     router.push(`search?id=${courseId}`, { scroll: false });
   };
@@ -61,7 +60,7 @@ const Landing = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {courses &&
-            courses.slice(0,6).map((course, index) => (
+            courses.slice(0, 6).map((course, index) => (
               <div key={course.id}>
                 <CourseCardSearch
                   course={course}

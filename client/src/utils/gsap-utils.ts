@@ -69,8 +69,8 @@ function artWorkSectionScale(
             start: "top 100vh",
             end: "bottom+=50% top",
             scrub: true,
-            pin: true,
-            markers: true
+            // pin: true,
+            // markers: true
         },
     });
 

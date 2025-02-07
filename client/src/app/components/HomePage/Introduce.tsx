@@ -3,11 +3,11 @@ import LazyLoad from '../LazzyLoad'
 import Image from 'next/image'
 import onlTeacher from "@/app/asset/img/onlTeacher.jpg";
 
-const HomePageBody2 = () => {
+const Introduce = () => {
   return (
-    <div className="bg-gray-400 w-full h-[850px]">
-    <div className="mx-24">
-      <div className="pt-[300px] flex justify-center   ">
+    <div className="bg-gray-400 w-full ">
+    <div className="mx-24 py-[10%]">
+      <div className="pt-[5%] flex justify-center   ">
         <div className="w-[50%] flex flex-col gap-10 mx-8">
       <LazyLoad threshold={0.2} animationDuration={0.5} initialStyle={{opacity : 0 , y: 30}} animateStyle={{opacity : 1 , y:0}}>
           <div className="flex flex-col gap-4 text-5xl font-extrabold tracking-wider">
@@ -58,4 +58,4 @@ const HomePageBody2 = () => {
   )
 }
 
-export default HomePageBody2
+export default Introduce
