@@ -43,10 +43,13 @@ export interface Tutor {
   demo_video_url?: string;
   image?: string;
 
-  // tutorSpecialty?: TutorSpecialty[];
-  // courses?: Course[];
-  // tutorReviews?: TutorReview[];
+  profile?: {  // Thêm thuộc tính profile vào Tutor
+    email: string;
+    full_name: string;
+    phone: string;
+  };
 }
+
 export interface Children {
   id: number;
   age: number;

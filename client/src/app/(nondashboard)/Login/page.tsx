@@ -4,6 +4,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import logo from "@/app/asset/img/logo.png";
 import { FaGoogle } from "react-icons/fa";
+import bg from '../../../../public/bg-login.jpg'
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [loginData, setLoginData] = useState({
@@ -88,7 +89,7 @@ const Login = () => {
   return (
     <div className="relative w-full h-[800px] overflow-hidden">
       <Image
-        src={"bg-login3.png"}
+        src={bg}
         alt="Background"
         fill
         objectFit="cover"

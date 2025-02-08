@@ -5,43 +5,44 @@ import gsap from "gsap";
 import { cn } from "@/lib/utils";
 import imgBg from "@/app/asset/img/khoahoc.jpg";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { Course } from "@/types";
+import { useRouter } from "next/navigation";
+import CoursesDetail from "../CoursesDetail";
 
 gsap.registerPlugin(ScrollToPlugin);
-
 export const Card = React.memo(
   ({
     course,
-    tutor,
     index,
     hovered,
     setHovered,
     cardRef,
   }: {
     course: any;
-    tutor: any;
     index: number;
     hovered: number | null;
     setHovered: React.Dispatch<React.SetStateAction<number | null>>;
     cardRef: React.RefObject<HTMLDivElement>;
   }) => {
-    
+    const router = useRouter();
     const handleMouseEnter = () => {
       setHovered(index);
       if (cardRef.current) {
         const elementTop = cardRef.current.offsetTop;
         const windowHeight = window.innerHeight;
-        const scrollToY = elementTop - windowHeight / 2 + cardRef.current.offsetHeight / 2; 
-    
+        const scrollToY =
+          elementTop - windowHeight / 2 + cardRef.current.offsetHeight / 2;
+
         const animation = gsap.to(window, {
           scrollTo: { y: scrollToY, autoKill: false },
           duration: 1,
         });
-    
+
         const cancelScroll = () => {
-          animation.kill(); 
+          animation.kill();
           window.removeEventListener("wheel", cancelScroll);
         };
-    
+
         window.addEventListener("wheel", cancelScroll, { passive: true });
       }
       gsap.fromTo(
@@ -52,13 +53,11 @@ export const Card = React.memo(
           opacity: 1,
           scale: 0.9,
           duration: 1,
-          
-          
         }
       );
     };
     const handleMouseLeave = () => {
-      setHovered(null)
+      setHovered(null);
 
       gsap.fromTo(
         cardRef.current,
@@ -68,35 +67,37 @@ export const Card = React.memo(
           opacity: 1,
           scale: 1,
           duration: 1,
-          
-          
         }
       );
-    }
-    
+    };
+
+    const handleOnClick = (item : string) => {
+      router.push(`/Courses/${item}`)
+    };
+
     useLayoutEffect(() => {
       gsap.fromTo(
         cardRef.current,
-        { x: -100, opacity: 0, scale: 0.7},
-      {
-        x: 0,
-        opacity: 1,
-        duration: 1,
-        ease: "back.in",
-        scale: 1
-      }
+        { x: -100, opacity: 0, scale: 0.7 },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 1,
+          ease: "back.in",
+          scale: 1,
+        }
       );
-  
-    },[])
+    }, []);
 
     return (
       <div className="flex ">
         <div
           ref={cardRef}
+          onClick={() => handleOnClick(course.id as string)}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           className={cn(
-            "rounded-lg relative bg-gray-100 dark:bg-neutral-900 overflow-hidden h-80 md:h-[450px] ml-[5%] w-full transition-all duration-300 ease-out",
+            "rounded-2xl relative bg-gray-100 cursor-pointer   dark:bg-neutral-900 overflow-hidden h-80 md:h-[450px] ml-[5%]  w-full transition-all duration-300 ease-out",
             hovered !== null &&
               hovered !== index &&
               "blur-sm scale-[0.98] shadow-2xl shadow-rose-400 ",
@@ -133,7 +134,7 @@ export const Card = React.memo(
             </div>
             <div className="flex justify-between">
               <p className="text-sm font-medium text-yellow-400">
-                {tutor?.full_name || "Expert Tutor"}
+                {course?.tutor.profile.full_name || "Expert Tutor"}
               </p>
               <button className="flex items-center justify-center bg-rose-900 text-white px-4 py-2 rounded-lg hover:bg-red-100 hover:text-black transition-colors">
                 <span className="mr-2">Enroll</span>
@@ -154,7 +155,8 @@ export const Card = React.memo(
             </div>
           </div>
         </div>
-        <div
+        {/* {course?.tutor.demo_video_url && ( */}
+        {/* <div
           className={cn(
             "flex  justify-center items-center transition-all duration-300",
             hovered !== null && hovered === index ? "opacity-1" : "opacity-0"
@@ -169,7 +171,9 @@ export const Card = React.memo(
             height={200}
             className="object-cover"
           />
-        </div>
+        </div> */}
+
+        {/* )}  */}
       </div>
     );
   }
@@ -177,21 +181,13 @@ export const Card = React.memo(
 
 Card.displayName = "Card";
 
-export function FocusCards({
-  courses,
-  tutors,
-}: {
-  courses: any[];
-  tutors: any[];
-}) {
+export function FocusCards({ courses }: { courses: any[] }) {
   const [hovered, setHovered] = useState<number | null>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-1 gap-10  md:px-8 w-full">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-[100%]     md:px-8 w-full">
       {courses.map((course, index) => {
-        const tutor = tutors?.find((t) => t.id === course.tutor_id);
-        
         if (!cardRefs.current[index]) {
           cardRefs.current[index] = document.createElement("div");
         }
@@ -200,7 +196,6 @@ export function FocusCards({
           <Card
             key={course.id}
             course={course}
-            tutor={tutor}
             index={index}
             hovered={hovered}
             setHovered={setHovered}
