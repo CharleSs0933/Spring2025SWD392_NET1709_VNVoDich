@@ -42,12 +42,7 @@ export interface Tutor {
   is_available: boolean;
   demo_video_url?: string;
   image?: string;
-
-  profile?: {  // Thêm thuộc tính profile vào Tutor
-    email: string;
-    full_name: string;
-    phone: string;
-  };
+  user? : User
 }
 
 export interface Children {

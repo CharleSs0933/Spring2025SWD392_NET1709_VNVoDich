@@ -36,19 +36,13 @@ const About = () => {
         >
           <Image src={bg2} alt="" className="w-full" fill />
         </div>
-        <div className="uppercase text-[max(1.146vw,22px)] my-auto">
-          <div className="reveal_text max-w-[31rem] overflow-hidden 2xl:max-w-[50rem] [&>div:first-child]:ms-64 font-mono leading-tight">
-            I&apos;m a dedicated tutor with a passion for teaching and helping
-            students develop their skills in a comprehensive and effective way.
-            With years of experience in education, I specialize in providing
-            personalized lessons tailored to each student’s needs and learning
-            style. My approach focuses on making learning engaging and
-            interactive, ensuring that students not only understand the subject
-            but also enjoy the process. Whether you need help with academic
-            subjects, exam preparation, or skill development, I am here to guide
-            and support you every step of the way. Let’s work together to
-            achieve your learning goals!
+        <div className="uppercase text-[max(1.146vw,22px)] my-[30%]">
+          <div className="reveal_text max-w-[31rem] overflow-hidden 2xl:max-w-[50rem]  font-mono leading-tight">
+            Are you ready for studie?
           </div>
+          {/* <div className="my-[10%] flex justify-center">
+            <button className="bg-blue-950 text-white-100 rounded-xl p-3">Enroll Now</button>
+          </div> */}
         </div>
       </div>
     </div>

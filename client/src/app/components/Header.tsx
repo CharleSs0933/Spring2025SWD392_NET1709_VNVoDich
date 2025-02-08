@@ -13,7 +13,7 @@ const Header = () => {
         </div>
         <div className="flex gap-16 text-xl items-center mr-16">
           <div onClick={() => router.push('/Courses')} className="cursor-pointer">Courses</div>
-          <div  className="cursor-pointer">Membership</div>
+          <div onClick={() => router.push('/Tutors')}  className="cursor-pointer">Tutors</div>
           <div className="cursor-pointer">Teams</div>
           <div className="cursor-pointer">Commuity</div>
           <div onClick={() => router.push('/Login')} className="bg-white-100 p-1 rounded-lg text-black font-semibold cursor-pointer">

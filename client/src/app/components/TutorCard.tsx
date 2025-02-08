@@ -1,11 +1,8 @@
-import { useCarousel } from "@/hooks/useCarousel";
-import { useGetCoursesQuery, useGetTutorsQuery } from "@/lib/features/api/api";
+import {  useGetTutorsQuery } from "../../state/api";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import LoadingSkeleton from "./LoadingSkeletion";
 import { AnimatedTestimonials } from "./ui/animated-testimonials";
-import { useDispatch } from "react-redux";
-import { addTutor } from "@/lib/features/tutor/tutorSlice";
 
 interface Testimonial {
   quote: string;
@@ -16,7 +13,6 @@ interface Testimonial {
 
 const TutorCard = () => {
   const router = useRouter();
-  const currentImage = useCarousel({ totalImages: 3 });
   
   const imgs = [
     "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=3560&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -26,37 +22,20 @@ const TutorCard = () => {
     "https://images.unsplash.com/photo-1624561172888-ac93c696e10c?q=80&w=2592&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   ]
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const dispatch = useDispatch()
   const {
     data: tutor,
     isLoading: isTutorsLoading,
     isError: isTutorsError,
   } = useGetTutorsQuery({});
-  
-  useEffect(() => {
-    if(tutor){
-      dispatch(addTutor(tutor))
-    }
-  },[tutor, dispatch])
-  const {
-    data: courses,
-    isLoading: isCoursesLoading,
-    isError: isCoursesError,
-  } = useGetCoursesQuery({});
-
-  const handleCourseClick = (courseId: number) => {
-    router.push(`search?id=${courseId}`, { scroll: false });
-  };
 
   useEffect(() => {
-    if (tutor && courses) {
+    if (tutor ) {
       const updatedTestimonials = tutor.map((item, index) => {
-        const course = courses.find((course) => course.tutor_id === item.id);
         
         return {
-          quote: course?.tutor?.bio || "No bio available",
-          name: item.full_name || "Unknown",
-          designation: course?.tutor?.qualifications || "No qualifications available",
+          quote: item?.bio || "No bio available",
+          name: item?.teaching_style || "Unknown",
+          designation: item?.qualifications || "No qualifications available",
           src:  imgs[index % imgs.length],
         };
       });
@@ -64,8 +43,8 @@ const TutorCard = () => {
       
 
     }
-  }, [tutor, courses]); 
-  if (isCoursesLoading || isTutorsLoading) return <LoadingSkeleton />;
+  }, [tutor]); 
+  if ( isTutorsLoading) return <LoadingSkeleton />;
 
   return (
     <div>

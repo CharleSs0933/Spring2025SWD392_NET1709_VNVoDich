@@ -29,8 +29,9 @@ function aboutSectionTextReveal(
         scrollTrigger: {
             trigger: aboutWrapperRef.current,
             start: "top center",
-            end: "bottom center",
+            end: "center center",
             scrub: true,
+            markers: true,
         },
         opacity: 0.2,
         stagger: 0.1,
