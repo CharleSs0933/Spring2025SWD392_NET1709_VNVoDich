@@ -67,7 +67,11 @@ export const Card = React.memo(
     };
 
     const handleOnClick = (item: string) => {
-      router.push(`/Courses/${item}`);
+      if(type === "course"){
+        router.push(`/Courses/${item}`);
+      }else{
+        router.push(`/Tutors/${item}`)
+      }
     };
 
     useLayoutEffect(() => {
@@ -197,7 +201,7 @@ export function FocusCards({
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-[100%]     md:px-8 w-full">
+    <div className={`grid grid-cols-1 md:grid-cols-2 gap-10 max-w-[100%] ${type === 'tutor' ? "md:grid-cols-2  mx-auto" : ''}  md:px-8 w-full`}>
       {data.map((item, index) => {
         if (!cardRefs.current[index]) {
           cardRefs.current[index] = document.createElement("div");
