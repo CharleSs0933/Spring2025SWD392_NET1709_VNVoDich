@@ -19,7 +19,12 @@ const Header = () => {
           >
             Courses
           </div>
-          <div className="cursor-pointer">Membership</div>
+          <div
+            onClick={() => router.push("/Tutors")}
+            className="cursor-pointer"
+          >
+            Tutors
+          </div>
           <div className="cursor-pointer">Teams</div>
           <div className="cursor-pointer">Commuity</div>
           <div

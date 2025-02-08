@@ -1,38 +1,32 @@
-import { useGetCoursesQuery, useGetTutorsQuery } from "@/lib/features/api/api";
-import { Course, Tutor } from "@/types";
-import React, { useEffect, useState } from "react";
+import { Course } from "@/types";
 
 interface searchProp {
   courses: Course[] | undefined;
   tagSelect: string;
   searchTerm: string;
 }
-const searchCourses = ({ courses, tagSelect, searchTerm }: searchProp) => {
-  const [coursesFilter, setCoursesFilter] = useState<Course[]>([]);
 
-  useEffect(() => {
-    let filtered = courses ?? [];
+const searchCourses = ({ courses, tagSelect, searchTerm }: searchProp): Course[] => {
+  if (!courses) return [];
 
-    if (tagSelect) {
-      filtered = filtered.filter((c) => c.subject === tagSelect);
-    }
+  let filtered = courses;
 
-    if (searchTerm) {
-      filtered = filtered.filter(
-        (c) =>
-          c.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          c.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          c.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          c.grade.toString().includes(searchTerm.toLowerCase()) ||
-          c.price.toString().includes(searchTerm)
-      );
-     
-    }
+  if (tagSelect) {
+    filtered = filtered.filter((c) => c.subject === tagSelect);
+  }
 
-    setCoursesFilter(filtered);
-  }, [tagSelect, searchTerm, courses]);
+  if (searchTerm) {
+    filtered = filtered.filter(
+      (c) =>
+        c.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        c.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        c.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        c.grade.toString().includes(searchTerm.toLowerCase()) ||
+        c.price.toString().includes(searchTerm)
+    );
+  }
 
-  return coursesFilter;
+  return filtered;
 };
 
 export default searchCourses;

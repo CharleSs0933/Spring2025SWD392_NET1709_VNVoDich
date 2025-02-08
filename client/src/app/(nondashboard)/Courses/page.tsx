@@ -1,6 +1,6 @@
 "use client";
-import React, { useLayoutEffect, useRef, useState } from "react";
-import { useGetCoursesQuery, useGetTutorsQuery } from "@/lib/features/api/api";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useGetCoursesQuery } from "@/lib/features/api/api";
 import { FocusCards } from "../../components/ui/focus-cards";
 import searchCourses from "../../components/searchCourses";
 import gsap from "gsap";
@@ -8,10 +8,39 @@ const Page = () => {
   const [page, setPage] = useState(1);
   const [tagSelect, setTagSelect] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState(""); 
-  const pageSize = 4;
-  const { data: tutors } = useGetTutorsQuery({});
+  const pageSize = 6;
   const { data: courses, isLoading, isError } = useGetCoursesQuery({ pageSize, page });
   const containerRef = useRef(null);
+
+  
+
+  useEffect(() => {
+    if (containerRef.current) {
+      gsap.fromTo(
+        containerRef.current,
+        { opacity: 0, scale: 0.9 },
+        { opacity: 1, scale: 1, duration: 1.2, ease: "power3.inOut" }
+      );
+    }
+  }, []);
+
+  const coursesFilter = courses
+  ? searchCourses({ courses, tagSelect: tagSelect || "", searchTerm })
+  : [];
+
+  if (isLoading) {
+    return (
+      <div className="text-center text-lg text-gray-600">Loading courses...</div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="text-center text-red-600">
+        Error loading courses. Please try again later.
+      </div>
+    );
+  }
   
   const handlePrevious = () => {
     if (page > 1) setPage((prev) => prev - 1);
@@ -23,6 +52,7 @@ const Page = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+
   const handleTagClick = (tag: string) => {
     if (tag === tagSelect) {
       setTagSelect("");
@@ -31,19 +61,12 @@ const Page = () => {
     }
   };
 
-  useLayoutEffect(() => {
-    gsap.fromTo(
-      containerRef.current,
-      { opacity: 0, scale: 0.9 },
-      { opacity: 1, scale: 1, duration: 1.2, ease: "power3.inOut" }
-    );
-  }, [])
 
-  const coursesFilter = searchCourses({
-    courses,
-    tagSelect : tagSelect || "",
-    searchTerm,
-  })
+  
+  
+
+
+
   return (
     <div ref={containerRef} className="w-full mx-auto py-16 px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-10">
@@ -90,7 +113,7 @@ const Page = () => {
         </div>
       )}
 
-      <FocusCards courses={coursesFilter}  />
+      <FocusCards data={coursesFilter} type="course" />
 
       <div className="flex justify-center mt-8">
         <button

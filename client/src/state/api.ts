@@ -1,4 +1,4 @@
-import { Course, User } from "@/types";
+import { Course, Tutor, User } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query";
 import { toast } from "sonner";
@@ -119,23 +119,13 @@ export const api = createApi({
     }),
 
     getTutors: build.query<
-      User[],
-      {
-        id?: number;
-        email?: string;
-        full_name?: string;
-        phone?: string;
-        role?: string;
-        google_id?: string;
-        timezone?: string;
-      }
+      Tutor[],
+      {}
     >({
-      query: ({ id, email, full_name, phone, role, google_id, timezone }) => ({
-        url: "/Tutors",
-        params: { id, email, full_name, phone, role, google_id, timezone },
+      query: ({  }) => ({
+        url: "/tutors",
+        params: {},
       }),
-      transformResponse: (response: { message: string; data: User[] }) =>
-        response.data,
       providesTags: ["Tutors"],
     }),
   }),

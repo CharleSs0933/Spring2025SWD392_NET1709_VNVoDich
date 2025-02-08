@@ -1,7 +1,5 @@
 "use client";
-import Image from "next/image";
 import React from "react";
-import banner from "@/app/asset/img/banner4.jpg";
 import { TypewriterEffect } from "./components/ui/typewriter-effect";
 import { SparklesCore } from "./components/ui/SparklesPreview";
 import LazyLoad from "./components/LazzyLoad";
@@ -24,12 +22,14 @@ export default function Home() {
     <div>
       <Header />
       <div className="relative">
-        <Image
-          src={banner}
-          alt="banner"
+        <video
+          src={"https://www.shutterstock.com/shutterstock/videos/1092924437/preview/stock-footage-collage-of-diverse-many-happy-teen-kids-tapping-on-devices-learning-onling-at-school-elementary.webm"}
           height={1000}
           width={1000}
-          className="h-screen object-cover w-full opacity-20"
+          autoPlay
+          loop
+          muted
+          className="h-screen object-cover w-full opacity-40 pointer-events-none"
         />
 
   

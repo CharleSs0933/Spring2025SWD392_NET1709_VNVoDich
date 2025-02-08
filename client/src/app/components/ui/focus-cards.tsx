@@ -5,25 +5,20 @@ import gsap from "gsap";
 import { cn } from "@/lib/utils";
 import imgBg from "@/app/asset/img/khoahoc.jpg";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-import { Course } from "@/types";
 import { useRouter } from "next/navigation";
-import CoursesDetail from "../CoursesDetail";
 
 gsap.registerPlugin(ScrollToPlugin);
+
+interface CardProp {
+  data: any;
+  type: "course" | "tutor";
+  index: number;
+  hovered: number | null;
+  setHovered: React.Dispatch<React.SetStateAction<number | null>>;
+  cardRef: React.RefObject<HTMLDivElement>;
+}
 export const Card = React.memo(
-  ({
-    course,
-    index,
-    hovered,
-    setHovered,
-    cardRef,
-  }: {
-    course: any;
-    index: number;
-    hovered: number | null;
-    setHovered: React.Dispatch<React.SetStateAction<number | null>>;
-    cardRef: React.RefObject<HTMLDivElement>;
-  }) => {
+  ({ data, type, index, hovered, setHovered, cardRef }: CardProp) => {
     const router = useRouter();
     const handleMouseEnter = () => {
       setHovered(index);
@@ -71,8 +66,12 @@ export const Card = React.memo(
       );
     };
 
-    const handleOnClick = (item : string) => {
-      router.push(`/Courses/${item}`)
+    const handleOnClick = (item: string) => {
+      if(type === "course"){
+        router.push(`/Courses/${item}`);
+      }else{
+        router.push(`/Tutors/${item}`)
+      }
     };
 
     useLayoutEffect(() => {
@@ -93,7 +92,7 @@ export const Card = React.memo(
       <div className="flex ">
         <div
           ref={cardRef}
-          onClick={() => handleOnClick(course.id as string)}
+          onClick={() => handleOnClick(data.id as string)}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           className={cn(
@@ -105,8 +104,8 @@ export const Card = React.memo(
           )}
         >
           <Image
-            src={course.image || imgBg}
-            alt={course.title}
+            src={imgBg || data?.image}
+            alt={data?.title ||data?.user?.full_name}
             fill
             className="object-cover absolute inset-0"
           />
@@ -116,26 +115,35 @@ export const Card = React.memo(
               hovered === index ? "opacity-100 " : "opacity-100"
             )}
           >
-            <h3 className="text-2xl font-bold text-white">{course.title}</h3>
-            <p className="text-gray-300 text-sm mb-2">{course.description}</p>
+            <h3 className="text-2xl font-bold text-white">
+              {data?.title || data?.qualifications}
+            </h3>
+            <p className="text-gray-300 text-sm mb-2">{data?.description || data?.user?.full_name}</p>
+            {type === 'course' && (
             <div className="flex flex-wrap gap-2 mb-2">
               <span className="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                {course.status}
+                {data?.status}
               </span>
               <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">
-                ${course.price}
+                ${data?.price}
               </span>
               <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">
-                {course.total_lessons} Lessons
+                {data?.total_lessons} Lessons
               </span>
               <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">
-                Grade {course.grade}
+                Grade {data?.grade}
               </span>
             </div>
+            )}
             <div className="flex justify-between">
-              <p className="text-sm font-medium text-yellow-400">
-                {course?.tutor.profile.full_name || "Expert Tutor"}
+              <p className="text-sm font-medium text-yellow-400 gap-5">
+                {data?.tutor?.profile?.full_name || data?.qualifications}
               </p>
+              {type === "tutor" &&(
+                <p className="text-sm font-medium text-yellow-400"> {data?.teaching_style}</p>
+              )}
+              {type === "course" && (
+
               <button className="flex items-center justify-center bg-rose-900 text-white px-4 py-2 rounded-lg hover:bg-red-100 hover:text-black transition-colors">
                 <span className="mr-2">Enroll</span>
                 <svg
@@ -152,11 +160,12 @@ export const Card = React.memo(
                   />
                 </svg>
               </button>
+              )}
             </div>
           </div>
         </div>
-        {/* {course?.tutor.demo_video_url && ( */}
-        {/* <div
+        {type === "tutor" && (
+        <div
           className={cn(
             "flex  justify-center items-center transition-all duration-300",
             hovered !== null && hovered === index ? "opacity-1" : "opacity-0"
@@ -171,9 +180,9 @@ export const Card = React.memo(
             height={200}
             className="object-cover"
           />
-        </div> */}
+        </div>
 
-        {/* )}  */}
+         )}  
       </div>
     );
   }
@@ -181,21 +190,28 @@ export const Card = React.memo(
 
 Card.displayName = "Card";
 
-export function FocusCards({ courses }: { courses: any[] }) {
+export function FocusCards({
+  data,
+  type,
+}: {
+  data: any[];
+  type: "course" | "tutor";
+}) {
   const [hovered, setHovered] = useState<number | null>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-[100%]     md:px-8 w-full">
-      {courses.map((course, index) => {
+    <div className={`grid grid-cols-1 md:grid-cols-2 gap-10 max-w-[100%] ${type === 'tutor' ? "md:grid-cols-2  mx-auto" : ''}  md:px-8 w-full`}>
+      {data.map((item, index) => {
         if (!cardRefs.current[index]) {
           cardRefs.current[index] = document.createElement("div");
         }
 
         return (
           <Card
-            key={course.id}
-            course={course}
+            type={type}
+            key={index}
+            data={item}
             index={index}
             hovered={hovered}
             setHovered={setHovered}
