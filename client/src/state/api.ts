@@ -68,11 +68,12 @@ export const api = createApi({
         page?: number;
         pageSize?: number;
         subject?: string;
-        grade?: number;
+        grade?: string;
         status?: string;
+        title?: string;
       }
     >({
-      query: ({ subject, grade, status, page, pageSize }) => ({
+      query: ({ subject, grade, status, page, pageSize, title }) => ({
         url: "/Courses",
         params: {
           page,
@@ -80,6 +81,7 @@ export const api = createApi({
           subject,
           grade,
           status,
+          title,
         },
       }),
       providesTags: ["Courses"],
@@ -97,6 +99,15 @@ export const api = createApi({
         body,
       }),
       invalidatesTags: ["Courses"],
+    }),
+
+    updateCourse: build.mutation<Course, { id: string; formData: FormData }>({
+      query: ({ id, formData }) => ({
+        url: `courses/${id}`,
+        method: "PUT",
+        body: formData,
+      }),
+      invalidatesTags: (result, error, { id }) => [{ type: "Courses", id }],
     }),
 
     deleteCourse: build.mutation<{ message: string }, number>({
@@ -134,6 +145,7 @@ export const {
   useGetCoursesQuery,
   useGetCourseQuery,
   useCreateCourseMutation,
+  useUpdateCourseMutation,
   useDeleteCourseMutation,
   useGetTutorsQuery,
 } = api;

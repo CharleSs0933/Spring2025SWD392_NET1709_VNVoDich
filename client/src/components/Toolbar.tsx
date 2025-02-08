@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -7,14 +7,23 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ToolbarProps } from "@/types";
-import { courseSubjects } from "@/lib/utils";
+import { courseGrades, courseSubjects } from "@/lib/utils";
+import useDebounce from "@/hooks/useDebounce";
 
-const Toolbar = ({ onSearch, onSubjectChange }: ToolbarProps) => {
+const Toolbar = ({
+  onSearch,
+  onSubjectChange,
+  onGradeChange,
+}: ToolbarProps) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const debounceSearch = useDebounce({ value: searchTerm, delay: 500 });
+
+  useEffect(() => {
+    onSearch(debounceSearch);
+  }, [debounceSearch, onSearch]);
 
   const handleSearch = (value: string) => {
     setSearchTerm(value);
-    onSearch(value);
   };
 
   return (
@@ -44,6 +53,28 @@ const Toolbar = ({ onSearch, onSubjectChange }: ToolbarProps) => {
               className="cursor-pointer hover:!bg-gray-100 hover:!text-customgreys-darkGrey"
             >
               {subject.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      <Select onValueChange={onGradeChange}>
+        <SelectTrigger className="h-12 w-[180px] bg-customgreys-primarybg text-customgreys-dirtyGrey border-none">
+          <SelectValue placeholder="Grade" />
+        </SelectTrigger>
+        <SelectContent className="bg-customgreys-primarybg hover:bg-customgreys-primarybg">
+          <SelectItem
+            value="all"
+            className="cursor-pointer hover:!bg-gray-100 hover:!text-customgreys-darkGrey"
+          >
+            All Grade
+          </SelectItem>
+          {courseGrades.map((grade) => (
+            <SelectItem
+              key={grade.value}
+              value={grade.value}
+              className="cursor-pointer hover:!bg-gray-100 hover:!text-customgreys-darkGrey"
+            >
+              {grade.label}
             </SelectItem>
           ))}
         </SelectContent>

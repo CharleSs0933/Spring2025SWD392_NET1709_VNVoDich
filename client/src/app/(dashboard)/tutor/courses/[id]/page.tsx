@@ -4,12 +4,9 @@ import { CustomFormField } from "@/components/CustomFormField";
 import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-// import { createCourseFormData } from "@/lib/utils";
+import { courseGrades, createCourseFormData } from "@/lib/utils";
 import { openLessonModal, setLessons } from "@/state";
-import {
-  useGetCourseQuery,
-  //   useUpdateCourseMutation,
-} from "@/state/api";
+import { useGetCourseQuery, useUpdateCourseMutation } from "@/state/api";
 import { useAppDispatch, useAppSelector } from "@/state/redux";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft, Plus } from "lucide-react";
@@ -21,18 +18,17 @@ import { courseSchema } from "@/lib/schemas";
 import { CourseFormData } from "@/types";
 import LessonModal from "./LessonModal";
 import { courseSubjects } from "@/lib/utils";
+import Loading from "@/components/Loading";
 
 const CourseEditor = () => {
   const router = useRouter();
   const params = useParams();
   const id = params.id as string;
-  const { data: course, isLoading, refetch } = useGetCourseQuery(id);
-  //   const [updateCourse] = useUpdateCourseMutation();
+  const { data: course, isLoading, refetch, isError } = useGetCourseQuery(id);
+  const [updateCourse] = useUpdateCourseMutation();
 
   const dispatch = useAppDispatch();
   const { lessons } = useAppSelector((state) => state.global.courseEditor);
-
-  console.log(lessons);
 
   const methods = useForm<CourseFormData>({
     resolver: zodResolver(courseSchema),
@@ -40,6 +36,7 @@ const CourseEditor = () => {
       courseTitle: "",
       courseDescription: "",
       courseSubject: "",
+      courseGrade: "",
       coursePrice: "0",
       courseStatus: false,
     },
@@ -51,6 +48,7 @@ const CourseEditor = () => {
         courseTitle: course.title,
         courseDescription: course.description,
         courseSubject: course.subject,
+        courseGrade: course.grade.toString(),
         coursePrice: course.price.toString(),
         courseStatus: course.status === "Published",
       });
@@ -59,22 +57,21 @@ const CourseEditor = () => {
   }, [course, methods]);
 
   const onSubmit = async (data: CourseFormData) => {
-    // try {
-    //   const updatedSections = await uploadAllVideos(
-    //     sections,
-    //     id,
-    //     getUploadVideoUrl
-    //   );
-    //   const formData = createCourseFormData(data, updatedSections);
-    //   await updateCourse({
-    //     courseId: id,
-    //     formData,
-    //   }).unwrap();
-    //   refetch();
-    // } catch (error) {
-    //   console.log("Failed to update course: ", error);
-    // }
+    try {
+      const formData = createCourseFormData(data);
+
+      await updateCourse({
+        id,
+        formData,
+      }).unwrap();
+      refetch();
+    } catch (error) {
+      console.log("Failed to update course: ", error);
+    }
   };
+
+  if (isLoading) return <Loading />;
+  if (isError || !course) return <div>Error loading course.</div>;
 
   return (
     <div>
@@ -142,6 +139,14 @@ const CourseEditor = () => {
                   placeholder="Select subject here"
                   options={courseSubjects}
                   initialValue={course?.subject}
+                />
+                <CustomFormField
+                  name="courseGrade"
+                  label="Course Grade"
+                  type="select"
+                  placeholder="Select grade here"
+                  options={courseGrades}
+                  initialValue={course?.grade.toString()}
                 />
                 <CustomFormField
                   name="coursePrice"

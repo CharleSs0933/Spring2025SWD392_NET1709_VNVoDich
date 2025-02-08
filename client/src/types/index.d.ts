@@ -43,7 +43,8 @@ export interface Tutor {
   demo_video_url?: string;
   image?: string;
 
-  profile?: {  // Thêm thuộc tính profile vào Tutor
+  profile?: {
+    // Thêm thuộc tính profile vào Tutor
     email: string;
     full_name: string;
     phone: string;
@@ -96,12 +97,14 @@ export interface TeacherCourseCardProps {
 export interface ToolbarProps {
   onSearch: (search: string) => void;
   onSubjectChange: (subject: string) => void;
+  onGradeChange: (grade: string) => void;
 }
 
 export interface CourseFormData {
   courseTitle: string;
   courseDescription: string;
   courseSubject: string;
+  courseGrade: string;
   coursePrice: string;
   courseStatus: boolean;
 }
