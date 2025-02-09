@@ -44,7 +44,6 @@ export interface Tutor {
   image?: string;
 
   profile?: {
-    // Thêm thuộc tính profile vào Tutor
     email: string;
     full_name: string;
     phone: string;

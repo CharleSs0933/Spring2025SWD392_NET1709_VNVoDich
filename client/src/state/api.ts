@@ -101,13 +101,18 @@ export const api = createApi({
       invalidatesTags: ["Courses"],
     }),
 
-    updateCourse: build.mutation<Course, { id: string; formData: FormData }>({
-      query: ({ id, formData }) => ({
-        url: `courses/${id}`,
+    updateCourse: build.mutation<
+      Course,
+      { courseId: string; formData: FormData }
+    >({
+      query: ({ courseId, formData }) => ({
+        url: `courses/${courseId}`,
         method: "PUT",
         body: formData,
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Courses", id }],
+      invalidatesTags: (result, error, { courseId }) => [
+        { type: "Courses", id: courseId },
+      ],
     }),
 
     deleteCourse: build.mutation<{ message: string }, number>({
@@ -118,11 +123,8 @@ export const api = createApi({
       invalidatesTags: ["Courses"],
     }),
 
-    getTutors: build.query<
-      Tutor[],
-      {}
-    >({
-      query: ({  }) => ({
+    getTutors: build.query<Tutor[], {}>({
+      query: ({}) => ({
         url: "/tutors",
         params: {},
       }),

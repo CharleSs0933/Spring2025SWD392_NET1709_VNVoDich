@@ -76,6 +76,12 @@ const LessonModal = () => {
     toast.success(
       `Lesson added/updated successfully but you need to save the course to apply the changes`
     );
+    methods.reset({
+      title: "",
+      description: "",
+      learning_objectives: "",
+      materials_needed: "",
+    });
     onClose();
   };
 

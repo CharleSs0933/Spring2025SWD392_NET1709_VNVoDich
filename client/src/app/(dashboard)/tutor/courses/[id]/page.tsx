@@ -54,16 +54,17 @@ const CourseEditor = () => {
       });
       dispatch(setLessons(course.lessons || []));
     }
-  }, [course, methods]);
+  }, [course, methods, dispatch]);
 
   const onSubmit = async (data: CourseFormData) => {
     try {
       const formData = createCourseFormData(data);
 
       await updateCourse({
-        id,
+        courseId: id,
         formData,
       }).unwrap();
+
       refetch();
     } catch (error) {
       console.log("Failed to update course: ", error);
