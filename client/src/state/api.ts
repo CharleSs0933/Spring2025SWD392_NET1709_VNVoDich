@@ -1,4 +1,4 @@
-import { Course, User } from "@/types";
+import { Children, Course, User } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query";
 import { toast } from "sonner";
@@ -60,7 +60,7 @@ const customBaseQuery = async (
 export const api = createApi({
   baseQuery: customBaseQuery,
   reducerPath: "api",
-  tagTypes: ["Courses", "Tutors"],
+  tagTypes: ["Courses", "Tutors", "Children"],
   endpoints: (build) => ({
     getCourses: build.query<
       Course[],
@@ -90,6 +90,13 @@ export const api = createApi({
       providesTags: (result, error, id) => [{ type: "Courses", id }],
     }),
 
+    getChildren: build.query<Children[], any>({
+      query: () => ({
+        url: "/children",
+      }),
+      providesTags: ["Children"],
+    }),
+
     getTutors: build.query<
       User[],
       {
@@ -113,4 +120,9 @@ export const api = createApi({
   }),
 });
 
-export const { useGetCoursesQuery, useGetCourseQuery, useGetTutorsQuery } = api;
+export const {
+  useGetCoursesQuery,
+  useGetCourseQuery,
+  useGetTutorsQuery,
+  useGetChildrenQuery,
+} = api;

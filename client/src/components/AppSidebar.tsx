@@ -29,11 +29,11 @@ const AppSidebar = () => {
   const { toggleSidebar } = useSidebar();
 
   const navLinks = {
-    student: [
-      { icon: BookOpen, label: "Courses", href: "/user/courses" },
-      { icon: Briefcase, label: "Billing", href: "/user/billing" },
-      { icon: User, label: "Profile", href: "/user/profile" },
-      { icon: Settings, label: "Settings", href: "/user/settings" },
+    parent: [
+      { icon: BookOpen, label: "Children", href: "/parent/children" },
+      { icon: Briefcase, label: "Billing", href: "/parent/billing" },
+      { icon: User, label: "Profile", href: "/parent/profile" },
+      { icon: Settings, label: "Settings", href: "/parent/settings" },
     ],
     tutor: [
       { icon: BookOpen, label: "Courses", href: "/tutor/courses" },
@@ -46,7 +46,7 @@ const AppSidebar = () => {
   //   if (!isLoaded) return <Loading />;
   //   if (!user) return <div>User not found</div>;
 
-  const userType = "tutor";
+  const userType = "parent";
   const currentNavLinks = navLinks[userType];
 
   const signOut = () => {};
