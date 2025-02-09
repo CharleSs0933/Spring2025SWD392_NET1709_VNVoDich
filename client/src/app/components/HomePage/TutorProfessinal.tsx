@@ -2,7 +2,7 @@ import React from "react";
 import TutorCard from "../TutorCard";
 import LazyLoad from "../LazzyLoad";
 
-const HomePageBody4 = () => {
+const TutorProfessinal = () => {
   return (
     <LazyLoad
       threshold={0.2}
@@ -31,4 +31,4 @@ const HomePageBody4 = () => {
   );
 };
 
-export default HomePageBody4;
+export default TutorProfessinal;

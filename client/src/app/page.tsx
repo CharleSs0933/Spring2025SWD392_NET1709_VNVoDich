@@ -1,16 +1,11 @@
 "use client";
-import Image from "next/image";
 import React from "react";
-import banner from "@/app/asset/img/banner4.jpg";
 import { TypewriterEffect } from "./components/ui/typewriter-effect";
 import { SparklesCore } from "./components/ui/SparklesPreview";
 import LazyLoad from "./components/LazzyLoad";
-import HomePageBody1 from "./components/HomePage/HomePageBody1";
-import HomePageBody2 from "./components/HomePage/HomePageBody2";
-import HomePageBody3 from "./components/HomePage/HomePageBody3";
-import HomePageBody4 from "./components/HomePage/HomePageBody4";
-import HomePageBG from "./components/HomePage/HomePageBG";
+import TutorProfessinal from "./components/HomePage/TutorProfessinal";
 import About from "./components/HomePage/About";
+import Introduce from "./components/HomePage/Introduce";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 export default function Home() {
@@ -27,13 +22,17 @@ export default function Home() {
     <div>
       <Header />
       <div className="relative">
-        <Image
-          src={banner}
-          alt="banner"
+        <video
+          src={"https://www.shutterstock.com/shutterstock/videos/1092924437/preview/stock-footage-collage-of-diverse-many-happy-teen-kids-tapping-on-devices-learning-onling-at-school-elementary.webm"}
           height={1000}
           width={1000}
-          className="h-screen object-cover w-full opacity-20"
+          autoPlay
+          loop
+          muted
+          className="h-screen object-cover w-full opacity-40 pointer-events-none"
         />
+
+  
 
         <div className="absolute top-52 flex items-center justify-center z-10 text-center w-full">
           <div className="text-center flex flex-col gap-20">
@@ -98,14 +97,11 @@ export default function Home() {
         </div>
       </div>
 
-      {/* <HomePageBody1 /> */}
-      <About />
-      <HomePageBG />
-      <HomePageBody2 />
-      <HomePageBody3 />
-      <HomePageBody4 />
-
-      <Footer />
+      <About/>
+      <Introduce />
+      <TutorProfessinal />
+      <Footer/>
     </div>
+
   );
 }

@@ -29,12 +29,16 @@ function aboutSectionTextReveal(
         scrollTrigger: {
             trigger: aboutWrapperRef.current,
             start: "top center",
-            end: "bottom center",
+            end: "center center",
             scrub: true,
         },
         opacity: 0.2,
         stagger: 0.1,
     });
+
+    return () => {
+        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
 }
 
 
@@ -55,6 +59,11 @@ function artWorkSectionParallax(
         ease: "none",
         yPercent: -150,
     });
+
+    return () => {
+        parallaxTl.kill();
+        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
 }
 
 function artWorkSectionScale(
@@ -69,9 +78,10 @@ function artWorkSectionScale(
             start: "top 100vh",
             end: "bottom+=50% top",
             scrub: true,
-            pin: true,
-            markers: true
+            // pin: true,
+            // markers: true
         },
+        
     });
 
     scaleTl
@@ -126,7 +136,7 @@ function artWorkSectionScale(
     //     .fromTo(word2.chars, { opacity: 0 }, { opacity: 1, stagger: 0.1, duration: 1, ease: "power1.inOut" }, "textStart+=0.5");
         return () => {
             scaleTl.kill();
-            // ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
         };
 }
 

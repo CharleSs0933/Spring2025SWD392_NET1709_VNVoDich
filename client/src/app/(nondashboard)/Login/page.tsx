@@ -3,8 +3,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import logo from "@/app/asset/img/logo.png";
-import bg from "../../../public/bg-login3.png";
-import { FaGoogle } from "react-icons/fa";
+import bg from '../../../../public/bg-login.jpg'
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [loginData, setLoginData] = useState({
@@ -87,7 +86,7 @@ const Login = () => {
     }
   };
   return (
-    <div className="relative w-full h-[800px] overflow-hidden">
+    <div className="relative w-full h-[800px] overflow-hidden my-4">
       <Image
         src={bg}
         alt="Background"
@@ -187,7 +186,6 @@ const Login = () => {
               className="bg-white-50 text-black py-2 rounded-lg hover:bg-blue-600 transition duration-300"
             >
               <p className="flex justify-center items-center gap-2">
-                <FaGoogle />
                 Google
               </p>
             </button>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -7,14 +7,23 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ToolbarProps } from "@/types";
-// import { courseCategories } from "@/lib/utils";
+import { courseGrades, courseSubjects } from "@/lib/utils";
+import useDebounce from "@/hooks/useDebounce";
 
-const Toolbar = ({ onSearch, onCategoryChange }: ToolbarProps) => {
+const Toolbar = ({
+  onSearch,
+  onSubjectChange,
+  onGradeChange,
+}: ToolbarProps) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const debounceSearch = useDebounce({ value: searchTerm, delay: 500 });
+
+  useEffect(() => {
+    onSearch(debounceSearch);
+  }, [debounceSearch, onSearch]);
 
   const handleSearch = (value: string) => {
     setSearchTerm(value);
-    onSearch(value);
   };
 
   return (
@@ -26,25 +35,50 @@ const Toolbar = ({ onSearch, onCategoryChange }: ToolbarProps) => {
         placeholder="Search courses"
         className="w-full px-5 h-12 bg-customgreys-primarybg placeholder-customgreys-dirtyGrey text-customgreys-dirtyGrey border-none rounded-md focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
       />
-      {/* <Select onValueChange={onCategoryChange}>
-        <SelectTrigger className="toolbar__select">
-          <SelectValue placeholder="Categories" />
+      <Select onValueChange={onSubjectChange}>
+        <SelectTrigger className="h-12 w-[180px] bg-customgreys-primarybg text-customgreys-dirtyGrey border-none">
+          <SelectValue placeholder="Subjects" />
         </SelectTrigger>
         <SelectContent className="bg-customgreys-primarybg hover:bg-customgreys-primarybg">
-          <SelectItem value="all" className="toolbar__select-item">
-            All Categories
+          <SelectItem
+            value="all"
+            className="cursor-pointer hover:!bg-gray-100 hover:!text-customgreys-darkGrey"
+          >
+            All Subjects
           </SelectItem>
-          {courseCategories.map((category) => (
+          {courseSubjects.map((subject) => (
             <SelectItem
-              key={category.value}
-              value={category.value}
-              className="toolbar__select-item"
+              key={subject.value}
+              value={subject.value}
+              className="cursor-pointer hover:!bg-gray-100 hover:!text-customgreys-darkGrey"
             >
-              {category.label}
+              {subject.label}
             </SelectItem>
           ))}
         </SelectContent>
-      </Select> */}
+      </Select>
+      <Select onValueChange={onGradeChange}>
+        <SelectTrigger className="h-12 w-[180px] bg-customgreys-primarybg text-customgreys-dirtyGrey border-none">
+          <SelectValue placeholder="Grade" />
+        </SelectTrigger>
+        <SelectContent className="bg-customgreys-primarybg hover:bg-customgreys-primarybg">
+          <SelectItem
+            value="all"
+            className="cursor-pointer hover:!bg-gray-100 hover:!text-customgreys-darkGrey"
+          >
+            All Grade
+          </SelectItem>
+          {courseGrades.map((grade) => (
+            <SelectItem
+              key={grade.value}
+              value={grade.value}
+              className="cursor-pointer hover:!bg-gray-100 hover:!text-customgreys-darkGrey"
+            >
+              {grade.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     </div>
   );
 };

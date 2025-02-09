@@ -1,4 +1,4 @@
-import { Children, Course, User } from "@/types";
+import { Course, Tutor, User } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query";
 import { toast } from "sonner";
@@ -68,11 +68,12 @@ export const api = createApi({
         page?: number;
         pageSize?: number;
         subject?: string;
-        grade?: number;
+        grade?: string;
         status?: string;
+        title?: string;
       }
     >({
-      query: ({ subject, grade, status, page, pageSize }) => ({
+      query: ({ subject, grade, status, page, pageSize, title }) => ({
         url: "/Courses",
         params: {
           page,
@@ -80,6 +81,7 @@ export const api = createApi({
           subject,
           grade,
           status,
+          title,
         },
       }),
       providesTags: ["Courses"],
@@ -90,31 +92,37 @@ export const api = createApi({
       providesTags: (result, error, id) => [{ type: "Courses", id }],
     }),
 
-    getChildren: build.query<Children[], any>({
-      query: () => ({
-        url: "/children",
+    createCourse: build.mutation<Course, { tutor_id: string }>({
+      query: (body) => ({
+        url: `courses`,
+        method: "POST",
+        body,
       }),
-      providesTags: ["Children"],
+      invalidatesTags: ["Courses"],
     }),
 
-    getTutors: build.query<
-      User[],
-      {
-        id?: number;
-        email?: string;
-        full_name?: string;
-        phone?: string;
-        role?: string;
-        google_id?: string;
-        timezone?: string;
-      }
-    >({
-      query: ({ id, email, full_name, phone, role, google_id, timezone }) => ({
-        url: "/Tutors",
-        params: { id, email, full_name, phone, role, google_id, timezone },
+    updateCourse: build.mutation<Course, { id: string; formData: FormData }>({
+      query: ({ id, formData }) => ({
+        url: `courses/${id}`,
+        method: "PUT",
+        body: formData,
       }),
-      transformResponse: (response: { message: string; data: User[] }) =>
-        response.data,
+      invalidatesTags: (result, error, { id }) => [{ type: "Courses", id }],
+    }),
+
+    deleteCourse: build.mutation<{ message: string }, number>({
+      query: (id) => ({
+        url: `courses/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Courses"],
+    }),
+
+    getTutors: build.query<Tutor[], {}>({
+      query: ({}) => ({
+        url: "/tutors",
+        params: {},
+      }),
       providesTags: ["Tutors"],
     }),
   }),
@@ -123,6 +131,8 @@ export const api = createApi({
 export const {
   useGetCoursesQuery,
   useGetCourseQuery,
+  useCreateCourseMutation,
+  useUpdateCourseMutation,
+  useDeleteCourseMutation,
   useGetTutorsQuery,
-  useGetChildrenQuery,
 } = api;
