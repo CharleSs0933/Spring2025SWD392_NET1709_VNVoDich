@@ -18,13 +18,11 @@ import { Children } from "@/types";
 import BigCalendar from "@/app/components/BigCalendar";
 
 const Courses = () => {
-  const { data: children, isLoading, isError } = useGetChildrenQuery({});
-  const [selectedChild, setSelectedChild] = useState<Children | null>(null);
+  // const { data: children, isLoading, isError } = useGetChildrenQuery({});
+  // const [selectedChild, setSelectedChild] = useState<Children | null>(null);
 
-  if (isLoading) return <Loading />;
-  if (isError || !children) return <div>Error loading children.</div>;
-
-  console.log(children);
+  // if (isLoading) return <Loading />;
+  // if (isError || !children) return <div>Error loading children.</div>;
 
   return (
     <div className=" w-full h-full">
@@ -36,7 +34,7 @@ const Courses = () => {
           <BigCalendar />
         </div>
         {/* Card */}
-        {selectedChild && (
+        {/* {selectedChild && (
           <motion.div
             className=" bg-white shadow-lg p-4 rounded-lg  "
             initial={{ opacity: 0, y: -20 }}
@@ -70,10 +68,10 @@ const Courses = () => {
               </CardContent>
             </Card>
           </motion.div>
-        )}
+        )} */}
 
         {/* Table */}
-        {isLoading ? (
+        {/* {isLoading ? (
           <Loading />
         ) : (
           <motion.div
@@ -131,7 +129,7 @@ const Courses = () => {
               </TableBody>
             </Table>
           </motion.div>
-        )}
+        )} */}
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { CourseFormData } from "@/types";
+import { CourseFormData, Lesson } from "@/types";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 

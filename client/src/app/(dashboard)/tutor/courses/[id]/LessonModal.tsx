@@ -4,19 +4,25 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { LessonFormData, lessonSchema } from "@/lib/schemas";
 import { addLesson, closeLessonModal, editLesson } from "@/state";
+import { useAddLessonMutation, useUpdateLessonMutation } from "@/state/api";
 import { useAppDispatch, useAppSelector } from "@/state/redux";
 import { Lesson } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
+import { useParams } from "next/navigation";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 const LessonModal = () => {
+  const params = useParams();
+  const id = params.id as string;
+
   const dispatch = useAppDispatch();
-  const { isLessonModalOpen, selectedLessonIndex, lessons } = useAppSelector(
-    (state) => state.global.courseEditor
-  );
+  const { isLessonModalOpen, selectedLessonIndex, selectedLessonId, lessons } =
+    useAppSelector((state) => state.global.courseEditor);
+  const [addLessonToCourses] = useAddLessonMutation();
+  const [updateLesson] = useUpdateLessonMutation();
 
   const lesson =
     selectedLessonIndex !== null ? lessons[selectedLessonIndex] : null;
@@ -53,7 +59,7 @@ const LessonModal = () => {
     dispatch(closeLessonModal());
   };
 
-  const onSubmit = (data: LessonFormData) => {
+  const onSubmit = async (data: LessonFormData) => {
     const newLesson: Lesson = {
       id: Number(""),
       title: data.title,
@@ -63,19 +69,44 @@ const LessonModal = () => {
     };
 
     if (selectedLessonIndex === null) {
-      dispatch(addLesson(newLesson));
+      try {
+        dispatch(addLesson(newLesson));
+
+        await addLessonToCourses({
+          courseId: id,
+          title: data.title,
+          description: data.description,
+          learning_objectives: data.learning_objectives,
+          materials_needed: data.materials_needed,
+        }).unwrap();
+      } catch (error) {
+        console.log("Failed to update course: ", error);
+      }
     } else {
-      dispatch(
-        editLesson({
-          lessonIndex: selectedLessonIndex,
-          lesson: newLesson,
-        })
-      );
+      try {
+        dispatch(
+          editLesson({
+            lessonIndex: selectedLessonIndex,
+            lesson: newLesson,
+          })
+        );
+
+        await updateLesson({
+          courseId: id,
+          lessonId: selectedLessonId?.toString(),
+          title: data.title,
+          description: data.description,
+          learning_objectives: data.learning_objectives,
+          materials_needed: data.materials_needed,
+        }).unwrap();
+      } catch (error) {
+        console.log("Failed to update course: ", error);
+      }
     }
 
-    toast.success(
-      `Lesson added/updated successfully but you need to save the course to apply the changes`
-    );
+    // toast.success(
+    //   `Lesson added/updated successfully but you need to save the course to apply the changes`
+    // );
     methods.reset({
       title: "",
       description: "",

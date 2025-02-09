@@ -110,9 +110,7 @@ export const api = createApi({
         method: "PUT",
         body: formData,
       }),
-      invalidatesTags: (result, error, { courseId }) => [
-        { type: "Courses", id: courseId },
-      ],
+      invalidatesTags: ["Courses"],
     }),
 
     deleteCourse: build.mutation<{ message: string }, number>({
@@ -121,6 +119,87 @@ export const api = createApi({
         method: "DELETE",
       }),
       invalidatesTags: ["Courses"],
+    }),
+
+    addLesson: build.mutation<
+      Course,
+      {
+        courseId: string;
+        title: string;
+        description: string;
+        learning_objectives: string;
+        materials_needed: string;
+      }
+    >({
+      query: ({
+        courseId,
+        title,
+        description,
+        learning_objectives,
+        materials_needed,
+      }) => ({
+        url: `courses/${courseId}/add-lesson`,
+        method: "PUT",
+        body: {
+          title,
+          description,
+          learning_objectives,
+          materials_needed,
+        },
+      }),
+      invalidatesTags: ["Courses"],
+    }),
+
+    updateLesson: build.mutation<
+      Course,
+      {
+        courseId: string;
+        lessonId: string | undefined;
+        title: string;
+        description: string;
+        learning_objectives: string;
+        materials_needed: string;
+      }
+    >({
+      query: ({
+        courseId,
+        lessonId,
+        title,
+        description,
+        learning_objectives,
+        materials_needed,
+      }) => ({
+        url: `courses/${courseId}/update-lesson/${lessonId}`,
+        method: "PUT",
+        body: {
+          title,
+          description,
+          learning_objectives,
+          materials_needed,
+        },
+      }),
+      invalidatesTags: ["Courses"],
+    }),
+
+    deleteLesson: build.mutation<
+      { messaege: string },
+      {
+        courseId: string;
+        lessonId: string;
+      }
+    >({
+      query: ({ courseId, lessonId }) => ({
+        url: `courses/${courseId}/delete-lesson/${lessonId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Courses"],
+    }),
+
+    getChildren: build.query<Children[], any>({
+      query: () => ({
+        url: "/children",
+      }),
+      providesTags: ["Children"],
     }),
 
     getTutors: build.query<Tutor[], {}>({
@@ -139,6 +218,9 @@ export const {
   useCreateCourseMutation,
   useUpdateCourseMutation,
   useDeleteCourseMutation,
+  useAddLessonMutation,
+  useUpdateLessonMutation,
+  useDeleteLessonMutation,
   useGetTutorsQuery,
   useGetChildrenQuery,
 } = api;

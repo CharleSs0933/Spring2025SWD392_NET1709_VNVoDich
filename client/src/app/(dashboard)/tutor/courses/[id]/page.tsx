@@ -170,7 +170,12 @@ const CourseEditor = () => {
                   variant="outline"
                   size="sm"
                   onClick={() =>
-                    dispatch(openLessonModal({ lessonIndex: null }))
+                    dispatch(
+                      openLessonModal({
+                        lessonIndex: null,
+                        lessonId: undefined,
+                      })
+                    )
                   }
                   className="border-none group text-primary-700"
                 >

@@ -6,6 +6,7 @@ interface InitialStateTypes {
     lessons: Lesson[];
     isLessonModalOpen: boolean;
     selectedLessonIndex: number | null;
+    selectedLessonId: number | undefined;
   };
 }
 
@@ -14,6 +15,7 @@ const initialState: InitialStateTypes = {
     lessons: [],
     isLessonModalOpen: false,
     selectedLessonIndex: null,
+    selectedLessonId: undefined,
   },
 };
 
@@ -26,14 +28,19 @@ export const globalSlice = createSlice({
     },
     openLessonModal: (
       state,
-      action: PayloadAction<{ lessonIndex: number | null }>
+      action: PayloadAction<{
+        lessonIndex: number | null;
+        lessonId: number | undefined;
+      }>
     ) => {
       state.courseEditor.isLessonModalOpen = true;
       state.courseEditor.selectedLessonIndex = action.payload.lessonIndex;
+      state.courseEditor.selectedLessonId = action.payload.lessonId;
     },
     closeLessonModal: (state) => {
       state.courseEditor.isLessonModalOpen = false;
       state.courseEditor.selectedLessonIndex = null;
+      state.courseEditor.selectedLessonId = undefined;
     },
     addLesson: (state, action: PayloadAction<Lesson>) => {
       state.courseEditor.lessons.push(action.payload);
