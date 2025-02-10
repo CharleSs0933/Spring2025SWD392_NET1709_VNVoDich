@@ -42,7 +42,12 @@ export interface Tutor {
   is_available: boolean;
   demo_video_url?: string;
   image?: string;
-  user? : User
+
+  profile?: {
+    email: string;
+    full_name: string;
+    phone: string;
+  };
 }
 
 export interface Children {
@@ -91,12 +96,14 @@ export interface TeacherCourseCardProps {
 export interface ToolbarProps {
   onSearch: (search: string) => void;
   onSubjectChange: (subject: string) => void;
+  onGradeChange: (grade: string) => void;
 }
 
 export interface CourseFormData {
   courseTitle: string;
   courseDescription: string;
   courseSubject: string;
+  courseGrade: string;
   coursePrice: string;
   courseStatus: boolean;
 }
@@ -105,4 +112,14 @@ export interface CustomFixedModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
+}
+
+export interface Children {
+  id: number;
+  age: number;
+  grade_level: string;
+  learning_goals: string;
+  full_name: string;
+  password: string;
+  parent_id: number;
 }

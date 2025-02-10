@@ -1,4 +1,4 @@
-import { Course, Tutor, User } from "@/types";
+import { Children, Course, Tutor, User } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query";
 import { toast } from "sonner";
@@ -60,7 +60,7 @@ const customBaseQuery = async (
 export const api = createApi({
   baseQuery: customBaseQuery,
   reducerPath: "api",
-  tagTypes: ["Courses", "Tutors"],
+  tagTypes: ["Courses", "Tutors", "Children"],
   endpoints: (build) => ({
     getCourses: build.query<
       Course[],
@@ -68,11 +68,12 @@ export const api = createApi({
         page?: number;
         pageSize?: number;
         subject?: string;
-        grade?: number;
+        grade?: string;
         status?: string;
+        title?: string;
       }
     >({
-      query: ({ subject, grade, status, page, pageSize }) => ({
+      query: ({ subject, grade, status, page, pageSize, title }) => ({
         url: "/Courses",
         params: {
           page,
@@ -80,6 +81,7 @@ export const api = createApi({
           subject,
           grade,
           status,
+          title,
         },
       }),
       providesTags: ["Courses"],
@@ -90,6 +92,18 @@ export const api = createApi({
         url: `courses`,
         method: "POST",
         body,
+      }),
+      invalidatesTags: ["Courses"],
+    }),
+
+    updateCourse: build.mutation<
+      Course,
+      { courseId: string; formData: FormData }
+    >({
+      query: ({ courseId, formData }) => ({
+        url: `courses/${courseId}`,
+        method: "PUT",
+        body: formData,
       }),
       invalidatesTags: ["Courses"],
     }),
@@ -110,6 +124,87 @@ export const api = createApi({
       query: (id) => `tutors/${id}`,
       providesTags: (result, error, id) => [{ type: "Tutors", id }],
     }),
+    addLesson: build.mutation<
+      Course,
+      {
+        courseId: string;
+        title: string;
+        description: string;
+        learning_objectives: string;
+        materials_needed: string;
+      }
+    >({
+      query: ({
+        courseId,
+        title,
+        description,
+        learning_objectives,
+        materials_needed,
+      }) => ({
+        url: `courses/${courseId}/add-lesson`,
+        method: "PUT",
+        body: {
+          title,
+          description,
+          learning_objectives,
+          materials_needed,
+        },
+      }),
+      invalidatesTags: ["Courses"],
+    }),
+
+    updateLesson: build.mutation<
+      Course,
+      {
+        courseId: string;
+        lessonId: string | undefined;
+        title: string;
+        description: string;
+        learning_objectives: string;
+        materials_needed: string;
+      }
+    >({
+      query: ({
+        courseId,
+        lessonId,
+        title,
+        description,
+        learning_objectives,
+        materials_needed,
+      }) => ({
+        url: `courses/${courseId}/update-lesson/${lessonId}`,
+        method: "PUT",
+        body: {
+          title,
+          description,
+          learning_objectives,
+          materials_needed,
+        },
+      }),
+      invalidatesTags: ["Courses"],
+    }),
+
+    deleteLesson: build.mutation<
+      { messaege: string },
+      {
+        courseId: string;
+        lessonId: string;
+      }
+    >({
+      query: ({ courseId, lessonId }) => ({
+        url: `courses/${courseId}/delete-lesson/${lessonId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Courses"],
+    }),
+
+    getChildren: build.query<Children[], any>({
+      query: () => ({
+        url: "/children",
+      }),
+      providesTags: ["Children"],
+    }),
+
     getTutors: build.query<Tutor[], {}>({
       query: ({}) => ({
         url: "/tutors",
@@ -125,7 +220,12 @@ export const {
   useGetCoursesQuery,
   useGetCourseQuery,
   useCreateCourseMutation,
+  useUpdateCourseMutation,
   useDeleteCourseMutation,
+  useAddLessonMutation,
+  useUpdateLessonMutation,
+  useDeleteLessonMutation,
   useGetTutorsQuery,
   useGetTutorQuery,
+  useGetChildrenQuery,
 } = api;

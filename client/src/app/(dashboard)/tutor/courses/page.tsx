@@ -12,35 +12,28 @@ import {
 } from "@/state/api";
 import { Course } from "@/types";
 import { useRouter } from "next/navigation";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 
 const Courses = () => {
   const router = useRouter();
   //   const { user } = useUser();
+  const [selectedSubject, setSelectedSubject] = useState("all");
+  const [selectedGrade, setSelectedGrade] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
+
   const {
     data: courses,
     isLoading,
     isError,
-  } = useGetCoursesQuery({ pageSize: 20 });
+  } = useGetCoursesQuery({
+    pageSize: 20,
+    subject: selectedSubject,
+    title: searchTerm,
+    grade: selectedGrade,
+  });
 
   const [createCourse] = useCreateCourseMutation();
   const [deleteCourse] = useDeleteCourseMutation();
-
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedSubject, setSelectedSubject] = useState("all");
-
-  const filteredCourses = useMemo(() => {
-    if (!courses) return [];
-
-    return courses.filter((course) => {
-      const matchesSearch = course.title
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
-      const matchesSubject =
-        selectedSubject === "all" || course.subject === selectedSubject;
-      return matchesSearch && matchesSubject;
-    });
-  }, [courses, searchTerm, selectedSubject]);
 
   const handleEdit = (course: Course) => {
     router.push(`/tutor/courses/${course.id}`, { scroll: false });
@@ -77,9 +70,13 @@ const Courses = () => {
           </Button>
         }
       />
-      <Toolbar onSearch={setSearchTerm} onSubjectChange={setSelectedSubject} />
+      <Toolbar
+        onSearch={setSearchTerm}
+        onSubjectChange={setSelectedSubject}
+        onGradeChange={setSelectedGrade}
+      />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7 mt-6 w-full">
-        {filteredCourses.map((course) => (
+        {courses.map((course) => (
           <TutorCourseCard
             key={course.id}
             course={course}
