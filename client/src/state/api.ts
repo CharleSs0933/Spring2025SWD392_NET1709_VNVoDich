@@ -85,11 +85,6 @@ export const api = createApi({
       providesTags: ["Courses"],
     }),
 
-    getCourse: build.query<Course, string>({
-      query: (id) => `courses/${id}`,
-      providesTags: (result, error, id) => [{ type: "Courses", id }],
-    }),
-
     createCourse: build.mutation<Course, { tutor_id: string }>({
       query: (body) => ({
         url: `courses`,
@@ -107,16 +102,22 @@ export const api = createApi({
       invalidatesTags: ["Courses"],
     }),
 
-    getTutors: build.query<
-      Tutor[],
-      {}
-    >({
-      query: ({  }) => ({
+    getCourse: build.query<Course, string>({
+      query: (id) => `courses/${id}`,
+      providesTags: (result, error, id) => [{ type: "Courses", id }],
+    }),
+    getTutor: build.query<Tutor, string>({
+      query: (id) => `tutors/${id}`,
+      providesTags: (result, error, id) => [{ type: "Tutors", id }],
+    }),
+    getTutors: build.query<Tutor[], {}>({
+      query: ({}) => ({
         url: "/tutors",
         params: {},
       }),
       providesTags: ["Tutors"],
     }),
+
   }),
 });
 
@@ -126,4 +127,5 @@ export const {
   useCreateCourseMutation,
   useDeleteCourseMutation,
   useGetTutorsQuery,
+  useGetTutorQuery,
 } = api;

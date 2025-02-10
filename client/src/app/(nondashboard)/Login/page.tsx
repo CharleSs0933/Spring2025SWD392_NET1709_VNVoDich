@@ -4,7 +4,9 @@ import Image from "next/image";
 import gsap from "gsap";
 import logo from "@/app/asset/img/logo.png";
 import bg from '../../../../public/bg-login.jpg'
+import { useCreateAuthMutation, useGetAuthMutation } from "@/state/apiAuth";
 const Login = () => {
+  const [getAuth, { isLoading, isError }] = useGetAuthMutation();
   const [isSignUp, setIsSignUp] = useState(false);
   const [loginData, setLoginData] = useState({
     userName: "",
@@ -78,13 +80,22 @@ const Login = () => {
     }
   };
 
-  const handleSubmit = () => {
-    if (isSignUp) {
-      console.log(signUpData);
-    } else {
-      console.log(loginData);
+
+  const handleSubmit = async () => {
+    if (!isSignUp) {
+      const { userName, passWord } = loginData;
+  
+      try {
+        const response = await getAuth({ username: userName, password: passWord }).unwrap();
+        console.log("Registration successful:", response);
+        console.log("data:", userName, passWord);
+      } catch (error) {
+        console.error("Registration error:", error);
+      }
     }
   };
+  
+  
   return (
     <div className="relative w-full h-[800px] overflow-hidden my-4">
       <Image
