@@ -14,18 +14,6 @@ export default function DashboardLayout({
   const pathname = usePathname();
   const [courseId, setCourseId] = useState<string | null>(null);
   //   const { user, isLoaded } = useUser();
-  const isCoursePage = /^\/user\/courses\/[^\/]+(?:\/chapters\/[^\/]+)?$/.test(
-    pathname
-  );
-
-  useEffect(() => {
-    if (isCoursePage) {
-      const match = pathname.match(/\/user\/courses\/([^\/]+)/);
-      setCourseId(match ? match[1] : null);
-    } else {
-      setCourseId(null);
-    }
-  }, [isCoursePage, pathname]);
 
   //   if (!isLoaded) return <Loading />;
   //   if (!user) return <div>Please sign in to access this page.</div>;
@@ -38,8 +26,7 @@ export default function DashboardLayout({
           {/* {courseId && <ChaptersSidebar />} */}
           <div
             className={cn(
-              "flex-grow min-h-screen transition-all duration-500 ease-in-out overflow-y-auto bg-customgreys-secondarybg",
-              isCoursePage && "bg-customgreys-primarybg"
+              "flex-grow min-h-screen transition-all duration-500 ease-in-out overflow-y-auto bg-customgreys-secondarybg"
             )}
             style={{ height: "100vh" }}
           >

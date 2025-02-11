@@ -38,6 +38,16 @@ export const courseGrades = [
   { value: "12", label: "Grade 12" },
 ];
 
+export const days = [
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
+  "sunday",
+] as const;
+
 export const createCourseFormData = (data: CourseFormData): FormData => {
   const formData = new FormData();
 

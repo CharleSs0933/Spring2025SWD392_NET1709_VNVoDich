@@ -123,3 +123,20 @@ export interface Children {
   password: string;
   parent_id: number;
 }
+
+export interface DayAvailability {
+  isAvailable: boolean;
+  startTime: string | null; // Format: "HH:mm"
+  endTime: string | null; // Format: "HH:mm"
+}
+
+export interface Availability {
+  timeGap: number;
+  monday: DayAvailability;
+  tuesday: DayAvailability;
+  wednesday: DayAvailability;
+  thursday: DayAvailability;
+  friday: DayAvailability;
+  saturday: DayAvailability;
+  sunday: DayAvailability;
+}

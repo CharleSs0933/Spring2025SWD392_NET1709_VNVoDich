@@ -13,7 +13,7 @@ import {
 import {
   BookOpen,
   Briefcase,
-  DollarSign,
+  Clock,
   LogOut,
   PanelLeft,
   Settings,
@@ -37,7 +37,7 @@ const AppSidebar = () => {
     ],
     tutor: [
       { icon: BookOpen, label: "Courses", href: "/tutor/courses" },
-      { icon: DollarSign, label: "Billing", href: "/tutor/billing" },
+      { icon: Clock, label: "Availability", href: "/tutor/availability" },
       { icon: User, label: "Profile", href: "/tutor/profile" },
       { icon: Settings, label: "Settings", href: "/tutor/settings" },
     ],
@@ -46,7 +46,7 @@ const AppSidebar = () => {
   //   if (!isLoaded) return <Loading />;
   //   if (!user) return <div>User not found</div>;
 
-  const userType = "parent";
+  const userType = "tutor";
   const currentNavLinks = navLinks[userType];
 
   const signOut = () => {};

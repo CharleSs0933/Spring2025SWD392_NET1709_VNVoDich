@@ -1,4 +1,4 @@
-import { Children, Course, Tutor, User } from "@/types";
+import { Availability, Children, Course, Tutor, User } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query";
 import { toast } from "sonner";
@@ -209,6 +209,13 @@ export const api = createApi({
       }),
       providesTags: ["Tutors"],
     }),
+
+    /// Tutor Availability
+    getTutorAvailability: build.query<Availability | null, {}>({
+      query: ({}) => ({
+        url: "/availabilities",
+      }),
+    }),
   }),
 });
 
@@ -223,4 +230,5 @@ export const {
   useDeleteLessonMutation,
   useGetTutorsQuery,
   useGetChildrenQuery,
+  useGetTutorAvailabilityQuery,
 } = api;
