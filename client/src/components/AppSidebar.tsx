@@ -23,10 +23,12 @@ import Loading from "./Loading";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useUser } from "@/hooks/useUser";
 
 const AppSidebar = () => {
   const pathname = usePathname();
   const { toggleSidebar } = useSidebar();
+  const { logout } = useUser();
 
   const navLinks = {
     parent: [
@@ -48,8 +50,6 @@ const AppSidebar = () => {
 
   const userType = "tutor";
   const currentNavLinks = navLinks[userType];
-
-  const signOut = () => {};
 
   return (
     <Sidebar
@@ -134,10 +134,7 @@ const AppSidebar = () => {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
-              <button
-                onClick={() => signOut()}
-                className="text-primary-700 pl-8"
-              >
+              <button onClick={logout} className="text-primary-700 pl-8">
                 <LogOut className="mr-2 h-6 w-6" />
                 <span>Sign out</span>
               </button>

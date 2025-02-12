@@ -50,6 +50,7 @@ const AvailabilityForm = ({ initialData }: { initialData: Availability }) => {
                     placeholder="Select Start Time"
                     options={timeSlots}
                     label=""
+                    className="w-32 "
                   />
                   <span>to</span>
                   <CustomFormField

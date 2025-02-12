@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import { TypewriterEffect } from "./components/ui/typewriter-effect";
 import { SparklesCore } from "./components/ui/SparklesPreview";
@@ -23,7 +24,9 @@ export default function Home() {
       <Header />
       <div className="relative">
         <video
-          src={"https://www.shutterstock.com/shutterstock/videos/1092924437/preview/stock-footage-collage-of-diverse-many-happy-teen-kids-tapping-on-devices-learning-onling-at-school-elementary.webm"}
+          src={
+            "https://www.shutterstock.com/shutterstock/videos/1092924437/preview/stock-footage-collage-of-diverse-many-happy-teen-kids-tapping-on-devices-learning-onling-at-school-elementary.webm"
+          }
           height={1000}
           width={1000}
           autoPlay
@@ -31,8 +34,6 @@ export default function Home() {
           muted
           className="h-screen object-cover w-full opacity-40 pointer-events-none"
         />
-
-  
 
         <div className="absolute top-52 flex items-center justify-center z-10 text-center w-full">
           <div className="text-center flex flex-col gap-20">
@@ -97,11 +98,10 @@ export default function Home() {
         </div>
       </div>
 
-      <About/>
+      <About />
       <Introduce />
       <TutorProfessinal />
-      <Footer/>
+      <Footer />
     </div>
-
   );
 }

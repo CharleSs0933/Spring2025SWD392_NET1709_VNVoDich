@@ -5,6 +5,7 @@ import Loading from "@/components/Loading";
 import Toolbar from "@/components/Toolbar";
 import TutorCourseCard from "@/components/TutorCourseCard";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@/hooks/useUser";
 import {
   useCreateCourseMutation,
   useDeleteCourseMutation,
@@ -20,6 +21,9 @@ const Courses = () => {
   const [selectedSubject, setSelectedSubject] = useState("all");
   const [selectedGrade, setSelectedGrade] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
+  const { user } = useUser();
+
+  console.log(user);
 
   const {
     data: courses,

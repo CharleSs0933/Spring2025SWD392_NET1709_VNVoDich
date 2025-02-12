@@ -3,7 +3,8 @@ import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import logo from "@/app/asset/img/logo.png";
-import bg from '../../../../public/bg-login.jpg'
+import bg from "../../../../public/bg-login.jpg";
+import { useUser } from "@/hooks/useUser";
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [loginData, setLoginData] = useState({
@@ -21,6 +22,7 @@ const Login = () => {
   const logoRef = useRef(null);
   const formRef = useRef(null);
   const buttonRef = useRef(null);
+  const { login } = useUser();
 
   useLayoutEffect(() => {
     gsap.fromTo(
@@ -78,11 +80,15 @@ const Login = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (isSignUp) {
       console.log(signUpData);
     } else {
       console.log(loginData);
+      await login({
+        username: loginData.userName,
+        password: loginData.passWord,
+      });
     }
   };
   return (
@@ -185,9 +191,7 @@ const Login = () => {
               ref={buttonRef}
               className="bg-white-50 text-black py-2 rounded-lg hover:bg-blue-600 transition duration-300"
             >
-              <p className="flex justify-center items-center gap-2">
-                Google
-              </p>
+              <p className="flex justify-center items-center gap-2">Google</p>
             </button>
             <div className="flex justify-around">
               {!isSignUp && (

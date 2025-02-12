@@ -11,7 +11,7 @@ const customBaseQuery = async (
   const baseQuery = fetchBaseQuery({
     baseUrl: "http://localhost:8000",
     // prepareHeaders: async (headers) => {
-    //   const token = await window.Clerk?.session?.getToken();
+    //   // const token = await window.Clerk?.session?.getToken();
     //   if (token) {
     //     headers.set("Authorization", `Bearer ${token}`);
     //   }
