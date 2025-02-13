@@ -124,6 +124,12 @@ export interface Children {
   parent_id: number;
 }
 
+export interface ChildrenDropTable {
+  child: Children;
+  onEdit: (child: Children) => void;
+  onDelete: (child: Children) => void;
+}
+
 export interface DayAvailability {
   isAvailable: boolean;
   startTime: string | null; // Format: "HH:mm"

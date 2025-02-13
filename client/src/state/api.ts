@@ -197,10 +197,44 @@ export const api = createApi({
     }),
 
     getChildren: build.query<Children[], any>({
-      query: () => ({
-        url: "/children",
+      query: (parent_id) => ({
+        url: `childrens/${parent_id}`,
       }),
       providesTags: ["Children"],
+    }),
+
+    getChild: build.query<Children, { parent_id: string; id: string }>({
+      query: ({ parent_id, id }) => `/childrens/${parent_id}/${id}`,
+      providesTags: (result, error, { id }) => [{ type: "Children", id }],
+    }),
+
+    createChildren: build.mutation<Children, { parent_id: string }>({
+      query: (body) => ({
+        url: `/children`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Children"],
+    }),
+
+    updateChildren: build.mutation<
+      Children,
+      { id: string; formData: FormData }
+    >({
+      query: ({ id, formData }) => ({
+        url: `/children/${id}`,
+        method: "PUT",
+        body: formData,
+      }),
+      invalidatesTags: (result, error, { id }) => [{ type: "Children", id }],
+    }),
+
+    deleteChildren: build.mutation<{ message: string }, number>({
+      query: (id) => ({
+        url: `/children/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Children"],
     }),
 
     getTutors: build.query<Tutor[], {}>({
@@ -230,6 +264,11 @@ export const {
   useUpdateLessonMutation,
   useDeleteLessonMutation,
   useGetTutorsQuery,
+
   useGetChildrenQuery,
+  useGetChildQuery,
+  useCreateChildrenMutation,
+  useUpdateChildrenMutation,
+  useDeleteChildrenMutation,
   useGetTutorAvailabilityQuery,
 } = api;
