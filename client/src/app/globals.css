@@ -163,7 +163,7 @@ body,
 }
 
 .rbc-time-header {
-  display: none !important;
+  /* display: none !important; */
 }
 
 .rbc-time-content {

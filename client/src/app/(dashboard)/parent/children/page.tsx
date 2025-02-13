@@ -45,7 +45,7 @@ const Courses = () => {
 
       <div className="child__container">
         {/* Table */}
-        {isLoading ? (
+        {/* {isLoading ? (
           <Loading />
         ) : (
           <Table className="child__table">

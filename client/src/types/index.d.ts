@@ -44,7 +44,6 @@ export interface Tutor {
   image?: string;
 
   profile?: {
-    // Thêm thuộc tính profile vào Tutor
     email: string;
     full_name: string;
     phone: string;
@@ -129,4 +128,21 @@ export interface ChildrenDropTable {
   child: Children;
   onEdit: (child: Children) => void;
   onDelete: (child: Children) => void;
+}
+
+export interface DayAvailability {
+  isAvailable: boolean;
+  startTime: string | null; // Format: "HH:mm"
+  endTime: string | null; // Format: "HH:mm"
+}
+
+export interface Availability {
+  timeGap: number;
+  monday: DayAvailability;
+  tuesday: DayAvailability;
+  wednesday: DayAvailability;
+  thursday: DayAvailability;
+  friday: DayAvailability;
+  saturday: DayAvailability;
+  sunday: DayAvailability;
 }

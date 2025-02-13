@@ -54,16 +54,17 @@ const CourseEditor = () => {
       });
       dispatch(setLessons(course.lessons || []));
     }
-  }, [course, methods]);
+  }, [course, methods, dispatch]);
 
   const onSubmit = async (data: CourseFormData) => {
     try {
       const formData = createCourseFormData(data);
 
       await updateCourse({
-        id,
+        courseId: id,
         formData,
       }).unwrap();
+
       refetch();
     } catch (error) {
       console.log("Failed to update course: ", error);
@@ -169,7 +170,12 @@ const CourseEditor = () => {
                   variant="outline"
                   size="sm"
                   onClick={() =>
-                    dispatch(openLessonModal({ lessonIndex: null }))
+                    dispatch(
+                      openLessonModal({
+                        lessonIndex: null,
+                        lessonId: undefined,
+                      })
+                    )
                   }
                   className="border-none group text-primary-700"
                 >

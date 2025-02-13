@@ -13,7 +13,7 @@ import {
 import {
   BookOpen,
   Briefcase,
-  DollarSign,
+  Clock,
   LogOut,
   PanelLeft,
   Settings,
@@ -23,10 +23,12 @@ import Loading from "./Loading";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useUser } from "@/hooks/useUser";
 
 const AppSidebar = () => {
   const pathname = usePathname();
   const { toggleSidebar } = useSidebar();
+  const { logout } = useUser();
 
   const navLinks = {
     parent: [
@@ -37,7 +39,7 @@ const AppSidebar = () => {
     ],
     tutor: [
       { icon: BookOpen, label: "Courses", href: "/tutor/courses" },
-      { icon: DollarSign, label: "Billing", href: "/tutor/billing" },
+      { icon: Clock, label: "Availability", href: "/tutor/availability" },
       { icon: User, label: "Profile", href: "/tutor/profile" },
       { icon: Settings, label: "Settings", href: "/tutor/settings" },
     ],
@@ -46,10 +48,8 @@ const AppSidebar = () => {
   //   if (!isLoaded) return <Loading />;
   //   if (!user) return <div>User not found</div>;
 
-  const userType = "parent";
+  const userType = "tutor";
   const currentNavLinks = navLinks[userType];
-
-  const signOut = () => {};
 
   return (
     <Sidebar
@@ -134,10 +134,7 @@ const AppSidebar = () => {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
-              <button
-                onClick={() => signOut()}
-                className="text-primary-700 pl-8"
-              >
+              <button onClick={logout} className="text-primary-700 pl-8">
                 <LogOut className="mr-2 h-6 w-6" />
                 <span>Sign out</span>
               </button>

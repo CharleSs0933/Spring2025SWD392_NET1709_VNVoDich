@@ -6,6 +6,8 @@ import { Trash2, Edit, Plus, GripVertical } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/state/redux";
 import { setLessons, deleteLesson, openLessonModal } from "@/state";
 import { Lesson } from "@/types";
+import { useDeleteLessonMutation } from "@/state/api";
+import { useParams } from "next/navigation";
 
 export default function DroppableComponent() {
   const dispatch = useAppDispatch();
@@ -71,6 +73,10 @@ const LessonHeader = ({
   dragHandleProps: any;
 }) => {
   const dispatch = useAppDispatch();
+  const params = useParams();
+  const id = params.id as string;
+
+  const [deleteLessonInCourse] = useDeleteLessonMutation();
 
   return (
     <div
@@ -89,7 +95,9 @@ const LessonHeader = ({
               variant="ghost"
               size="sm"
               className="p-0"
-              onClick={() => dispatch(openLessonModal({ lessonIndex }))}
+              onClick={() =>
+                dispatch(openLessonModal({ lessonIndex, lessonId: lesson.id }))
+              }
             >
               <Edit className="h-5 w-5" />
             </Button>
@@ -98,7 +106,18 @@ const LessonHeader = ({
               variant="ghost"
               size="sm"
               className="p-0"
-              onClick={() => dispatch(deleteLesson(lessonIndex))}
+              onClick={async () => {
+                try {
+                  await deleteLessonInCourse({
+                    courseId: id,
+                    lessonId: lesson.id.toString(),
+                  }).unwrap();
+
+                  dispatch(deleteLesson(lessonIndex));
+                } catch (error) {
+                  console.error("Failed to delete lesson: ", error);
+                }
+              }}
             >
               <Trash2 className="h-5 w-5" />
             </Button>

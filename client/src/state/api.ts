@@ -1,4 +1,4 @@
-import { Children, Course, Tutor, User } from "@/types";
+import { Availability, Children, Course, Tutor, User } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query";
 import { toast } from "sonner";
@@ -12,7 +12,7 @@ const customBaseQuery = async (
   const baseQuery = fetchBaseQuery({
     baseUrl: "http://localhost:8000",
     // prepareHeaders: async (headers) => {
-    //   const token = await window.Clerk?.session?.getToken();
+    //   // const token = await window.Clerk?.session?.getToken();
     //   if (token) {
     //     headers.set("Authorization", `Bearer ${token}`);
     //   }
@@ -102,18 +102,95 @@ export const api = createApi({
       invalidatesTags: ["Courses"],
     }),
 
-    updateCourse: build.mutation<Course, { id: string; formData: FormData }>({
-      query: ({ id, formData }) => ({
-        url: `courses/${id}`,
+    updateCourse: build.mutation<
+      Course,
+      { courseId: string; formData: FormData }
+    >({
+      query: ({ courseId, formData }) => ({
+        url: `courses/${courseId}`,
         method: "PUT",
         body: formData,
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Courses", id }],
+      invalidatesTags: ["Courses"],
     }),
 
     deleteCourse: build.mutation<{ message: string }, number>({
       query: (id) => ({
         url: `courses/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Courses"],
+    }),
+
+    addLesson: build.mutation<
+      Course,
+      {
+        courseId: string;
+        title: string;
+        description: string;
+        learning_objectives: string;
+        materials_needed: string;
+      }
+    >({
+      query: ({
+        courseId,
+        title,
+        description,
+        learning_objectives,
+        materials_needed,
+      }) => ({
+        url: `courses/${courseId}/add-lesson`,
+        method: "PUT",
+        body: {
+          title,
+          description,
+          learning_objectives,
+          materials_needed,
+        },
+      }),
+      invalidatesTags: ["Courses"],
+    }),
+
+    updateLesson: build.mutation<
+      Course,
+      {
+        courseId: string;
+        lessonId: string | undefined;
+        title: string;
+        description: string;
+        learning_objectives: string;
+        materials_needed: string;
+      }
+    >({
+      query: ({
+        courseId,
+        lessonId,
+        title,
+        description,
+        learning_objectives,
+        materials_needed,
+      }) => ({
+        url: `courses/${courseId}/update-lesson/${lessonId}`,
+        method: "PUT",
+        body: {
+          title,
+          description,
+          learning_objectives,
+          materials_needed,
+        },
+      }),
+      invalidatesTags: ["Courses"],
+    }),
+
+    deleteLesson: build.mutation<
+      { messaege: string },
+      {
+        courseId: string;
+        lessonId: string;
+      }
+    >({
+      query: ({ courseId, lessonId }) => ({
+        url: `courses/${courseId}/delete-lesson/${lessonId}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Courses"],
@@ -167,6 +244,13 @@ export const api = createApi({
       }),
       providesTags: ["Tutors"],
     }),
+
+    /// Tutor Availability
+    getTutorAvailability: build.query<Availability | null, {}>({
+      query: ({}) => ({
+        url: "/availabilities",
+      }),
+    }),
   }),
 });
 
@@ -176,6 +260,9 @@ export const {
   useCreateCourseMutation,
   useUpdateCourseMutation,
   useDeleteCourseMutation,
+  useAddLessonMutation,
+  useUpdateLessonMutation,
+  useDeleteLessonMutation,
   useGetTutorsQuery,
 
   useGetChildrenQuery,
@@ -183,4 +270,5 @@ export const {
   useCreateChildrenMutation,
   useUpdateChildrenMutation,
   useDeleteChildrenMutation,
+  useGetTutorAvailabilityQuery,
 } = api;
