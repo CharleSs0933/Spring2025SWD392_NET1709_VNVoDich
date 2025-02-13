@@ -124,3 +124,9 @@ export interface Children {
   password: string;
   parent_id: number;
 }
+
+export interface ChildrenDropTable {
+  child: Children;
+  onEdit: (child: Children) => void;
+  onDelete: (child: Children) => void;
+}

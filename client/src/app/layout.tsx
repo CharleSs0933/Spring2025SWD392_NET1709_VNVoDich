@@ -7,6 +7,7 @@ import { Toaster } from "sonner";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { usePathname } from "next/navigation";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -28,7 +29,14 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${dmSans.className} flex flex-col`}>
         <main className="mx-auto w-full h-full justify-center items-center">
-          <Providers>{children}</Providers>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Providers>{children}</Providers>
+          </ThemeProvider>
         </main>
         <Toaster richColors closeButton />
       </body>

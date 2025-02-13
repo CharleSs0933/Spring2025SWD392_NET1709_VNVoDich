@@ -85,7 +85,7 @@ export const calendarEvents = [
     title: "History",
     allDay: false,
     start: new Date(2025, 1, 14, 14, 0),
-    end: new Date(2025, 1, 13, 14, 45),
+    end: new Date(2025, 1, 14, 14, 45),
   },
   {
     title: "English",
