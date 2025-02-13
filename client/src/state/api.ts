@@ -2,6 +2,7 @@ import { Availability, Children, Course, Tutor, User } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query";
 import { toast } from "sonner";
+import Cookies from "js-cookie";
 
 const customBaseQuery = async (
   args: string | FetchArgs,
@@ -10,13 +11,13 @@ const customBaseQuery = async (
 ) => {
   const baseQuery = fetchBaseQuery({
     baseUrl: "http://localhost:8000",
-    // prepareHeaders: async (headers) => {
-    //   // const token = await window.Clerk?.session?.getToken();
-    //   if (token) {
-    //     headers.set("Authorization", `Bearer ${token}`);
-    //   }
-    //   return headers;
-    // },
+    prepareHeaders: async (headers) => {
+      const token = Cookies.get("authToken");
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`);
+      }
+      return headers;
+    },
   });
 
   try {
