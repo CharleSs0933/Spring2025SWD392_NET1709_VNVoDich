@@ -251,6 +251,14 @@ export const api = createApi({
         url: "/availabilities",
       }),
     }),
+
+    updateAvailability: build.mutation<any, Availability>({
+      query: (data) => ({
+        url: "/availabilities/update",
+        method: "PUT",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -264,11 +272,11 @@ export const {
   useUpdateLessonMutation,
   useDeleteLessonMutation,
   useGetTutorsQuery,
-
   useGetChildrenQuery,
   useGetChildQuery,
   useCreateChildrenMutation,
   useUpdateChildrenMutation,
   useDeleteChildrenMutation,
   useGetTutorAvailabilityQuery,
+  useUpdateAvailabilityMutation,
 } = api;
