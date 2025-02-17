@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 const API_URL = "http://localhost:8080";
 
 export const useUser = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<{ role: string } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

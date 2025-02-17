@@ -16,36 +16,27 @@ import { SlidersHorizontal, X } from "lucide-react";
 import { Children } from "@/types";
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { ModeToggle } from "@/components/ThemeModeToggle";
 
 const Courses = () => {
   const router = useRouter();
   const params = useParams();
-  const parent_id = params.id as string;
-  const { data: children, isLoading, isError } = useGetChildrenQuery(2);
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const { data: children, isLoading, isError } = useGetChildrenQuery({});
 
   const handleViewChildSchedule = (child: Children) => {
-    router.push(`/parent/children/5`);
+    router.push(`/parent/children/${child.id}`);
     console.log("Enter");
   };
-
-  console.log(parent_id);
 
   if (isLoading) return <Loading />;
   if (isError || !children) return <div>Error loading children.</div>;
 
   return (
     <div className=" w-full h-full">
-      <Header
-        title="Children"
-        subtitle="Browse your children"
-        rightElement={<ModeToggle />}
-      />
+      <Header title="Children" subtitle="Browse your children" />
 
       <div className="child__container">
         {/* Table */}
-        {/* {isLoading ? (
+        {isLoading ? (
           <Loading />
         ) : (
           <Table className="child__table">
@@ -63,7 +54,7 @@ const Courses = () => {
               {children.length > 0 ? (
                 children.map((child) => (
                   <TableRow
-                    className="child__table-row hover:bg-gray-100"
+                    className="child__table-row"
                     key={child.id}
                     onClick={() => handleViewChildSchedule(child)}
                   >

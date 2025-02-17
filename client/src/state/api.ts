@@ -2,7 +2,7 @@ import { Availability, Children, Course, Tutor, User } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query";
 import { toast } from "sonner";
-import { create } from "domain";
+import Cookies from "js-cookie";
 
 const customBaseQuery = async (
   args: string | FetchArgs,
@@ -11,13 +11,13 @@ const customBaseQuery = async (
 ) => {
   const baseQuery = fetchBaseQuery({
     baseUrl: "http://localhost:8000",
-    // prepareHeaders: async (headers) => {
-    //   // const token = await window.Clerk?.session?.getToken();
-    //   if (token) {
-    //     headers.set("Authorization", `Bearer ${token}`);
-    //   }
-    //   return headers;
-    // },
+    prepareHeaders: async (headers) => {
+      const token = Cookies.get("authToken");
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`);
+      }
+      return headers;
+    },
   });
 
   try {
@@ -197,14 +197,14 @@ export const api = createApi({
     }),
 
     getChildren: build.query<Children[], any>({
-      query: (parent_id) => ({
-        url: `childrens/${parent_id}`,
+      query: () => ({
+        url: `childrens`,
       }),
       providesTags: ["Children"],
     }),
 
-    getChild: build.query<Children, { parent_id: string; id: string }>({
-      query: ({ parent_id, id }) => `/childrens/${parent_id}/${id}`,
+    getChild: build.query<Children, any>({
+      query: ({ id }) => `/childrens/${id}`,
       providesTags: (result, error, { id }) => [{ type: "Children", id }],
     }),
 

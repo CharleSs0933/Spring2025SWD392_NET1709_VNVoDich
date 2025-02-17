@@ -1,35 +1,27 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useParams, useRouter } from "next/navigation";
 import { useGetChildQuery } from "@/state/api";
 import { X } from "lucide-react";
-import BigCalendar from "@/app/components/BigCalendar";
+import BigCalendar from "@/components/BigCalendar";
 
 const ChildSchedule = () => {
   const router = useRouter();
   const params = useParams();
   const id = params.id as string;
-  const parent_id = params.id as string;
-  const { data: child, isLoading, error } = useGetChildQuery({ parent_id, id });
+  const { data: child, isLoading, error } = useGetChildQuery({ id });
+  console.log(child);
 
-  console.log(parent_id, id);
   return (
     <div>
-      <motion.div
-        className=" bg-white shadow-lg p-4 rounded-lg  "
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
-      >
+      <div className=" bg-white shadow-lg p-4 rounded-lg  ">
         <Card className="w-[400px] relative">
           <CardHeader className="flex justify-between items-center">
             <CardTitle>
               <span className="bg-customgreys-purpleGrey text-gray-700 rounded-2xl px-3 py-1">
                 {child?.full_name}
-                Name
+                name
               </span>
               's Details
             </CardTitle>
@@ -56,7 +48,7 @@ const ChildSchedule = () => {
             </p>
           </CardContent>
         </Card>
-      </motion.div>
+      </div>
       <div className="mt-4 bg-white rounded-md p-4 h-[800px]">
         <h1>Teacher&apos;s Schedule</h1>
         <BigCalendar />

@@ -2,7 +2,7 @@
 
 import { Calendar, momentLocalizer, View, Views } from "react-big-calendar";
 import moment from "moment";
-import { calendarEvents } from "./dataTam";
+import { calendarEvents } from "../app/(dashboard)/parent/children/[id]/dataTam";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useState } from "react";
 

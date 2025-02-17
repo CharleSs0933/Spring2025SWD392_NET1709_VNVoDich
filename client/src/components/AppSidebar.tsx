@@ -29,15 +29,16 @@ const AppSidebar = () => {
   const pathname = usePathname();
   const { toggleSidebar } = useSidebar();
   const { logout } = useUser();
+  const { user } = useUser();
 
   const navLinks = {
-    parent: [
+    Parent: [
       { icon: BookOpen, label: "Children", href: "/parent/children" },
       { icon: Briefcase, label: "Billing", href: "/parent/billing" },
       { icon: User, label: "Profile", href: "/parent/profile" },
       { icon: Settings, label: "Settings", href: "/parent/settings" },
     ],
-    tutor: [
+    Tutor: [
       { icon: BookOpen, label: "Courses", href: "/tutor/courses" },
       { icon: Clock, label: "Availability", href: "/tutor/availability" },
       { icon: User, label: "Profile", href: "/tutor/profile" },
@@ -48,7 +49,8 @@ const AppSidebar = () => {
   //   if (!isLoaded) return <Loading />;
   //   if (!user) return <div>User not found</div>;
 
-  const userType = "tutor";
+  const userType: "Tutor" | "Parent" =
+    user?.role === "Tutor" ? "Tutor" : "Parent";
   const currentNavLinks = navLinks[userType];
 
   return (
