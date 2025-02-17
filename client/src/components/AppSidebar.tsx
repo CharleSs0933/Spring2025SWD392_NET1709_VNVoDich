@@ -28,8 +28,7 @@ import { useUser } from "@/hooks/useUser";
 const AppSidebar = () => {
   const pathname = usePathname();
   const { toggleSidebar } = useSidebar();
-  const { logout } = useUser();
-  const { user } = useUser();
+  const { logout, user } = useUser();
 
   const navLinks = {
     Parent: [

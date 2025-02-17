@@ -1,12 +1,20 @@
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
+import { useLoginMutation } from "@/state/apiAuth";
 
 // API endpoint
 const API_URL = "http://localhost:8080";
 
+interface User {}
+
 export const useUser = () => {
-  const [user, setUser] = useState<{ role: string } | null>(null);
+  const [user, setUser] = useState<{
+    ID: number;
+    username: string;
+    role: string;
+  } | null>(null);
   const [loading, setLoading] = useState(true);
+  const [loginAPI] = useLoginMutation();
 
   useEffect(() => {
     const token = Cookies.get("authToken");
@@ -36,15 +44,9 @@ export const useUser = () => {
   }) => {
     setLoading(true);
     try {
-      const response = await fetch(`${API_URL}/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
+      const data = await loginAPI({ username, password }).unwrap();
 
-      if (!response.ok) throw new Error("Invalid credentials");
-
-      const { token, user } = await response.json();
+      const { token, user } = data;
 
       // Lưu token và user vào cookies
       Cookies.set("authToken", token, {

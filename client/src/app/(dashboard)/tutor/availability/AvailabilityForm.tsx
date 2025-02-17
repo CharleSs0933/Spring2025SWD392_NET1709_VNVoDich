@@ -8,15 +8,19 @@ import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { timeSlots } from "./data";
 import { Button } from "@/components/ui/button";
+import { useUpdateAvailabilityMutation } from "@/state/api";
 
 const AvailabilityForm = ({ initialData }: { initialData: Availability }) => {
+  const [updateAvailability, { isLoading }] = useUpdateAvailabilityMutation();
+
   const methods = useForm<Availability>({
     resolver: zodResolver(availabilitySchema),
     defaultValues: { ...initialData },
   });
 
   const onSubmit = async (data: Availability) => {
-    console.log(data);
+    // console.log(data);
+    await updateAvailability(data);
   };
 
   return (
@@ -59,6 +63,7 @@ const AvailabilityForm = ({ initialData }: { initialData: Availability }) => {
                     placeholder="Select End Time"
                     options={timeSlots}
                     label=""
+                    className="w-32"
                   />
                   {methods.formState.errors[day]?.endTime && (
                     <span className="text-red-500 text-sm ml-2">
@@ -84,8 +89,9 @@ const AvailabilityForm = ({ initialData }: { initialData: Availability }) => {
         <Button
           type="submit"
           className="!mt-8 text-gray-100 bg-primary-700 hover:bg-primary-600"
+          disabled={isLoading}
         >
-          Update Settings
+          {isLoading ? "Updating..." : "Update Settings "}
         </Button>
       </form>
     </Form>

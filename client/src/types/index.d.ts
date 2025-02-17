@@ -28,6 +28,7 @@ export interface Lesson {
 export interface User {
   id?: number;
   email?: string;
+  username?: string;
   full_name?: string;
   phone?: string;
   role?: "Tutor" | "Parent" | "Kid";
