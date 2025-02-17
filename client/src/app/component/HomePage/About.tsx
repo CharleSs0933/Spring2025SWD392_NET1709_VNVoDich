@@ -7,7 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { useLayoutEffect, useRef } from "react";
 import SplitType from "split-type";
-import bg2 from "../../asset/img/tutor5.jpg";
+import bg2 from "../../../asset/img/tutor5.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 

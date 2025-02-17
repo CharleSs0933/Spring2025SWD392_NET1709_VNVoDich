@@ -3,12 +3,11 @@ import { useState } from "react";
 import { useGetCourseQuery } from "@/state/api";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import imgBg from "@/app/asset/img/khoahoc.jpg";
-import tutor from "@/app/asset/img/tutor3.jpg";
+import imgBg from "../../../../asset/img/khoahoc.jpg";
+import tutor from "../../../../asset/img/tutor3.jpg";
 import { useParams } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ChevronDown, ChevronUp, Star } from "lucide-react";
-import { sources } from "next/dist/compiled/webpack/webpack";
 
 const CoursesDetail = () => {
   const { id } = useParams();

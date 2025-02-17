@@ -4,8 +4,8 @@ import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 import { Toaster } from "sonner";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import Header from "./component/Header";
+import Footer from "./component/Footer";
 import { usePathname } from "next/navigation";
 
 const dmSans = DM_Sans({

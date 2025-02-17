@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Star } from "lucide-react";
-import tutors from "@/app/asset/img/tutor3.jpg";
+import tutors from "../../../../asset/img/tutor3.jpg";
 const TutorDetail = () => {
   const { id } = useParams();
   const tutorId = Array.isArray(id) ? id[0] : id;

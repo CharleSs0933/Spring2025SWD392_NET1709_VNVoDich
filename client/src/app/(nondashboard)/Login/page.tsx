@@ -2,12 +2,18 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
-import logo from "@/app/asset/img/logo.png";
-import bg from '../../../../public/bg-login.jpg'
+import logo from "../../../asset/img/logo.png";
+import bg from "../../../../public/bg-login.jpg";
 import { useCreateAuthMutation, useGetAuthMutation } from "@/state/apiAuth";
+import SignIn from "@/app/component/SignIn-Up/SignIn";
+import SignUp from "@/app/component/SignIn-Up/SignUp";
+
 const Login = () => {
-  const [getAuth, { isLoading, isError }] = useGetAuthMutation();
+  const [getAuth] = useGetAuthMutation();
+  const [createAuth] = useCreateAuthMutation();
+
   const [isSignUp, setIsSignUp] = useState(false);
+
   const [loginData, setLoginData] = useState({
     userName: "",
     passWord: "",
@@ -18,11 +24,11 @@ const Login = () => {
     passWord: "",
     confirmPassword: "",
   });
-  const containerRef = useRef(null);
-  const divLogo = useRef(null);
-  const logoRef = useRef(null);
-  const formRef = useRef(null);
-  const buttonRef = useRef(null);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const divLogo = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     gsap.fromTo(
@@ -65,37 +71,46 @@ const Login = () => {
     });
   }, [isSignUp]);
 
-  const handleChange = (e: any) => {
+  const handleSignInChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (isSignUp) {
-      setSignUpData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    } else {
-      setLoginData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
+    setLoginData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSignUpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setSignUpData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSignInSubmit = async () => {
+    const { userName, passWord } = loginData;
+    try {
+      const response = await getAuth({
+        username: userName,
+        password: passWord,
+      }).unwrap();
+      console.log("Đăng nhập thành công:", response);
+    } catch (error) {
+      console.error("Lỗi đăng nhập:", error);
     }
   };
 
-
-  const handleSubmit = async () => {
-    if (!isSignUp) {
-      const { userName, passWord } = loginData;
-  
-      try {
-        const response = await getAuth({ username: userName, password: passWord }).unwrap();
-        console.log("Registration successful:", response);
-        console.log("data:", userName, passWord);
-      } catch (error) {
-        console.error("Registration error:", error);
-      }
+  const handleSignUpSubmit = async () => {
+    const { userName, passWord, confirmPassword } = signUpData;
+    if (passWord !== confirmPassword) {
+      alert("Mật khẩu không khớp!");
+      return;
+    }
+    try {
+      const response = await createAuth({
+        username: userName,
+        password: passWord,
+      }).unwrap();
+      console.log("Đăng ký thành công:", response);
+    } catch (error) {
+      console.error("Lỗi đăng ký:", error);
     }
   };
-  
-  
+
   return (
     <div className="relative w-full h-[800px] overflow-hidden my-4">
       <Image
@@ -105,7 +120,6 @@ const Login = () => {
         objectFit="cover"
         className="absolute inset-0"
       />
-
       <div
         ref={containerRef}
         className="flex w-full h-full justify-center items-center"
@@ -124,98 +138,23 @@ const Login = () => {
 
         <div
           ref={formRef}
-          className="w-[25%] h-[60%] bg-white bg-opacity-70 backdrop-blur-md flex flex-col gap-16 p-6 text-green-900 "
+          className="w-[25%] h-[60%] bg-white bg-opacity-70 backdrop-blur-md flex flex-col gap-16 p-6 text-green-900"
         >
-          <p className="text-3xl">
-            {isSignUp ? "Create an Account" : "Sign in to get started!"}
-          </p>
-
-          <div className="flex flex-col gap-5">
-            {isSignUp ? (
-              <div className="flex flex-col gap-5">
-                <input
-                  className="p-2 border rounded-lg input-field"
-                  placeholder="Full Name"
-                  name="fullName"
-                  value={signUpData.fullName}
-                  onChange={handleChange}
-                />
-                <input
-                  className="p-2 border rounded-lg input-field"
-                  placeholder="User Name"
-                  name="userName"
-                  value={signUpData.userName}
-                  onChange={handleChange}
-                />
-                <input
-                  className="p-2 border rounded-lg input-field"
-                  type="password"
-                  placeholder="Password"
-                  name="passWord"
-                  value={signUpData.passWord}
-                  onChange={handleChange}
-                />
-
-                <input
-                  className="p-2 border rounded-lg input-field"
-                  type="password"
-                  placeholder="Confirm Password"
-                  name="confirmPassword"
-                  value={signUpData.confirmPassword}
-                  onChange={handleChange}
-                />
-              </div>
-            ) : (
-              <div className="flex flex-col gap-5">
-                <input
-                  className="p-2 border rounded-lg input-field"
-                  placeholder="User Name"
-                  name="userName"
-                  value={loginData.userName}
-                  onChange={handleChange}
-                />
-                <input
-                  className="p-2 border rounded-lg input-field"
-                  type="password"
-                  placeholder="Password"
-                  name="passWord"
-                  value={loginData.passWord}
-                  onChange={handleChange}
-                />
-              </div>
-            )}
-
-            <button
-              ref={buttonRef}
-              className="bg-[#25262F] text-white-100 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
-              onClick={handleSubmit}
-            >
-              {isSignUp ? "Sign Up" : "Login"}
-            </button>
-            <button
-              ref={buttonRef}
-              className="bg-white-50 text-black py-2 rounded-lg hover:bg-blue-600 transition duration-300"
-            >
-              <p className="flex justify-center items-center gap-2">
-                Google
-              </p>
-            </button>
-            <div className="flex justify-around">
-              {!isSignUp && (
-                <p className="text-sm text-white-100 cursor-pointer hover:underline">
-                  Forgot Your Password?
-                </p>
-              )}
-              <p
-                className="text-sm text-white-100 cursor-pointer hover:underline"
-                onClick={() => setIsSignUp(!isSignUp)}
-              >
-                {isSignUp
-                  ? "Already have an account? Login"
-                  : "Don't have an account? Sign Up"}
-              </p>
-            </div>
-          </div>
+          {isSignUp ? (
+            <SignUp
+              signUpData={signUpData}
+              handleChange={handleSignUpChange}
+              handleSubmit={handleSignUpSubmit}
+              toggleAuthMode={() => setIsSignUp(false)}
+            />
+          ) : (
+            <SignIn
+              loginData={loginData}
+              handleChange={handleSignInChange}
+              handleSubmit={handleSignInSubmit}
+              toggleAuthMode={() => setIsSignUp(true)}
+            />
+          )}
         </div>
       </div>
     </div>

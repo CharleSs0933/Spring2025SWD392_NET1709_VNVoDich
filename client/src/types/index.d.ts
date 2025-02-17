@@ -5,7 +5,7 @@ export interface Course {
   description?: string;
   total_lessons: number;
   image?: string;
-  price: number;
+  price?: number;
   status: "Draft" | "Published";
   subject: string;
   grade: number;
@@ -43,10 +43,12 @@ export interface Tutor {
   demo_video_url?: string;
   image?: string;
 
-  profile?: {
+  user?: {
     email: string;
     full_name: string;
     phone: string;
+    google_id : string,
+    timezone: string
   };
 }
 

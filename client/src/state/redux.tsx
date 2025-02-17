@@ -13,35 +13,38 @@ import { apiAuth } from "./apiAuth";
 const rootReducer = combineReducers({
   global: globalReducer,
   [api.reducerPath]: api.reducer,
-  [apiAuth.reducerPath]: apiAuth.reducer
+  [apiAuth.reducerPath] : apiAuth.reducer
 });
 
 export const makeStore = () => {
   return configureStore({
     reducer: rootReducer,
-    // middleware: (getDefaultMiddleware) =>
-    //   getDefaultMiddleware({
-    //     serializableCheck: {
-    //       ignoredActions: [
-    //         "api/executeMutation/pending",
-    //         "api/executeMutation/fulfilled",
-    //         "api/executeMutation/rejected",
-    //       ],
-    //       ignoredActionPaths: [
-    //         "meta.arg.originalArgs.file",
-    //         "meta.arg.originalArgs.formData",
-    //         "payload.chapter.video",
-    //         "meta.baseQueryMeta.request",
-    //         "meta.baseQueryMeta.response",
-    //       ],
-    //       ignoredPaths: [
-    //         "global.courseEditor.sections",
-    //         "entities.videos.data",
-    //         "meta.baseQueryMeta.request",
-    //         "meta.baseQueryMeta.response",
-    //       ],
-    //     },
-    //   }).concat(api.middleware),
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: [
+            "api/executeMutation/rejected",
+            "api/executeMutation/pending",
+            "api/executeMutation/fulfilled",
+            "apiAuth/executeMutation/rejected",
+            "apiAuth/executeMutation/pending",
+            "apiAuth/executeMutation/fulfilled",
+          ],
+          ignoredActionPaths: [
+            "meta.arg.originalArgs.file",
+            "meta.arg.originalArgs.formData",
+            "payload.chapter.video",
+            "meta.baseQueryMeta.request",
+            "meta.baseQueryMeta.response",
+          ],
+          ignoredPaths: [
+            "global.courseEditor.sections",
+            "entities.videos.data",
+            "meta.baseQueryMeta.request",
+            "meta.baseQueryMeta.response",
+          ],
+        },
+      }).concat(api.middleware, apiAuth.middleware),
   });
 };
 

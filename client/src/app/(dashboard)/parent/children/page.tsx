@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import Header from "@/components/Header";
+import Header from "@/app/component/Header";
 import Loading from "@/components/Loading";
 import {
   Table,
@@ -15,7 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGetChildrenQuery } from "@/state/api";
 import { SlidersHorizontal, X } from "lucide-react";
 import { Children } from "@/types";
-import BigCalendar from "@/app/components/BigCalendar";
+import BigCalendar from "@/app/component/BigCalendar";
 
 const Courses = () => {
   // const { data: children, isLoading, isError } = useGetChildrenQuery({});
