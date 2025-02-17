@@ -1,11 +1,17 @@
 import { useState, useEffect } from "react";
-import {Cookies} from "js-cookie"
+import Cookies from "js-cookie";
 
 // API endpoint
 const API_URL = "http://localhost:8080";
 
+interface User {}
+
 export const useUser = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<{
+    ID: number;
+    username: string;
+    role: string;
+  } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

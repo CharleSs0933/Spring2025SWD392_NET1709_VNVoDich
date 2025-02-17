@@ -1,7 +1,8 @@
-import { Children, Course, Tutor } from "@/types";
+import { Availability, Children, Course, Tutor, User } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query";
 import { toast } from "sonner";
+import Cookies from "js-cookie";
 
 const customBaseQuery = async (
   args: string | FetchArgs,
@@ -10,13 +11,13 @@ const customBaseQuery = async (
 ) => {
   const baseQuery = fetchBaseQuery({
     baseUrl: "http://localhost:8000",
-    // prepareHeaders: async (headers) => {
-    //   const token = await window.Clerk?.session?.getToken();
-    //   if (token) {
-    //     headers.set("Authorization", `Bearer ${token}`);
-    //   }
-    //   return headers;
-    // },
+    prepareHeaders: async (headers) => {
+      const token = Cookies.get("authToken");
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`);
+      }
+      return headers;
+    },
   });
 
   try {
@@ -199,10 +200,44 @@ export const api = createApi({
     }),
 
     getChildren: build.query<Children[], any>({
-      query: () => ({
-        url: "/children",
+      query: (parent_id) => ({
+        url: `childrens/${parent_id}`,
       }),
       providesTags: ["Children"],
+    }),
+
+    getChild: build.query<Children, { parent_id: string; id: string }>({
+      query: ({ parent_id, id }) => `/childrens/${parent_id}/${id}`,
+      providesTags: (result, error, { id }) => [{ type: "Children", id }],
+    }),
+
+    createChildren: build.mutation<Children, { parent_id: string }>({
+      query: (body) => ({
+        url: `/children`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Children"],
+    }),
+
+    updateChildren: build.mutation<
+      Children,
+      { id: string; formData: FormData }
+    >({
+      query: ({ id, formData }) => ({
+        url: `/children/${id}`,
+        method: "PUT",
+        body: formData,
+      }),
+      invalidatesTags: (result, error, { id }) => [{ type: "Children", id }],
+    }),
+
+    deleteChildren: build.mutation<{ message: string }, number>({
+      query: (id) => ({
+        url: `/children/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Children"],
     }),
 
     getTutors: build.query<
@@ -225,6 +260,21 @@ export const api = createApi({
       }),
       providesTags: ["Tutors"],
     }),
+
+    /// Tutor Availability
+    getTutorAvailability: build.query<Availability | null, {}>({
+      query: ({}) => ({
+        url: "/availabilities",
+      }),
+    }),
+
+    updateAvailability: build.mutation<any, Availability>({
+      query: (data) => ({
+        url: "/availabilities/update",
+        method: "PUT",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -240,4 +290,10 @@ export const {
   useGetTutorsQuery,
   useGetTutorQuery,
   useGetChildrenQuery,
+  useGetChildQuery,
+  useCreateChildrenMutation,
+  useUpdateChildrenMutation,
+  useDeleteChildrenMutation,
+  useGetTutorAvailabilityQuery,
+  useUpdateAvailabilityMutation,
 } = api;

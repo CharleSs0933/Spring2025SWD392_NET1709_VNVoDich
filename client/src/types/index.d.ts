@@ -28,6 +28,7 @@ export interface Lesson {
 export interface User {
   id?: number;
   email?: string;
+  username?: string;
   full_name?: string;
   phone?: string;
   role?: "Tutor" | "Parent" | "Kid";
@@ -124,4 +125,27 @@ export interface Children {
   full_name: string;
   password: string;
   parent_id: number;
+}
+
+export interface ChildrenDropTable {
+  child: Children;
+  onEdit: (child: Children) => void;
+  onDelete: (child: Children) => void;
+}
+
+export interface DayAvailability {
+  isAvailable: boolean;
+  startTime: string | null; // Format: "HH:mm"
+  endTime: string | null; // Format: "HH:mm"
+}
+
+export interface Availability {
+  timeGap: number;
+  monday: DayAvailability;
+  tuesday: DayAvailability;
+  wednesday: DayAvailability;
+  thursday: DayAvailability;
+  friday: DayAvailability;
+  saturday: DayAvailability;
+  sunday: DayAvailability;
 }

@@ -102,7 +102,7 @@ body,
 }
 
 .child__table-header {
-  @apply bg-customDarkBlue;
+  @apply bg-primary;
 }
 
 .child__table-header-row {
@@ -110,7 +110,7 @@ body,
 }
 
 .child__table-cell {
-  @apply border-none p-4 text-sm;
+  @apply border-none p-4 text-sm text-foreground;
 }
 
 .child__table-row {

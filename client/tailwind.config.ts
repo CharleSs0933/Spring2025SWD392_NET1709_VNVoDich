@@ -132,9 +132,6 @@ export default {
           },
         ],
       },
-      backgroundColor: {
-        customDarkBlue: "#5C469C",
-      },
     },
   },
   plugins: [require("tailwindcss-animate")],
