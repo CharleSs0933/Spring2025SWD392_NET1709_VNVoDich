@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { useUpdateAvailabilityMutation } from "@/state/api";
 
 const AvailabilityForm = ({ initialData }: { initialData: Availability }) => {
-  const [updateAvailability] = useUpdateAvailabilityMutation();
+  const [updateAvailability, { isLoading }] = useUpdateAvailabilityMutation();
 
   const methods = useForm<Availability>({
     resolver: zodResolver(availabilitySchema),
@@ -20,7 +20,7 @@ const AvailabilityForm = ({ initialData }: { initialData: Availability }) => {
 
   const onSubmit = async (data: Availability) => {
     // console.log(data);
-    updateAvailability(data);
+    await updateAvailability(data);
   };
 
   return (
@@ -89,8 +89,9 @@ const AvailabilityForm = ({ initialData }: { initialData: Availability }) => {
         <Button
           type="submit"
           className="!mt-8 text-gray-100 bg-primary-700 hover:bg-primary-600"
+          disabled={isLoading}
         >
-          Update Settings
+          {isLoading ? "Updating..." : "Update Settings "}
         </Button>
       </form>
     </Form>

@@ -7,11 +7,13 @@ import { Provider } from "react-redux";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import globalReducer from "@/state";
 import { api } from "@/state/api";
+import { apiAuth } from "./apiAuth";
 
 /* REDUX STORE */
 const rootReducer = combineReducers({
   global: globalReducer,
   [api.reducerPath]: api.reducer,
+  [apiAuth.reducerPath]: apiAuth.reducer,
 });
 
 export const makeStore = () => {
@@ -24,6 +26,9 @@ export const makeStore = () => {
             "api/executeMutation/pending",
             "api/executeMutation/fulfilled",
             "api/executeMutation/rejected",
+            "apiAuth/executeMutation/pending",
+            "apiAuth/executeMutation/fulfilled",
+            "apiAuth/executeMutation/rejected",
           ],
           ignoredActionPaths: [
             "meta.arg.originalArgs.file",
@@ -39,7 +44,7 @@ export const makeStore = () => {
             "meta.baseQueryMeta.response",
           ],
         },
-      }).concat(api.middleware),
+      }).concat(api.middleware, apiAuth.middleware),
   });
 };
 
