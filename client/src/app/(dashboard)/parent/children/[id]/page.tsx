@@ -35,7 +35,7 @@ const ChildSchedule = () => {
   const handleUpdate = async () => {
     try {
       await updateChild({
-        id: formData.id,
+        id: id,
         full_name: formData.full_name,
         password: formData.password,
         age: parseInt(formData.age),

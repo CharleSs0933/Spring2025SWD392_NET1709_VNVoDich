@@ -59,10 +59,10 @@ export const ChildDialog = ({
           onChange={handleChange}
         />
         <div className="flex justify-between">
-          <Button className="w-full" onClick={handleClose}>
+          <Button className="w-full border" onClick={handleClose}>
             Cancel
           </Button>
-          <Button className="w-full" onClick={handleSubmit}>
+          <Button className="w-full bg-primary-700" onClick={handleSubmit}>
             Confirm
           </Button>
         </div>
