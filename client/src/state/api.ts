@@ -88,11 +88,6 @@ export const api = createApi({
       providesTags: ["Courses"],
     }),
 
-    getCourse: build.query<Course, string>({
-      query: (id) => `courses/${id}`,
-      providesTags: (result, error, id) => [{ type: "Courses", id }],
-    }),
-
     createCourse: build.mutation<Course, { tutor_id: string }>({
       query: (body) => ({
         url: `courses`,
@@ -122,6 +117,14 @@ export const api = createApi({
       invalidatesTags: ["Courses"],
     }),
 
+    getCourse: build.query<Course, string>({
+      query: (id) => `courses/${id}`,
+      providesTags: (result, error, id) => [{ type: "Courses", id }],
+    }),
+    getTutor: build.query<Tutor, string>({
+      query: (id) => `tutors/${id}`,
+      providesTags: (result, error, id) => [{ type: "Tutors", id }],
+    }),
     addLesson: build.mutation<
       Course,
       {
@@ -260,15 +263,28 @@ export const api = createApi({
       invalidatesTags: ["Children"],
     }),
 
-    getTutors: build.query<Tutor[], {}>({
-      query: ({}) => ({
+    getTutors: build.query<
+      Tutor[],
+      {
+        full_name?: string;
+        phone?: string;
+        qualifications?: string;
+        teaching_style?: string;
+      }
+    >({
+      query: ({ full_name, phone, qualifications, teaching_style }) => ({
         url: "/tutors",
-        params: {},
+        params: {
+          full_name,
+          phone,
+          qualifications,
+          teaching_style,
+        },
       }),
       providesTags: ["Tutors"],
     }),
 
-    /// Tutor Availability
+    /// Availability
     getTutorAvailability: build.query<Availability | null, {}>({
       query: ({}) => ({
         url: "/availabilities",
@@ -280,6 +296,15 @@ export const api = createApi({
         url: "/availabilities/update",
         method: "PUT",
         body: data,
+      }),
+    }),
+
+    getCourseAvailability: build.query<
+      { date: string; slots: string[] }[],
+      { courseId: string }
+    >({
+      query: ({ courseId }) => ({
+        url: `/availabilities/course/${courseId}`,
       }),
     }),
   }),
@@ -295,6 +320,7 @@ export const {
   useUpdateLessonMutation,
   useDeleteLessonMutation,
   useGetTutorsQuery,
+  useGetTutorQuery,
   useGetChildrenQuery,
   useGetChildQuery,
   useCreateChildrenMutation,
@@ -302,4 +328,5 @@ export const {
   useDeleteChildrenMutation,
   useGetTutorAvailabilityQuery,
   useUpdateAvailabilityMutation,
+  useGetCourseAvailabilityQuery,
 } = api;

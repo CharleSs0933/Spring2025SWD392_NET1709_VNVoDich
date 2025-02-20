@@ -7,8 +7,8 @@ import { useEffect, useState } from "react";
 // import ChaptersSidebar from "./user/courses/[courseId]/ChaptersSidebar";
 import AppSidebar from "@/components/AppSidebar";
 import Navbar from "@/components/Navbar";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Header from "../component/Header";
+import Footer from "../component/Footer";
 
 export default function NonDashboardLayout({
   children,
@@ -19,9 +19,9 @@ export default function NonDashboardLayout({
   const isHomepage = pathname === "/";
 
   return (
-    <div>
+    <div className="w-full h-full flex flex-col">
       <Header />
-      <main className={`${isHomepage ? "" : "flex-1 pt-[4%]"}`}>
+      <main className={`${isHomepage ? "" : "flex-1 pt-[5%]"}`}>
         {children}
       </main>
       <Footer />

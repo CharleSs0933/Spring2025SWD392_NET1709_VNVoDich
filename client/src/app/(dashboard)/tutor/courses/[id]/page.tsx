@@ -1,7 +1,7 @@
 "use client";
 
 import { CustomFormField } from "@/components/CustomFormField";
-import Header from "@/components/Header";
+import Header from "@/app/component/Header";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { courseGrades, createCourseFormData } from "@/lib/utils";

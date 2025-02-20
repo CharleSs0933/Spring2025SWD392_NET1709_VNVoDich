@@ -2,9 +2,10 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
-import logo from "@/app/asset/img/logo.png";
+import logo from "@/asset/logo.jpg";
 import bg from "../../../../public/bg-login.jpg";
 import { useUser } from "@/hooks/useUser";
+import { useRouter } from "next/navigation";
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [loginData, setLoginData] = useState({
@@ -22,7 +23,8 @@ const Login = () => {
   const logoRef = useRef(null);
   const formRef = useRef(null);
   const buttonRef = useRef(null);
-  const { login } = useUser();
+  const router = useRouter();
+  const { login, isSuccess } = useUser();
 
   useLayoutEffect(() => {
     gsap.fromTo(
@@ -89,6 +91,10 @@ const Login = () => {
         username: loginData.userName,
         password: loginData.passWord,
       });
+
+      if (isSuccess) {
+        router.push("/", { scroll: false });
+      }
     }
   };
   return (

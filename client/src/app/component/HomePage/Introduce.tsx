@@ -1,7 +1,7 @@
 import React from 'react'
 import LazyLoad from '../LazzyLoad'
 import Image from 'next/image'
-import onlTeacher from "@/app/asset/img/onlTeacher.jpg";
+import onlTeacher from "../../../asset/img/onlTeacher.jpg";
 
 const Introduce = () => {
   return (

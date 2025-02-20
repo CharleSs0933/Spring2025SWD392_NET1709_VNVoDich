@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useState, useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { cn } from "@/lib/utils";
-import imgBg from "@/app/asset/img/khoahoc.jpg";
+import imgBg from "../../../asset/img/khoahoc.jpg";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { useRouter } from "next/navigation";
 
@@ -201,10 +201,10 @@ export function FocusCards({
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   return (
-    <div className={`grid grid-cols-1 md:grid-cols-2 gap-10 max-w-[100%] ${type === 'tutor' ? "md:grid-cols-2  mx-auto" : ''}  md:px-8 w-full`}>
+    <div className={`grid grid-cols-1 md:grid-cols-2 gap-10 max-w-[100%] ${type === 'tutor' ? "md:grid-cols-1 lg:grid-cols-1 w-[70%]  ml-[10%]" : ''}  md:px-8 w-full`}>
       {data.map((item, index) => {
         if (!cardRefs.current[index]) {
-          cardRefs.current[index] = document.createElement("div");
+          cardRefs.current[index] = document.createElement("div"); 
         }
 
         return (
