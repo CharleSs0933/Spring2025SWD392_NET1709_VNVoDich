@@ -1,6 +1,6 @@
 "use client";
 
-import Header from "@/app/component/Header";
+import Header from "@/components/Header";
 import Loading from "@/components/Loading";
 import Toolbar from "@/components/Toolbar";
 import TutorCourseCard from "@/components/TutorCourseCard";

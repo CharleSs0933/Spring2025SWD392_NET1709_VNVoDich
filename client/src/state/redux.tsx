@@ -13,11 +13,7 @@ import { apiAuth } from "./apiAuth";
 const rootReducer = combineReducers({
   global: globalReducer,
   [api.reducerPath]: api.reducer,
-<<<<<<< HEAD
-  [apiAuth.reducerPath] : apiAuth.reducer
-=======
   [apiAuth.reducerPath]: apiAuth.reducer,
->>>>>>> 1a111117408028a6c288a6326d8981bfaa0ff627
 });
 
 export const makeStore = () => {
@@ -30,16 +26,9 @@ export const makeStore = () => {
             "api/executeMutation/rejected",
             "api/executeMutation/pending",
             "api/executeMutation/fulfilled",
-<<<<<<< HEAD
             "apiAuth/executeMutation/rejected",
             "apiAuth/executeMutation/pending",
             "apiAuth/executeMutation/fulfilled",
-=======
-            "api/executeMutation/rejected",
-            "apiAuth/executeMutation/pending",
-            "apiAuth/executeMutation/fulfilled",
-            "apiAuth/executeMutation/rejected",
->>>>>>> 1a111117408028a6c288a6326d8981bfaa0ff627
           ],
           ignoredActionPaths: [
             "meta.arg.originalArgs.file",

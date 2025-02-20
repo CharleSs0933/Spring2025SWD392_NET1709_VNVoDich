@@ -44,12 +44,12 @@ export interface Tutor {
   demo_video_url?: string;
   image?: string;
 
-  user?: {
+  profile?: {
     email: string;
     full_name: string;
     phone: string;
-    google_id : string,
-    timezone: string
+    google_id: string;
+    timezone: string;
   };
 }
 

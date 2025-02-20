@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import imgBg from "../../../../asset/img/khoahoc.jpg";
 import tutor from "../../../../asset/img/tutor3.jpg";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ChevronDown, ChevronUp, Star } from "lucide-react";
 
