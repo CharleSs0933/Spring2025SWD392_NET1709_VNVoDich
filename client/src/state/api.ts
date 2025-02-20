@@ -245,7 +245,7 @@ export const api = createApi({
       providesTags: ["Tutors"],
     }),
 
-    /// Tutor Availability
+    /// Availability
     getTutorAvailability: build.query<Availability | null, {}>({
       query: ({}) => ({
         url: "/availabilities",
@@ -257,6 +257,15 @@ export const api = createApi({
         url: "/availabilities/update",
         method: "PUT",
         body: data,
+      }),
+    }),
+
+    getCourseAvailability: build.query<
+      { date: string; slots: string[] }[],
+      { courseId: string }
+    >({
+      query: ({ courseId }) => ({
+        url: `/availabilities/course/${courseId}`,
       }),
     }),
   }),
@@ -279,4 +288,5 @@ export const {
   useDeleteChildrenMutation,
   useGetTutorAvailabilityQuery,
   useUpdateAvailabilityMutation,
+  useGetCourseAvailabilityQuery,
 } = api;

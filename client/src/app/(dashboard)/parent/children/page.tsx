@@ -96,7 +96,7 @@ const Courses = () => {
               )}
             </TableBody>
           </Table>
-        )}
+        )}*/}
       </div>
     </div>
   );

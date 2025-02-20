@@ -91,7 +91,7 @@ const AvailabilityForm = ({ initialData }: { initialData: Availability }) => {
           className="!mt-8 text-gray-100 bg-primary-700 hover:bg-primary-600"
           disabled={isLoading}
         >
-          {isLoading ? "Updating..." : "Update Settings "}
+          {isLoading ? "Updating..." : "Update Availability"}
         </Button>
       </form>
     </Form>
