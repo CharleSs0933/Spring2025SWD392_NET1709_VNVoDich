@@ -49,7 +49,7 @@ export const useUser = () => {
       const { token, user } = data;
 
       // Lưu token và user vào cookies
-      Cookies.set("authToken", token, {
+      Cookies.set ("authToken", token, {
         expires: 7,
         secure: true,
         sameSite: "strict",

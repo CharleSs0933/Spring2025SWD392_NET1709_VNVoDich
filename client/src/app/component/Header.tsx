@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import React from "react";
-import logo from "@/app/asset/img/logo.png";
+import logo from "../../asset/img/logo.png";
 import { useRouter } from "next/navigation";
 const Header = () => {
   const router = useRouter();

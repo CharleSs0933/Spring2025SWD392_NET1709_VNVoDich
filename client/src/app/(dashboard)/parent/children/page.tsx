@@ -1,6 +1,12 @@
 "use client";
+<<<<<<< HEAD
+import { useState } from "react";
+import { motion } from "framer-motion";
+import Header from "@/app/component/Header";
+=======
 import { useEffect, useState } from "react";
 import Header from "@/components/Header";
+>>>>>>> 600fd46dc11abcf9df28521985c1ad30f27fec6f
 import Loading from "@/components/Loading";
 import {
   Table,
@@ -14,9 +20,13 @@ import {
 import { useGetChildrenQuery } from "@/state/api";
 import { SlidersHorizontal, X } from "lucide-react";
 import { Children } from "@/types";
+<<<<<<< HEAD
+import BigCalendar from "@/app/component/BigCalendar";
+=======
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ThemeModeToggle";
+>>>>>>> 600fd46dc11abcf9df28521985c1ad30f27fec6f
 
 const Courses = () => {
   const router = useRouter();
