@@ -13,7 +13,7 @@ body,
   box-sizing: border-box;
   @apply text-sm;
   @apply text-gray-300;
-  /* @apply bg-customgreys-primarybg; */
+  @apply bg-customgreys-primarybg;
 }
 
 @layer base {
@@ -118,7 +118,7 @@ body,
 }
 
 .child__table-row:hover {
-  @apply bg-customgreys-dirtyGrey;
+  @apply bg-customgreys-blueGrey;
 }
 
 .child__table-body {
@@ -141,8 +141,9 @@ body,
   color: black !important;
 }
 
-.rbc-btn-group:first-child {
+.rbc-btn-group:first-child button {
   /* display: none !important; */
+  color: #f1f0ff;
 }
 
 .rbc-toolbar-label {
@@ -171,6 +172,7 @@ body,
 
 .rbc-time-header {
   /* display: none !important; */
+  @apply bg-primary-750 text-customgreys-blueGrey;
 }
 
 .rbc-time-content {
@@ -179,6 +181,7 @@ body,
 
 .rbc-time-gutter.rbc-time-column {
   font-size: 12px !important;
+  color: #e2f8ff !important;
 }
 
 .rbc-time-gutter.rbc-time-column .rbc-timeslot-group {
@@ -186,19 +189,27 @@ body,
 }
 
 .rbc-timeslot-group {
-  background-color: #f7fdff !important;
+  background-color: none !important;
+}
+
+.rbc-time-slot {
+  border: none !important;
 }
 
 .rbc-day-slot {
   font-size: 14px !important;
 }
 
+.rbc-today {
+  @apply bg-primary-750 !important;
+}
+
 .rbc-event {
+  box-sizing: border-box !important;
   border: none !important;
   color: black !important;
   padding: 10px !important;
-  margin: 10px !important;
-  width: 99% !important;
+  width: 100% !important;
 }
 
 .rbc-event:nth-child(1) {

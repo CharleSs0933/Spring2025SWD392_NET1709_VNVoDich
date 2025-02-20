@@ -11,20 +11,60 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { useGetChildrenQuery } from "@/state/api";
+import {
+  useCreateChildrenMutation,
+  useDeleteChildrenMutation,
+  useGetChildrenQuery,
+} from "@/state/api";
 import { SlidersHorizontal, X } from "lucide-react";
 import { Children } from "@/types";
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { ChildDialog } from "@/components/dashboard/parent/ChildDialog";
 
-const Courses = () => {
+const ChildrenManagement = () => {
   const router = useRouter();
-  const params = useParams();
   const { data: children, isLoading, isError } = useGetChildrenQuery({});
+
+  const [createChild] = useCreateChildrenMutation();
+  const [deleteChild] = useDeleteChildrenMutation();
+
+  const [open, setOpen] = useState(false);
+  const [formData, setFormData] = useState<any>({
+    full_name: "",
+    password: "",
+    age: "",
+    grade_level: "",
+    learning_goals: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleViewChildSchedule = (child: Children) => {
     router.push(`/parent/children/${child.id}`);
-    console.log("Enter");
+  };
+
+  const handleCreateChildAccount = async () => {
+    const result = await createChild({
+      full_name: formData.full_name,
+      password: formData.password,
+      age: parseInt(formData.age),
+      grade_level: formData.grade_level,
+      learning_goals: formData.learning_goals,
+    }).unwrap();
+    setOpen(false);
+  };
+
+  const handleDeleteChild = async (id: number) => {
+    await deleteChild(id).unwrap();
   };
 
   if (isLoading) return <Loading />;
@@ -32,7 +72,25 @@ const Courses = () => {
 
   return (
     <div className=" w-full h-full">
-      <Header title="Children" subtitle="Browse your children" />
+      <Header
+        title="Children"
+        subtitle="Browse your children"
+        rightElement={
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+              <Button className="bg-primary-700 hover:bg-primary-600">
+                Create Child Account
+              </Button>
+            </DialogTrigger>
+            <ChildDialog
+              formData={formData}
+              handleChange={handleChange}
+              handleSubmit={handleCreateChildAccount}
+              handleClose={handleClose}
+            />
+          </Dialog>
+        }
+      />
 
       <div className="child__container">
         {/* Table */}
@@ -53,11 +111,7 @@ const Courses = () => {
             <TableBody className="child__table-body">
               {children.length > 0 ? (
                 children.map((child) => (
-                  <TableRow
-                    className="child__table-row"
-                    key={child.id}
-                    onClick={() => handleViewChildSchedule(child)}
-                  >
+                  <TableRow className="child__table-row" key={child.id}>
                     <TableCell className="child__table-cell">
                       {child.full_name}
                     </TableCell>
@@ -71,7 +125,18 @@ const Courses = () => {
                       {child.learning_goals}
                     </TableCell>
                     <TableCell className="child__table-cell">
-                      <SlidersHorizontal />
+                      <Button
+                        onClick={() => handleViewChildSchedule(child)}
+                        className="bg-blue-600 hover:bg-blue-500 mr-3"
+                      >
+                        View
+                      </Button>
+                      <Button
+                        onClick={() => handleDeleteChild(child.id)}
+                        className="bg-red-600 hover:bg-red-500"
+                      >
+                        Delete
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))
@@ -93,4 +158,4 @@ const Courses = () => {
   );
 };
 
-export default Courses;
+export default ChildrenManagement;

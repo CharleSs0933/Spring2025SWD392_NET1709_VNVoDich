@@ -2,9 +2,14 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useParams, useRouter } from "next/navigation";
-import { useGetChildQuery } from "@/state/api";
+import { useGetChildQuery, useUpdateChildrenMutation } from "@/state/api";
 import { X } from "lucide-react";
 import BigCalendar from "@/components/BigCalendar";
+import { Button } from "@/components/ui/button";
+import { Dialog } from "@/components/ui/dialog";
+import { DialogTrigger } from "@radix-ui/react-dialog";
+import { ChildDialog } from "@/components/dashboard/parent/ChildDialog";
+import { useState } from "react";
 
 const ChildSchedule = () => {
   const router = useRouter();
@@ -13,15 +18,49 @@ const ChildSchedule = () => {
   const { data: child, isLoading, error } = useGetChildQuery({ id });
   console.log(child);
 
+  const [updateChild] = useUpdateChildrenMutation();
+  const [open, setOpen] = useState(false);
+  const [formData, setFormData] = useState<any>({
+    full_name: "",
+    password: "",
+    age: "",
+    grade_level: "",
+    learning_goals: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleUpdate = async () => {
+    try {
+      await updateChild({
+        id: formData.id,
+        full_name: formData.full_name,
+        password: formData.password,
+        age: parseInt(formData.age),
+        grade_level: formData.grade_level,
+        learning_goals: formData.learning_goals,
+      }).unwrap();
+
+      setOpen(false);
+    } catch (error) {
+      console.error("Update failed:", error);
+    }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div>
-      <div className=" bg-white shadow-lg p-4 rounded-lg  ">
+      <div className="flex items-end bg-white shadow-lg p-4 rounded-lg  ">
         <Card className="w-[400px] relative">
           <CardHeader className="flex justify-between items-center">
             <CardTitle>
               <span className="bg-customgreys-purpleGrey text-gray-700 rounded-2xl px-3 py-1">
                 {child?.full_name}
-                name
               </span>
               's Details
             </CardTitle>
@@ -48,6 +87,23 @@ const ChildSchedule = () => {
             </p>
           </CardContent>
         </Card>
+
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild>
+            <Button
+              className="rounded-xl bg-customgreys-purpleGrey text-gray-900 mx-5
+        hover:bg-primary-750 hover:text-white-50"
+            >
+              Edit
+            </Button>
+          </DialogTrigger>
+          <ChildDialog
+            formData={formData}
+            handleChange={handleChange}
+            handleSubmit={handleUpdate}
+            handleClose={handleClose}
+          />
+        </Dialog>
       </div>
       <div className="mt-4 bg-white rounded-md p-4 h-[800px]">
         <h1>Teacher&apos;s Schedule</h1>
