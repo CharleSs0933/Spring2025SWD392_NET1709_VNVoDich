@@ -2,24 +2,11 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
-<<<<<<< HEAD
-import logo from "../../../asset/img/logo.png";
-import bg from "../../../../public/bg-login.jpg";
-import { useCreateAuthMutation, useGetAuthMutation } from "@/state/apiAuth";
-import SignIn from "@/app/component/SignIn-Up/SignIn";
-import SignUp from "@/app/component/SignIn-Up/SignUp";
-
-=======
-import logo from "@/app/asset/img/logo.png";
+import logo from "@/asset/logo.jpg";
 import bg from "../../../../public/bg-login.jpg";
 import { useUser } from "@/hooks/useUser";
->>>>>>> 600fd46dc11abcf9df28521985c1ad30f27fec6f
 const Login = () => {
-  const [getAuth] = useGetAuthMutation();
-  const [createAuth] = useCreateAuthMutation();
-
   const [isSignUp, setIsSignUp] = useState(false);
-
   const [loginData, setLoginData] = useState({
     userName: "",
     passWord: "",
@@ -30,20 +17,12 @@ const Login = () => {
     passWord: "",
     confirmPassword: "",
   });
-<<<<<<< HEAD
-
-  const containerRef = useRef<HTMLDivElement>(null);
-  const divLogo = useRef<HTMLDivElement>(null);
-  const logoRef = useRef<HTMLDivElement>(null);
-  const formRef = useRef<HTMLDivElement>(null);
-=======
   const containerRef = useRef(null);
   const divLogo = useRef(null);
   const logoRef = useRef(null);
   const formRef = useRef(null);
   const buttonRef = useRef(null);
   const { login } = useUser();
->>>>>>> 600fd46dc11abcf9df28521985c1ad30f27fec6f
 
   useLayoutEffect(() => {
     gsap.fromTo(
@@ -86,45 +65,21 @@ const Login = () => {
     });
   }, [isSignUp]);
 
-  const handleSignInChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
-    setLoginData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSignUpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setSignUpData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSignInSubmit = async () => {
-    const { userName, passWord } = loginData;
-    try {
-      const response = await getAuth({
-        username: userName,
-        password: passWord,
-      }).unwrap();
-      console.log("Đăng nhập thành công:", response);
-    } catch (error) {
-      console.error("Lỗi đăng nhập:", error);
+    if (isSignUp) {
+      setSignUpData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    } else {
+      setLoginData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
     }
   };
 
-<<<<<<< HEAD
-  const handleSignUpSubmit = async () => {
-    const { userName, passWord, confirmPassword } = signUpData;
-    if (passWord !== confirmPassword) {
-      alert("Mật khẩu không khớp!");
-      return;
-    }
-    try {
-      const response = await createAuth({
-        username: userName,
-        password: passWord,
-      }).unwrap();
-      console.log("Đăng ký thành công:", response);
-    } catch (error) {
-      console.error("Lỗi đăng ký:", error);
-=======
   const handleSubmit = async () => {
     if (isSignUp) {
       console.log(signUpData);
@@ -134,10 +89,8 @@ const Login = () => {
         username: loginData.userName,
         password: loginData.passWord,
       });
->>>>>>> 600fd46dc11abcf9df28521985c1ad30f27fec6f
     }
   };
-
   return (
     <div className="relative w-full h-[800px] overflow-hidden my-4">
       <Image
@@ -147,6 +100,7 @@ const Login = () => {
         objectFit="cover"
         className="absolute inset-0"
       />
+
       <div
         ref={containerRef}
         className="flex w-full h-full justify-center items-center"
@@ -165,25 +119,8 @@ const Login = () => {
 
         <div
           ref={formRef}
-          className="w-[25%] h-[60%] bg-white bg-opacity-70 backdrop-blur-md flex flex-col gap-16 p-6 text-green-900"
+          className="w-[25%] h-[60%] bg-white bg-opacity-70 backdrop-blur-md flex flex-col gap-16 p-6 text-green-900 "
         >
-<<<<<<< HEAD
-          {isSignUp ? (
-            <SignUp
-              signUpData={signUpData}
-              handleChange={handleSignUpChange}
-              handleSubmit={handleSignUpSubmit}
-              toggleAuthMode={() => setIsSignUp(false)}
-            />
-          ) : (
-            <SignIn
-              loginData={loginData}
-              handleChange={handleSignInChange}
-              handleSubmit={handleSignInSubmit}
-              toggleAuthMode={() => setIsSignUp(true)}
-            />
-          )}
-=======
           <p className="text-3xl">
             {isSignUp ? "Create an Account" : "Sign in to get started!"}
           </p>
@@ -272,7 +209,6 @@ const Login = () => {
               </p>
             </div>
           </div>
->>>>>>> 600fd46dc11abcf9df28521985c1ad30f27fec6f
         </div>
       </div>
     </div>

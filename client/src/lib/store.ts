@@ -1,13 +1,13 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import globalReducer from "@/lib/features/global/globalSlice";
-import coursesReducer from "@/lib/features/courses/coursesSlice";
-import tutorsReducer from "@/lib/features/tutor/tutorSlice";
-import { api } from "@/lib/features/api/api";
+// import globalReducer from "@/lib/features/global/globalSlice";
+// import coursesReducer from "@/lib/features/courses/coursesSlice";
+// import tutorsReducer from "@/lib/features/tutor/tutorSlice";
+import { api } from "@/state/api";
 
 const rootReducer = combineReducers({
-  global: globalReducer,
-  courses: coursesReducer,
-  tutors: tutorsReducer,
+  // global: globalReducer,
+  // courses: coursesReducer,
+  // tutors: tutorsReducer,
   [api.reducerPath]: api.reducer,
 });
 
