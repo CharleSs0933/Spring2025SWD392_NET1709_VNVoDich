@@ -28,6 +28,18 @@ const ChildSchedule = () => {
     learning_goals: "",
   });
 
+  const handleEdit = () => {
+    if (child) {
+      setFormData({
+        full_name: child.full_name || "",
+        password: child.password || "",
+        age: child.age?.toString() || "",
+        grade_level: child.grade_level || "",
+        learning_goals: child.learning_goals || "",
+      });
+    }
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -91,17 +103,20 @@ const ChildSchedule = () => {
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button
+              onClick={handleEdit}
               className="rounded-xl bg-customgreys-purpleGrey text-gray-900 mx-5
         hover:bg-primary-750 hover:text-white-50"
             >
               Edit
             </Button>
           </DialogTrigger>
+
           <ChildDialog
             formData={formData}
             handleChange={handleChange}
             handleSubmit={handleUpdate}
             handleClose={handleClose}
+            mode="edit"
           />
         </Dialog>
       </div>

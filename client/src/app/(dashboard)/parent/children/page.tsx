@@ -87,6 +87,7 @@ const ChildrenManagement = () => {
               handleChange={handleChange}
               handleSubmit={handleCreateChildAccount}
               handleClose={handleClose}
+              mode="create"
             />
           </Dialog>
         }
@@ -152,7 +153,7 @@ const ChildrenManagement = () => {
               )}
             </TableBody>
           </Table>
-        )}*/}
+        )}
       </div>
     </div>
   );
