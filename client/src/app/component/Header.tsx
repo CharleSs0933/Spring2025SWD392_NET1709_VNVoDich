@@ -1,10 +1,17 @@
 "use client";
-
+import Cookies from "js-cookie";
 import Image from "next/image";
 import React from "react";
 import logo from "../../asset/img/logo.png";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/hooks/useUser";
 const Header = () => {
+  const token = Cookies.get("authToken");
+  const { logout } = useUser();
+
+  const handleLogout = async () => {
+    await logout();
+  };
   const router = useRouter();
   return (
     <div className="mx-16">
@@ -28,11 +35,26 @@ const Header = () => {
           <div className="cursor-pointer">Teams</div>
           <div className="cursor-pointer">Commuity</div>
           <div
-            onClick={() => router.push("/Login")}
+            onClick={() => router.push("/Courses")}
             className="bg-white-100 p-1 rounded-lg text-black font-semibold cursor-pointer"
           >
-            Login Now
+            DoashBoard
           </div>
+          {!token ? (
+            <div
+              onClick={() => router.push("/Login")}
+              className="bg-white-100 p-1 rounded-lg text-black font-semibold cursor-pointer"
+            >
+              Login Now
+            </div>
+          ) : (
+            <div
+              className="bg-white-100 p-1 rounded-lg text-black font-semibold cursor-pointer"
+              onClick={handleLogout}
+            >
+              Logout
+            </div>
+          )}
         </div>
       </div>
     </div>

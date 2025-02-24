@@ -168,7 +168,7 @@ export const Card = React.memo(
         <div
           className={cn(
             "flex  justify-center items-center transition-all duration-300",
-            hovered !== null && hovered === index ? "opacity-1" : "opacity-0"
+            hovered !== null && hovered === index ? "opacity-1 -translate-x-24  duration-300 transition-all" : "opacity-0 translate-x-0 duration-300"
           )}
         >
           <video
@@ -201,7 +201,7 @@ export function FocusCards({
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   return (
-    <div className={`grid grid-cols-1 md:grid-cols-2 gap-10 max-w-[100%] ${type === 'tutor' ? "md:grid-cols-1 lg:grid-cols-1 w-[70%]  ml-[10%]" : ''}  md:px-8 w-full`}>
+    <div className={`grid grid-cols-1 md:grid-cols-2 gap-10 max-w-[100%] ${type === 'tutor' ? "md:grid-cols-1 lg:grid-cols-1 w-[70%]   ml-[10%] -translate-x-14 " : ''}  md:px-8 w-full`}>
       {data.map((item, index) => {
         if (!cardRefs.current[index]) {
           cardRefs.current[index] = document.createElement("div"); 

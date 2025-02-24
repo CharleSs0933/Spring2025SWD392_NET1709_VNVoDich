@@ -6,6 +6,7 @@ import searchCourses from "../../component/searchCourses";
 import gsap from "gsap";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Search from "@/app/component/search";
+import { log } from "console";
 const Page = () => {
   const [page, setPage] = useState(1);
   const [tagSelect, setTagSelect] = useState<string | null>(null);
@@ -29,7 +30,9 @@ const Page = () => {
   const coursesFilter = courses
   ? searchCourses({ courses, tagSelect: tagSelect || "", searchTerm })
   : [];
-
+  
+  
+  
   if (isLoading) {
     return (
       <div className="text-center text-lg text-gray-600">Loading courses...</div>
