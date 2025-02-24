@@ -33,7 +33,6 @@ const AppSidebar = () => {
   const navLinks = {
     Parent: [
       { icon: BookOpen, label: "Children", href: "/parent/children" },
-      { icon: Briefcase, label: "Billing", href: "/parent/billing" },
       { icon: User, label: "Profile", href: "/parent/profile" },
       { icon: Settings, label: "Settings", href: "/parent/settings" },
     ],

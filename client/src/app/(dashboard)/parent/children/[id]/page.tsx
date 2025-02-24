@@ -1,35 +1,78 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useParams, useRouter } from "next/navigation";
-import { useGetChildQuery } from "@/state/api";
+import { useGetChildQuery, useUpdateChildrenMutation } from "@/state/api";
 import { X } from "lucide-react";
-import BigCalendar from "@/app/components/BigCalendar";
+import BigCalendar from "@/components/BigCalendar";
+import { Button } from "@/components/ui/button";
+import { Dialog } from "@/components/ui/dialog";
+import { DialogTrigger } from "@radix-ui/react-dialog";
+import { ChildDialog } from "@/components/dashboard/parent/ChildDialog";
+import { useState } from "react";
 
 const ChildSchedule = () => {
   const router = useRouter();
   const params = useParams();
   const id = params.id as string;
-  const parent_id = params.id as string;
-  const { data: child, isLoading, error } = useGetChildQuery({ parent_id, id });
+  const { data: child, isLoading, error } = useGetChildQuery({ id });
+  console.log(child);
 
-  console.log(parent_id, id);
+  const [updateChild] = useUpdateChildrenMutation();
+  const [open, setOpen] = useState(false);
+  const [formData, setFormData] = useState<any>({
+    full_name: "",
+    password: "",
+    age: "",
+    grade_level: "",
+    learning_goals: "",
+  });
+
+  const handleEdit = () => {
+    if (child) {
+      setFormData({
+        full_name: child.full_name || "",
+        password: child.password || "",
+        age: child.age?.toString() || "",
+        grade_level: child.grade_level || "",
+        learning_goals: child.learning_goals || "",
+      });
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleUpdate = async () => {
+    try {
+      await updateChild({
+        id: id,
+        full_name: formData.full_name,
+        password: formData.password,
+        age: parseInt(formData.age),
+        grade_level: formData.grade_level,
+        learning_goals: formData.learning_goals,
+      }).unwrap();
+
+      setOpen(false);
+    } catch (error) {
+      console.error("Update failed:", error);
+    }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div>
-      <motion.div
-        className=" bg-white shadow-lg p-4 rounded-lg  "
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
-      >
+      <div className="flex items-end bg-white shadow-lg p-4 rounded-lg  ">
         <Card className="w-[400px] relative">
           <CardHeader className="flex justify-between items-center">
             <CardTitle>
               <span className="bg-customgreys-purpleGrey text-gray-700 rounded-2xl px-3 py-1">
                 {child?.full_name}
-                Name
               </span>
               's Details
             </CardTitle>
@@ -56,7 +99,27 @@ const ChildSchedule = () => {
             </p>
           </CardContent>
         </Card>
-      </motion.div>
+
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild>
+            <Button
+              onClick={handleEdit}
+              className="rounded-xl bg-customgreys-purpleGrey text-gray-900 mx-5
+        hover:bg-primary-750 hover:text-white-50"
+            >
+              Edit
+            </Button>
+          </DialogTrigger>
+
+          <ChildDialog
+            formData={formData}
+            handleChange={handleChange}
+            handleSubmit={handleUpdate}
+            handleClose={handleClose}
+            mode="edit"
+          />
+        </Dialog>
+      </div>
       <div className="mt-4 bg-white rounded-md p-4 h-[800px]">
         <h1>Teacher&apos;s Schedule</h1>
         <BigCalendar />

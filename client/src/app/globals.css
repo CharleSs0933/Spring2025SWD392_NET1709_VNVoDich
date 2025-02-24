@@ -114,7 +114,7 @@ body,
 }
 
 .child__table-header {
-  @apply bg-primary;
+  @apply bg-primary-750;
 }
 
 .child__table-header-row {
@@ -130,7 +130,7 @@ body,
 }
 
 .child__table-row:hover {
-  @apply bg-customgreys-primarybg;
+  @apply bg-customgreys-blueGrey;
 }
 
 .child__table-body {
@@ -153,8 +153,9 @@ body,
   color: black !important;
 }
 
-.rbc-btn-group:first-child {
+.rbc-btn-group:first-child button {
   /* display: none !important; */
+  color: #f1f0ff;
 }
 
 .rbc-toolbar-label {
@@ -183,6 +184,7 @@ body,
 
 .rbc-time-header {
   /* display: none !important; */
+  @apply bg-primary-750 text-customgreys-blueGrey;
 }
 
 .rbc-time-content {
@@ -191,6 +193,7 @@ body,
 
 .rbc-time-gutter.rbc-time-column {
   font-size: 12px !important;
+  color: #e2f8ff !important;
 }
 
 .rbc-time-gutter.rbc-time-column .rbc-timeslot-group {
@@ -198,19 +201,27 @@ body,
 }
 
 .rbc-timeslot-group {
-  background-color: #f7fdff !important;
+  background-color: none !important;
+}
+
+.rbc-time-slot {
+  border: none !important;
 }
 
 .rbc-day-slot {
   font-size: 14px !important;
 }
 
+.rbc-today {
+  @apply bg-primary-750 !important;
+}
+
 .rbc-event {
+  box-sizing: border-box !important;
   border: none !important;
   color: black !important;
   padding: 10px !important;
-  margin: 10px !important;
-  width: 99% !important;
+  width: 100% !important;
 }
 
 .rbc-event:nth-child(1) {
@@ -241,4 +252,83 @@ body,
 .rbc-event-label {
   color: gray !important;
   margin-bottom: 5px;
+}
+
+/* Dialog */
+.dialog_content {
+  width: 500px;
+  max-width: 90vw;
+  background-color: #f9f9f9;
+  padding: 24px;
+  border-radius: 8px;
+}
+
+.dialog_title {
+  color: #333;
+  text-align: center;
+}
+
+.dialog_label {
+  display: block;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 4px;
+}
+
+.dialog_input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  background-color: white;
+  color: #333;
+}
+
+.dialog_field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.text-red-500 {
+  min-height: 18px;
+  font-size: 12px;
+}
+
+.dialog_buttons {
+  display: flex;
+  gap: 12px; /* Khoảng cách giữa hai nút */
+}
+
+.dialog_button {
+  flex: 1; /* Để hai nút có chiều rộng bằng nhau */
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+/* Cancel */
+.dialog_button.cancel {
+  border: 1px solid #ccc;
+  background-color: white;
+  color: #333;
+}
+
+.dialog_button.cancel:hover {
+  background-color: #f5f5f5;
+}
+
+/* Confirm */
+.dialog_button.confirm {
+  background-color: #1d4ed8; /* Màu xanh primary */
+  color: white;
+}
+
+.dialog_button.confirm:hover {
+  background-color: #1e40af; /* Màu đậm hơn khi hover */
+}
+
+.dialog_content [data-state="open"] > button {
+  display: none;
 }
