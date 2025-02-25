@@ -149,3 +149,17 @@ export interface Availability {
   saturday: DayAvailability;
   sunday: DayAvailability;
 }
+
+export interface TeachingSession {
+  id: number;
+  google_meet_id: string;
+  startTime: Date;
+  endTime: Date;
+  status: string;
+  topics_covered: string;
+  homework_assigned: string;
+  subscription_id: number;
+  subscription?: {
+    course?: Course;
+  };
+}

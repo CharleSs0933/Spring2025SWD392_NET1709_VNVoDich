@@ -11,28 +11,13 @@ import { adjustScheduleToCurrentWeek } from "@/lib/utils";
 
 const localizer = momentLocalizer(moment);
 
-const BigCalendar = ({ id }: { id: number }) => {
+const BigCalendar = ({
+  data,
+}: {
+  data: { title: string; start: Date; end: Date }[];
+}) => {
   const [view, setView] = useState<View>(Views.WEEK);
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
-  const {
-    data: teachingSession,
-    isLoading,
-    isError,
-  } = useGetSessionQuery({
-    childrenId: id,
-  });
-
-  if (isLoading) return <Loading />;
-  if (isError) return <div>Error loading courses.</div>;
-
-  const dataTeaching = teachingSession.map((event: any) => ({
-    title: event.subscription.course.title,
-    start: event.startTime,
-    end: event.endTime,
-  }));
-
-  // const schedule = adjustScheduleToCurrentWeek(dataTeaching);
-  console.log(dataTeaching);
 
   const handleOnChangeView = (selectedView: View) => {
     setView(selectedView);
@@ -50,7 +35,7 @@ const BigCalendar = ({ id }: { id: number }) => {
   return (
     <Calendar
       localizer={localizer}
-      events={dataTeaching}
+      events={data}
       startAccessor="start"
       endAccessor="end"
       views={["week", "day"]}

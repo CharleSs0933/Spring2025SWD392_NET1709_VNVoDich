@@ -4,13 +4,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { notFound, useParams, useRouter } from "next/navigation";
 import { useGetChildQuery, useUpdateChildrenMutation } from "@/state/api";
 import { X } from "lucide-react";
-import BigCalendar from "@/components/BigCalendar";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { ChildDialog } from "@/components/dashboard/parent/ChildDialog";
 import { useState } from "react";
 import Loading from "@/components/Loading";
+import BigCalendarContainer from "@/components/BigCalendarContainer";
 
 const ChildSchedule = () => {
   const router = useRouter();
@@ -125,7 +125,7 @@ const ChildSchedule = () => {
       </div>
       <div className="mt-4 bg-white rounded-md p-4 h-[800px]">
         <h1>Teacher&apos;s Schedule</h1>
-        <BigCalendar id={child.id} />
+        <BigCalendarContainer id={child.id} />
       </div>
     </div>
   );
