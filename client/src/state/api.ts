@@ -307,6 +307,13 @@ export const api = createApi({
         url: `/availabilities/course/${courseId}`,
       }),
     }),
+
+    // Teaching session
+    getSession: build.query<any, { childrenId: number }>({
+      query: ({ childrenId }) => ({
+        url: `/teaching-sessions/child/${childrenId}`,
+      }),
+    }),
   }),
 });
 
@@ -329,4 +336,5 @@ export const {
   useGetTutorAvailabilityQuery,
   useUpdateAvailabilityMutation,
   useGetCourseAvailabilityQuery,
+  useGetSessionQuery,
 } = api;
