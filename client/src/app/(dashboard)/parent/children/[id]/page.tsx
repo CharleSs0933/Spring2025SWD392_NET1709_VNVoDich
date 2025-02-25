@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useParams, useRouter } from "next/navigation";
+import { notFound, useParams, useRouter } from "next/navigation";
 import { useGetChildQuery, useUpdateChildrenMutation } from "@/state/api";
 import { X } from "lucide-react";
 import BigCalendar from "@/components/BigCalendar";
@@ -10,13 +10,13 @@ import { Dialog } from "@/components/ui/dialog";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { ChildDialog } from "@/components/dashboard/parent/ChildDialog";
 import { useState } from "react";
+import Loading from "@/components/Loading";
 
 const ChildSchedule = () => {
   const router = useRouter();
   const params = useParams();
   const id = params.id as string;
-  const { data: child, isLoading, error } = useGetChildQuery({ id });
-  console.log(child);
+  const { data: child, isLoading, isError } = useGetChildQuery({ id });
 
   const [updateChild] = useUpdateChildrenMutation();
   const [open, setOpen] = useState(false);
@@ -65,6 +65,9 @@ const ChildSchedule = () => {
     setOpen(false);
   };
 
+  if (isLoading) return <Loading />;
+  if (isError || !child) return <div>Error loading courses.</div>;
+
   return (
     <div>
       <div className="flex items-end bg-white shadow-lg p-4 rounded-lg  ">
@@ -72,7 +75,7 @@ const ChildSchedule = () => {
           <CardHeader className="flex justify-between items-center">
             <CardTitle>
               <span className="bg-customgreys-purpleGrey text-gray-700 rounded-2xl px-3 py-1">
-                {child?.full_name}
+                {child.full_name}
               </span>
               's Details
             </CardTitle>
@@ -86,15 +89,15 @@ const ChildSchedule = () => {
           <CardContent>
             <p>
               <strong>Age: </strong>
-              {child?.age}
+              {child.age}
             </p>
             <p>
               <strong>Grade Level: </strong>
-              {child?.grade_level}
+              {child.grade_level}
             </p>
             <p>
               <strong>Learning Goals: </strong>
-              {child?.learning_goals}
+              {child.learning_goals}
               pass subject
             </p>
           </CardContent>
@@ -122,7 +125,7 @@ const ChildSchedule = () => {
       </div>
       <div className="mt-4 bg-white rounded-md p-4 h-[800px]">
         <h1>Teacher&apos;s Schedule</h1>
-        <BigCalendar />
+        <BigCalendar id={child.id} />
       </div>
     </div>
   );

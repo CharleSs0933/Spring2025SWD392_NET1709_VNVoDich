@@ -2,28 +2,29 @@
 
 export const calendarEvents = [
   {
+    id: 1,
     title: "Math",
     allDay: false,
-    start: new Date(2025, 1, 9, 7, 0),
-    end: new Date(2025, 1, 9, 8, 0),
+    start: new Date(2025, 1, 27, 7, 0),
+    end: new Date(2025, 1, 27, 8, 0),
   },
   {
     title: "English",
     allDay: false,
-    start: new Date(2025, 1, 9, 9, 0),
-    end: new Date(2025, 1, 9, 9, 45),
+    start: new Date(2025, 1, 27, 9, 0),
+    end: new Date(2025, 1, 27, 9, 45),
   },
   {
     title: "Biology",
     allDay: false,
-    start: new Date(2025, 1, 9, 10, 0),
-    end: new Date(2025, 1, 9, 10, 45),
+    start: new Date(2025, 1, 27, 10, 0),
+    end: new Date(2025, 1, 27, 10, 45),
   },
   {
     title: "Physics",
     allDay: false,
-    start: new Date(2025, 1, 9, 11, 0),
-    end: new Date(2025, 1, 9, 11, 45),
+    start: new Date(2025, 1, 27, 11, 0),
+    end: new Date(2025, 1, 27, 11, 45),
   },
   {
     title: "Chemistry",
