@@ -2,7 +2,6 @@
 
 export const calendarEvents = [
   {
-    id: 1,
     title: "Math",
     allDay: false,
     start: new Date(2025, 1, 27, 7, 0),

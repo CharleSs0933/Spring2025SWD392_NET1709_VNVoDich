@@ -9,23 +9,15 @@ const localizer = momentLocalizer(moment);
 
 const BigCalendar = ({
   data,
+  selectedEvent,
 }: {
   data: { title: string; start: Date; end: Date }[];
+  selectedEvent: (event: any) => void;
 }) => {
   const [view, setView] = useState<View>(Views.WEEK);
-  const [selectedEvent, setSelectedEvent] = useState<any>(null);
 
   const handleOnChangeView = (selectedView: View) => {
     setView(selectedView);
-  };
-
-  const handleSelectEvent = (event: any) => {
-    alert(
-      `${event.id}/Môn học: ${event.title}\nThời gian: ${moment(
-        event.start
-      ).format("HH:mm")} - ${moment(event.end).format("HH:mm")}`
-    );
-    setSelectedEvent(event);
   };
 
   return (
@@ -40,7 +32,7 @@ const BigCalendar = ({
       onView={handleOnChangeView}
       min={new Date(2025, 1, 1, 6, 0, 0)}
       max={new Date(2025, 1, 2, 22, 0, 0)}
-      onSelectEvent={handleSelectEvent}
+      onSelectEvent={(event) => selectedEvent(event)}
     />
   );
 };

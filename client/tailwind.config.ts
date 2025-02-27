@@ -54,6 +54,7 @@ export default {
           dirtyGrey: "#6e6e6e",
           blueGrey: "#BBE1FA",
           purpleGrey: "#D4ADFC",
+          dirtyBlueGrey: "#3C415C",
         },
         primary: {
           "50": "#fdfdff",
