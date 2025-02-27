@@ -26,18 +26,13 @@ const Header = () => {
           >
             Courses
           </div>
-          <div
-            onClick={() => router.push("/Tutors")}
-            className="cursor-pointer"
-          >
-            Tutors
-          </div>
+{/*         
           <div className="cursor-pointer">Teams</div>
-          <div className="cursor-pointer">Commuity</div>
+          <div className="cursor-pointer">Commuity</div> */}
           <div
             onClick={() => router.push("/Courses")}
             className="bg-white-100 p-1 rounded-lg text-black font-semibold cursor-pointer"
-          >
+          > 
             DoashBoard
           </div>
           {!token ? (
