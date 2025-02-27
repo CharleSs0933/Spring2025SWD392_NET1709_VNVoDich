@@ -99,11 +99,11 @@ export async function GET(req: NextRequest) {
     // );
 
     const params = new URLSearchParams({
-      client_id: GOOGLE_CLIENT_ID || "",
-      client_secret: GOOGLE_CLIENT_SECRET || "",
+      client_id: process.env.GOOGLE_CLIENT_ID || "",
+      client_secret: process.env.GOOGLE_CLIENT_SECRET || "",
       code,
       grant_type: "authorization_code",
-      redirect_uri: GOOGLE_REDIRECT_URI || "",
+      redirect_uri: process.env.GOOGLE_REDIRECT_URI || "",
     });
 
     const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {

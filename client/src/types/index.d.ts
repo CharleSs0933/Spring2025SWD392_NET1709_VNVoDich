@@ -153,8 +153,8 @@ export interface Availability {
 export interface TeachingSession {
   id: number;
   google_meet_id: string;
-  startTime: Date;
-  endTime: Date;
+  startTime: string;
+  endTime: string;
   status: string;
   topics_covered: string;
   homework_assigned: string;

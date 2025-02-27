@@ -2,12 +2,8 @@
 
 import { Calendar, momentLocalizer, View, Views } from "react-big-calendar";
 import moment from "moment";
-import { calendarEvents } from "../app/(dashboard)/parent/children/[id]/dataTam";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useState } from "react";
-import { useGetSessionQuery } from "@/state/api";
-import Loading from "./Loading";
-import { adjustScheduleToCurrentWeek } from "@/lib/utils";
 
 const localizer = momentLocalizer(moment);
 

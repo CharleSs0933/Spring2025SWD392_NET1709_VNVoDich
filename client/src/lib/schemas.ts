@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import * as z from "zod";
 
 // Course Editor Schemas
@@ -56,4 +57,5 @@ export const availabilitySchema = z.object({
 export const bookingSchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format"),
   time: z.string().regex(/^\d{2}:\d{2}$/, "Invalid time format"),
+  childId: z.number().min(1, "Please select a child"),
 });

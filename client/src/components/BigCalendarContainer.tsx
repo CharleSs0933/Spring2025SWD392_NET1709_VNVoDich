@@ -1,9 +1,10 @@
-import BigCalendar from "@/app/component/BigCalendar";
+import BigCalendar from "@/components/BigCalendar";
 import { adjustScheduleToCurrentWeek } from "@/lib/utils";
 import { useGetSessionQuery } from "@/state/api";
 import Loading from "./Loading";
+import { addHours, parseISO } from "date-fns";
 
-const BigCalendarContainer = async ({ id }: { id: number }) => {
+const BigCalendarContainer = ({ id }: { id: number }) => {
   const {
     data: teachingSession,
     isLoading,
@@ -17,13 +18,17 @@ const BigCalendarContainer = async ({ id }: { id: number }) => {
 
   const dataTeaching = teachingSession.map((event) => ({
     title: event.subscription?.course?.title || " ",
-    start: event.startTime as Date,
-    end: event.endTime as Date,
+    start: addHours(parseISO(event.startTime), -7),
+    end: addHours(parseISO(event.endTime), -7),
   }));
 
   const schedule = adjustScheduleToCurrentWeek(dataTeaching);
 
-  return <div className="">{/* <BigCalendar data={schedule} /> */}</div>;
+  return (
+    <div className="">
+      <BigCalendar data={schedule} />
+    </div>
+  );
 };
 
 export default BigCalendarContainer;

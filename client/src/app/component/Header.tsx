@@ -42,7 +42,7 @@ const Header = () => {
           </div>
           {!token ? (
             <div
-              onClick={() => router.push("/Login")}
+              onClick={() => router.push("/login")}
               className="bg-white-100 p-1 rounded-lg text-black font-semibold cursor-pointer"
             >
               Login Now

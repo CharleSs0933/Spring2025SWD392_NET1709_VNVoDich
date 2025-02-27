@@ -1,21 +1,24 @@
 import { Button } from "@/components/ui/button";
 import { bookingSchema } from "@/lib/schemas";
-import { Course } from "@/types";
+import { Children, Course } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import { useForm } from "react-hook-form";
+import ChildrenSelector from "./children-selector";
 
 type Props = {
   course: Course;
   availabilities: { date: string; slots: string[] }[];
+  children: Children[];
 };
 
-const BookingForm = ({ course, availabilities }: Props) => {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-  const [selectedTime, setSelectedTime] = useState("");
+const BookingForm = ({ course, availabilities, children }: Props) => {
+  const [selectedDates, setSelectedDates] = useState<Date[]>([]);
+  const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
+  const [selectedChild, setSelectedChild] = useState<Children | null>(null);
 
   const {
     register,
@@ -27,35 +30,41 @@ const BookingForm = ({ course, availabilities }: Props) => {
   });
 
   useEffect(() => {
-    if (selectedDate) {
-      setValue("date", format(selectedDate, "yyyy-MM-dd"));
+    if (selectedDates.length > 0) {
+      const formattedDates = selectedDates.map((date) =>
+        format(date, "yyyy-MM-dd")
+      );
+      setValue("dates", formattedDates); // Giả sử schema hỗ trợ "dates" là mảng
     }
-  }, [selectedDate, setValue]);
+  }, [selectedDates, setValue]);
 
   useEffect(() => {
-    if (selectedTime) {
-      setValue("time", selectedTime);
+    if (selectedTimes.length > 0) {
+      setValue("times", selectedTimes); // Giả sử schema hỗ trợ "times" là mảng
     }
-  }, [selectedTime, setValue]);
+  }, [selectedTimes, setValue]);
 
   const availableDays = availabilities.map((day) => new Date(day.date));
 
-  const timeSlots = selectedDate
-    ? availabilities.find(
-        (day) => day.date === format(selectedDate, "yyyy-MM-dd")
-      )?.slots || []
-    : [];
+  const timeSlotsByDate = selectedDates.map((date) => {
+    const formattedDate = format(date, "yyyy-MM-dd");
+    return {
+      date: formattedDate,
+      slots:
+        availabilities.find((day) => day.date === formattedDate)?.slots || [],
+    };
+  });
 
   return (
-    <div className="flex flex-col gap-8 p-10 border bg-customgreys-primarybg">
+    <div className="flex flex-col  gap-8 p-10 border bg-customgreys-primarybg">
       <div className="md:h-96 flex flex-col md:flex-row gap-5 ">
         <div className="w-full">
           <DayPicker
-            mode="single"
-            selected={selectedDate}
+            mode="multiple"
+            selected={selectedDates}
             onSelect={(date) => {
-              setSelectedDate(date);
-              setSelectedTime("");
+              setSelectedDates(date || []);
+              setSelectedTimes([]);
             }}
             disabled={[{ before: new Date() }]}
             modifiers={{ available: availableDays }}
@@ -69,27 +78,47 @@ const BookingForm = ({ course, availabilities }: Props) => {
           />
         </div>
         <div className="w-full h-full md:overflow-scroll no-scrollbar">
-          {selectedDate && (
+          {selectedDates.length > 0 && (
             <div className="mb-4">
               <h3 className="text-lg font-semibold mb-2">
                 Available Time Slots
               </h3>
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
-                {timeSlots.map((slot) => (
-                  <Button
-                    key={slot}
-                    variant={selectedTime === slot ? "outline" : "default"}
-                    className="border-gray-400 hover:text-gray-500 bg-customgreys-secondarybg"
-                    onClick={() => setSelectedTime(slot)}
-                  >
-                    {slot}
-                  </Button>
-                ))}
-              </div>
+              {timeSlotsByDate.map((day, index) => (
+                <div key={day.date} className="mb-4">
+                  <h4 className="font-medium">{day.date}</h4>
+                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
+                    {day.slots.map((slot) => (
+                      <Button
+                        key={slot}
+                        variant={
+                          selectedTimes[index] === slot ? "outline" : "default"
+                        }
+                        className="border-gray-400 hover:text-gray-500 bg-customgreys-secondarybg"
+                        onClick={() => {
+                          const newTimes = [...selectedTimes];
+                          newTimes[index] = slot; // Gán thời gian cho ngày tương ứng
+                          setSelectedTimes(newTimes);
+                        }}
+                      >
+                        {slot}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           )}
         </div>
       </div>
+      {selectedTimes.length > 0 && (
+        <>
+          <ChildrenSelector
+            availableChildren={children}
+            selectedChild={selectedChild}
+            setSelectedChild={setSelectedChild}
+          />
+        </>
+      )}
     </div>
   );
 };
