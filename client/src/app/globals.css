@@ -182,13 +182,54 @@ body,
   border-color: #eee !important;
 }
 
-.rbc-time-header {
+.rbc-time-header-content {
   /* display: none !important; */
-  @apply bg-primary-750 text-customgreys-blueGrey;
+  @apply bg-[#5C5470] text-white-50;
+}
+
+.rbc-time-header.rbc-overflowing {
+  margin: 0 !important;
+}
+
+.rbc-header {
+  @apply h-10 flex justify-center items-center;
+}
+
+.rbc-button-link {
+  @apply text-sm;
+}
+
+.rbc-header.rbc-today {
+  @apply h-10 bg-[#3C415C];
+}
+
+.rbc-overflowing {
+  @apply m-0;
+}
+
+.rbc-row-bg {
+  display: block !important;
+}
+
+.rbc-day-bg.rbc-today {
+  background-color: #3c415c;
+}
+
+.rbc-day-slot.rbc-time-column.rbc-now.rbc-today {
+  /*Màu hôm nay*/
+  background-color: #3c415c;
 }
 
 .rbc-time-content {
   border: none !important;
+  padding: none !important;
+  scrollbar-width: none; /* Ẩn trên Firefox */
+  -ms-overflow-style: none; /* Ẩn trên IE/Edge */
+}
+
+.rbc-label.rbc-time-header-gutter {
+  background-color: transparent !important;
+  border: 1px white !important;
 }
 
 .rbc-time-gutter.rbc-time-column {
@@ -196,24 +237,18 @@ body,
   color: #e2f8ff !important;
 }
 
-.rbc-time-gutter.rbc-time-column .rbc-timeslot-group {
-  padding: 0px 20px !important;
-}
-
 .rbc-timeslot-group {
+  padding: 10px 20px !important;
   background-color: none !important;
 }
 
 .rbc-time-slot {
   border: none !important;
+  height: 20 !important;
 }
 
 .rbc-day-slot {
   font-size: 14px !important;
-}
-
-.rbc-today {
-  @apply bg-primary-750 !important;
 }
 
 .rbc-event {
@@ -222,6 +257,20 @@ body,
   color: black !important;
   padding: 10px !important;
   width: 100% !important;
+}
+
+.rbc-events-container {
+  margin: 0 !important;
+}
+
+.rbc-row-content {
+  display: none !important;
+}
+
+.rbc-event {
+  margin: 0 5px !important;
+  padding: 2px 8px !important;
+  width: 95% !important;
 }
 
 .rbc-event:nth-child(1) {
@@ -251,7 +300,12 @@ body,
 
 .rbc-event-label {
   color: gray !important;
-  margin-bottom: 5px;
+}
+
+.rbc-btn-group button {
+  pointer-events: auto !important;
+  opacity: 1 !important;
+  z-index: 1000;
 }
 
 /* Dialog */

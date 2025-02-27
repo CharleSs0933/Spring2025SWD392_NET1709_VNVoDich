@@ -3,7 +3,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { notFound, useParams, useRouter } from "next/navigation";
 import { useGetChildQuery, useUpdateChildrenMutation } from "@/state/api";
-import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { DialogTrigger } from "@radix-ui/react-dialog";
@@ -11,6 +10,8 @@ import { ChildDialog } from "@/components/dashboard/parent/ChildDialog";
 import { useState } from "react";
 import Loading from "@/components/Loading";
 import BigCalendarContainer from "@/components/BigCalendarContainer";
+import { TeachingSession } from "@/types";
+import moment from "moment";
 
 const ChildSchedule = () => {
   const router = useRouter();
@@ -18,6 +19,9 @@ const ChildSchedule = () => {
   const id = params.id as string;
   const { data: child, isLoading, isError } = useGetChildQuery({ id });
 
+  const [selectedEvent, setSelectedEvent] = useState<TeachingSession | null>(
+    null
+  );
   const [updateChild] = useUpdateChildrenMutation();
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState<any>({
@@ -70,62 +74,110 @@ const ChildSchedule = () => {
 
   return (
     <div>
-      <div className="flex items-end bg-white shadow-lg p-4 rounded-lg  ">
-        <Card className="w-[400px] relative">
-          <CardHeader className="flex justify-between items-center">
-            <CardTitle>
-              <span className="bg-customgreys-purpleGrey text-gray-700 rounded-2xl px-3 py-1">
-                {child.full_name}
-              </span>
-              's Details
-            </CardTitle>
+      <div className="flex items-center gap-40">
+        {/* Children's  */}
+        <div className="relative p-4 w-[500px]">
+          <Card className="w-full relative z-10 flex items-center gap-4 p-4 bg-customgreys-dirtyBlueGrey border-none shadow-xl">
+            {/* Avatar */}
+            <div
+              className="w-32 h-32 aspect-square rounded-full flex items-center justify-center 
+          text-6xl font-bold uppercase text-white bg-gradient-to-r from-blue-500 to-indigo-600 shadow-md"
+            >
+              {child.full_name.charAt(0)}
+            </div>
+
+            {/* Info */}
+            <div>
+              <CardHeader className="flex justify-between p-2">
+                <CardTitle>
+                  <span className="text-primary-200 rounded-2xl text-xl font-bold">
+                    {child.full_name}
+                  </span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="text-base text-white-50 p-2">
+                <p>
+                  <strong>Age: </strong>
+                  {child.age}
+                </p>
+                <p>
+                  <strong>Grade Level: </strong>
+                  {child.grade_level}
+                </p>
+                <p>
+                  <strong>Learning Goals: </strong>
+                  {child.learning_goals}
+                </p>
+              </CardContent>
+            </div>
+          </Card>
+
+          <div className="absolute -right-14 bottom-[20px] flex flex-col gap-2 z-0">
             <button
               onClick={() => router.push("/parent/children")}
-              className="absolute right-3 top-3"
+              className="px-4 py-2 bg-[#3C415C] text-end text-white rounded-lg shadow-md hover:bg-gray-600"
             >
-              <X className="w-5 h-5 text-gray-500 hover:text-red-500" />
+              <span>&lt;&lt; Back</span>
             </button>
-          </CardHeader>
-          <CardContent>
-            <p>
-              <strong>Age: </strong>
-              {child.age}
-            </p>
-            <p>
-              <strong>Grade Level: </strong>
-              {child.grade_level}
-            </p>
-            <p>
-              <strong>Learning Goals: </strong>
-              {child.learning_goals}
-              pass subject
-            </p>
-          </CardContent>
-        </Card>
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogTrigger asChild>
+                <Button
+                  onClick={handleEdit}
+                  className="px-4 py-2 bg-primary-750 text-white rounded-lg shadow-md hover:bg-primary-700"
+                >
+                  Edit
+                </Button>
+              </DialogTrigger>
 
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild>
-            <Button
-              onClick={handleEdit}
-              className="rounded-xl bg-customgreys-purpleGrey text-gray-900 mx-5
-        hover:bg-primary-750 hover:text-white-50"
-            >
-              Edit
-            </Button>
-          </DialogTrigger>
+              <ChildDialog
+                formData={formData}
+                handleChange={handleChange}
+                handleSubmit={handleUpdate}
+                handleClose={handleClose}
+                mode="edit"
+              />
+            </Dialog>
+          </div>
+        </div>
 
-          <ChildDialog
-            formData={formData}
-            handleChange={handleChange}
-            handleSubmit={handleUpdate}
-            handleClose={handleClose}
-            mode="edit"
-          />
-        </Dialog>
+        {/* Event Info */}
+        {selectedEvent && (
+          <div className="w-[350px] p-4 bg-[#3C415C] rounded-md shadow-lg">
+            <h2 className="text-lg font-semibold text-gray-800">
+              Chi tiết sự kiện
+            </h2>
+            <p>
+              <strong>Môn học:</strong> {selectedEvent.topics_covered}
+            </p>
+            <p>
+              <strong>Thời gian:</strong>{" "}
+              {moment(selectedEvent.startTime).format("HH:mm")} -{" "}
+              {moment(selectedEvent.endTime).format("HH:mm")}
+            </p>
+            <p>
+              <strong>Bài tập về nhà:</strong> {selectedEvent.homework_assigned}
+            </p>
+            <p>
+              <strong>Trạng thái:</strong> {selectedEvent.status}
+            </p>
+            <p>
+              <strong>Google Meet:</strong>{" "}
+              <a
+                href={selectedEvent.google_meet_id}
+                target="_blank"
+                className="text-blue-500 underline"
+              >
+                Tham gia
+              </a>
+            </p>
+          </div>
+        )}
       </div>
-      <div className="mt-4 bg-white rounded-md p-4 h-[800px]">
+
+      {/* Schedule */}
+      <div className="mt-4 bg-white rounded-md p-4">
         <h1>Teacher&apos;s Schedule</h1>
-        <BigCalendarContainer id={child.id} />
+        <BigCalendarContainer id={child.id} selectedEvent={setSelectedEvent} />
       </div>
     </div>
   );
