@@ -9,14 +9,14 @@ const ChildrenCard = ({
   setSelectedChild,
 }: {
   children: Children;
-  selectedChild: Children | null;
+  selectedChild: Children | null; // Thay đổi type thành number | null để phù hợp với Redux
   setSelectedChild: (child: Children) => void;
 }) => {
   return (
     <Card
       onClick={() => setSelectedChild(children)}
       className={`cursor-pointer ${
-        selectedChild?.id === children.id ? "border-primary" : "border-none "
+        selectedChild?.id === children.id ? "border-primary" : "border-none"
       }`}
     >
       <CardContent className="grid p-4 gap-4">

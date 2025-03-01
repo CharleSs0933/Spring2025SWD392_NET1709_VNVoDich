@@ -5,7 +5,7 @@ export interface Course {
   description?: string;
   total_lessons: number;
   image?: string;
-  price?: number;
+  price: number;
   status: "Draft" | "Published";
   subject: string;
   grade: number;

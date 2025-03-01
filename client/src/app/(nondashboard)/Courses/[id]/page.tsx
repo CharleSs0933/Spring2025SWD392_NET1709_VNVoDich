@@ -21,7 +21,7 @@ const CoursesDetail = () => {
   const [expandedLesson, setExpandedLesson] = useState<string | null>(null);
 
   const handleEnrollNow = () => {
-    router.push(`/checkout?id=${id}`, {
+    router.push(`/checkout?step=1&id=${id}`, {
       scroll: false,
     });
   };

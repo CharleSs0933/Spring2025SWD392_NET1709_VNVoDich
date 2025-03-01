@@ -27,16 +27,15 @@ const TutorDetail = () => {
       <div className="relative w-full h-[400px]  rounded-lg overflow-hidden ">
         <Image
           src={tutors || "/default-tutor.jpg"}
-          alt={tutor?.user?.full_name || "Tutor Image"}
+          alt={tutor?.profile?.full_name || "Tutor Image"}
           layout="fill"
           objectFit="cover"
           objectPosition="center 30%"
           className="opacity-40"
         />
         <div className="absolute top-[70%] mx-6 text-white">
-          <h1 className="text-3xl font-bold">{tutor?.user?.full_name}</h1>
+          <h1 className="text-3xl font-bold">{tutor?.profile?.full_name}</h1>
           <p className="text-gray-300">{tutor?.qualifications}</p>
-        
         </div>
       </div>
       <div className="border p-6 bg-gray-100 rounded-lg">
@@ -68,8 +67,8 @@ const TutorDetail = () => {
           <h3 className="text-lg font-semibold text-orange-500">
             Contact Information
           </h3>
-          <p className="text-gray-600">Email: {tutor?.user?.email}</p>
-          <p className="text-gray-600">Phone: {tutor?.user?.phone}</p>
+          <p className="text-gray-600">Email: {tutor?.profile?.email}</p>
+          <p className="text-gray-600">Phone: {tutor?.profile?.phone}</p>
         </div>
       </div>
 
