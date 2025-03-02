@@ -7,7 +7,7 @@ import { clearBooking } from "@/state";
 export const useCheckoutNavigation = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { loading } = useUser();
+  const { loading, user } = useUser();
   const dispatch = useAppDispatch();
 
   const courseId = searchParams.get("id") ?? "";
@@ -15,7 +15,7 @@ export const useCheckoutNavigation = () => {
 
   const navigateToStep = useCallback(
     (step: number) => {
-      const newStep = Math.min(Math.max(1, step), 3);
+      const newStep = Math.min(Math.max(1, step), 4);
 
       router.push(`/checkout?step=${newStep}&id=${courseId}`, {
         scroll: false,
@@ -25,7 +25,8 @@ export const useCheckoutNavigation = () => {
   );
 
   useEffect(() => {
-    if (loading && checkoutStep > 1) {
+    if (loading) return;
+    if (!user && checkoutStep > 1) {
       navigateToStep(1);
       dispatch(clearBooking());
     }

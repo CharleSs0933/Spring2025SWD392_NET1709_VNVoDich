@@ -7,6 +7,7 @@ import WizardStepper from "./_components/WizardStepper";
 import SchedulePage from "./schedule";
 import ChildrenPage from "./children";
 import PaymentPage from "./payment";
+import CompletionPage from "./completion";
 // import {
 //   useGetChildrenQuery,
 //   useGetCourseAvailabilityQuery,
@@ -68,9 +69,9 @@ const CheckoutWizard = () => {
       case 3:
         return <PaymentPage />;
       case 4:
-        return <div>Step 4</div>;
+        return <CompletionPage />;
       default:
-        return <div>Invalid step</div>;
+        return <SchedulePage />;
     }
   };
 

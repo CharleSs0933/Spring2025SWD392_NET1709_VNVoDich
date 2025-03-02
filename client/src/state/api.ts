@@ -321,6 +321,23 @@ export const api = createApi({
         url: `/teaching-sessions/child/${childrenId}`,
       }),
     }),
+
+    /* 
+    ===============
+    TRANSACTIONS
+    =============== 
+    */
+
+    createStripePaymentIntent: build.mutation<
+      { clientSecret: string },
+      { amount: number }
+    >({
+      query: ({ amount }) => ({
+        url: `/transactions/stripe/payment-intent`,
+        method: "POST",
+        body: { amount },
+      }),
+    }),
   }),
 });
 
@@ -344,4 +361,5 @@ export const {
   useUpdateAvailabilityMutation,
   useGetCourseAvailabilityQuery,
   useGetSessionQuery,
+  useCreateStripePaymentIntentMutation,
 } = api;

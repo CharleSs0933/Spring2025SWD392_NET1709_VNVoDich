@@ -5,12 +5,53 @@ import { CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCheckoutNavigation } from "@/hooks/useCheckoutNavigation";
 import { useRouter } from "next/navigation";
+import StripeProvider from "./StripeProvider";
+import {
+  PaymentElement,
+  useElements,
+  useStripe,
+} from "@stripe/react-stripe-js";
+import { toast } from "sonner";
 
-const PaymentPage = () => {
+const PaymentPageContent = () => {
   const { course, courseId } = useCurrentCourse();
+  const stripe = useStripe();
+  const elements = useElements();
   const router = useRouter();
+  const { navigateToStep } = useCheckoutNavigation();
 
   if (!course) return null;
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!stripe || !elements) {
+      toast.error("Stripe service is not available");
+      return;
+    }
+
+    const baseUrl = process.env.NEXT_PUBLIC_LOCAL_URL
+      ? `http://${process.env.NEXT_PUBLIC_LOCAL_URL}`
+      : process.env.NEXT_PUBLIC_VERCEL_URL
+      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+      : undefined;
+
+    console.log(baseUrl);
+
+    const result = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: `${baseUrl}/checkout?step=4&id=${courseId}`,
+      },
+      redirect: "if_required",
+    });
+
+    if (result.paymentIntent?.status === "succeeded") {
+      console.log("Payment succeeded");
+
+      navigateToStep(4);
+    }
+  };
 
   return (
     <div className="flex flex-col w-full">
@@ -19,7 +60,7 @@ const PaymentPage = () => {
           <CourseDetails course={course} />
         </div>
         <div className="basis-1/2">
-          <form className="space-y-4">
+          <form className="space-y-4" id="payment-form" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-4 bg-customgreys-secondarybg px-10 py-10 rounded-lg">
               <h1 className="text-2xl font-bold">Checkout</h1>
               <p className="text-sm text-gray-400">
@@ -34,7 +75,9 @@ const PaymentPage = () => {
                     <CreditCard size={24} />
                     <span>Credit/Debit Card</span>
                   </div>
-                  <div className="px-4 py-6">{/* <PaymentElement /> */}</div>
+                  <div className="px-4 py-6">
+                    <PaymentElement />
+                  </div>
                 </div>
               </div>
             </div>
@@ -53,7 +96,7 @@ const PaymentPage = () => {
               className="hover:bg-primary-600 bg-primary-700"
               type="submit"
               form="payment-form"
-              //   disabled={!stripe || !elements}
+              disabled={!stripe || !elements}
             >
               Pay with Credit Card
             </Button>
@@ -63,5 +106,11 @@ const PaymentPage = () => {
     </div>
   );
 };
+
+const PaymentPage = () => (
+  <StripeProvider>
+    <PaymentPageContent />
+  </StripeProvider>
+);
 
 export default PaymentPage;
