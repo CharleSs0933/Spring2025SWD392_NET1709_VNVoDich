@@ -1,7 +1,6 @@
 "use client";
 
 import { CustomFormField } from "@/components/CustomFormField";
-import Header from "@/app/component/Header";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { courseGrades, createCourseFormData } from "@/lib/utils";
@@ -19,6 +18,7 @@ import { CourseFormData } from "@/types";
 import LessonModal from "./LessonModal";
 import { courseSubjects } from "@/lib/utils";
 import Loading from "@/components/Loading";
+import Header from "@/components/Header";
 
 const CourseEditor = () => {
   const router = useRouter();

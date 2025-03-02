@@ -5,7 +5,7 @@ export interface Course {
   description?: string;
   total_lessons: number;
   image?: string;
-  price?: number;
+  price: number;
   status: "Draft" | "Published";
   subject: string;
   grade: number;
@@ -162,4 +162,38 @@ export interface TeachingSession {
   subscription?: {
     course?: Course;
   };
+}
+
+export interface TutorReview {
+  id: number;
+  rating: number;
+  review_content: string;
+  // createAt: dateTime
+
+  tutor_id: number;
+  tutor: Tutor;
+  parent_id: number;
+  parent: Parent;
+}
+
+export interface CourseReview {
+  id: number;
+  rating: number;
+  review_content: string;
+  // createAt   :    DateTime
+
+  course_id: number;
+  course: Course;
+  parent_id: number;
+  parent: Parent;
+}
+
+export interface Parent {
+  id: number;
+  preferred_language: string;
+  notifications_enable: boolean;
+
+  childrens?: Children[];
+  tutorReviews?: TutorReview[];
+  courseReviews?: CourseReview[];
 }

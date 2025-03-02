@@ -16,13 +16,14 @@ import {
   useDeleteChildrenMutation,
   useGetChildrenQuery,
 } from "@/state/api";
-import { SlidersHorizontal, X } from "lucide-react";
+import { Eye, SlidersHorizontal, Trash2, X } from "lucide-react";
 import { Children } from "@/types";
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { ChildDialog } from "@/components/dashboard/parent/ChildDialog";
+import { ConfirmDialog } from "@/components/dashboard/parent/ConfirmDialog";
 
 const ChildrenManagement = () => {
   const router = useRouter();
@@ -32,6 +33,15 @@ const ChildrenManagement = () => {
   const [deleteChild] = useDeleteChildrenMutation();
 
   const [open, setOpen] = useState(false);
+  const [deleteChildId, setDeleteChildId] = useState<number | null>(null);
+
+  const handleConfirmDelete = async () => {
+    if (deleteChildId !== null) {
+      await deleteChild(deleteChildId).unwrap();
+      setDeleteChildId(null);
+    }
+  };
+
   const [formData, setFormData] = useState<any>({
     full_name: "",
     password: "",
@@ -78,7 +88,7 @@ const ChildrenManagement = () => {
         rightElement={
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-primary-700 hover:bg-primary-600">
+              <Button className="bg-primary-750 hover:bg-primary-600 rounded-xl">
                 Create Child Account
               </Button>
             </DialogTrigger>
@@ -125,17 +135,19 @@ const ChildrenManagement = () => {
                     <TableCell className="child__table-cell">
                       {child.learning_goals}
                     </TableCell>
-                    <TableCell className="child__table-cell">
+                    <TableCell className="child__table-cell flex justify-end items-center w-full h-full">
                       <Button
                         onClick={() => handleViewChildSchedule(child)}
-                        className="bg-blue-600 hover:bg-blue-500 mr-3"
+                        className="bg-primary-750 hover:bg-primary-600 mr-3 rounded-xl"
                       >
+                        <Eye />
                         View
                       </Button>
                       <Button
-                        onClick={() => handleDeleteChild(child.id)}
-                        className="bg-red-600 hover:bg-red-500"
+                        onClick={() => setDeleteChildId(child.id)}
+                        className="bg-red-700 hover:bg-red-600 rounded-xl"
                       >
+                        <Trash2 />
                         Delete
                       </Button>
                     </TableCell>
@@ -155,6 +167,17 @@ const ChildrenManagement = () => {
           </Table>
         )}
       </div>
+      {deleteChildId !== null && (
+        <ConfirmDialog
+          full_name={
+            children.find((child) => child.id === deleteChildId)?.full_name ||
+            ""
+          }
+          handleClose={() => setDeleteChildId(null)}
+          handleDelete={handleConfirmDelete}
+          open={deleteChildId !== null}
+        />
+      )}
     </div>
   );
 };

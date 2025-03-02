@@ -114,7 +114,7 @@ body,
 }
 
 .child__table-header {
-  @apply bg-primary-750;
+  @apply bg-[#5C5470];
 }
 
 .child__table-header-row {
