@@ -68,6 +68,48 @@ export const useUser = () => {
     }
   };
 
+
+  // user name password email role
+
+  // const signUp = async ({
+  //   username,
+  //   password,
+  //   Confirmpassword,
+  //   email,
+  //   role
+  // }: {
+  //   username: string;
+  //   password: string;
+  //   Confirmpassword : string
+  //   email: string
+  //   role: string
+  // }) => {
+  //   setLoading(true);
+  //   try {
+  //     const data = await loginAPI({ username, password }).unwrap();
+
+  //     const { token, user } = data;
+
+  //     // Lưu token và user vào cookies
+  //     Cookies.set ("authToken", token, {
+  //       expires: 7,
+  //       secure: true,
+  //       sameSite: "strict",
+  //     });
+  //     Cookies.set("user", JSON.stringify(user), {
+  //       expires: 7,
+  //       secure: true,
+  //       sameSite: "strict",
+  //     });
+
+  //     setUser(user);
+  //   } catch (error) {
+  //     console.error("Login failed:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   // Hàm đăng xuất
   const logout = () => {
     Cookies.remove("authToken");

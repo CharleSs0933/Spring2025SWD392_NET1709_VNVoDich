@@ -1,3 +1,5 @@
+import { string } from "zod";
+
 export interface Course {
   id: number;
   tutor_id: number;
@@ -14,7 +16,7 @@ export interface Course {
   // availabilitys?: Availability[];
   lessons?: Lesson[];
   // courseSubscriptions?: CourseSubscription[];
-  // courseReviews?: CourseReview[];
+  courseReviews?: CoursesReview[];
 }
 
 export interface Lesson {
@@ -51,6 +53,8 @@ export interface Tutor {
     google_id : string,
     timezone: string
   };
+  tutorReviews?: CoursesReview[];
+
 }
 
 export interface Children {
@@ -149,3 +153,30 @@ export interface Availability {
   saturday: DayAvailability;
   sunday: DayAvailability;
 }
+
+
+export interface CoursesReview {
+  id: number;
+  rating: number;
+  review_content: string;
+  createAt: Date;
+  course_id: number;
+  parent_id?: {
+    profile: {
+      full_name: string;
+    };
+  };
+}
+
+
+
+
+
+
+export interface TutorReviews{
+  tutor_id: number,
+  tutor_name: string,
+  average_rating: number,
+  reviews: any
+}
+

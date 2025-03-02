@@ -19,16 +19,16 @@ const CoursesDetail = () => {
     isLoading,
     isError,
   } = useGetCourseQuery(courseId as string, { skip: !id });
-  console.log(course);
   
+  console.log(course, "course");
+
   const [expandedLesson, setExpandedLesson] = useState<string | null>(null);
 
   const handleOnClick = (item: any) => {
-    
-      router.push(`/Tutors/${item.id}`)
-      console.log(item, "okkk");
-      
+    router.push(`/Tutors/${item.id}`);
+    console.log(item, "okkk");
   };
+
   if (isLoading) return <Skeleton className="h-96 w-full rounded-lg" />;
   if (isError)
     return (
@@ -61,13 +61,12 @@ const CoursesDetail = () => {
               />
 
               <div
-                onClick={() =>handleOnClick(course?.tutor)}
+                onClick={() => handleOnClick(course?.tutor)}
                 className="cursor-pointer"
               >
-              <p className="text-orange-400 font-semibold text-lg hover:underline cursor-pointer">
-                {course?.tutor?.profile?.full_name}
-              </p>
-              
+                <p className="text-orange-400 font-semibold text-lg hover:underline cursor-pointer">
+                  {course?.tutor?.profile?.full_name}
+                </p>
               </div>
             </div>
           </div>
@@ -155,7 +154,7 @@ const CoursesDetail = () => {
       </div>
       {/* )} */}
       <div>
-        <Review/>
+        <Review comments={course?.courseReviews || []} />
       </div>
     </div>
   );
