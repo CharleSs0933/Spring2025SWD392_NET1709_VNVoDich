@@ -135,7 +135,7 @@ const ChildrenManagement = () => {
                     <TableCell className="child__table-cell">
                       {child.learning_goals}
                     </TableCell>
-                    <TableCell className="child__table-cell flex justify-end items-center w-full h-full">
+                    <TableCell className="child__table-cell">
                       <Button
                         onClick={() => handleViewChildSchedule(child)}
                         className="bg-primary-750 hover:bg-primary-600 mr-3 rounded-xl"

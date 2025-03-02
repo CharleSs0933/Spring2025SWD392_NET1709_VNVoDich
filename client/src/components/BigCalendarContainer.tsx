@@ -74,14 +74,9 @@ const BigCalendarContainer = ({
     end: addHours(parseISO(event.endTime), -7),
     ...event,
   }));
-  console.log(formattedData);
+  console.log("Data", formattedData);
 
-  return (
-    <BigCalendar
-      data={formattedData}
-      onSelectEvent={onSelectEvent} // Truyền sự kiện khi chọn event
-    />
-  );
+  return <BigCalendar data={formattedData} onSelectEvent={onSelectEvent} />;
 };
 
 export default BigCalendarContainer;

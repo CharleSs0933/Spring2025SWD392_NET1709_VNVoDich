@@ -193,6 +193,12 @@ export interface Parent {
   preferred_language: string;
   notifications_enable: boolean;
 
+  profile?: {
+    email: string;
+    full_name: string;
+    phone: string;
+    username: string;
+  };
   childrens?: Children[];
   tutorReviews?: TutorReview[];
   courseReviews?: CourseReview[];

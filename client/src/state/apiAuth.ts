@@ -70,7 +70,17 @@ export const apiAuth = createApi({
         body,
       }),
     }),
+    signup: build.mutation<
+      any,
+      { username: string; password: string; email: string; role: string }
+    >({
+      query: (body) => ({
+        url: `auth/register`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation } = apiAuth;
+export const { useLoginMutation, useSignupMutation } = apiAuth;

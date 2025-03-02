@@ -153,9 +153,8 @@ const ChildSchedule = () => {
               {selectedEvent.subscription?.course?.title || "No Title"}
             </p>
             <p>
-              <strong>Time:</strong>{" "}
-              {moment(selectedEvent.startTime).format("HH:mm")} -{" "}
-              {moment(selectedEvent.endTime).format("HH:mm")}
+              <strong>Time:</strong> {selectedEvent.startTime.slice(11, 16)} -{" "}
+              {selectedEvent.endTime.slice(11, 16)}
             </p>
             <p>
               <strong>Description:</strong>{" "}
