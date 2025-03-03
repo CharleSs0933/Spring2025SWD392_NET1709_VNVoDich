@@ -324,7 +324,7 @@ export const api = createApi({
 
     /* 
     ===============
-    TRANSACTIONS
+    BOOKINGS
     =============== 
     */
 
@@ -333,9 +333,16 @@ export const api = createApi({
       { amount: number }
     >({
       query: ({ amount }) => ({
-        url: `/transactions/stripe/payment-intent`,
+        url: `/bookings/stripe/payment-intent`,
         method: "POST",
         body: { amount },
+      }),
+    }),
+    createTrialBooking: build.mutation<any, any>({
+      query: (body) => ({
+        url: `/bookings/create-trial-booking`,
+        method: "POST",
+        body,
       }),
     }),
   }),
@@ -362,4 +369,5 @@ export const {
   useGetCourseAvailabilityQuery,
   useGetSessionQuery,
   useCreateStripePaymentIntentMutation,
+  useCreateTrialBookingMutation,
 } = api;

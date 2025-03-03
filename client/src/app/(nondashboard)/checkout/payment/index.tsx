@@ -12,6 +12,8 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import { toast } from "sonner";
+import { useAppSelector } from "@/state/redux";
+import { useCreateTrialBookingMutation } from "@/state/api";
 
 const PaymentPageContent = () => {
   const { course, courseId } = useCurrentCourse();
@@ -19,8 +21,13 @@ const PaymentPageContent = () => {
   const elements = useElements();
   const router = useRouter();
   const { navigateToStep } = useCheckoutNavigation();
+  const [createTrialBooking, { isLoading }] = useCreateTrialBookingMutation();
 
   if (!course) return null;
+
+  const { selectedChild, selectedDates } = useAppSelector(
+    (state) => state.global.booking
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,6 +56,13 @@ const PaymentPageContent = () => {
     if (result.paymentIntent?.status === "succeeded") {
       console.log("Payment succeeded");
 
+      const bookingData = {
+        children_id: selectedChild?.id,
+        courseId,
+        dates: selectedDates,
+      };
+
+      await createTrialBooking(bookingData);
       navigateToStep(4);
     }
   };
@@ -96,7 +110,7 @@ const PaymentPageContent = () => {
               className="hover:bg-primary-600 bg-primary-700"
               type="submit"
               form="payment-form"
-              disabled={!stripe || !elements}
+              disabled={!stripe || !elements || isLoading}
             >
               Pay with Credit Card
             </Button>

@@ -114,6 +114,8 @@ export async function GET(req: NextRequest) {
 
     const tokenData: GoogleTokenResponse = await tokenResponse.json();
 
+    console.log(tokenData);
+
     if (!tokenData.access_token) {
       return NextResponse.json(
         { error: "Failed to get access token" },
@@ -129,8 +131,6 @@ export async function GET(req: NextRequest) {
     );
 
     const userData: GoogleUserResponse = await userResponse.json();
-
-    console.log(userData);
 
     if (!userData.email) {
       return NextResponse.json(
