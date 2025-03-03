@@ -1,3 +1,5 @@
+import { string } from "zod";
+
 export interface Course {
   id: number;
   tutor_id: number;
@@ -14,7 +16,7 @@ export interface Course {
   // availabilitys?: Availability[];
   lessons?: Lesson[];
   // courseSubscriptions?: CourseSubscription[];
-  // courseReviews?: CourseReview[];
+  courseReviews?: CoursesReview[];
 }
 
 export interface Lesson {
