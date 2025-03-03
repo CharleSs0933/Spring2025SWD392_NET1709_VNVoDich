@@ -75,8 +75,8 @@ const getLatestMonday = (): Date => {
 };
 
 export const adjustScheduleToCurrentWeek = (
-  lessons: { title: string; start: Date; end: Date }[]
-): { title: string; start: Date; end: Date }[] => {
+  lessons: { title: string; start: Date; end: Date; id: number }[]
+): { title: string; start: Date; end: Date; id: number }[] => {
   const latestMonday = getLatestMonday();
 
   return lessons.map((lesson) => {
@@ -103,6 +103,7 @@ export const adjustScheduleToCurrentWeek = (
       title: lesson.title,
       start: adjustedStartDate,
       end: adjustedEndDate,
+      id: lesson.id,
     };
   });
 };

@@ -18,14 +18,17 @@ const Login = () => {
     userName: "",
     passWord: "",
     confirmPassword: "",
+    email: "",
+    role: "",
   });
   const containerRef = useRef(null);
   const divLogo = useRef(null);
   const logoRef = useRef(null);
   const formRef = useRef(null);
   const buttonRef = useRef(null);
+  const { login, signUp } = useUser();
+
   const router = useRouter();
-  const { login, isSuccess } = useUser();
 
   useLayoutEffect(() => {
     gsap.fromTo(
@@ -86,16 +89,23 @@ const Login = () => {
   const handleSubmit = async () => {
     if (isSignUp) {
       console.log(signUpData);
+      if (signUpData.passWord !== signUpData.confirmPassword) {
+        alert("password dont match");
+      } else {
+        await signUp({
+          username: signUpData.fullName,
+          email: signUpData.email,
+          password: signUpData.passWord,
+          role: signUpData.role,
+        });
+      }
     } else {
       console.log(loginData);
       await login({
         username: loginData.userName,
         password: loginData.passWord,
       });
-
-      if (isSuccess) {
-        router.push("/", { scroll: false });
-      }
+      router.push("/");
     }
   };
 
@@ -147,64 +157,89 @@ const Login = () => {
             {isSignUp ? (
               <div className="flex flex-col gap-5">
                 <input
-                  className="p-2 border rounded-lg input-field"
+                  className="p-2 border rounded-lg"
                   placeholder="Full Name"
                   name="fullName"
                   value={signUpData.fullName}
                   onChange={handleChange}
+                  required
                 />
                 <input
-                  className="p-2 border rounded-lg input-field"
+                  className="p-2 border rounded-lg"
                   placeholder="User Name"
                   name="userName"
                   value={signUpData.userName}
                   onChange={handleChange}
+                  required
                 />
                 <input
-                  className="p-2 border rounded-lg input-field"
+                  className="p-2 border rounded-lg"
                   type="password"
                   placeholder="Password"
                   name="passWord"
                   value={signUpData.passWord}
                   onChange={handleChange}
+                  required
                 />
-
                 <input
-                  className="p-2 border rounded-lg input-field"
+                  className="p-2 border rounded-lg"
                   type="password"
                   placeholder="Confirm Password"
                   name="confirmPassword"
                   value={signUpData.confirmPassword}
                   onChange={handleChange}
+                  required
                 />
+                <input
+                  className="p-2 border rounded-lg"
+                  type="email"
+                  placeholder="Email"
+                  name="email"
+                  value={signUpData.email}
+                  onChange={handleChange}
+                  required
+                />
+
+                <select
+                  className="p-2 border rounded-lg"
+                  name="role"
+                  value={signUpData.role}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="User">User</option>
+                  <option value="Tutor">Tutor</option>
+                </select>
               </div>
             ) : (
               <div className="flex flex-col gap-5">
                 <input
-                  className="p-2 border rounded-lg input-field"
+                  className="p-2 border rounded-lg"
                   placeholder="User Name"
                   name="userName"
                   value={loginData.userName}
                   onChange={handleChange}
+                  required
                 />
                 <input
-                  className="p-2 border rounded-lg input-field"
+                  className="p-2 border rounded-lg"
                   type="password"
                   placeholder="Password"
                   name="passWord"
                   value={loginData.passWord}
                   onChange={handleChange}
+                  required
                 />
               </div>
             )}
 
             <button
-              ref={buttonRef}
-              className="bg-[#25262F] text-white-100 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+              className="bg-[#25262F] text-white py-2 rounded-lg"
               onClick={handleSubmit}
             >
               {isSignUp ? "Sign Up" : "Login"}
             </button>
+
             <button
               ref={buttonRef}
               onClick={handleGoogleLogin}
@@ -212,6 +247,7 @@ const Login = () => {
             >
               <p className="flex justify-center items-center gap-2">Google</p>
             </button>
+
             <div className="flex justify-around">
               {!isSignUp && (
                 <p className="text-sm text-white-100 cursor-pointer hover:underline">

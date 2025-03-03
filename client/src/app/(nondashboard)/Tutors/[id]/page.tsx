@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Star } from "lucide-react";
 import tutors from "../../../../asset/img/tutor3.jpg";
+import Review from "@/app/component/Review";
 const TutorDetail = () => {
   const { id } = useParams();
   const tutorId = Array.isArray(id) ? id[0] : id;
@@ -77,6 +78,9 @@ const TutorDetail = () => {
         <video controls className="w-full rounded-lg shadow-md">
           <source src={tutor?.demo_video_url} type="video/mp4" />
         </video>
+      </div>
+      <div>
+        <Review comments={tutor?.tutorReviews || []}/>
       </div>
     </div>
   );

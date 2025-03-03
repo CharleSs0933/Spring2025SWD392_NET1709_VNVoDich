@@ -9,16 +9,18 @@ const localizer = momentLocalizer(moment);
 
 const BigCalendar = ({
   data,
-  selectedEvent,
+  onSelectEvent,
 }: {
-  data: { title: string; start: Date; end: Date }[];
-  selectedEvent: (event: any) => void;
+  data: { title: string; start: Date; end: Date; id: number }[];
+  onSelectEvent: (event: any) => void;
 }) => {
   const [view, setView] = useState<View>(Views.WEEK);
 
   const handleOnChangeView = (selectedView: View) => {
     setView(selectedView);
   };
+
+  console.log("event", data);
 
   return (
     <Calendar
@@ -32,7 +34,7 @@ const BigCalendar = ({
       onView={handleOnChangeView}
       min={new Date(2025, 1, 1, 6, 0, 0)}
       max={new Date(2025, 1, 2, 22, 0, 0)}
-      onSelectEvent={(event) => selectedEvent(event)}
+      onSelectEvent={(event) => onSelectEvent(event)}
     />
   );
 };

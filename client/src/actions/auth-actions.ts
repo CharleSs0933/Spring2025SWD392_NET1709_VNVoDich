@@ -47,7 +47,6 @@ export async function registerUserAction(prevState: any, formData: FormData) {
       console.log("User Registered Fail", responseData.error);
       throw new Error(responseData.error);
     }
-
     return {
       ...prevState,
       authApiError: null,
