@@ -154,6 +154,29 @@ export interface Availability {
   sunday: DayAvailability;
 }
 
+
+export interface CoursesReview {
+  id: number;
+  rating: number;
+  review_content: string;
+  createAt: Date;
+  course_id: number;
+  parent_id?: {
+    profile: {
+      full_name: string;
+    };
+  };
+}
+
+
+
+export interface TutorReviews{
+  tutor_id: number,
+  tutor_name: string,
+  average_rating: number,
+  reviews: any
+}
+
 export interface TeachingSession {
   id: number;
   google_meet_id: string;
