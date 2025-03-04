@@ -11,23 +11,11 @@ import { ChevronDown, ChevronUp, Star } from "lucide-react";
 import Review from "@/app/component/Review";
 
 const CoursesDetail = () => {
-  const router = useRouter();
   const { id } = useParams();
   const {
     data: course,
     isLoading,
     isError,
-<<<<<<< HEAD
-  } = useGetCourseQuery(courseId as string, { skip: !id });
-  
-  console.log(course, "course");
-
-  const [expandedLesson, setExpandedLesson] = useState<string | null>(null);
-
-  const handleOnClick = (item: any) => {
-    router.push(`/Tutors/${item.id}`);
-    console.log(item, "okkk");
-=======
   } = useGetCourseQuery(id as string, { skip: !id });
   const router = useRouter();
 
@@ -37,7 +25,6 @@ const CoursesDetail = () => {
     router.push(`/checkout?step=1&id=${id}`, {
       scroll: false,
     });
->>>>>>> a5077b8bd78b944216028295741a8e6a08b5530f
   };
 
   if (isLoading) return <Skeleton className="h-96 w-full rounded-lg" />;
@@ -70,21 +57,9 @@ const CoursesDetail = () => {
                 height={20}
                 className="rounded-full w-10 h-10 "
               />
-<<<<<<< HEAD
-
-              <div
-                onClick={() => handleOnClick(course?.tutor)}
-                className="cursor-pointer"
-              >
-                <p className="text-orange-400 font-semibold text-lg hover:underline cursor-pointer">
-                  {course?.tutor?.profile?.full_name}
-                </p>
-              </div>
-=======
               <p className="text-orange-400 font-semibold text-lg hover:underline cursor-pointer">
                 {course?.tutor?.profile?.full_name}
               </p>
->>>>>>> a5077b8bd78b944216028295741a8e6a08b5530f
             </div>
           </div>
           <div className="border-2 border-blue-600 text-white-100 w-1/6 p-5 flex justify-center items-center rounded-md  bg-blue-800 font-semibold text-lg ">
