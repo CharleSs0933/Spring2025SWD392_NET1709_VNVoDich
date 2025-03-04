@@ -98,7 +98,7 @@ export default function Home() {
         </div>
       </div>
 
-      <About />
+      {/* <About /> */}
       <Introduce />
       <TutorProfessinal />
       <Footer />

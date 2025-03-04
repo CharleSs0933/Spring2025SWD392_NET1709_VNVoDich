@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import { useLoginMutation } from "@/state/apiAuth";
+import { useLoginMutation, useSignupMutation } from "@/state/apiAuth";
+import { error } from "console";
 
 // API endpoint
 const API_URL = "http://localhost:8080";
@@ -15,6 +16,7 @@ export const useUser = () => {
   } | null>(null);
   const [loading, setLoading] = useState(true);
   const [loginAPI] = useLoginMutation();
+  const [signUpApi] = useSignupMutation();
 
   useEffect(() => {
     const token = Cookies.get("authToken");
@@ -48,7 +50,7 @@ export const useUser = () => {
 
       const { token, user } = data;
 
-      // Lưu token và user vào cookies
+      // Lưu token và user vào cookies  
       Cookies.set ("authToken", token, {
         expires: 7,
         secure: true,
@@ -71,44 +73,29 @@ export const useUser = () => {
 
   // user name password email role
 
-  // const signUp = async ({
-  //   username,
-  //   password,
-  //   Confirmpassword,
-  //   email,
-  //   role
-  // }: {
-  //   username: string;
-  //   password: string;
-  //   Confirmpassword : string
-  //   email: string
-  //   role: string
-  // }) => {
-  //   setLoading(true);
-  //   try {
-  //     const data = await loginAPI({ username, password }).unwrap();
+  const signUp = async ({
+    username,
+    password,
+    email,
+    role
+  }: {
+    username: string;
+    password: string;
+    email: string
+    role: string
+  }) => {
+    setLoading(true);
+    try {
+      const data = await signUpApi({ username, password, email , role }).unwrap();
 
-  //     const { token, user } = data;
-
-  //     // Lưu token và user vào cookies
-  //     Cookies.set ("authToken", token, {
-  //       expires: 7,
-  //       secure: true,
-  //       sameSite: "strict",
-  //     });
-  //     Cookies.set("user", JSON.stringify(user), {
-  //       expires: 7,
-  //       secure: true,
-  //       sameSite: "strict",
-  //     });
-
-  //     setUser(user);
-  //   } catch (error) {
-  //     console.error("Login failed:", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+      console.log(data);
+      
+    } catch (error) {
+      console.error("Login failed:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Hàm đăng xuất
   const logout = () => {
@@ -117,5 +104,5 @@ export const useUser = () => {
     setUser(null);
   };
 
-  return { user, loading, login, logout };
+  return { user, loading, login, logout , signUp};
 };

@@ -12,7 +12,8 @@ const customBaseQuery = async (
   const baseQuery = fetchBaseQuery({
     baseUrl: "http://localhost:8000",
     prepareHeaders: async (headers) => {
-      const token = Cookies.get("authToken");
+      // const token = Cookies.get("authToken");
+      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLXNlcnZpY2UiLCJleHAiOjE3NDExNDY1MDMsImlhdCI6MTc0MTA2MDEwMywidXNlcklkIjoyLCJ1c2VybmFtZSI6InBhcmVudCIsImVtYWlsIjoiamFuZS5zbWl0aEBleGFtcGxlLmNvbSIsInJvbGUiOiJQYXJlbnQifQ.pIx_a5hp-4R4s_A2LjcXQE5WuHabXJXq0H4R1N0fLxU"
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }

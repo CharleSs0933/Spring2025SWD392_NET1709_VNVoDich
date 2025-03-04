@@ -5,7 +5,7 @@ import onlTeacher from "../../../asset/img/onlTeacher.jpg";
 
 const Introduce = () => {
   return (
-    <div className="bg-gray-400 w-full ">
+    <div className="bg-teal-900 w-full ">
     <div className="mx-24 py-[10%]">
       <div className="pt-[5%] flex justify-center   ">
         <div className="w-[50%] flex flex-col gap-10 mx-8">
