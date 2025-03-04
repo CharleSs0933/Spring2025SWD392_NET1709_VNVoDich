@@ -7,7 +7,7 @@ interface PackagesProps<T> {
 
 const Packages = <T extends { id: number; name: string; price: number; features: string[], month: string }>({ packages, orderButton }: PackagesProps<T>) => {
   return (
-    <div className="min-h-screen flex flex-col items-center py-10 bg-gray-50">
+    <div className=" flex flex-col items-center py-10 bg-gray-50 relative">
       <h2 className="text-5xl font-extrabold mb-8 text-gray-900">Choose Your Package</h2>
       <p className="text-gray-600 text-lg mb-12">Find the plan that suits your needs</p>
 

@@ -22,7 +22,7 @@ const Header = () => {
         <div className="flex gap-16 text-xl items-center mr-16">
           <div
             onClick={() => router.push("/courses")}
-            className="cursor-pointer"
+            className="font-semibold cursor-pointer"
           >
             Courses
           </div>
@@ -31,26 +31,26 @@ const Header = () => {
           <div className="cursor-pointer">Commuity</div> */}
           <div
             onClick={() => router.push("/courses")}
-            className="bg-white-100 p-2 rounded-[7px] text-black font-semibold cursor-pointer"
+            className=" font-semibold cursor-pointer"
           > 
             DoashBoard
           </div>
           <div
             onClick={() => router.push("/package")}
-            className="bg-white-100 p-2 rounded-[7px] text-black font-semibold cursor-pointer"
+            className=" font-semibold cursor-pointer"
           > 
             Package
           </div>
           {!token ? (
             <div
               onClick={() => router.push("/login")}
-              className="bg-white-100 p-2 rounded-[7px] text-black font-semibold cursor-pointer"
+              className=" font-semibold cursor-pointer"
             >
               Login Now
             </div>
           ) : (
             <div
-              className="bg-white-100 p-2 rounded-[7px] text-black font-semibold cursor-pointer"
+              className=" font-semibold cursor-pointer"
               onClick={handleLogout}
             >
               Logout

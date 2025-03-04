@@ -1,4 +1,5 @@
 "use client"
+import IntroPackages from "@/app/component/IntroPackages";
 import Packages from "@/app/component/Packages";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -38,6 +39,7 @@ const Package = () => {
     <div>
 
     <Packages orderButton={handleOrderClick} packages = {packages} />
+    <IntroPackages/>
     </div>
   );
 };
