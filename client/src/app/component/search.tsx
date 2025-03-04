@@ -102,33 +102,31 @@ const Search = ({ courses, tutors }: SearchProps) => {
 
         {tutors && (
           <>
-          <select
-            value={filters.qualifications}
-            onChange={(e) => handleSearch("qualifications", e.target.value)}
-            className="text-black w-[6%] p-1 rounded-xl"
-          >
-            <option value="">Select Qualifications</option>
-            {getUniqueValuesTutor("qualifications").map(
-              (qualifications, index) => (
-                <option key={index} value={qualifications?.toString()}>
-                  {qualifications?.toString()}
-                </option>
-              )
-            )}
-          </select>
             <select
-            value={filters.teaching_style}
-            onChange={(e) => handleSearch( "teaching_style",e.target.value) }
-            className="text-black w-[6%] p-1 rounded-xl"
+              value={filters.qualifications}
+              onChange={(e) => handleSearch("qualifications", e.target.value)}
+              className="text-black w-[6%] p-1 rounded-xl"
             >
-              <option value="">Select Teaching Style </option>
-              {getUniqueValuesTutor("teaching_style").map(
-                (style, index) => (
-                  <option key={index} value={style?.toString()}>
-                    {style?.toString()}
+              <option value="">Select Qualifications</option>
+              {getUniqueValuesTutor("qualifications").map(
+                (qualifications, index) => (
+                  <option key={index} value={qualifications?.toString()}>
+                    {qualifications?.toString()}
                   </option>
                 )
-                )}
+              )}
+            </select>
+            <select
+              value={filters.teaching_style}
+              onChange={(e) => handleSearch("teaching_style", e.target.value)}
+              className="text-black w-[6%] p-1 rounded-xl"
+            >
+              <option value="">Select Teaching Style </option>
+              {getUniqueValuesTutor("teaching_style").map((style, index) => (
+                <option key={index} value={style?.toString()}>
+                  {style?.toString()}
+                </option>
+              ))}
             </select>
           </>
         )}

@@ -1,12 +1,8 @@
 "use client";
-import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 import { Toaster } from "sonner";
-import Header from "./component/Header";
-import Footer from "./component/Footer";
-import { usePathname } from "next/navigation";
 import { ThemeProvider } from "@/components/theme-provider";
 
 const dmSans = DM_Sans({
@@ -29,14 +25,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${dmSans.className} flex flex-col`}>
         <main className="mx-auto w-full h-full justify-center items-center">
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Providers>{children}</Providers>
-          </ThemeProvider>
+          {/* <ThemeProvider attribute="class" defaultTheme="system" enableSystem> */}
+          <Providers>{children}</Providers>
+          {/* </ThemeProvider> */}
         </main>
         <Toaster richColors closeButton />
       </body>

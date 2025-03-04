@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useLoginMutation, useSignupMutation } from "@/state/apiAuth";
@@ -15,8 +17,8 @@ export const useUser = () => {
     role: string;
   } | null>(null);
   const [loading, setLoading] = useState(true);
-  const [loginAPI] = useLoginMutation();
   const [signUpApi] = useSignupMutation();
+  const [loginAPI, { ...rest }] = useLoginMutation();
 
   useEffect(() => {
     const token = Cookies.get("authToken");
@@ -50,8 +52,8 @@ export const useUser = () => {
 
       const { token, user } = data;
 
-      // Lưu token và user vào cookies  
-      Cookies.set ("authToken", token, {
+      // Lưu token và user vào cookies
+      Cookies.set("authToken", token, {
         expires: 7,
         secure: true,
         sameSite: "strict",
@@ -104,5 +106,5 @@ export const useUser = () => {
     setUser(null);
   };
 
-  return { user, loading, login, logout , signUp};
+  return { user, loading, login, logout , signUp , ...rest };
 };

@@ -1,4 +1,4 @@
-import { Lesson } from "@/types";
+import { Children, Lesson } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface InitialStateTypes {
@@ -8,6 +8,10 @@ interface InitialStateTypes {
     selectedLessonIndex: number | null;
     selectedLessonId: number | undefined;
   };
+  booking: {
+    selectedDates: { startTime: string; endTime: string }[];
+    selectedChild: Children | null;
+  };
 }
 
 const initialState: InitialStateTypes = {
@@ -16,6 +20,10 @@ const initialState: InitialStateTypes = {
     isLessonModalOpen: false,
     selectedLessonIndex: null,
     selectedLessonId: undefined,
+  },
+  booking: {
+    selectedDates: [],
+    selectedChild: null,
   },
 };
 
@@ -55,6 +63,25 @@ export const globalSlice = createSlice({
     deleteLesson: (state, action: PayloadAction<number>) => {
       state.courseEditor.lessons.splice(action.payload, 1);
     },
+
+    // New booking reducers
+
+    setSelectedBookingDates: (
+      state,
+      action: PayloadAction<{ startTime: string; endTime: string }[]>
+    ) => {
+      state.booking.selectedDates = action.payload;
+    },
+
+    setSelectedBookingChild: (state, action: PayloadAction<Children>) => {
+      state.booking.selectedChild = action.payload;
+    },
+    clearBooking: (state) => {
+      state.booking = {
+        selectedDates: [],
+        selectedChild: null,
+      };
+    },
   },
 });
 
@@ -65,5 +92,8 @@ export const {
   addLesson,
   editLesson,
   deleteLesson,
+  setSelectedBookingDates,
+  setSelectedBookingChild,
+  clearBooking,
 } = globalSlice.actions;
 export default globalSlice.reducer;

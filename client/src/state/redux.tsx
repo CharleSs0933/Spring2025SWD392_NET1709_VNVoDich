@@ -26,10 +26,9 @@ export const makeStore = () => {
             "api/executeMutation/rejected",
             "api/executeMutation/pending",
             "api/executeMutation/fulfilled",
-            "api/executeMutation/rejected",
+            "apiAuth/executeMutation/rejected",
             "apiAuth/executeMutation/pending",
             "apiAuth/executeMutation/fulfilled",
-            "apiAuth/executeMutation/rejected",
           ],
           ignoredActionPaths: [
             "meta.arg.originalArgs.file",

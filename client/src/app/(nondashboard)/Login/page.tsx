@@ -6,6 +6,10 @@ import logo from "@/asset/logo.jpg";
 import bg from "../../../../public/bg-login.jpg";
 import { useUser } from "@/hooks/useUser";
 import { useRouter } from "next/navigation";
+<<<<<<< HEAD
+=======
+import { useGoogleLoginMutation } from "@/state/apiAuth";
+>>>>>>> a5077b8bd78b944216028295741a8e6a08b5530f
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [loginData, setLoginData] = useState({
@@ -25,8 +29,14 @@ const Login = () => {
   const logoRef = useRef(null);
   const formRef = useRef(null);
   const buttonRef = useRef(null);
+<<<<<<< HEAD
   const { login, signUp } = useUser();
   const router = useRouter()
+=======
+  const router = useRouter();
+  const { login, isSuccess } = useUser();
+
+>>>>>>> a5077b8bd78b944216028295741a8e6a08b5530f
   useLayoutEffect(() => {
     gsap.fromTo(
       containerRef.current,
@@ -102,9 +112,27 @@ const Login = () => {
         username: loginData.userName,
         password: loginData.passWord,
       });
+<<<<<<< HEAD
       router.push('/')
+=======
+
+      if (isSuccess) {
+        router.push("/", { scroll: false });
+      }
+>>>>>>> a5077b8bd78b944216028295741a8e6a08b5530f
     }
   };
+
+  const [loginGoogle] = useGoogleLoginMutation({});
+
+  const handleGoogleLogin = async () => {
+    try {
+      window.location.href = "http://localhost:8080/google/auth/login";
+    } catch (error) {
+      console.error("Google login error:", error);
+    }
+  };
+
   return (
     <div className="relative w-full h-[800px] overflow-hidden my-4">
       <Image
@@ -228,6 +256,7 @@ const Login = () => {
 
             <button
               ref={buttonRef}
+              onClick={handleGoogleLogin}
               className="bg-white-50 text-black py-2 rounded-lg hover:bg-blue-600 transition duration-300"
             >
               <p className="flex justify-center items-center gap-2">Google</p>

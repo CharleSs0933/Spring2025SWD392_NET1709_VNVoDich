@@ -1,4 +1,11 @@
-import { Availability, Children, Course, Tutor, User } from "@/types";
+import {
+  Availability,
+  Children,
+  Course,
+  TeachingSession,
+  Tutor,
+  User,
+} from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query";
 import { toast } from "sonner";
@@ -201,20 +208,29 @@ export const api = createApi({
     }),
 
     getChildren: build.query<Children[], any>({
-      query: (parent_id) => ({
-        url: `childrens/${parent_id}`,
+      query: () => ({
+        url: `childrens`,
       }),
       providesTags: ["Children"],
     }),
 
-    getChild: build.query<Children, { parent_id: string; id: string }>({
-      query: ({ parent_id, id }) => `/childrens/${parent_id}/${id}`,
+    getChild: build.query<Children, any>({
+      query: ({ id }) => `/childrens/${id}`,
       providesTags: (result, error, { id }) => [{ type: "Children", id }],
     }),
 
-    createChildren: build.mutation<Children, { parent_id: string }>({
+    createChildren: build.mutation<
+      Children,
+      {
+        full_name: string;
+        password: string;
+        age: number;
+        grade_level: string;
+        learning_goals: string;
+      }
+    >({
       query: (body) => ({
-        url: `/children`,
+        url: `/childrens`,
         method: "POST",
         body,
       }),
@@ -223,19 +239,33 @@ export const api = createApi({
 
     updateChildren: build.mutation<
       Children,
-      { id: string; formData: FormData }
+      {
+        id: string;
+        full_name: string;
+        password: string;
+        age: number;
+        grade_level: string;
+        learning_goals: string;
+      }
     >({
-      query: ({ id, formData }) => ({
-        url: `/children/${id}`,
+      query: ({
+        id,
+        full_name,
+        age,
+        learning_goals,
+        password,
+        grade_level,
+      }) => ({
+        url: `/childrens/${id}`,
         method: "PUT",
-        body: formData,
+        body: { full_name, age, learning_goals, password, grade_level },
       }),
       invalidatesTags: (result, error, { id }) => [{ type: "Children", id }],
     }),
 
     deleteChildren: build.mutation<{ message: string }, number>({
       query: (id) => ({
-        url: `/children/${id}`,
+        url: `/childrens/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Children"],
@@ -262,7 +292,7 @@ export const api = createApi({
       providesTags: ["Tutors"],
     }),
 
-    /// Tutor Availability
+    /// Availability
     getTutorAvailability: build.query<Availability | null, {}>({
       query: ({}) => ({
         url: "/availabilities",
@@ -274,6 +304,22 @@ export const api = createApi({
         url: "/availabilities/update",
         method: "PUT",
         body: data,
+      }),
+    }),
+
+    getCourseAvailability: build.query<
+      { date: string; slots: string[] }[],
+      { courseId: string }
+    >({
+      query: ({ courseId }) => ({
+        url: `/availabilities/course/${courseId}`,
+      }),
+    }),
+
+    // Teaching session
+    getSession: build.query<TeachingSession[], { childrenId: number }>({
+      query: ({ childrenId }) => ({
+        url: `/teaching-sessions/child/${childrenId}`,
       }),
     }),
   }),
@@ -298,4 +344,6 @@ export const {
   useGetTutorAvailabilityQuery,
   useUpdateAvailabilityMutation,
 
+  useGetCourseAvailabilityQuery,
+  useGetSessionQuery,
 } = api;

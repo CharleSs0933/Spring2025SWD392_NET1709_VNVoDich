@@ -19,9 +19,9 @@ export default function NonDashboardLayout({
   const isHomepage = pathname === "/";
 
   return (
-    <div>
+    <div className="w-full h-full flex flex-col">
       <Header />
-      <main className={`${isHomepage ? "" : "flex-1 pt-[4%]"}`}>
+      <main className={`${isHomepage ? "" : "flex-1 pt-[5%]"}`}>
         {children}
       </main>
       <Footer />

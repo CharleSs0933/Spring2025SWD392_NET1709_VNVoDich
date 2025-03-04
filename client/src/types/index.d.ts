@@ -7,7 +7,7 @@ export interface Course {
   description?: string;
   total_lessons: number;
   image?: string;
-  price?: number;
+  price: number;
   status: "Draft" | "Published";
   subject: string;
   grade: number;
@@ -46,12 +46,12 @@ export interface Tutor {
   demo_video_url?: string;
   image?: string;
 
-  user?: {
+  profile?: {
     email: string;
     full_name: string;
     phone: string;
-    google_id : string,
-    timezone: string
+    google_id: string;
+    timezone: string;
   };
   tutorReviews?: CoursesReview[];
 
@@ -154,29 +154,16 @@ export interface Availability {
   sunday: DayAvailability;
 }
 
-
-export interface CoursesReview {
+export interface TeachingSession {
   id: number;
-  rating: number;
-  review_content: string;
-  createAt: Date;
-  course_id: number;
-  parent_id?: {
-    profile: {
-      full_name: string;
-    };
+  google_meet_id: string;
+  startTime: string;
+  endTime: string;
+  status: string;
+  topics_covered: string;
+  homework_assigned: string;
+  subscription_id: number;
+  subscription?: {
+    course?: Course;
   };
 }
-
-
-
-
-
-
-export interface TutorReviews{
-  tutor_id: number,
-  tutor_name: string,
-  average_rating: number,
-  reviews: any
-}
-

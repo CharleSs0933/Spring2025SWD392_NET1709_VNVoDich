@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import * as z from "zod";
 
 // Course Editor Schemas
@@ -52,3 +53,11 @@ export const availabilitySchema = z.object({
   sunday: daySchema,
   timeGap: z.number().min(0, "Time gap must be 0 or more minutes").int(),
 });
+
+export const bookingSchema = z.object({
+  dates: z.array(z.string()),
+  times: z.array(z.string()),
+  childId: z.string().min(1, "Please select a child"),
+});
+
+export type BookingFormData = z.infer<typeof bookingSchema>;

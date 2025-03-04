@@ -2,7 +2,7 @@
 import Cookies from "js-cookie";
 import Image from "next/image";
 import React from "react";
-import logo from "../../asset/img/logo.png";
+import logo from "../../asset/logo.jpg";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/useUser";
 const Header = () => {
@@ -15,7 +15,7 @@ const Header = () => {
   const router = useRouter();
   return (
     <div className="mx-16">
-      <div className="absolute top-0 left-0 w-full   bg-opacity-70 bg-black text-white z-10 flex justify-between items-center  ">
+      <div className="absolute top-0 left-0 w-full py-3  bg-opacity-70 bg-black text-white z-10 flex justify-between items-center  ">
         <div onClick={() => router.push("/")} className="ml-16 cursor-pointer">
           <Image src={logo} alt="logo" width={150} height={200} />
         </div>
@@ -37,7 +37,7 @@ const Header = () => {
           </div>
           {!token ? (
             <div
-              onClick={() => router.push("/Login")}
+              onClick={() => router.push("/login")}
               className="bg-white-100 p-1 rounded-lg text-black font-semibold cursor-pointer"
             >
               Login Now

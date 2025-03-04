@@ -89,6 +89,18 @@ body,
   }
 } */
 
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
 .child__container {
   @apply h-[400px] w-full;
 }
@@ -102,7 +114,7 @@ body,
 }
 
 .child__table-header {
-  @apply bg-primary;
+  @apply bg-primary-750;
 }
 
 .child__table-header-row {
@@ -118,7 +130,7 @@ body,
 }
 
 .child__table-row:hover {
-  @apply bg-customgreys-primarybg;
+  @apply bg-customgreys-blueGrey;
 }
 
 .child__table-body {
@@ -141,8 +153,9 @@ body,
   color: black !important;
 }
 
-.rbc-btn-group:first-child {
+.rbc-btn-group:first-child button {
   /* display: none !important; */
+  color: #f1f0ff;
 }
 
 .rbc-toolbar-label {
@@ -169,24 +182,69 @@ body,
   border-color: #eee !important;
 }
 
-.rbc-time-header {
+.rbc-time-header-content {
   /* display: none !important; */
+  @apply bg-[#5C5470] text-white-50;
+}
+
+.rbc-time-header.rbc-overflowing {
+  margin: 0 !important;
+}
+
+.rbc-header {
+  @apply h-10 flex justify-center items-center;
+}
+
+.rbc-button-link {
+  @apply text-sm;
+}
+
+.rbc-header.rbc-today {
+  @apply h-10 bg-[#3C415C];
+}
+
+.rbc-overflowing {
+  @apply m-0;
+}
+
+.rbc-row-bg {
+  display: block !important;
+}
+
+.rbc-day-bg.rbc-today {
+  background-color: #3c415c;
+}
+
+.rbc-day-slot.rbc-time-column.rbc-now.rbc-today {
+  /*Màu hôm nay*/
+  background-color: #3c415c;
 }
 
 .rbc-time-content {
   border: none !important;
+  padding: none !important;
+  scrollbar-width: none; /* Ẩn trên Firefox */
+  -ms-overflow-style: none; /* Ẩn trên IE/Edge */
+}
+
+.rbc-label.rbc-time-header-gutter {
+  background-color: transparent !important;
+  border: 1px white !important;
 }
 
 .rbc-time-gutter.rbc-time-column {
   font-size: 12px !important;
-}
-
-.rbc-time-gutter.rbc-time-column .rbc-timeslot-group {
-  padding: 0px 20px !important;
+  color: #e2f8ff !important;
 }
 
 .rbc-timeslot-group {
-  background-color: #f7fdff !important;
+  padding: 10px 20px !important;
+  background-color: none !important;
+}
+
+.rbc-time-slot {
+  border: none !important;
+  height: 20 !important;
 }
 
 .rbc-day-slot {
@@ -194,11 +252,25 @@ body,
 }
 
 .rbc-event {
+  box-sizing: border-box !important;
   border: none !important;
   color: black !important;
   padding: 10px !important;
-  margin: 10px !important;
-  width: 99% !important;
+  width: 100% !important;
+}
+
+.rbc-events-container {
+  margin: 0 !important;
+}
+
+.rbc-row-content {
+  display: none !important;
+}
+
+.rbc-event {
+  margin: 0 5px !important;
+  padding: 2px 8px !important;
+  width: 95% !important;
 }
 
 .rbc-event:nth-child(1) {
@@ -228,5 +300,89 @@ body,
 
 .rbc-event-label {
   color: gray !important;
-  margin-bottom: 5px;
+}
+
+.rbc-btn-group button {
+  pointer-events: auto !important;
+  opacity: 1 !important;
+  z-index: 1000;
+}
+
+/* Dialog */
+.dialog_content {
+  width: 500px;
+  max-width: 90vw;
+  background-color: #f9f9f9;
+  padding: 24px;
+  border-radius: 8px;
+}
+
+.dialog_title {
+  color: #333;
+  text-align: center;
+}
+
+.dialog_label {
+  display: block;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 4px;
+}
+
+.dialog_input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  background-color: white;
+  color: #333;
+}
+
+.dialog_field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.text-red-500 {
+  min-height: 18px;
+  font-size: 12px;
+}
+
+.dialog_buttons {
+  display: flex;
+  gap: 12px; /* Khoảng cách giữa hai nút */
+}
+
+.dialog_button {
+  flex: 1; /* Để hai nút có chiều rộng bằng nhau */
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+/* Cancel */
+.dialog_button.cancel {
+  border: 1px solid #ccc;
+  background-color: white;
+  color: #333;
+}
+
+.dialog_button.cancel:hover {
+  background-color: #f5f5f5;
+}
+
+/* Confirm */
+.dialog_button.confirm {
+  background-color: #1d4ed8; /* Màu xanh primary */
+  color: white;
+}
+
+.dialog_button.confirm:hover {
+  background-color: #1e40af; /* Màu đậm hơn khi hover */
+}
+
+.dialog_content [data-state="open"] > button {
+  display: none;
 }
