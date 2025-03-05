@@ -19,7 +19,7 @@ const Login = () => {
     passWord: "",
     confirmPassword: "",
     email: "",
-    role: "",
+    role: "Parent",
   });
   const containerRef = useRef(null);
   const divLogo = useRef(null);
@@ -108,8 +108,6 @@ const Login = () => {
       router.push("/");
     }
   };
-
-  const [loginGoogle] = useGoogleLoginMutation({});
 
   const handleGoogleLogin = async () => {
     try {
@@ -207,7 +205,7 @@ const Login = () => {
                   onChange={handleChange}
                   required
                 >
-                  <option value="User">User</option>
+                  <option value="Parent">Parent</option>
                   <option value="Tutor">Tutor</option>
                 </select>
               </div>

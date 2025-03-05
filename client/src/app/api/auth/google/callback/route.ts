@@ -70,11 +70,6 @@ interface ApiResponse {
   error?: string;
 }
 
-const GOOGLE_CLIENT_ID =
-  "381787553992-p5mimirtf3adgu6gqpb1ag0jkrkpogm6.apps.googleusercontent.com";
-const GOOGLE_CLIENT_SECRET = "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";
-const GOOGLE_REDIRECT_URI = "http://localhost:3000/api/auth/google/callback";
-
 export async function GET(req: NextRequest) {
   // Lấy code và state từ query params (GET) hoặc body (POST)
   const url = new URL(req.url);

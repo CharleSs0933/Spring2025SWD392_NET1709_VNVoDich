@@ -1,9 +1,8 @@
 "use client";
 import Cookies from "js-cookie";
-import Cookies from "js-cookie";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import logo from "../../asset/img/logo.png";
+import logo from "@/asset/logo.jpg";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/useUser";
 
@@ -17,7 +16,11 @@ const Header = () => {
     if (userData) {
       const parsedUser = JSON.parse(userData); // Convert string to object
       console.log(parsedUser.role);
-      if (parsedUser.role === "Admin" || parsedUser.role === "Parent") {
+      if (
+        parsedUser.role === "Admin" ||
+        parsedUser.role === "Parent" ||
+        parsedUser.role === "Tutor"
+      ) {
         setRole(parsedUser.role);
       }
     }
@@ -52,12 +55,22 @@ const Header = () => {
               Admin Dashboard
             </div>
           )}
+
           {role === "Parent" && (
             <div
               onClick={() => router.push("/parent/children")}
               className="bg-white p-1 rounded-lg text-white-50 cursor-pointer"
             >
               Parent Dashboard
+            </div>
+          )}
+
+          {role === "Tutor" && (
+            <div
+              onClick={() => router.push("/tutor/courses")}
+              className="bg-white p-1 rounded-lg text-white-50 cursor-pointer"
+            >
+              Tutor Dashboard
             </div>
           )}
 

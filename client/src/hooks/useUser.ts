@@ -82,7 +82,6 @@
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useLoginMutation, useSignupMutation } from "@/state/apiAuth";
-import { error } from "console";
 
 // API endpoint
 const API_URL = "http://localhost:8080";
@@ -93,7 +92,7 @@ export const useUser = () => {
   const [user, setUser] = useState<{
     ID: number;
     username: string;
-    role: string;
+    role: "Parent" | "Tutor" | "Chilren";
   } | null>(null);
   const [loading, setLoading] = useState(true);
   const [loginAPI] = useLoginMutation();
@@ -188,5 +187,7 @@ export const useUser = () => {
     setUser(null);
   };
 
-  return { user, loading, login, logout, signUp };
+  const isLogged = !!user;
+
+  return { user, loading, login, logout, signUp, isLogged };
 };

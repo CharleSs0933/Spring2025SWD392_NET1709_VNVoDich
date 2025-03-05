@@ -57,6 +57,7 @@ export const createCourseFormData = (data: CourseFormData): FormData => {
   formData.append("grade", data.courseGrade.toString());
   formData.append("price", data.coursePrice.toString());
   formData.append("status", data.courseStatus ? "Published" : "Draft");
+  formData.append("image", data.courseImage);
 
   return formData;
 };

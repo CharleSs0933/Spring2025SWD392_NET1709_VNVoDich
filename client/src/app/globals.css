@@ -257,6 +257,7 @@ body,
   color: black !important;
   padding: 10px !important;
   width: 100% !important;
+  display: block !important;
 }
 
 .rbc-events-container {

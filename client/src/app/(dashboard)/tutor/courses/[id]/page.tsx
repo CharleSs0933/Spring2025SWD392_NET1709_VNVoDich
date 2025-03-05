@@ -8,9 +8,9 @@ import { openLessonModal, setLessons } from "@/state";
 import { useGetCourseQuery, useUpdateCourseMutation } from "@/state/api";
 import { useAppDispatch, useAppSelector } from "@/state/redux";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, Plus } from "lucide-react";
+import { ArrowLeft, Plus, Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import DroppableComponent from "./Droppable";
 import { courseSchema } from "@/lib/schemas";
@@ -19,6 +19,10 @@ import LessonModal from "./LessonModal";
 import { courseSubjects } from "@/lib/utils";
 import Loading from "@/components/Loading";
 import Header from "@/components/Header";
+import { UploadDropzone } from "@/lib/uploadthing";
+import Hint from "@/components/Hint";
+import Image from "next/image";
+import { toast } from "sonner";
 
 const CourseEditor = () => {
   const router = useRouter();
@@ -30,6 +34,8 @@ const CourseEditor = () => {
   const dispatch = useAppDispatch();
   const { lessons } = useAppSelector((state) => state.global.courseEditor);
 
+  const [courseImage, setCourseImage] = useState<string | null>(null);
+
   const methods = useForm<CourseFormData>({
     resolver: zodResolver(courseSchema),
     defaultValues: {
@@ -39,6 +45,7 @@ const CourseEditor = () => {
       courseGrade: "",
       coursePrice: "0",
       courseStatus: false,
+      courseImage: "",
     },
   });
 
@@ -51,24 +58,35 @@ const CourseEditor = () => {
         courseGrade: course.grade.toString(),
         coursePrice: course.price.toString(),
         courseStatus: course.status === "Published",
+        courseImage: course.image,
       });
       dispatch(setLessons(course.lessons || []));
+      setCourseImage(course.image || "");
     }
   }, [course, methods, dispatch]);
 
   const onSubmit = async (data: CourseFormData) => {
     try {
-      const formData = createCourseFormData(data);
+      const formData = createCourseFormData({
+        ...data,
+        courseImage: courseImage || "",
+      });
 
       await updateCourse({
         courseId: id,
         formData,
       }).unwrap();
 
+      toast.success("Course updated successfully");
       refetch();
     } catch (error) {
-      console.log("Failed to update course: ", error);
+      console.error("Failed to update course: ", error);
+      toast.error("Failed to update course");
     }
+  };
+
+  const handleRemoveImage = () => {
+    setCourseImage(null);
   };
 
   if (isLoading) return <Loading />;
@@ -156,6 +174,50 @@ const CourseEditor = () => {
                   placeholder="0"
                   initialValue={course?.price}
                 />
+                {courseImage ? (
+                  <div
+                    className="relative aspect-video rounded-xl overflow-hidden border
+                  border-white-100/10"
+                  >
+                    <div className="absolute top-2 right-2 ring-2 z-[10]">
+                      <Hint label="Remove image" asChild side="left">
+                        <Button
+                          type="button"
+                          className="h-auto w-auto p-1.5 bg-red-500 hover:bg-red-600"
+                          onClick={handleRemoveImage}
+                        >
+                          <Trash className="w-4 h-4" />
+                        </Button>
+                      </Hint>
+                    </div>
+                    <Image
+                      src={courseImage}
+                      alt="Course Image"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                ) : (
+                  <UploadDropzone
+                    endpoint={"courseImageUploader"}
+                    appearance={{
+                      label: {
+                        color: "#FFFFFF",
+                      },
+                      allowedContent: {
+                        color: "#FFFFFF",
+                      },
+                      button: {
+                        color: "#7878fc",
+                      },
+                    }}
+                    onClientUploadComplete={(res) => {
+                      if (res?.[0]?.url) {
+                        setCourseImage(res[0].url);
+                      }
+                    }}
+                  />
+                )}
               </div>
             </div>
 

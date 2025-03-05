@@ -111,6 +111,7 @@ export interface CourseFormData {
   courseGrade: string;
   coursePrice: string;
   courseStatus: boolean;
+  courseImage: string;
 }
 
 export interface CustomFixedModalProps {

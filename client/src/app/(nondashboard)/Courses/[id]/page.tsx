@@ -6,13 +6,11 @@ import { Button } from "@/components/ui/button";
 import imgBg from "../../../../asset/img/khoahoc.jpg";
 import tutor from "../../../../asset/img/tutor3.jpg";
 import { useParams, useRouter } from "next/navigation";
-import { useParams, useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ChevronDown, ChevronUp, Star } from "lucide-react";
 import Review from "@/app/component/Review";
 
 const CoursesDetail = () => {
-  const router = useRouter();
   const { id } = useParams();
   const {
     data: course,
@@ -20,6 +18,8 @@ const CoursesDetail = () => {
     isError,
   } = useGetCourseQuery(id as string, { skip: !id });
   const router = useRouter();
+
+  console.log(course);
 
   const [expandedLesson, setExpandedLesson] = useState<string | null>(null);
 
@@ -73,8 +73,6 @@ const CoursesDetail = () => {
           <div className="flex gap-2">
             <p className="font-semibold">41,387 </p>
             <p>already enrolled</p>
-            <p className="font-semibold">41,387 </p>
-            <p>already enrolled</p>
           </div>
         </div>
       </div>
@@ -88,24 +86,12 @@ const CoursesDetail = () => {
         <div className="border-l px-3 text-lg font-semibold">
           Beginner level
         </div>
-        <div className="underline cursor-pointer px-3 text-lg font-semibold">
-          {course?.lessons?.length} Courses series
-        </div>
-        <div className="border-l px-3 text-lg font-semibold flex items-center gap-2">
-          {course?.grade} <Star size={15} color="blue" />
-        </div>
-        <div className="border-l px-3 text-lg font-semibold">
-          Beginner level
-        </div>
+
         <div className="border-l px-3 text-lg font-semibold">1 month</div>
         <div className="border-l px-3 text-lg font-semibold">
           Flexible schedule
         </div>
-        <div className="border-l px-3 text-lg font-semibold">
-          Flexible schedule
-        </div>
       </div>
-
 
       <div className="bg-gray-100 p-4 rounded-lg shadow-sm">
         <h2 className="text-xl font-semibold text-gray-800 mb-2">Lessons</h2>
@@ -120,18 +106,7 @@ const CoursesDetail = () => {
                   onClick={() =>
                     setExpandedLesson(isExpanded ? null : lesson.id)
                   }
-                  onClick={() =>
-                    setExpandedLesson(isExpanded ? null : lesson.id)
-                  }
                 >
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    {lesson.title}
-                  </h3>
-                  {isExpanded ? (
-                    <ChevronUp size={20} />
-                  ) : (
-                    <ChevronDown size={20} />
-                  )}
                   <h3 className="text-lg font-semibold text-gray-900">
                     {lesson.title}
                   </h3>
@@ -141,11 +116,7 @@ const CoursesDetail = () => {
                     <ChevronDown size={20} />
                   )}
                 </div>
-                <p
-                  className={`text-sm text-gray-600 mt-2 ${
-                    isExpanded ? "block" : "line-clamp-2"
-                  }`}
-                >
+
                 <p
                   className={`text-sm text-gray-600 mt-2 ${
                     isExpanded ? "block" : "line-clamp-2"
@@ -156,14 +127,6 @@ const CoursesDetail = () => {
 
                 {isExpanded && (
                   <div className="mt-2 text-sm text-gray-700 space-y-2">
-                    <p>
-                      <strong>🎯 Learning Objectives:</strong>{" "}
-                      {lesson.learning_objectives || "Not provided"}
-                    </p>
-                    <p>
-                      <strong>📌 Materials Needed:</strong>{" "}
-                      {lesson.materials_needed || "Not required"}
-                    </p>
                     <p>
                       <strong>🎯 Learning Objectives:</strong>{" "}
                       {lesson.learning_objectives || "Not provided"}
@@ -187,12 +150,7 @@ const CoursesDetail = () => {
           <source src={course?.tutor?.demo_video_url} type="video/mp4" />
         </video>
       </div>
-      <div className="space-y-2">
-        <h3 className="text-lg font-semibold">Demo Video</h3>
-        <video controls className="w-full rounded-lg shadow-md">
-          <source src={course?.tutor?.demo_video_url} type="video/mp4" />
-        </video>
-      </div>
+
       {/* )} */}
       <div>
         <Review comments={course?.courseReviews || []} />
