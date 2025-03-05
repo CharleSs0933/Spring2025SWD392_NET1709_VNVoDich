@@ -4,6 +4,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import AppSidebar from "@/components/AppSidebar";
 import { useUser } from "@/hooks/useUser";
+import Navbar from "@/components/Navbar";
 
 export default function DashboardLayout({
   children,
@@ -26,7 +27,7 @@ export default function DashboardLayout({
             )}
             style={{ height: "100vh" }}
           >
-            {/* <Navbar isCoursePage={isCoursePage} /> */}
+            <Navbar />
             <main className="px-8 py-4">{children}</main>
           </div>
         </div>

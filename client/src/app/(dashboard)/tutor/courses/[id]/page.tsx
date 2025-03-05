@@ -22,7 +22,6 @@ import Header from "@/components/Header";
 import { UploadDropzone } from "@/lib/uploadthing";
 import Hint from "@/components/Hint";
 import Image from "next/image";
-import { toast } from "sonner";
 
 const CourseEditor = () => {
   const router = useRouter();
@@ -77,11 +76,9 @@ const CourseEditor = () => {
         formData,
       }).unwrap();
 
-      toast.success("Course updated successfully");
       refetch();
     } catch (error) {
       console.error("Failed to update course: ", error);
-      toast.error("Failed to update course");
     }
   };
 

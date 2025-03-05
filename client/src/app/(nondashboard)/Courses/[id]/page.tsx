@@ -17,6 +17,7 @@ const CoursesDetail = () => {
     isLoading,
     isError,
   } = useGetCourseQuery(id as string, { skip: !id });
+  const router = useRouter();
 
   console.log(course);
 

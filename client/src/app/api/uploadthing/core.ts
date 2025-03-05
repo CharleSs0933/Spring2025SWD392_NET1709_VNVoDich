@@ -30,6 +30,20 @@ export const ourFileRouter = {
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
       return { fileUrl: file.ufsUrl };
     }),
+  tutorDemoVideoUploader: f({
+    video: {
+      maxFileSize: "256MB",
+      maxFileCount: 1,
+    },
+  }).onUploadComplete(async ({ metadata, file }) => {
+    // This code RUNS ON YOUR SERVER after upload
+    //   console.log("Upload complete for userId:", metadata.courseId);
+
+    console.log("file url", file.ufsUrl);
+
+    // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
+    return { fileUrl: file.ufsUrl };
+  }),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

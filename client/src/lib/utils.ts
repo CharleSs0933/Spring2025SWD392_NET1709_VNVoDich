@@ -1,6 +1,7 @@
 import { CourseFormData, Lesson } from "@/types";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { TutorFormData } from "./schemas";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -58,6 +59,21 @@ export const createCourseFormData = (data: CourseFormData): FormData => {
   formData.append("price", data.coursePrice.toString());
   formData.append("status", data.courseStatus ? "Published" : "Draft");
   formData.append("image", data.courseImage);
+
+  return formData;
+};
+
+export const createTutorFormData = (data: TutorFormData): FormData => {
+  const formData = new FormData();
+
+  formData.append("username", data.userName);
+  formData.append("email", data.email);
+  formData.append("phone", data.phone);
+  formData.append("full_name", data.fullName);
+  formData.append("bio", data.bio);
+  formData.append("qualifications", data.qualifications);
+  formData.append("teaching_style", data.teaching_style);
+  formData.append("demo_video_url", data.demo_video_url);
 
   return formData;
 };

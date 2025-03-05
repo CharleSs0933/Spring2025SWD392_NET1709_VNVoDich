@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import {
   User,
@@ -17,7 +19,7 @@ interface UserDetailCardProps {
     phone: string;
     date_of_birth?: string;
   };
-  role: "Parent" | "Tutor";
+  role: "Parent" | "Tutor" | "Children";
 }
 
 const UserDetailCard = ({ profile, role }: UserDetailCardProps) => {
@@ -47,12 +49,6 @@ const UserDetailCard = ({ profile, role }: UserDetailCardProps) => {
           label="Phone Number"
           value={profile.phone}
         />
-        <DetailItem
-          icon={<Calendar size={28} />}
-          label="Date of Birth"
-          value={profile.date_of_birth || "#N/A"}
-        />
-        <DetailItem icon={<Briefcase size={28} />} label="Role" value={role} />
       </CardContent>
     </Card>
   );

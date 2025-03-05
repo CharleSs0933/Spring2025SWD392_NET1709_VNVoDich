@@ -11,9 +11,9 @@ interface User {}
 
 export const useUser = () => {
   const [user, setUser] = useState<{
-    ID: number;
+    ID: string;
     username: string;
-    role: "Parent" | "Tutor" | "Chilren";
+    role: "Parent" | "Tutor" | "Children";
   } | null>(null);
   const [loading, setLoading] = useState(true);
   const [loginAPI] = useLoginMutation();

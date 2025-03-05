@@ -129,10 +129,23 @@ export const api = createApi({
       query: (id) => `courses/${id}`,
       providesTags: (result, error, id) => [{ type: "Courses", id }],
     }),
+
     getTutor: build.query<Tutor, string>({
       query: (id) => `tutors/${id}`,
       providesTags: (result, error, id) => [{ type: "Tutors", id }],
     }),
+
+    updateTutor: build.mutation<Tutor, { tutorId: string; formData: FormData }>(
+      {
+        query: ({ tutorId, formData }) => ({
+          url: `tutors/${tutorId}`,
+          method: "PUT",
+          body: formData,
+        }),
+        invalidatesTags: ["Tutors"],
+      }
+    ),
+
     addLesson: build.mutation<
       Course,
       {
@@ -384,4 +397,5 @@ export const {
   useCreateTrialBookingMutation,
   useGetAllParentsQuery,
   useGetParentByIdQuery,
+  useUpdateTutorMutation,
 } = api;
