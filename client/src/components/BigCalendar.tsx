@@ -40,6 +40,7 @@ const BigCalendar = ({
       date={date}
       onNavigate={handleNavigate}
       onSelectEvent={(event) => onSelectEvent(event)}
+      onNavigate={handleNavigate}
     />
   );
 };

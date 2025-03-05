@@ -17,7 +17,6 @@ const CoursesDetail = () => {
     isLoading,
     isError,
   } = useGetCourseQuery(id as string, { skip: !id });
-  const router = useRouter();
 
   console.log(course);
 
@@ -86,8 +85,9 @@ const CoursesDetail = () => {
         <div className="border-l px-3 text-lg font-semibold">
           Beginner level
         </div>
-
-        <div className="border-l px-3 text-lg font-semibold">1 month</div>
+        <div className="border-l px-3 text-lg font-semibold">
+          {course?.lessons ? course?.lessons?.length * 50 : 0} minutes
+        </div>
         <div className="border-l px-3 text-lg font-semibold">
           Flexible schedule
         </div>
@@ -116,7 +116,6 @@ const CoursesDetail = () => {
                     <ChevronDown size={20} />
                   )}
                 </div>
-
                 <p
                   className={`text-sm text-gray-600 mt-2 ${
                     isExpanded ? "block" : "line-clamp-2"
