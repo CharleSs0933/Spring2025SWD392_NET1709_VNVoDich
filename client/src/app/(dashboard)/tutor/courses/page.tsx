@@ -23,8 +23,6 @@ const Courses = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { user } = useUser();
 
-  console.log(user);
-
   const {
     data: courses,
     isLoading,

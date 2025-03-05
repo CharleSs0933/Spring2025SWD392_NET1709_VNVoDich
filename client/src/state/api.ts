@@ -122,7 +122,7 @@ export const api = createApi({
         url: `courses/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Courses"],
+      invalidatesTags: (result, error, id) => [{ type: "Courses", id }],
     }),
 
     getCourse: build.query<Course, string>({
