@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useGetSessionQuery } from "@/state/api";
 import Loading from "./Loading";
 import { adjustScheduleToCurrentWeek } from "@/lib/utils";
+import { setDate } from "date-fns";
 
 const localizer = momentLocalizer(moment);
 
@@ -19,9 +20,14 @@ const BigCalendar = ({
   onSelectEvent: (event: any) => void;
 }) => {
   const [view, setView] = useState<View>(Views.WEEK);
+  const [date, setDate] = useState<Date>(new Date());
 
   const handleOnChangeView = (selectedView: View) => {
     setView(selectedView);
+  };
+
+  const handleNavigate = (newDate: Date) => {
+    setDate(newDate);
   };
 
   console.log("event", data);
@@ -39,6 +45,7 @@ const BigCalendar = ({
       min={new Date(2025, 1, 1, 6, 0, 0)}
       max={new Date(2025, 1, 2, 22, 0, 0)}
       onSelectEvent={(event) => onSelectEvent(event)}
+      onNavigate={handleNavigate}
     />
   );
 };

@@ -1,6 +1,5 @@
 "use client";
 import Cookies from "js-cookie";
-import Cookies from "js-cookie";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import logo from "../../asset/img/logo.png";

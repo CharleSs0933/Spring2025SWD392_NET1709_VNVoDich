@@ -104,6 +104,7 @@ const Login = () => {
         username: loginData.userName,
         password: loginData.passWord,
       });
+
       router.push("/");
     }
   };
@@ -169,6 +170,7 @@ const Login = () => {
                   onChange={handleChange}
                   required
                 />
+
                 <input
                   className="p-2 border rounded-lg"
                   type="password"
@@ -222,7 +224,8 @@ const Login = () => {
             )}
 
             <button
-              className="bg-[#25262F] text-white py-2 rounded-lg"
+              ref={buttonRef}
+              className="bg-[#25262F] text-white-100 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
               onClick={handleSubmit}
             >
               {isSignUp ? "Sign Up" : "Login"}
