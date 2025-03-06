@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useLoginMutation, useSignupMutation } from "@/state/apiAuth";
+import { useRouter } from "next/navigation";
 
 // API endpoint
 const API_URL = "http://localhost:8080";
@@ -18,6 +19,7 @@ export const useUser = () => {
   const [loading, setLoading] = useState(true);
   const [loginAPI] = useLoginMutation();
   const [signUpApi] = useSignupMutation();
+  const router = useRouter();
 
   useEffect(() => {
     const token = Cookies.get("authToken");
@@ -108,7 +110,45 @@ export const useUser = () => {
     setUser(null);
   };
 
+  const handleGoogleLogin = () => {
+    const googleWindow = window.open(
+      "http://localhost:8080/google/auth/login",
+      "Google Login",
+      "width=500,height=600,scrollbars=yes,resizable=yes"
+    );
+
+    // Define event listener
+    const receiveMessage = (event: MessageEvent) => {
+      if (event.origin === "http://localhost:8080") {
+        const { token, user } = event.data;
+
+        if (token && user) {
+          Cookies.set("token", token, { expires: 7 });
+          Cookies.set("user", JSON.stringify(user), { expires: 7 });
+
+          console.log("Token and user saved to cookies:", { token, user });
+
+          // Close the popup safely
+          if (googleWindow && !googleWindow.closed) {
+            googleWindow.close();
+          }
+
+          // Redirect to homepage
+          router.push("/");
+        }
+      }
+    };
+
+    // Listen for message from popup
+    window.addEventListener("message", receiveMessage);
+
+    // Remove listener after some time to avoid memory leaks
+    setTimeout(() => {
+      window.removeEventListener("message", receiveMessage);
+    }, 5000);
+  };
+
   const isLogged = !!user;
 
-  return { user, loading, login, logout, signUp, isLogged };
+  return { user, loading, login, logout, signUp, isLogged, handleGoogleLogin };
 };

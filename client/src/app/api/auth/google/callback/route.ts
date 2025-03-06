@@ -75,6 +75,7 @@ export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
+  const queryString = url.searchParams.toString();
 
   if (!code || !state) {
     return NextResponse.json(
@@ -83,15 +84,17 @@ export async function GET(req: NextRequest) {
     );
   }
   try {
-    // const data = await fetch(
-    //   `http://localhost:8080/google/auth/login/callback?state=${state}&code=${code}`,
-    //   {
-    //     method: "GET",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   }
-    // );
+    const data = await fetch(
+      `http://localhost:8080/google/auth/login/callback?${queryString}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    console.log(data);
 
     const params = new URLSearchParams({
       client_id: process.env.GOOGLE_CLIENT_ID || "",
@@ -109,7 +112,7 @@ export async function GET(req: NextRequest) {
 
     const tokenData: GoogleTokenResponse = await tokenResponse.json();
 
-    console.log(tokenData);
+    // console.log(tokenData);
 
     if (!tokenData.access_token) {
       return NextResponse.json(
@@ -136,10 +139,8 @@ export async function GET(req: NextRequest) {
 
     // const authToken = `mock-jwt-token-for-${userData.email}`;
 
-    const response = NextResponse.redirect(new URL("/login", req.url));
-    return response;
-
-    // return res.status(200).json({ token: authToken, user: userData });
+    // const response = NextResponse.redirect(new URL("/login", req.url));
+    // return response;
   } catch (error) {
     console.error("Google OAuth Error:", error);
     return NextResponse.json(
