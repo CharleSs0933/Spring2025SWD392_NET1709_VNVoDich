@@ -9,6 +9,7 @@ export const courseSchema = z.object({
   courseGrade: z.string().min(1, "Grade is required"),
   coursePrice: z.string(),
   courseStatus: z.boolean(),
+  courseImage: z.string(),
 });
 
 export type CourseFormData = z.infer<typeof courseSchema>;
@@ -61,3 +62,23 @@ export const bookingSchema = z.object({
 });
 
 export type BookingFormData = z.infer<typeof bookingSchema>;
+
+export const tutorSchema = z.object({
+  userName: z.string(),
+  fullName: z
+    .string()
+    .min(5, "Full Name must be at least 10 characters")
+    .min(1, "Full Name is required"),
+  email: z.string().email("Invalid email"),
+  phone: z.string().min(1, "Grade is required"),
+  bio: z.string().min(10, "Bio must be at least 10 characters"),
+  qualifications: z
+    .string()
+    .min(10, "Qualifications must be at least 10 characters"),
+  teaching_style: z
+    .string()
+    .min(10, "Teaching style must be at least 10 characters"),
+  demo_video_url: z.string(),
+});
+
+export type TutorFormData = z.infer<typeof tutorSchema>;

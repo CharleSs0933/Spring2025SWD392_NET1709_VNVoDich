@@ -26,9 +26,9 @@ const Login = () => {
   const logoRef = useRef(null);
   const formRef = useRef(null);
   const buttonRef = useRef(null);
-  const { login, signUp ,isSuccess} = useUser();
-  const router = useRouter()
+  const { login, signUp } = useUser();
 
+  const router = useRouter();
 
   useLayoutEffect(() => {
     gsap.fromTo(
@@ -106,13 +106,9 @@ const Login = () => {
         password: loginData.passWord,
       });
 
-      if (isSuccess) {
-        router.push("/", { scroll: false });
-      }
+      router.push("/");
     }
   };
-
-  const [loginGoogle] = useGoogleLoginMutation({});
 
   const handleGoogleLogin = async () => {
     try {

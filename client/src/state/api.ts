@@ -123,17 +123,30 @@ export const api = createApi({
         url: `courses/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Courses"],
+      invalidatesTags: (result, error, id) => [{ type: "Courses", id }],
     }),
 
     getCourse: build.query<Course, string>({
       query: (id) => `courses/${id}`,
       providesTags: (result, error, id) => [{ type: "Courses", id }],
     }),
+
     getTutor: build.query<Tutor, string>({
       query: (id) => `tutors/${id}`,
       providesTags: (result, error, id) => [{ type: "Tutors", id }],
     }),
+
+    updateTutor: build.mutation<Tutor, { tutorId: string; formData: FormData }>(
+      {
+        query: ({ tutorId, formData }) => ({
+          url: `tutors/${tutorId}`,
+          method: "PUT",
+          body: formData,
+        }),
+        invalidatesTags: ["Tutors"],
+      }
+    ),
+
     addLesson: build.mutation<
       Course,
       {
@@ -323,10 +336,46 @@ export const api = createApi({
         url: `/teaching-sessions/child/${childrenId}`,
       }),
     }),
+<<<<<<< HEAD
     // Parents
     getParents: build.query<Parent[]  | null, {  }>({
       query: ({  }) => ({
         url: `/parent`,
+=======
+
+    /* 
+    ===============
+    BOOKINGS
+    =============== 
+    */
+
+    createStripePaymentIntent: build.mutation<
+      { clientSecret: string },
+      { amount: number }
+    >({
+      query: ({ amount }) => ({
+        url: `/bookings/stripe/payment-intent`,
+        method: "POST",
+        body: { amount },
+      }),
+    }),
+    createTrialBooking: build.mutation<any, any>({
+      query: (body) => ({
+        url: `/bookings/create-trial-booking`,
+        method: "POST",
+        body,
+      }),
+    }),
+    getAllParents: build.query<Parent[], void>({
+      query: () => ({
+        url: "/parent",
+      }),
+    }),
+
+    getParentById: build.query<Parent, { userId: number }>({
+      query: ({ userId }) => ({
+        url: `/parent/${userId}`,
+>>>>>>> 4b67ab44f411f02fa4a7588c6c5a3520ae252255
       }),
     }),
   }),
@@ -350,8 +399,18 @@ export const {
   useDeleteChildrenMutation,
   useGetTutorAvailabilityQuery,
   useUpdateAvailabilityMutation,
+<<<<<<< HEAD
 
   useGetCourseAvailabilityQuery,
   useGetSessionQuery,
   useGetParentsQuery
+=======
+  useGetCourseAvailabilityQuery,
+  useGetSessionQuery,
+  useCreateStripePaymentIntentMutation,
+  useCreateTrialBookingMutation,
+  useGetAllParentsQuery,
+  useGetParentByIdQuery,
+  useUpdateTutorMutation,
+>>>>>>> 4b67ab44f411f02fa4a7588c6c5a3520ae252255
 } = api;

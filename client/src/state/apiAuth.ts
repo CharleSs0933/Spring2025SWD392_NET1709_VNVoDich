@@ -95,6 +95,16 @@ export const apiAuth = createApi({
         },
       }),
     }),
+    signup: build.mutation<
+      any,
+      { username: string; password: string; email: string; role: string }
+    >({
+      query: (body) => ({
+        url: `auth/register`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -102,5 +112,9 @@ export const {
   useLoginMutation,
   useGoogleLoginMutation,
   useGoogleLoginCallbackMutation,
+<<<<<<< HEAD
   useSignupMutation
+=======
+  useSignupMutation,
+>>>>>>> 4b67ab44f411f02fa4a7588c6c5a3520ae252255
 } = apiAuth;

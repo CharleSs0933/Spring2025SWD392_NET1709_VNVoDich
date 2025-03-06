@@ -47,14 +47,13 @@ export interface Tutor {
   image?: string;
 
   profile?: {
+    username: string;
     email: string;
     full_name: string;
     phone: string;
     google_id: string;
     timezone: string;
   };
-  tutorReviews?: CoursesReview[];
-
 }
 
 export interface Children {
@@ -113,6 +112,7 @@ export interface CourseFormData {
   courseGrade: string;
   coursePrice: string;
   courseStatus: boolean;
+  courseImage: string;
 }
 
 export interface CustomFixedModalProps {
@@ -154,19 +154,63 @@ export interface Availability {
   sunday: DayAvailability;
 }
 
+<<<<<<< HEAD
+=======
+export interface TeachingSession {
+  id: number;
+  google_meet_id: string;
+  startTime: string;
+  endTime: string;
+  status: string;
+  topics_covered: string;
+  homework_assigned: string;
+  subscription_id: number;
+  subscription?: {
+    course?: Course;
+  };
+}
+>>>>>>> 4b67ab44f411f02fa4a7588c6c5a3520ae252255
 
-export interface CoursesReview {
+export interface TutorReview {
   id: number;
   rating: number;
   review_content: string;
-  createAt: Date;
-  course_id: number;
-  parent_id?: {
-    profile: {
-      full_name: string;
-    };
-  };
+  // createAt: dateTime
+
+  tutor_id: number;
+  tutor: Tutor;
+  parent_id: number;
+  parent: Parent;
 }
+
+export interface CourseReview {
+  id: number;
+  rating: number;
+  review_content: string;
+  // createAt   :    DateTime
+
+  course_id: number;
+  course: Course;
+  parent_id: number;
+  parent: Parent;
+}
+
+export interface Parent {
+  id: number;
+  preferred_language: string;
+  notifications_enable: boolean;
+
+  profile?: {
+    email: string;
+    full_name: string;
+    phone: string;
+    username: string;
+  };
+  childrens?: Children[];
+  tutorReviews?: TutorReview[];
+  courseReviews?: CourseReview[];
+}
+<<<<<<< HEAD
 
 
 
@@ -202,3 +246,5 @@ export interface Parent{
       phone: string
   }
 }
+=======
+>>>>>>> 4b67ab44f411f02fa4a7588c6c5a3520ae252255

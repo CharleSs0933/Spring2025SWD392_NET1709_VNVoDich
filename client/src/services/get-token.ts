@@ -8,8 +8,10 @@ export async function getAuth() {
   const user: {
     ID: number;
     username: string;
-    role: string;
+    role: "Parent" | "Tutor" | "Children";
   } = JSON.parse(cookieStore.get("user")?.value?.toString() || "{}");
 
-  return { authToken, user };
+  const isLogged = !!user;
+
+  return { authToken, user, isLogged };
 }

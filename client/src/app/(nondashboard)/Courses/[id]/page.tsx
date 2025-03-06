@@ -19,6 +19,8 @@ const CoursesDetail = () => {
   } = useGetCourseQuery(id as string, { skip: !id });
   const router = useRouter();
 
+  console.log(course);
+
   const [expandedLesson, setExpandedLesson] = useState<string | null>(null);
 
   const handleEnrollNow = () => {
@@ -84,7 +86,9 @@ const CoursesDetail = () => {
         <div className="border-l px-3 text-lg font-semibold">
           Beginner level
         </div>
-        <div className="border-l px-3 text-lg font-semibold">1 month</div>
+        <div className="border-l px-3 text-lg font-semibold">
+          {course?.lessons ? course?.lessons?.length * 50 : 0} minutes
+        </div>
         <div className="border-l px-3 text-lg font-semibold">
           Flexible schedule
         </div>
@@ -146,6 +150,7 @@ const CoursesDetail = () => {
           <source src={course?.tutor?.demo_video_url} type="video/mp4" />
         </video>
       </div>
+
       {/* )} */}
       <div>
         <Review comments={course?.courseReviews || []} />

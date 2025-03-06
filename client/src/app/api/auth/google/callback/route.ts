@@ -70,11 +70,6 @@ interface ApiResponse {
   error?: string;
 }
 
-const GOOGLE_CLIENT_ID =
-  "381787553992-p5mimirtf3adgu6gqpb1ag0jkrkpogm6.apps.googleusercontent.com";
-const GOOGLE_CLIENT_SECRET = "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";
-const GOOGLE_REDIRECT_URI = "http://localhost:3000/api/auth/google/callback";
-
 export async function GET(req: NextRequest) {
   // Lấy code và state từ query params (GET) hoặc body (POST)
   const url = new URL(req.url);
@@ -114,6 +109,8 @@ export async function GET(req: NextRequest) {
 
     const tokenData: GoogleTokenResponse = await tokenResponse.json();
 
+    console.log(tokenData);
+
     if (!tokenData.access_token) {
       return NextResponse.json(
         { error: "Failed to get access token" },
@@ -129,8 +126,6 @@ export async function GET(req: NextRequest) {
     );
 
     const userData: GoogleUserResponse = await userResponse.json();
-
-    console.log(userData);
 
     if (!userData.email) {
       return NextResponse.json(

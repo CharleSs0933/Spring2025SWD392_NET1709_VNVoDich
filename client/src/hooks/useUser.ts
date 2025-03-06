@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useLoginMutation, useSignupMutation } from "@/state/apiAuth";
-import { error } from "console";
 
 // API endpoint
 const API_URL = "http://localhost:8080";
@@ -12,9 +11,9 @@ interface User {}
 
 export const useUser = () => {
   const [user, setUser] = useState<{
-    ID: number;
+    ID: string;
     username: string;
-    role: string;
+    role: "Parent" | "Tutor" | "Children";
   } | null>(null);
   const [loading, setLoading] = useState(true);
   const [signUpApi] = useSignupMutation();
@@ -107,5 +106,7 @@ export const useUser = () => {
     setUser(null);
   };
 
-  return { user, loading, login, logout , signUp , ...rest };
+  const isLogged = !!user;
+
+  return { user, loading, login, logout, signUp, isLogged };
 };

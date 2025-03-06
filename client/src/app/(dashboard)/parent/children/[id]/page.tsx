@@ -72,6 +72,8 @@ const ChildSchedule = () => {
   if (isLoading) return <Loading />;
   if (isError || !child) return <div>Error loading courses.</div>;
 
+  console.log("Selected Event:", selectedEvent);
+
   return (
     <div>
       <div className="flex items-center gap-40">
@@ -143,31 +145,35 @@ const ChildSchedule = () => {
         {/* Event Info */}
         {selectedEvent && (
           <div className="w-[350px] p-4 bg-[#3C415C] rounded-md shadow-lg">
-            <h2 className="text-lg font-semibold text-gray-800">
-              Chi tiết sự kiện
+            <h2 className="text-lg font-semibold text-primary-100">
+              Course Details
             </h2>
             <p>
-              <strong>Môn học:</strong> {selectedEvent.topics_covered}
+              <strong>Subject:</strong>{" "}
+              {selectedEvent.subscription?.course?.title || "No Title"}
             </p>
             <p>
-              <strong>Thời gian:</strong>{" "}
-              {moment(selectedEvent.startTime).format("HH:mm")} -{" "}
-              {moment(selectedEvent.endTime).format("HH:mm")}
+              <strong>Time:</strong> {selectedEvent.startTime.slice(11, 16)} -{" "}
+              {selectedEvent.endTime.slice(11, 16)}
             </p>
             <p>
-              <strong>Bài tập về nhà:</strong> {selectedEvent.homework_assigned}
+              <strong>Description:</strong>{" "}
+              {selectedEvent.subscription?.course?.description ||
+                "No Description"}
             </p>
             <p>
-              <strong>Trạng thái:</strong> {selectedEvent.status}
+              <strong>Tutor:</strong>{" "}
+              {selectedEvent.subscription?.course?.tutor?.profile?.full_name ||
+                "Unknown"}
             </p>
             <p>
-              <strong>Google Meet:</strong>{" "}
+              <strong>Google Meet:</strong>
               <a
                 href={selectedEvent.google_meet_id}
                 target="_blank"
                 className="text-blue-500 underline"
               >
-                Tham gia
+                Join
               </a>
             </p>
           </div>
@@ -177,7 +183,7 @@ const ChildSchedule = () => {
       {/* Schedule */}
       <div className="mt-4 bg-white rounded-md p-4">
         <h1>Teacher&apos;s Schedule</h1>
-        <BigCalendarContainer id={child.id} selectedEvent={setSelectedEvent} />
+        <BigCalendarContainer id={child.id} onSelectEvent={setSelectedEvent} />
       </div>
     </div>
   );

@@ -80,7 +80,7 @@ const TutorDetail = () => {
         </video>
       </div>
       <div>
-        <Review comments={tutor?.tutorReviews || []}/>
+        <Review comments={tutor?.tutorReviews || []} />
       </div>
     </div>
   );

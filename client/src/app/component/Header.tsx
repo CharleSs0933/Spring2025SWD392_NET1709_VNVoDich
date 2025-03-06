@@ -1,16 +1,34 @@
 "use client";
 import Cookies from "js-cookie";
 import Image from "next/image";
-import React from "react";
-import logo from "../../asset/logo.jpg";
+import React, { useEffect, useState } from "react";
+import logo from "@/asset/logo.jpg";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/useUser";
+
 const Header = () => {
-  const token = Cookies.get("authToken");
   const { logout } = useUser();
+  const [role, setRole] = useState<string | null>(null);
+
+  const token = Cookies.get("authToken");
+  useEffect(() => {
+    const userData = Cookies.get("user");
+    if (userData) {
+      const parsedUser = JSON.parse(userData); // Convert string to object
+      console.log(parsedUser.role);
+      if (
+        parsedUser.role === "Admin" ||
+        parsedUser.role === "Parent" ||
+        parsedUser.role === "Tutor"
+      ) {
+        setRole(parsedUser.role);
+      }
+    }
+  }, []);
 
   const handleLogout = async () => {
     await logout();
+    setRole(null);
   };
   const router = useRouter();
   return (
@@ -26,21 +44,36 @@ const Header = () => {
           >
             Courses
           </div>
-{/*         
+          {/*         
           <div className="cursor-pointer">Teams</div>
           <div className="cursor-pointer">Commuity</div> */}
-          <div
-            onClick={() => router.push("/courses")}
-            className=" font-semibold cursor-pointer "
-          > 
-            DoashBoard
-          </div>
-          <div
-            onClick={() => router.push("/package")}
-            className=" font-semibold cursor-pointer"
-          > 
-            Package
-          </div>
+          {role === "Admin" && (
+            <div
+              onClick={() => router.push("/admin")}
+              className="bg-white p-1 rounded-lg text-white-50 cursor-pointer"
+            >
+              Admin Dashboard
+            </div>
+          )}
+
+          {role === "Parent" && (
+            <div
+              onClick={() => router.push("/parent/children")}
+              className="bg-white p-1 rounded-lg text-white-50 cursor-pointer"
+            >
+              Parent Dashboard
+            </div>
+          )}
+
+          {role === "Tutor" && (
+            <div
+              onClick={() => router.push("/tutor/courses")}
+              className="bg-white p-1 rounded-lg text-white-50 cursor-pointer"
+            >
+              Tutor Dashboard
+            </div>
+          )}
+
           {!token ? (
             <div
               onClick={() => router.push("/login")}
