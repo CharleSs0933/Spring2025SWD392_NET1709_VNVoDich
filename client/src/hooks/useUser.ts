@@ -17,7 +17,6 @@ export const useUser = () => {
     role: "Parent" | "Tutor" | "Children";
   } | null>(null);
   const [loading, setLoading] = useState(true);
-  const [loginAPI] = useLoginMutation();
   const [signUpApi] = useSignupMutation();
   const router = useRouter();
 
@@ -73,8 +72,6 @@ export const useUser = () => {
     }
   };
 
-  // user name password email role
-
   const signUp = async ({
     username,
     password,
@@ -88,6 +85,7 @@ export const useUser = () => {
   }) => {
     setLoading(true);
     try {
+      console.log(username, password, "data");
       const data = await signUpApi({
         username,
         password,

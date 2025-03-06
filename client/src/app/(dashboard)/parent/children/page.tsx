@@ -119,7 +119,8 @@ const ChildrenManagement = () => {
               </TableRow>
             </TableHeader>
             <TableBody className="child__table-body">
-              {children.length > 0 ? (
+                
+              {children ? (
                 children.map((child) => (
                   <TableRow className="child__table-row" key={child.id}>
                     <TableCell className="child__table-cell">

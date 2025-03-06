@@ -20,7 +20,8 @@ const customBaseQuery = async (
   const baseQuery = fetchBaseQuery({
     baseUrl: "http://localhost:8000",
     prepareHeaders: async (headers) => {
-      const token = Cookies.get("authToken");
+      // const token = Cookies.get("authToken");
+      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLXNlcnZpY2UiLCJleHAiOjE3NDExNDY1MDMsImlhdCI6MTc0MTA2MDEwMywidXNlcklkIjoyLCJ1c2VybmFtZSI6InBhcmVudCIsImVtYWlsIjoiamFuZS5zbWl0aEBleGFtcGxlLmNvbSIsInJvbGUiOiJQYXJlbnQifQ.pIx_a5hp-4R4s_A2LjcXQE5WuHabXJXq0H4R1N0fLxU"
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
@@ -335,6 +336,12 @@ export const api = createApi({
         url: `/teaching-sessions/child/${childrenId}`,
       }),
     }),
+<<<<<<< HEAD
+    // Parents
+    getParents: build.query<Parent[]  | null, {  }>({
+      query: ({  }) => ({
+        url: `/parent`,
+=======
 
     /* 
     ===============
@@ -368,6 +375,7 @@ export const api = createApi({
     getParentById: build.query<Parent, { userId: number }>({
       query: ({ userId }) => ({
         url: `/parent/${userId}`,
+>>>>>>> 4b67ab44f411f02fa4a7588c6c5a3520ae252255
       }),
     }),
   }),
@@ -391,6 +399,12 @@ export const {
   useDeleteChildrenMutation,
   useGetTutorAvailabilityQuery,
   useUpdateAvailabilityMutation,
+<<<<<<< HEAD
+
+  useGetCourseAvailabilityQuery,
+  useGetSessionQuery,
+  useGetParentsQuery
+=======
   useGetCourseAvailabilityQuery,
   useGetSessionQuery,
   useCreateStripePaymentIntentMutation,
@@ -398,4 +412,5 @@ export const {
   useGetAllParentsQuery,
   useGetParentByIdQuery,
   useUpdateTutorMutation,
+>>>>>>> 4b67ab44f411f02fa4a7588c6c5a3520ae252255
 } = api;

@@ -93,7 +93,7 @@ const Login = () => {
         alert("password dont match");
       } else {
         await signUp({
-          username: signUpData.fullName,
+          username: signUpData.userName,
           email: signUpData.email,
           password: signUpData.passWord,
           role: signUpData.role,
@@ -154,9 +154,9 @@ const Login = () => {
 
           <div className="flex flex-col gap-5">
             {isSignUp ? (
-              <div className="flex flex-col gap-5">
+              <div className="grid grid-cols-2 gap-5">
                 <input
-                  className="p-2 border rounded-lg"
+                  className="p-2 border  rounded-[7px]"
                   placeholder="Full Name"
                   name="fullName"
                   value={signUpData.fullName}
@@ -164,7 +164,7 @@ const Login = () => {
                   required
                 />
                 <input
-                  className="p-2 border rounded-lg"
+                  className="p-2 border rounded-[7px]"
                   placeholder="User Name"
                   name="userName"
                   value={signUpData.userName}
@@ -172,7 +172,7 @@ const Login = () => {
                   required
                 />
                 <input
-                  className="p-2 border rounded-lg"
+                  className="p-2 border rounded-[7px]"
                   type="password"
                   placeholder="Password"
                   name="passWord"
@@ -180,9 +180,8 @@ const Login = () => {
                   onChange={handleChange}
                   required
                 />
-
                 <input
-                  className="p-2 border rounded-lg"
+                  className="p-2 border rounded-[7px]"
                   type="password"
                   placeholder="Confirm Password"
                   name="confirmPassword"
@@ -191,7 +190,7 @@ const Login = () => {
                   required
                 />
                 <input
-                  className="p-2 border rounded-lg"
+                  className="p-2 border rounded-[7px]"
                   type="email"
                   placeholder="Email"
                   name="email"
@@ -201,7 +200,7 @@ const Login = () => {
                 />
 
                 <select
-                  className="p-2 border rounded-lg"
+                  className="p-2 border rounded-[7px]"
                   name="role"
                   value={signUpData.role}
                   onChange={handleChange}
@@ -214,7 +213,7 @@ const Login = () => {
             ) : (
               <div className="flex flex-col gap-5">
                 <input
-                  className="p-2 border rounded-lg"
+                  className="p-2 border rounded-[7px]"
                   placeholder="User Name"
                   name="userName"
                   value={loginData.userName}
@@ -222,7 +221,7 @@ const Login = () => {
                   required
                 />
                 <input
-                  className="p-2 border rounded-lg"
+                  className="p-2 border rounded-[7px]"
                   type="password"
                   placeholder="Password"
                   name="passWord"
@@ -234,8 +233,7 @@ const Login = () => {
             )}
 
             <button
-              ref={buttonRef}
-              className="bg-[#25262F] text-white-100 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+              className="bg-[#25262F] text-white py-2 rounded-[7px]"
               onClick={handleSubmit}
             >
               {isSignUp ? "Sign Up" : "Login"}
@@ -244,7 +242,7 @@ const Login = () => {
             <button
               ref={buttonRef}
               onClick={handleGoogleLogin}
-              className="bg-white-50 text-black py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+              className="bg-white-50 text-black py-2 rounded-[7px] hover:bg-blue-600 transition duration-300"
             >
               <p className="flex justify-center items-center gap-2">Google</p>
             </button>

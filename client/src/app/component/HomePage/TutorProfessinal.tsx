@@ -12,8 +12,8 @@ const TutorProfessinal = () => {
     >
       <div className="bg-transparent mx-32">
         <div className="flex justify-center my-10 items-center">
-          <div className="w-[30%]">
-            <h1 className="text-orange-600 font-bold text-4xl text-center tracking-widest">
+          <div className="">
+            <h1 className="text-orange-600 font-bold text-2xl md:text-4xl  text-center tracking-widest">
               Meet With Our Professional Menter.
             </h1>
           </div>
