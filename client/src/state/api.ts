@@ -2,6 +2,7 @@ import {
   Availability,
   Children,
   Course,
+  Parent,
   TeachingSession,
   Tutor,
   User,
@@ -322,6 +323,12 @@ export const api = createApi({
         url: `/teaching-sessions/child/${childrenId}`,
       }),
     }),
+    // Parents
+    getParents: build.query<Parent[]  | null, {  }>({
+      query: ({  }) => ({
+        url: `/parent`,
+      }),
+    }),
   }),
 });
 
@@ -346,4 +353,5 @@ export const {
 
   useGetCourseAvailabilityQuery,
   useGetSessionQuery,
+  useGetParentsQuery
 } = api;

@@ -49,7 +49,7 @@ export const useUser = () => {
     setLoading(true);
     try {
       const data = await loginAPI({ username, password }).unwrap();
-
+      
       const { token, user } = data;
 
       // Lưu token và user vào cookies
@@ -88,6 +88,7 @@ export const useUser = () => {
   }) => {
     setLoading(true);
     try {
+      console.log(username, password, "data");
       const data = await signUpApi({ username, password, email , role }).unwrap();
 
       console.log(data);

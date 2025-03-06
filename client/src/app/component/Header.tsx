@@ -16,10 +16,10 @@ const Header = () => {
   return (
     <div className="mx-16">
       <div className="absolute top-0 left-0 w-full py-3  bg-opacity-70 bg-black text-white z-10 flex justify-between items-center  ">
-        <div onClick={() => router.push("/")} className="ml-16 cursor-pointer">
-          <Image src={logo} alt="logo" width={150} height={200} />
+        <div onClick={() => router.push("/")} className=" ml-16 cursor-pointer invisible md:visible   ">
+          <Image src={logo} alt="logo" width={150} height={200}  />
         </div>
-        <div className="flex gap-16 text-xl items-center mr-16">
+        <div className="sm:text-sm md:text-lg lg:text-2xl flex gap-16  items-center mr-16">
           <div
             onClick={() => router.push("/courses")}
             className="font-semibold cursor-pointer"
@@ -31,7 +31,7 @@ const Header = () => {
           <div className="cursor-pointer">Commuity</div> */}
           <div
             onClick={() => router.push("/courses")}
-            className=" font-semibold cursor-pointer"
+            className=" font-semibold cursor-pointer "
           > 
             DoashBoard
           </div>
@@ -46,7 +46,7 @@ const Header = () => {
               onClick={() => router.push("/login")}
               className=" font-semibold cursor-pointer"
             >
-              Login Now
+              Login
             </div>
           ) : (
             <div

@@ -93,7 +93,7 @@ const Login = () => {
         alert("password dont match");
       } else {
         await signUp({
-          username: signUpData.fullName,
+          username: signUpData.userName,
           email: signUpData.email,
           password: signUpData.passWord,
           role: signUpData.role,
