@@ -336,16 +336,16 @@ export const api = createApi({
         url: `/teaching-sessions/child/${childrenId}`,
       }),
     }),
-<<<<<<< HEAD
     // Parents
     getParents: build.query<Parent[]  | null, {  }>({
       query: ({  }) => ({
         url: `/parent`,
-=======
-
+      })
+    }),
+   
     /* 
     ===============
-    BOOKINGS
+  BOOKINGS
     =============== 
     */
 
@@ -375,7 +375,6 @@ export const api = createApi({
     getParentById: build.query<Parent, { userId: number }>({
       query: ({ userId }) => ({
         url: `/parent/${userId}`,
->>>>>>> 4b67ab44f411f02fa4a7588c6c5a3520ae252255
       }),
     }),
   }),
@@ -399,12 +398,6 @@ export const {
   useDeleteChildrenMutation,
   useGetTutorAvailabilityQuery,
   useUpdateAvailabilityMutation,
-<<<<<<< HEAD
-
-  useGetCourseAvailabilityQuery,
-  useGetSessionQuery,
-  useGetParentsQuery
-=======
   useGetCourseAvailabilityQuery,
   useGetSessionQuery,
   useCreateStripePaymentIntentMutation,
@@ -412,5 +405,5 @@ export const {
   useGetAllParentsQuery,
   useGetParentByIdQuery,
   useUpdateTutorMutation,
->>>>>>> 4b67ab44f411f02fa4a7588c6c5a3520ae252255
+  useGetParentsQuery
 } = api;

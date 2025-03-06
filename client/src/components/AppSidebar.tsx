@@ -43,14 +43,20 @@ const AppSidebar = () => {
       { icon: User, label: "Profile", href: "/tutor/profile" },
       { icon: Settings, label: "Settings", href: "/tutor/settings" },
     ],
+    Admin: [
+      { icon: BookOpen, label: "Courses", href: "/admin/courses" },
+      { icon: User, label: "Profile", href: "/admin/users" },
+    ],
   };
 
   //   if (!isLoaded) return <Loading />;
   //   if (!user) return <div>User not found</div>;
 
-  const userType: "Tutor" | "Parent" =
-    user?.role === "Tutor" ? "Tutor" : "Parent";
-  const currentNavLinks = navLinks[userType];
+  const userType: "Tutor" | "Parent" | "Admin" =
+  user?.role === "Tutor" ? "Tutor" : user?.role === "Parent" ? "Parent" : "Admin";
+
+const currentNavLinks = navLinks[userType];
+
 
   return (
     <Sidebar

@@ -4,11 +4,11 @@ import React, { useState } from "react";
 interface TableProps<T> {
   data: T[];
   columns: { key: keyof T; label: string }[];
-  onDelete: (id: number) => void;
-  onUpdate: (id: number) => void;
+  onDelete: (username: string) => void;
+  onUpdate: (username: string) => void;
 }
 
-const CustomTable = <T extends { id: number }>({ data, columns, onDelete, onUpdate }: TableProps<T>) => {
+const CustomTable = <T extends { username: string }>({ data, columns, onDelete, onUpdate }: TableProps<T>) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortColumn, setSortColumn] = useState<keyof T | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
@@ -47,7 +47,7 @@ const CustomTable = <T extends { id: number }>({ data, columns, onDelete, onUpda
       <div className="overflow-x-auto">
         <table className="min-w-full border border-gray-300 rounded-lg">
           <thead>
-            <tr className="bg-gray-200 text-gray-700">
+            <tr className="bg-gray-200 text-black text-center">
               {columns.map((col) => (
                 <th
                   key={String(col.key)}
@@ -65,20 +65,20 @@ const CustomTable = <T extends { id: number }>({ data, columns, onDelete, onUpda
               sortedData.map((row, rowIndex) => (
                 <tr key={rowIndex} className="border">
                   {columns.map((col) => (
-                    <td key={String(col.key)} className="px-4 py-2 border">
+                    <td key={String(col.key)} className="px-4 py-2 border text-black">
                       {String(row[col.key])}
                     </td>
                   ))}
                   <td className="px-4 py-2 border text-center">
                     <button
-                      onClick={() => onUpdate(row.id)}
-                      className="mr-2 px-2 py-1 bg-blue-500 text-white rounded"
+                      onClick={() => onUpdate(row.username)}
+                      className="mr-2 px-2 py-1 bg-blue-500 text-white-50 rounded"
                     >
                       Update
                     </button>
                     <button
-                      onClick={() => onDelete(row.id)}
-                      className="px-2 py-1 bg-red-500 text-white rounded"
+                      onClick={() => onDelete(row.username)}
+                      className="px-2 p-2 py-1 bg-red-500 text-white-50 rounded"
                     >
                       Delete
                     </button>

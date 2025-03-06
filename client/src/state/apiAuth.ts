@@ -1,4 +1,4 @@
-import { Children, Course, Tutor, User } from "@/types";
+import { Children, Course, Tutor, Users } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query";
 import { toast } from "sonner";
@@ -11,13 +11,15 @@ const customBaseQuery = async (
 ) => {
   const baseQuery = fetchBaseQuery({
     baseUrl: "http://localhost:8080",
-    // prepareHeaders: async (headers) => {
-    //   const token = Cookies.get("authToken");
-    //   if (token) {
-    //     headers.set("Authorization", `Bearer ${token}`);
-    //   }
-    //   return headers;
-    // },
+    prepareHeaders: async (headers) => {
+      const token = Cookies.get("authToken");
+      console.log(token);
+      
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`);
+      }
+      return headers;
+    },
   });
 
   try {
@@ -70,12 +72,15 @@ export const apiAuth = createApi({
         body,
       }),
     }),
-    signup: build.mutation<any, { username: string; password: string,email: string, role: string }>({
+    signup: build.mutation<
+      any,
+      { username: string; password: string; email: string; role: string }
+    >({
       query: (body) => ({
         url: `auth/register`,
         method: "POST",
         body,
-      })
+      }),
     }),
     googleLogin: build.mutation({
       query: () => ({
@@ -95,14 +100,24 @@ export const apiAuth = createApi({
         },
       }),
     }),
-    signup: build.mutation<
-      any,
-      { username: string; password: string; email: string; role: string }
+
+    ///Admin
+    getUsers: build.query<Users[] | null, {}>({
+      query: ({}) => ({
+        url: `/api/admin/users`,
+      }),
+      transformResponse: (response: { data: Users[] }) => response.data,
+    }),
+
+    deleteUser: build.mutation<
+      Users,
+      {
+        username: string;
+      }
     >({
-      query: (body) => ({
-        url: `auth/register`,
-        method: "POST",
-        body,
+      query: ({ username }) => ({
+        url: `/api/admin/users/${username}`,
+        method: "DELETE",
       }),
     }),
   }),
@@ -112,9 +127,7 @@ export const {
   useLoginMutation,
   useGoogleLoginMutation,
   useGoogleLoginCallbackMutation,
-<<<<<<< HEAD
-  useSignupMutation
-=======
   useSignupMutation,
->>>>>>> 4b67ab44f411f02fa4a7588c6c5a3520ae252255
+  useGetUsersQuery,
+  useDeleteUserMutation,
 } = apiAuth;

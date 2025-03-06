@@ -92,12 +92,23 @@ const Login = () => {
       if (signUpData.passWord !== signUpData.confirmPassword) {
         alert("password dont match");
       } else {
-        await signUp({
+        const res = await signUp({
           username: signUpData.userName,
           email: signUpData.email,
           password: signUpData.passWord,
           role: signUpData.role,
         });
+        if (!res?.error) {
+          setSignUpData({
+            fullName: "",
+            userName: "",
+            passWord: "",
+            confirmPassword: "",
+            email: "",
+            role: "Parent",
+          });
+          setIsSignUp(!isSignUp);
+        }
       }
     } else {
       console.log(loginData);
@@ -134,7 +145,7 @@ const Login = () => {
       >
         <div
           ref={divLogo}
-          className="bg-[#25262F] w-[40%] h-[60%] bg-opacity-80 text-center flex flex-col items-center justify-start p-6"
+          className="bg-[#25262F] w-[40%] h-[60%] bg-opacity-80 text-center flex flex-col items-center justify-start p-6 rounded-xl"
         >
           <div ref={logoRef} className="mb-20 mt-10">
             <Image src={logo} alt="logo" width={250} height={200} />
@@ -146,7 +157,7 @@ const Login = () => {
 
         <div
           ref={formRef}
-          className="w-[25%] h-[60%] bg-white bg-opacity-70 backdrop-blur-md flex flex-col gap-16 p-6 text-green-900 "
+          className="w-[25%] h-[60%] bg-white bg-opacity-70 backdrop-blur-md flex flex-col gap-16 p-6 text-green-900 rounded-xl"
         >
           <p className="text-3xl">
             {isSignUp ? "Create an Account" : "Sign in to get started!"}

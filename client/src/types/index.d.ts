@@ -154,8 +154,6 @@ export interface Availability {
   sunday: DayAvailability;
 }
 
-<<<<<<< HEAD
-=======
 export interface TeachingSession {
   id: number;
   google_meet_id: string;
@@ -169,7 +167,6 @@ export interface TeachingSession {
     course?: Course;
   };
 }
->>>>>>> 4b67ab44f411f02fa4a7588c6c5a3520ae252255
 
 export interface TutorReview {
   id: number;
@@ -210,7 +207,6 @@ export interface Parent {
   tutorReviews?: TutorReview[];
   courseReviews?: CourseReview[];
 }
-<<<<<<< HEAD
 
 
 
@@ -246,5 +242,23 @@ export interface Parent{
       phone: string
   }
 }
-=======
->>>>>>> 4b67ab44f411f02fa4a7588c6c5a3520ae252255
+
+export interface Users  {
+  CreatedAt?: Date,
+  DeletedAt?: Date,
+  ID?: number,
+  UpdatedAt?: Date,
+  account_locked?: boolean,
+  email?: string,
+  full_name?: string,
+  google_token?: string,
+  is_verified?: boolean,
+  password_changed_at?: string,
+  phone?: string,
+  picture?: string,
+  role?: string,
+  status?: string,
+  username: string,
+}
+
+

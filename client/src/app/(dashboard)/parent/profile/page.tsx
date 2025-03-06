@@ -21,6 +21,7 @@ const Profile = () => {
   const handleViewChildSchedule = (child: Children) => {
     router.push(`/parent/children/${child.id}`);
   };
+  console.log(parent);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6 h-screen">
@@ -31,7 +32,7 @@ const Profile = () => {
           <CardContent className="p-0 relative flex flex-1">
             <div className="rounded-xl w-11/12 p-4 bg-white/30 backdrop-blur-3xl shadow-md absolute -top-14 left-1/2 -translate-x-1/2 flex justify-start items-center gap-6">
               <div className="w-24 h-24 aspect-square rounded-xl flex items-center justify-center text-6xl font-bold uppercase text-white bg-gradient-to-r from-blue-500 to-indigo-600 shadow-md">
-                {parent?.profile?.username.charAt(0)}
+                {parent?.profile?.username.charAt(0) || "unknow"}
               </div>
               <div className="flex flex-col justify-between items-start gap-3">
                 <h2 className="text-2xl font-bold text-primary-50">
@@ -61,10 +62,11 @@ const Profile = () => {
             <CardContent>
               {isLoading ? (
                 <Loading />
-              ) : isError || !children ? (
+              ) : isError || !children || children.length === 0 ? (
                 <div>Error loading children.</div>
               ) : (
-                children.map((child) => (
+               
+                children?.map((child) => (
                   <div
                     key={child.id}
                     className="flex items-center justify-between gap-5 py-2"
@@ -87,7 +89,8 @@ const Profile = () => {
                     </Button>
                   </div>
                 ))
-              )}
+              )
+              }
             </CardContent>
           </Card>
         )}

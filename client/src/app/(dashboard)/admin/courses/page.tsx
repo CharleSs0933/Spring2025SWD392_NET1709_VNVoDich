@@ -62,7 +62,9 @@ const ManagementCourses = () => {
     alert(`Update user with ID: ${id}`);
   };
   return (
-    <div className="p-6">
+    <div className="p-6 bg-gray-100 min-h-screen">
+      <div className="bg-white shadow-lg rounded-lg p-6">
+
       <h1 className="text-2xl font-bold mb-4">Courses List</h1>
       {isLoadingFilter ? (
         <p>Loading ...</p>
@@ -83,6 +85,8 @@ const ManagementCourses = () => {
           onUpdate={handleUpdate}
         />
       )}
+      </div>
+
     </div>
   );
 };

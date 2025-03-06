@@ -34,60 +34,60 @@ const Header = () => {
   return (
     <div className="mx-16">
       <div className="absolute top-0 left-0 w-full py-3  bg-opacity-70 bg-black text-white z-10 flex justify-between items-center  ">
-        <div onClick={() => router.push("/")} className=" ml-16 cursor-pointer invisible md:visible   ">
+        <button onClick={() => router.push("/")} className=" ml-16 cursor-pointer invisible md:visible   ">
           <Image src={logo} alt="logo" width={150} height={200}  />
-        </div>
+        </button>
         <div className="sm:text-sm md:text-lg lg:text-2xl flex gap-16  items-center mr-16">
-          <div
+          <button
             onClick={() => router.push("/courses")}
             className="font-semibold cursor-pointer"
           >
             Courses
-          </div>
+          </button>
           {/*         
           <div className="cursor-pointer">Teams</div>
           <div className="cursor-pointer">Commuity</div> */}
           {role === "Admin" && (
-            <div
-              onClick={() => router.push("/admin")}
+            <button
+              onClick={() => router.push("/admin/users")}
               className="bg-white p-1 rounded-lg text-white-50 cursor-pointer"
             >
               Admin Dashboard
-            </div>
+            </button>
           )}
 
           {role === "Parent" && (
-            <div
+            <button
               onClick={() => router.push("/parent/children")}
               className="bg-white p-1 rounded-lg text-white-50 cursor-pointer"
             >
               Parent Dashboard
-            </div>
+            </button>
           )}
 
           {role === "Tutor" && (
-            <div
+            <button
               onClick={() => router.push("/tutor/courses")}
               className="bg-white p-1 rounded-lg text-white-50 cursor-pointer"
             >
               Tutor Dashboard
-            </div>
+            </button>
           )}
 
           {!token ? (
-            <div
+            <button
               onClick={() => router.push("/login")}
               className=" font-semibold cursor-pointer"
             >
               Login
-            </div>
+            </button>
           ) : (
-            <div
+            <button
               className=" font-semibold cursor-pointer"
               onClick={handleLogout}
             >
               Logout
-            </div>
+            </button>
           )}
         </div>
       </div>

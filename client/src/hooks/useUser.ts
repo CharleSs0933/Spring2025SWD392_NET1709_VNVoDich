@@ -90,10 +90,16 @@ export const useUser = () => {
       console.log(username, password, "data");
       const data = await signUpApi({ username, password, email , role }).unwrap();
 
-      console.log(data);
-      
+      // console.log(data.statusCode);
+      // if (data.statusCode === 200) {
+      //   console.log("Đăng ký thành công!");
+      // } else {
+      //   console.log("Đăng ký thất bại!", data.message);
+      // }
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error("signUp failed:", error);
+      return {error}
+
     } finally {
       setLoading(false);
     }
