@@ -36,13 +36,13 @@ export default function Home() {
         />
 
         <div className="absolute top-52 flex items-center justify-center z-10 text-center w-full">
-          <div className="text-center flex flex-col gap-20">
+          <div className="text-center flex flex-col gap-5 md:gap-14 lg:gap-20">
             <TypewriterEffect words={words} />
 
             <div className="h-[8rem] w-full flex flex-col items-center justify-center overflow-hidden rounded-md">
               <TypewriterEffect words={words2} />
 
-              <div className=" w-[700px] h-7 relative">
+              <div className=" w-full h-7 relative">
                 <div className="absolute inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-[8px] w-1/2 blur-sm" />
                 <div className="absolute inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-px w-1/2" />
                 <div className="absolute inset-x-60 top-0 bg-gradient-to-r from-transparent via-sky-500 to-transparent h-[5px] w-1/2 blur-sm" />
@@ -61,7 +61,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="absolute top-[420px]  z-10 text-center w-full  text-lg">
+        <div className="absolute top-[420px]  z-10 text-center w-full text-sm md:text-md lg:text-lg">
           <LazyLoad
             threshold={0.2}
             animationDuration={0.5}
@@ -87,9 +87,9 @@ export default function Home() {
             animateStyle={{ opacity: 1, y: 0 }}
           >
             <div className="flex justify-center">
-              <button className="relative inline-flex w-[15%] h-16 overflow-hidden rounded-md p-[5px] focus:outline-none focus:ring-2  focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
+              <button className="relative inline-flex  h-16 overflow-hidden rounded-md p-[5px] focus:outline-none focus:ring-2  focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
                 <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
-                <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-md bg-slate-950 px-5 py-2 text-2xl font-medium text-white backdrop-blur-3xl">
+                <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-md bg-slate-950 px-5 py-2 text-sm md:text-lg lg:text-2xl font-medium text-white backdrop-blur-3xl">
                   Get Started Now
                 </span>
               </button>
@@ -98,7 +98,7 @@ export default function Home() {
         </div>
       </div>
 
-      <About />
+      {/* <About /> */}
       <Introduce />
       <TutorProfessinal />
       <Footer />

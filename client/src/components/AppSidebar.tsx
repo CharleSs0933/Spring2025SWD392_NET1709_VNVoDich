@@ -12,13 +12,14 @@ import {
 } from "@/components/ui/sidebar";
 import {
   BookOpen,
-  Briefcase,
+  Calendar,
   Clock,
   LayoutDashboard,
   LogOut,
   PanelLeft,
   Settings,
   User,
+  Users,
 } from "lucide-react";
 import Loading from "./Loading";
 import Image from "next/image";
@@ -38,10 +39,11 @@ const AppSidebar = () => {
       { icon: Settings, label: "Settings", href: "/parent/settings" },
     ],
     Tutor: [
+      { icon: Calendar, label: "Schedule", href: "/tutor/schedule" },
       { icon: BookOpen, label: "Courses", href: "/tutor/courses" },
       { icon: Clock, label: "Availability", href: "/tutor/availability" },
       { icon: User, label: "Profile", href: "/tutor/profile" },
-      { icon: Settings, label: "Settings", href: "/tutor/settings" },
+      { icon: Users, label: "Students", href: "/tutor/students" },
     ],
   };
 

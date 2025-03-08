@@ -31,7 +31,7 @@ const ChildrenSelector = ({
     <div className="p-10 border bg-customgreys-primarybg">
       <h3 className="text-2xl font-bold mb-4">Select a Child for Booking</h3>
       <h4 className="font-medium mb-2">Available Children</h4>
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
         {availableChildren.map((child) => (
           <ChildrenCard
             children={child}

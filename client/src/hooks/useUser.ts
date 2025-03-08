@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useLoginMutation, useSignupMutation } from "@/state/apiAuth";
+import { useRouter } from "next/navigation";
 
 // API endpoint
 const API_URL = "http://localhost:8080";
@@ -16,9 +17,9 @@ export const useUser = () => {
     role: "Parent" | "Tutor" | "Children";
   } | null>(null);
   const [loading, setLoading] = useState(true);
-  const [loginAPI] = useLoginMutation();
-  const [signUpApi, { isSuccess: successSignUp, isError: errorSignUp }] =
-    useSignupMutation();
+  const [signUpApi] = useSignupMutation();
+  const [loginApi] = useLoginMutation();
+  const router = useRouter();
 
   useEffect(() => {
     const token = Cookies.get("authToken");
@@ -48,7 +49,7 @@ export const useUser = () => {
   }) => {
     setLoading(true);
     try {
-      const data = await loginAPI({ username, password }).unwrap();
+      const data = await loginApi({ username, password }).unwrap();
 
       const { token, user } = data;
 
@@ -72,8 +73,6 @@ export const useUser = () => {
     }
   };
 
-  // user name password email role
-
   const signUp = async ({
     username,
     password,
@@ -87,7 +86,8 @@ export const useUser = () => {
   }) => {
     setLoading(true);
     try {
-      await signUpApi({
+      console.log(username, password, "data");
+      const data = await signUpApi({
         username,
         password,
         email,
@@ -108,16 +108,46 @@ export const useUser = () => {
     setUser(null);
   };
 
+  const handleGoogleLogin = () => {
+    const popup = window.open(
+      "http://localhost:8080/google/auth/login",
+      "_blank",
+      "width=500,height=600"
+    );
+
+    const interval = setInterval(() => {
+      if (!popup) {
+        clearInterval(interval);
+        console.log("Popup bị đóng.");
+        return;
+      }
+
+      try {
+        const popupUrl = popup.location.href;
+        console.log(popupUrl);
+
+        if (popupUrl.includes("localhost:8080/google/auth/login/callback")) {
+          // Lấy dữ liệu từ `document.body.innerText`
+          const jsonText = popup.document.body.innerText;
+          const responseData = JSON.parse(jsonText);
+
+          console.log("Dữ liệu từ popup:", responseData);
+
+          // if (responseData?.data?.token) {
+          //   localStorage.setItem("token", responseData.data.token);
+          //   window.location.reload(); // Hoặc cập nhật state của app
+          // }
+
+          popup.close();
+          clearInterval(interval);
+        }
+      } catch (error) {
+        // Bỏ qua lỗi Cross-Origin nếu popup chưa load xong
+      }
+    }, 1000);
+  };
+
   const isLogged = !!user;
 
-  return {
-    user,
-    loading,
-    login,
-    logout,
-    signUp,
-    successSignUp,
-    errorSignUp,
-    isLogged,
-  };
+  return { user, loading, login, logout, signUp, isLogged, handleGoogleLogin };
 };

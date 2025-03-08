@@ -70,6 +70,16 @@ export const apiAuth = createApi({
         body,
       }),
     }),
+    signup: build.mutation<
+      any,
+      { username: string; password: string; email: string; role: string }
+    >({
+      query: (body) => ({
+        url: `auth/register`,
+        method: "POST",
+        body,
+      }),
+    }),
     googleLogin: build.mutation({
       query: () => ({
         url: `google/auth/login`,
@@ -86,16 +96,6 @@ export const apiAuth = createApi({
           code,
           state,
         },
-      }),
-    }),
-    signup: build.mutation<
-      any,
-      { username: string; password: string; email: string; role: string }
-    >({
-      query: (body) => ({
-        url: `auth/register`,
-        method: "POST",
-        body,
       }),
     }),
   }),

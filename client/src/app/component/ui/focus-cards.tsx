@@ -68,9 +68,9 @@ export const Card = React.memo(
 
     const handleOnClick = (item: string) => {
       if(type === "course"){
-        router.push(`/Courses/${item}`);
+        router.push(`/courses/${item}`);
       }else{
-        router.push(`/Tutors/${item}`)
+        router.push(`/tutors/${item}`)
       }
     };
 

@@ -80,10 +80,11 @@ export const api = createApi({
         grade?: string;
         status?: string;
         title?: string;
+        userId?: number;
       }
     >({
-      query: ({ subject, grade, status, page, pageSize, title }) => ({
-        url: "/Courses",
+      query: ({ subject, grade, status, page, pageSize, title, userId }) => ({
+        url: "courses",
         params: {
           page,
           pageSize,
@@ -91,6 +92,7 @@ export const api = createApi({
           grade,
           status,
           title,
+          userId,
         },
       }),
       providesTags: ["Courses"],
@@ -322,17 +324,21 @@ export const api = createApi({
 
     getCourseAvailability: build.query<
       { date: string; slots: string[] }[],
-      { courseId: string }
+      { courseId: string; type?: "Day" | "Week" }
     >({
-      query: ({ courseId }) => ({
+      query: ({ courseId, type }) => ({
         url: `/availabilities/course/${courseId}`,
+        params: {
+          type,
+        },
       }),
     }),
 
     // Teaching session
-    getSession: build.query<TeachingSession[], { childrenId: number }>({
-      query: ({ childrenId }) => ({
-        url: `/teaching-sessions/child/${childrenId}`,
+    getSession: build.query<TeachingSession[], { userId: number }>({
+      query: ({ userId }) => ({
+        url: `/teaching-sessions`,
+        params: { userId },
       }),
     }),
 
