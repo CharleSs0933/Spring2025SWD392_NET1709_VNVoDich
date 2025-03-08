@@ -18,6 +18,7 @@ export const useUser = () => {
   } | null>(null);
   const [loading, setLoading] = useState(true);
   const [signUpApi] = useSignupMutation();
+  const [loginApi] = useLoginMutation();
   const router = useRouter();
 
   useEffect(() => {
@@ -48,7 +49,7 @@ export const useUser = () => {
   }) => {
     setLoading(true);
     try {
-      const data = await loginAPI({ username, password }).unwrap();
+      const data = await loginApi({ username, password }).unwrap();
 
       const { token, user } = data;
 
@@ -109,41 +110,42 @@ export const useUser = () => {
   };
 
   const handleGoogleLogin = () => {
-    const googleWindow = window.open(
+    const popup = window.open(
       "http://localhost:8080/google/auth/login",
-      "Google Login",
-      "width=500,height=600,scrollbars=yes,resizable=yes"
+      "_blank",
+      "width=500,height=600"
     );
 
-    // Define event listener
-    const receiveMessage = (event: MessageEvent) => {
-      if (event.origin === "http://localhost:8080") {
-        const { token, user } = event.data;
-
-        if (token && user) {
-          Cookies.set("token", token, { expires: 7 });
-          Cookies.set("user", JSON.stringify(user), { expires: 7 });
-
-          console.log("Token and user saved to cookies:", { token, user });
-
-          // Close the popup safely
-          if (googleWindow && !googleWindow.closed) {
-            googleWindow.close();
-          }
-
-          // Redirect to homepage
-          router.push("/");
-        }
+    const interval = setInterval(() => {
+      if (!popup) {
+        clearInterval(interval);
+        console.log("Popup bị đóng.");
+        return;
       }
-    };
 
-    // Listen for message from popup
-    window.addEventListener("message", receiveMessage);
+      try {
+        const popupUrl = popup.location.href;
+        console.log(popupUrl);
 
-    // Remove listener after some time to avoid memory leaks
-    setTimeout(() => {
-      window.removeEventListener("message", receiveMessage);
-    }, 5000);
+        if (popupUrl.includes("localhost:8080/google/auth/login/callback")) {
+          // Lấy dữ liệu từ `document.body.innerText`
+          const jsonText = popup.document.body.innerText;
+          const responseData = JSON.parse(jsonText);
+
+          console.log("Dữ liệu từ popup:", responseData);
+
+          // if (responseData?.data?.token) {
+          //   localStorage.setItem("token", responseData.data.token);
+          //   window.location.reload(); // Hoặc cập nhật state của app
+          // }
+
+          popup.close();
+          clearInterval(interval);
+        }
+      } catch (error) {
+        // Bỏ qua lỗi Cross-Origin nếu popup chưa load xong
+      }
+    }, 1000);
   };
 
   const isLogged = !!user;

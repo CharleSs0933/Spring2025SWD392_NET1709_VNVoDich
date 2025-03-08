@@ -16,8 +16,6 @@ const ChildrenPage = () => {
   const { data: availableChildren, isLoading: isChildrenLoading } =
     useGetChildrenQuery({});
 
-  console.log(availableChildren);
-
   if (isCourseLoading || isChildrenLoading) return <Loading />;
   if (isError) return <div>Failed to fetch course data</div>;
   if (!course) return <div>Course not found</div>;

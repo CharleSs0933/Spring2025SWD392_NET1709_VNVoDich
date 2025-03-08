@@ -21,18 +21,22 @@ const Courses = () => {
   const [selectedSubject, setSelectedSubject] = useState("all");
   const [selectedGrade, setSelectedGrade] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
-  const { user } = useUser();
+  const { user, loading } = useUser();
 
   const {
     data: courses,
     isLoading,
     isError,
-  } = useGetCoursesQuery({
-    pageSize: 20,
-    subject: selectedSubject,
-    title: searchTerm,
-    grade: selectedGrade,
-  });
+  } = useGetCoursesQuery(
+    {
+      pageSize: 20,
+      subject: selectedSubject,
+      title: searchTerm,
+      grade: selectedGrade,
+      userId: Number(user?.ID),
+    },
+    { skip: !user }
+  );
 
   const [createCourse] = useCreateCourseMutation();
   const [deleteCourse] = useDeleteCourseMutation();
@@ -48,14 +52,14 @@ const Courses = () => {
   };
 
   const handleCreateCourse = async () => {
-    // if (!user) return;
+    if (!user) return;
     const result = await createCourse({
       tutor_id: "1",
     }).unwrap();
     router.push(`/tutor/courses/${result.id}`, { scroll: false });
   };
 
-  if (isLoading) return <Loading />;
+  if (isLoading || loading) return <Loading />;
   if (isError || !courses) return <div>Error loading courses.</div>;
 
   return (

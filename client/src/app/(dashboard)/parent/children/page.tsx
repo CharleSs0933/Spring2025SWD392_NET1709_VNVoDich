@@ -23,6 +23,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { ChildDialog } from "@/components/dashboard/parent/ChildDialog";
 import { ConfirmDialog } from "@/components/dashboard/parent/ConfirmDialog";
+import { calculateAge } from "@/lib/utils";
 
 const ChildrenManagement = () => {
   const router = useRouter();
@@ -112,25 +113,26 @@ const ChildrenManagement = () => {
               <TableRow className="child__table-header-row">
                 <TableHead className="child__table-cell">Full_name</TableHead>
                 <TableHead className="child__table-cell">Age</TableHead>
-                <TableHead className="child__table-cell">Grade_level</TableHead>
+                <TableHead className="child__table-cell">
+                  Date of Birth
+                </TableHead>
                 <TableHead className="child__table-cell" colSpan={2}>
                   Learning_goals
                 </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody className="child__table-body">
-                
               {children ? (
                 children.map((child) => (
                   <TableRow className="child__table-row" key={child.id}>
                     <TableCell className="child__table-cell">
-                      {child.full_name}
+                      {child.profile?.full_name}
                     </TableCell>
                     <TableCell className="child__table-cell">
-                      {child.age}
+                      {calculateAge(child.date_of_birth)}
                     </TableCell>
-                    <TableCell className="child__table-cell child__amount">
-                      {child.grade_level}
+                    <TableCell className="child__table-cell">
+                      {child.date_of_birth.split("T")[0]}
                     </TableCell>
                     <TableCell className="child__table-cell">
                       {child.learning_goals}

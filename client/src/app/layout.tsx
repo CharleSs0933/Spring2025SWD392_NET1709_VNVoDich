@@ -1,9 +1,11 @@
 "use client";
+
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Metadata } from "next";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
