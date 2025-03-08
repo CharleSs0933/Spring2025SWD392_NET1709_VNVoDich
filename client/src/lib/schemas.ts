@@ -57,3 +57,33 @@ export const bookingSchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format"),
   time: z.string().regex(/^\d{2}:\d{2}$/, "Invalid time format"),
 });
+
+// Detail Profile Editor Schemas
+export const parentSchema = z.object({
+  username: z.string().min(3, "Username must be at least 3 characters"),
+  full_name: z.string().min(5, "Full Name must be at least 5 characters"),
+  email: z.string().email("Invalid email"),
+  phone: z.string().regex(/^\d{10,11}$/, "Invalid Phone"),
+});
+
+export type ParentFormData = z.infer<typeof parentSchema>;
+
+export const tutorSchema = z.object({
+  userName: z.string(),
+  fullName: z
+    .string()
+    .min(5, "Full Name must be at least 10 characters")
+    .min(1, "Full Name is required"),
+  email: z.string().email("Invalid email"),
+  phone: z.string().min(1, "Grade is required"),
+  bio: z.string().min(10, "Bio must be at least 10 characters"),
+  qualifications: z
+    .string()
+    .min(10, "Qualifications must be at least 10 characters"),
+  teaching_style: z
+    .string()
+    .min(10, "Teaching style must be at least 10 characters"),
+  demo_video_url: z.string(),
+});
+
+export type TutorFormData = z.infer<typeof tutorSchema>;

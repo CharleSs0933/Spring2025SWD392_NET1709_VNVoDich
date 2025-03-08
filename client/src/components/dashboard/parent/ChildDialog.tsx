@@ -7,9 +7,9 @@ import React, { useState } from "react";
 type Props = {
   formData: {
     full_name: string;
+    username: string;
     password: string;
-    age: number | string;
-    grade_level: string;
+    date_of_birth: string;
     learning_goals: string;
   };
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -28,8 +28,7 @@ export const ChildDialog = ({
   const [errors, setErrors] = useState({
     full_name: "",
     password: "",
-    age: "",
-    grade_level: "",
+    date_of_birth: "",
     learning_goals: "",
   });
 
@@ -37,8 +36,7 @@ export const ChildDialog = ({
     let newErrors = {
       full_name: "",
       password: "",
-      age: "",
-      grade_level: "",
+      date_of_birth: "",
       learning_goals: "",
     };
     let isValid = true;
@@ -53,19 +51,6 @@ export const ChildDialog = ({
       isValid = false;
     } else if (formData.password.length < 6) {
       newErrors.password = "Password must be at least 6 characters";
-      isValid = false;
-    }
-
-    if (!formData.age) {
-      newErrors.age = "Age is required";
-      isValid = false;
-    } else if (isNaN(Number(formData.age)) || Number(formData.age) < 3) {
-      newErrors.age = "Age must be a valid number and at least 3 years old";
-      isValid = false;
-    }
-
-    if (!formData.grade_level.trim()) {
-      newErrors.grade_level = "Grade Level is required";
       isValid = false;
     }
 
@@ -88,8 +73,7 @@ export const ChildDialog = ({
     setErrors({
       full_name: "",
       password: "",
-      age: "",
-      grade_level: "",
+      date_of_birth: "",
       learning_goals: "",
     });
     handleClose();
@@ -117,6 +101,22 @@ export const ChildDialog = ({
         </div>
 
         <div className="dialog_field">
+          <label className="dialog_label" htmlFor="username">
+            Username
+          </label>
+          <Input
+            id="username"
+            className="dialog_input"
+            name="username"
+            placeholder="Enter username"
+            value={formData.username}
+            onChange={handleChange}
+            disabled
+          />
+          {/* <p className="text-red-500 text-sm ">{errors.password}</p> */}
+        </div>
+
+        <div className="dialog_field">
           <label className="dialog_label" htmlFor="password">
             Password
           </label>
@@ -133,34 +133,19 @@ export const ChildDialog = ({
         </div>
 
         <div className="dialog_field">
-          <label className="dialog_label" htmlFor="age">
-            Age
+          <label className="dialog_label" htmlFor="date of birth">
+            Date of Birth
           </label>
           <Input
-            id="age"
+            id="date of birth"
             className="dialog_input"
-            name="age"
-            type="number"
+            name="date_of_birth"
+            type="date"
             placeholder="Enter age"
-            value={formData.age}
+            value={formData.date_of_birth.split("T")[0]}
             onChange={handleChange}
           />
-          <p className="text-red-500 text-sm ">{errors.age}</p>
-        </div>
-
-        <div className="dialog_field">
-          <label className="dialog_label" htmlFor="grade_level">
-            Grade Level
-          </label>
-          <Input
-            id="grade_level"
-            className="dialog_input"
-            name="grade_level"
-            placeholder="Enter grade level"
-            value={formData.grade_level}
-            onChange={handleChange}
-          />
-          <p className="text-red-500 text-sm ">{errors.grade_level}</p>
+          <p className="text-red-500 text-sm ">{errors.date_of_birth}</p>
         </div>
 
         <div className="dialog_field">

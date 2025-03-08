@@ -386,3 +386,25 @@ body,
 .dialog_content [data-state="open"] > button {
   display: none;
 }
+
+/* Profile */
+
+.detail_info .fieldProfile:nth-child(-n + 2) input {
+  @apply bg-transparent shadow-none text-sm text-primary-100 cursor-text;
+}
+
+.fieldProfile {
+  @apply mb-4;
+}
+
+.fieldProfile label {
+  @apply flex gap-3 items-center;
+}
+
+.fieldProfile svg {
+  @apply text-gray-900 bg-primary-100 rounded-full p-1;
+}
+
+.fieldProfile span {
+  @apply text-primary-50 text-base;
+}

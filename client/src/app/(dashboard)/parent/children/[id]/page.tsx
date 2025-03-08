@@ -7,11 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { ChildDialog } from "@/components/dashboard/parent/ChildDialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Loading from "@/components/Loading";
 import BigCalendarContainer from "@/components/BigCalendarContainer";
 import { TeachingSession } from "@/types";
 import moment from "moment";
+import { calculateAge } from "@/lib/utils";
+import { SessionDetailDialog } from "@/components/dashboard/parent/TeachingSessionDialog";
 
 const ChildSchedule = () => {
   const router = useRouter();
@@ -24,21 +26,22 @@ const ChildSchedule = () => {
   );
   const [updateChild] = useUpdateChildrenMutation();
   const [open, setOpen] = useState(false);
+  const [eventDialogOpen, setEventDialogOpen] = useState(false);
   const [formData, setFormData] = useState<any>({
+    username: "",
     full_name: "",
     password: "",
-    age: "",
-    grade_level: "",
+    date_of_birth: "",
     learning_goals: "",
   });
 
   const handleEdit = () => {
     if (child) {
       setFormData({
-        full_name: child.full_name || "",
+        username: child.profile?.username || "",
+        full_name: child.profile?.full_name || "",
         password: child.password || "",
-        age: child.age?.toString() || "",
-        grade_level: child.grade_level || "",
+        date_of_birth: child.date_of_birth || "",
         learning_goals: child.learning_goals || "",
       });
     }
@@ -48,14 +51,18 @@ const ChildSchedule = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  useEffect(() => {
+    setEventDialogOpen(selectedEvent !== null);
+  }, [selectedEvent]);
+
   const handleUpdate = async () => {
     try {
       await updateChild({
         id: id,
+        username: formData.username,
         full_name: formData.full_name,
         password: formData.password,
-        age: parseInt(formData.age),
-        grade_level: formData.grade_level,
+        date_of_birth: new Date(formData.date_of_birth).toISOString(),
         learning_goals: formData.learning_goals,
       }).unwrap();
 
@@ -67,12 +74,12 @@ const ChildSchedule = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setEventDialogOpen(false);
+    setSelectedEvent(null);
   };
 
   if (isLoading) return <Loading />;
-  if (isError || !child) return <div>Error loading courses.</div>;
-
-  console.log("Selected Event:", selectedEvent);
+  if (isError || !child) return <div>Error loading child.</div>;
 
   return (
     <div>
@@ -85,7 +92,7 @@ const ChildSchedule = () => {
               className="w-32 h-32 aspect-square rounded-full flex items-center justify-center 
           text-6xl font-bold uppercase text-white bg-gradient-to-r from-blue-500 to-indigo-600 shadow-md"
             >
-              {child.full_name.charAt(0)}
+              {child.profile?.full_name.charAt(0)}
             </div>
 
             {/* Info */}
@@ -93,18 +100,18 @@ const ChildSchedule = () => {
               <CardHeader className="flex justify-between p-2">
                 <CardTitle>
                   <span className="text-primary-200 rounded-2xl text-xl font-bold">
-                    {child.full_name}
+                    {child.profile?.full_name}
                   </span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="text-base text-white-50 p-2">
                 <p>
                   <strong>Age: </strong>
-                  {child.age}
+                  {calculateAge(child.date_of_birth)}
                 </p>
                 <p>
-                  <strong>Grade Level: </strong>
-                  {child.grade_level}
+                  <strong>Date of Birth: </strong>
+                  {child.date_of_birth.split("T")[0]}
                 </p>
                 <p>
                   <strong>Learning Goals: </strong>
@@ -144,39 +151,9 @@ const ChildSchedule = () => {
 
         {/* Event Info */}
         {selectedEvent && (
-          <div className="w-[350px] p-4 bg-[#3C415C] rounded-md shadow-lg">
-            <h2 className="text-lg font-semibold text-primary-100">
-              Course Details
-            </h2>
-            <p>
-              <strong>Subject:</strong>{" "}
-              {selectedEvent.subscription?.course?.title || "No Title"}
-            </p>
-            <p>
-              <strong>Time:</strong> {selectedEvent.startTime.slice(11, 16)} -{" "}
-              {selectedEvent.endTime.slice(11, 16)}
-            </p>
-            <p>
-              <strong>Description:</strong>{" "}
-              {selectedEvent.subscription?.course?.description ||
-                "No Description"}
-            </p>
-            <p>
-              <strong>Tutor:</strong>{" "}
-              {selectedEvent.subscription?.course?.tutor?.profile?.full_name ||
-                "Unknown"}
-            </p>
-            <p>
-              <strong>Google Meet:</strong>
-              <a
-                href={selectedEvent.google_meet_id}
-                target="_blank"
-                className="text-blue-500 underline"
-              >
-                Join
-              </a>
-            </p>
-          </div>
+          <Dialog open={eventDialogOpen} onOpenChange={setEventDialogOpen}>
+            <SessionDetailDialog course={selectedEvent} />
+          </Dialog>
         )}
       </div>
 

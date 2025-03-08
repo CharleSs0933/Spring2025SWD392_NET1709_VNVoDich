@@ -24,6 +24,7 @@ import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { ChildDialog } from "@/components/dashboard/parent/ChildDialog";
 import { ConfirmDialog } from "@/components/dashboard/parent/ConfirmDialog";
+import { calculateAge } from "@/lib/utils";
 
 const ChildrenManagement = () => {
   const router = useRouter();
@@ -45,8 +46,7 @@ const ChildrenManagement = () => {
   const [formData, setFormData] = useState<any>({
     full_name: "",
     password: "",
-    age: "",
-    grade_level: "",
+    date_of_birth: "",
     learning_goals: "",
   });
 
@@ -63,18 +63,17 @@ const ChildrenManagement = () => {
   };
 
   const handleCreateChildAccount = async () => {
+    console.log(formData);
+
     const result = await createChild({
+      username: formData.username,
       full_name: formData.full_name,
       password: formData.password,
-      age: parseInt(formData.age),
-      grade_level: formData.grade_level,
+      date_of_birth: new Date(formData.date_of_birth).toISOString(),
       learning_goals: formData.learning_goals,
     }).unwrap();
-    setOpen(false);
-  };
 
-  const handleDeleteChild = async (id: number) => {
-    await deleteChild(id).unwrap();
+    setOpen(false);
   };
 
   if (isLoading) return <Loading />;
@@ -113,7 +112,9 @@ const ChildrenManagement = () => {
               <TableRow className="child__table-header-row">
                 <TableHead className="child__table-cell">Full_name</TableHead>
                 <TableHead className="child__table-cell">Age</TableHead>
-                <TableHead className="child__table-cell">Grade_level</TableHead>
+                <TableHead className="child__table-cell">
+                  Date of Birth
+                </TableHead>
                 <TableHead className="child__table-cell" colSpan={2}>
                   Learning_goals
                 </TableHead>
@@ -124,13 +125,13 @@ const ChildrenManagement = () => {
                 children.map((child) => (
                   <TableRow className="child__table-row" key={child.id}>
                     <TableCell className="child__table-cell">
-                      {child.full_name}
+                      {child.profile?.full_name}
                     </TableCell>
                     <TableCell className="child__table-cell">
-                      {child.age}
+                      {calculateAge(child.date_of_birth)}
                     </TableCell>
-                    <TableCell className="child__table-cell child__amount">
-                      {child.grade_level}
+                    <TableCell className="child__table-cell">
+                      {child.date_of_birth.split("T")[0]}
                     </TableCell>
                     <TableCell className="child__table-cell">
                       {child.learning_goals}

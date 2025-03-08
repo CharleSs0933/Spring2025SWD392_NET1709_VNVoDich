@@ -18,7 +18,8 @@ export const useUser = () => {
   } | null>(null);
   const [loading, setLoading] = useState(true);
   const [loginAPI] = useLoginMutation();
-  const [signUpApi] = useSignupMutation();
+  const [signUpApi, { isSuccess: successSignUp, isError: errorSignUp }] =
+    useSignupMutation();
 
   useEffect(() => {
     const token = Cookies.get("authToken");
@@ -87,18 +88,17 @@ export const useUser = () => {
   }) => {
     setLoading(true);
     try {
-      const data = await signUpApi({
+      await signUpApi({
         username,
         password,
         email,
         role,
-      }).unwrap();
-
-      console.log(data);
+      });
     } catch (error) {
       console.error("Login failed:", error);
     } finally {
       setLoading(false);
+      console.log(successSignUp);
     }
   };
 
@@ -109,5 +109,5 @@ export const useUser = () => {
     setUser(null);
   };
 
-  return { user, loading, login, logout, signUp };
+  return { user, loading, login, logout, signUp, successSignUp, errorSignUp };
 };

@@ -69,7 +69,7 @@ const customBaseQuery = async (
 export const api = createApi({
   baseQuery: customBaseQuery,
   reducerPath: "api",
-  tagTypes: ["Courses", "Tutors", "Children"],
+  tagTypes: ["Courses", "Tutors", "Parents", "Children"],
   endpoints: (build) => ({
     getCourses: build.query<
       Course[],
@@ -222,10 +222,10 @@ export const api = createApi({
     createChildren: build.mutation<
       Children,
       {
+        username: string;
         full_name: string;
         password: string;
-        age: number;
-        grade_level: string;
+        date_of_birth: string;
         learning_goals: string;
       }
     >({
@@ -241,24 +241,24 @@ export const api = createApi({
       Children,
       {
         id: string;
+        username: string;
         full_name: string;
         password: string;
-        age: number;
-        grade_level: string;
+        date_of_birth: string;
         learning_goals: string;
       }
     >({
       query: ({
         id,
+        username,
         full_name,
-        age,
         learning_goals,
         password,
-        grade_level,
+        date_of_birth,
       }) => ({
         url: `/childrens/${id}`,
         method: "PUT",
-        body: { full_name, age, learning_goals, password, grade_level },
+        body: { username, full_name, learning_goals, password, date_of_birth },
       }),
       invalidatesTags: (result, error, { id }) => [{ type: "Children", id }],
     }),
@@ -291,6 +291,17 @@ export const api = createApi({
       }),
       providesTags: ["Tutors"],
     }),
+
+    updateTutor: build.mutation<Tutor, { tutorId: string; formData: FormData }>(
+      {
+        query: ({ tutorId, formData }) => ({
+          url: `tutors/${tutorId}`,
+          method: "PUT",
+          body: formData,
+        }),
+        invalidatesTags: ["Tutors"],
+      }
+    ),
 
     /// Availability
     getTutorAvailability: build.query<Availability | null, {}>({
@@ -334,6 +345,18 @@ export const api = createApi({
         url: `/parent/${userId}`,
       }),
     }),
+
+    updateParent: build.mutation<
+      Parent,
+      { parentId: number; formData: FormData }
+    >({
+      query: ({ parentId, formData }) => ({
+        url: `parent/${parentId}`,
+        method: "PUT",
+        body: formData,
+      }),
+      invalidatesTags: ["Parents"],
+    }),
   }),
 });
 
@@ -348,6 +371,7 @@ export const {
   useDeleteLessonMutation,
   useGetTutorsQuery,
   useGetTutorQuery,
+  useUpdateTutorMutation,
   useGetChildrenQuery,
   useGetChildQuery,
   useCreateChildrenMutation,
@@ -359,4 +383,5 @@ export const {
   useGetSessionQuery,
   useGetAllParentsQuery,
   useGetParentByIdQuery,
+  useUpdateParentMutation,
 } = api;

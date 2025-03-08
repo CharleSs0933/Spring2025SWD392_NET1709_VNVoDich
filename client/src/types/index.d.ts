@@ -58,12 +58,13 @@ export interface Tutor {
 
 export interface Children {
   id: number;
-  age: number;
-  grade_level: string;
+  date_of_birth: string;
   learning_goals: string;
-  full_name: string;
-  password: string;
   parent_id: number;
+  profile?: {
+    full_name: string;
+    username?: string;
+  };
 }
 export interface SearchCourseCardProps {
   course: Course;
@@ -205,4 +206,12 @@ export interface Parent {
   childrens?: Children[];
   tutorReviews?: TutorReview[];
   courseReviews?: CourseReview[];
+}
+
+export interface FieldConfig {
+  name: string;
+  label: string;
+  icon?: JSX.Element;
+  type?: "text" | "textarea" | "number" | "email";
+  disabled?: boolean;
 }

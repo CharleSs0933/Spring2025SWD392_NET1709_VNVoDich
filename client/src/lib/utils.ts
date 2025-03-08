@@ -1,6 +1,7 @@
 import { CourseFormData, Lesson } from "@/types";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { ParentFormData } from "./schemas";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -61,6 +62,16 @@ export const createCourseFormData = (data: CourseFormData): FormData => {
   return formData;
 };
 
+export const createParentFormData = (data: ParentFormData): FormData => {
+  const formData = new FormData();
+
+  formData.append("username", data.username);
+  formData.append("email", data.email);
+  formData.append("phone", data.phone);
+  formData.append("full_name", data.full_name);
+  return formData;
+};
+
 // IT APPEARS THAT BIG CALENDAR SHOWS THE LAST WEEK WHEN THE CURRENT DAY IS A WEEKEND.
 // FOR THIS REASON WE'LL GET THE LAST WEEK AS THE REFERENCE WEEK.
 // IN THE TUTORIAL WE'RE TAKING THE NEXT WEEK AS THE REFERENCE WEEK.
@@ -106,4 +117,19 @@ export const adjustScheduleToCurrentWeek = (
       id: lesson.id,
     };
   });
+};
+
+export const calculateAge = (dateOfBirth: string) => {
+  const birthDate = new Date(dateOfBirth.split("T")[0]); // Lấy phần YYYY-MM-DD
+  const today = new Date();
+
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+  const dayDiff = today.getDate() - birthDate.getDate();
+
+  // Điều chỉnh tuổi nếu sinh nhật chưa tới trong năm hiện tại
+  if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+    age--;
+  }
+  return age;
 };

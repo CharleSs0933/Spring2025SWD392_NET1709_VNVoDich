@@ -2,13 +2,8 @@
 
 import { Calendar, momentLocalizer, View, Views } from "react-big-calendar";
 import moment from "moment";
-import { calendarEvents } from "../app/(dashboard)/parent/children/[id]/dataTam";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useState } from "react";
-import { useGetSessionQuery } from "@/state/api";
-import Loading from "./Loading";
-import { adjustScheduleToCurrentWeek } from "@/lib/utils";
-import { setDate } from "date-fns";
 
 const localizer = momentLocalizer(moment);
 
@@ -29,8 +24,6 @@ const BigCalendar = ({
   const handleNavigate = (newDate: Date) => {
     setDate(newDate);
   };
-
-  console.log("event", data);
 
   return (
     <Calendar

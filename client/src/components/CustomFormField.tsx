@@ -1,4 +1,4 @@
-import React from "react";
+import React, { JSX } from "react";
 import {
   ControllerRenderProps,
   FieldValues,
@@ -57,6 +57,7 @@ interface FormFieldProps {
   multiple?: boolean;
   isIcon?: boolean;
   initialValue?: string | number | boolean | string[];
+  icon?: JSX.Element;
 }
 
 export const CustomFormField: React.FC<FormFieldProps> = ({
@@ -73,6 +74,7 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
   multiple = false,
   isIcon = false,
   initialValue,
+  icon,
 }) => {
   const { control } = useFormContext();
 
@@ -197,7 +199,8 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
               <FormLabel
                 className={`text-customgreys-dirtyGrey text-sm ${labelClassName}`}
               >
-                {label}
+                {icon}
+                <span>{label}</span>
               </FormLabel>
 
               {!disabled &&

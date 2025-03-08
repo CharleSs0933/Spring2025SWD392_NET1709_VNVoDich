@@ -18,14 +18,14 @@ const Login = () => {
     passWord: "",
     confirmPassword: "",
     email: "",
-    role: "",
+    role: "Parent",
   });
   const containerRef = useRef(null);
   const divLogo = useRef(null);
   const logoRef = useRef(null);
   const formRef = useRef(null);
   const buttonRef = useRef(null);
-  const { login, signUp } = useUser();
+  const { login, signUp, successSignUp, errorSignUp } = useUser();
 
   const router = useRouter();
 
@@ -97,6 +97,9 @@ const Login = () => {
           password: signUpData.passWord,
           role: signUpData.role,
         });
+        // if(!response)
+        console.log(successSignUp, "cc");
+        console.log(errorSignUp);
       }
     } else {
       console.log(loginData);
@@ -197,7 +200,7 @@ const Login = () => {
                   onChange={handleChange}
                   required
                 >
-                  <option value="User">User</option>
+                  <option value="Parent">Parent</option>
                   <option value="Tutor">Tutor</option>
                 </select>
               </div>
