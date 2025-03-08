@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import * as z from "zod";
 
 // Course Editor Schemas
@@ -8,6 +9,7 @@ export const courseSchema = z.object({
   courseGrade: z.string().min(1, "Grade is required"),
   coursePrice: z.string(),
   courseStatus: z.boolean(),
+  courseImage: z.string(),
 });
 
 export type CourseFormData = z.infer<typeof courseSchema>;
@@ -54,19 +56,12 @@ export const availabilitySchema = z.object({
 });
 
 export const bookingSchema = z.object({
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format"),
-  time: z.string().regex(/^\d{2}:\d{2}$/, "Invalid time format"),
+  dates: z.array(z.string()),
+  times: z.array(z.string()),
+  childId: z.string().min(1, "Please select a child"),
 });
 
-// Detail Profile Editor Schemas
-export const parentSchema = z.object({
-  username: z.string().min(3, "Username must be at least 3 characters"),
-  full_name: z.string().min(5, "Full Name must be at least 5 characters"),
-  email: z.string().email("Invalid email"),
-  phone: z.string().regex(/^\d{10,11}$/, "Invalid Phone"),
-});
-
-export type ParentFormData = z.infer<typeof parentSchema>;
+export type BookingFormData = z.infer<typeof bookingSchema>;
 
 export const tutorSchema = z.object({
   userName: z.string(),
@@ -87,3 +82,13 @@ export const tutorSchema = z.object({
 });
 
 export type TutorFormData = z.infer<typeof tutorSchema>;
+
+// Detail Profile Editor Schemas
+export const parentSchema = z.object({
+  username: z.string().min(3, "Username must be at least 3 characters"),
+  full_name: z.string().min(5, "Full Name must be at least 5 characters"),
+  email: z.string().email("Invalid email"),
+  phone: z.string().regex(/^\d{10,11}$/, "Invalid Phone"),
+});
+
+export type ParentFormData = z.infer<typeof parentSchema>;

@@ -122,17 +122,51 @@ export const api = createApi({
         url: `courses/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Courses"],
+      invalidatesTags: (result, error, id) => [{ type: "Courses", id }],
     }),
 
     getCourse: build.query<Course, string>({
       query: (id) => `courses/${id}`,
       providesTags: (result, error, id) => [{ type: "Courses", id }],
     }),
+
     getTutor: build.query<Tutor, string>({
       query: (id) => `tutors/${id}`,
       providesTags: (result, error, id) => [{ type: "Tutors", id }],
     }),
+
+    getTutors: build.query<
+      Tutor[],
+      {
+        full_name?: string;
+        phone?: string;
+        qualifications?: string;
+        teaching_style?: string;
+      }
+    >({
+      query: ({ full_name, phone, qualifications, teaching_style }) => ({
+        url: "/tutors",
+        params: {
+          full_name,
+          phone,
+          qualifications,
+          teaching_style,
+        },
+      }),
+      providesTags: ["Tutors"],
+    }),
+
+    updateTutor: build.mutation<Tutor, { tutorId: string; formData: FormData }>(
+      {
+        query: ({ tutorId, formData }) => ({
+          url: `tutors/${tutorId}`,
+          method: "PUT",
+          body: formData,
+        }),
+        invalidatesTags: ["Tutors"],
+      }
+    ),
+
     addLesson: build.mutation<
       Course,
       {
@@ -271,38 +305,6 @@ export const api = createApi({
       invalidatesTags: ["Children"],
     }),
 
-    getTutors: build.query<
-      Tutor[],
-      {
-        full_name?: string;
-        phone?: string;
-        qualifications?: string;
-        teaching_style?: string;
-      }
-    >({
-      query: ({ full_name, phone, qualifications, teaching_style }) => ({
-        url: "/tutors",
-        params: {
-          full_name,
-          phone,
-          qualifications,
-          teaching_style,
-        },
-      }),
-      providesTags: ["Tutors"],
-    }),
-
-    updateTutor: build.mutation<Tutor, { tutorId: string; formData: FormData }>(
-      {
-        query: ({ tutorId, formData }) => ({
-          url: `tutors/${tutorId}`,
-          method: "PUT",
-          body: formData,
-        }),
-        invalidatesTags: ["Tutors"],
-      }
-    ),
-
     /// Availability
     getTutorAvailability: build.query<Availability | null, {}>({
       query: ({}) => ({
@@ -333,7 +335,30 @@ export const api = createApi({
         url: `/teaching-sessions/child/${childrenId}`,
       }),
     }),
-    // Parent
+
+    /* 
+    ===============
+    BOOKINGS
+    =============== 
+    */
+
+    createStripePaymentIntent: build.mutation<
+      { clientSecret: string },
+      { amount: number }
+    >({
+      query: ({ amount }) => ({
+        url: `/bookings/stripe/payment-intent`,
+        method: "POST",
+        body: { amount },
+      }),
+    }),
+    createTrialBooking: build.mutation<any, any>({
+      query: (body) => ({
+        url: `/bookings/create-trial-booking`,
+        method: "POST",
+        body,
+      }),
+    }),
     getAllParents: build.query<Parent[], void>({
       query: () => ({
         url: "/parent",
@@ -381,6 +406,8 @@ export const {
   useUpdateAvailabilityMutation,
   useGetCourseAvailabilityQuery,
   useGetSessionQuery,
+  useCreateStripePaymentIntentMutation,
+  useCreateTrialBookingMutation,
   useGetAllParentsQuery,
   useGetParentByIdQuery,
   useUpdateParentMutation,

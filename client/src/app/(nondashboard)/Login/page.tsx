@@ -6,6 +6,7 @@ import logo from "@/asset/logo.jpg";
 import bg from "../../../../public/bg-login.jpg";
 import { useUser } from "@/hooks/useUser";
 import { useRouter } from "next/navigation";
+import { useGoogleLoginMutation } from "@/state/apiAuth";
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [loginData, setLoginData] = useState({
@@ -111,6 +112,15 @@ const Login = () => {
       router.push("/");
     }
   };
+
+  const handleGoogleLogin = async () => {
+    try {
+      window.location.href = "http://localhost:8080/google/auth/login";
+    } catch (error) {
+      console.error("Google login error:", error);
+    }
+  };
+
   return (
     <div className="relative w-full h-[800px] overflow-hidden my-4">
       <Image
@@ -236,6 +246,7 @@ const Login = () => {
 
             <button
               ref={buttonRef}
+              onClick={handleGoogleLogin}
               className="bg-white-50 text-black py-2 rounded-lg hover:bg-blue-600 transition duration-300"
             >
               <p className="flex justify-center items-center gap-2">Google</p>

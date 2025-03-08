@@ -1,13 +1,10 @@
 "use client";
 
-// import { UserButton, useUser } from "@clerk/nextjs";
-// import { dark } from "@clerk/themes";
 import { Bell, BookOpen } from "lucide-react";
 import Link from "next/link";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { cn } from "@/lib/utils";
 
-const Navbar = ({ isCoursePage }: { isCoursePage: boolean }) => {
+const Navbar = () => {
   //   const { user } = useUser();
   //   const userRole = user?.publicMetadata?.userType as "student" | "teacher";
   const userRole = "tutor";
@@ -23,13 +20,8 @@ const Navbar = ({ isCoursePage }: { isCoursePage: boolean }) => {
             <div className="relative group">
               <Link
                 scroll={false}
-                href="/search"
-                className={cn(
-                  "bg-customgreys-primarybg pl-10 sm:pl-14 pr-6 sm:pr-20 py-3 sm:py-4 rounded-xl text-customgreys-dirtyGrey hover:text-white-50 hover:bg-customgreys-darkerGrey transition-all duration-300 text-sm sm:text-base",
-                  {
-                    "!bg-customgreys-secondarybg": isCoursePage,
-                  }
-                )}
+                href="/Courses"
+                className="bg-customgreys-primarybg pl-10 sm:pl-14 pr-6 sm:pr-20 py-3 sm:py-4 rounded-xl text-customgreys-dirtyGrey hover:text-white-50 hover:bg-customgreys-darkerGrey transition-all duration-300 text-sm sm:text-base"
               >
                 <span className="hidden sm:inline">Search Courses</span>
                 <span className="sm:hidden">Search</span>

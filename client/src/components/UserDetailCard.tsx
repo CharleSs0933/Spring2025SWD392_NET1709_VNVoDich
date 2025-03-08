@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { ParentFormData, parentSchema, TutorFormData } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";

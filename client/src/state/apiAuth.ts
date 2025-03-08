@@ -11,13 +11,13 @@ const customBaseQuery = async (
 ) => {
   const baseQuery = fetchBaseQuery({
     baseUrl: "http://localhost:8080",
-    prepareHeaders: async (headers) => {
-      const token = Cookies.get("authToken");
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
+    // prepareHeaders: async (headers) => {
+    //   const token = Cookies.get("authToken");
+    //   if (token) {
+    //     headers.set("Authorization", `Bearer ${token}`);
+    //   }
+    //   return headers;
+    // },
   });
 
   try {
@@ -70,6 +70,24 @@ export const apiAuth = createApi({
         body,
       }),
     }),
+    googleLogin: build.mutation({
+      query: () => ({
+        url: `google/auth/login`,
+        method: "GET",
+        credentials: "include",
+      }),
+    }),
+    googleLoginCallback: build.mutation({
+      query: ({ code, state }: { code: string; state: string }) => ({
+        url: `/google/auth/login/callback`,
+        method: "GET",
+        credentials: "include", // Đảm bảo cookie `oauth_state` được gửi đi
+        params: {
+          code,
+          state,
+        },
+      }),
+    }),
     signup: build.mutation<
       any,
       { username: string; password: string; email: string; role: string }
@@ -83,4 +101,9 @@ export const apiAuth = createApi({
   }),
 });
 
-export const { useLoginMutation, useSignupMutation } = apiAuth;
+export const {
+  useLoginMutation,
+  useGoogleLoginMutation,
+  useGoogleLoginCallbackMutation,
+  useSignupMutation,
+} = apiAuth;

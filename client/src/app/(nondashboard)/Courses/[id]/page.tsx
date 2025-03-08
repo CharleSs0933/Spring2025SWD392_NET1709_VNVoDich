@@ -11,18 +11,20 @@ import { ChevronDown, ChevronUp, Star } from "lucide-react";
 import Review from "@/app/component/Review";
 
 const CoursesDetail = () => {
-  const router = useRouter();
   const { id } = useParams();
   const {
     data: course,
     isLoading,
     isError,
   } = useGetCourseQuery(id as string, { skip: !id });
+  const router = useRouter();
+
+  console.log(course);
 
   const [expandedLesson, setExpandedLesson] = useState<string | null>(null);
 
   const handleEnrollNow = () => {
-    router.push(`/checkout?id=${id}`, {
+    router.push(`/checkout?step=1&id=${id}`, {
       scroll: false,
     });
   };

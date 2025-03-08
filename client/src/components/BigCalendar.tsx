@@ -16,13 +16,13 @@ const BigCalendar = ({
 }) => {
   const [view, setView] = useState<View>(Views.WEEK);
   const [date, setDate] = useState<Date>(new Date());
-
   const handleOnChangeView = (selectedView: View) => {
     setView(selectedView);
   };
 
+  // Handle navigation (Back, Next, Today)
   const handleNavigate = (newDate: Date) => {
-    setDate(newDate);
+    setDate(newDate); // Update the date state
   };
 
   return (
@@ -37,8 +37,9 @@ const BigCalendar = ({
       onView={handleOnChangeView}
       min={new Date(2025, 1, 1, 6, 0, 0)}
       max={new Date(2025, 1, 2, 22, 0, 0)}
-      onSelectEvent={(event) => onSelectEvent(event)}
+      date={date}
       onNavigate={handleNavigate}
+      onSelectEvent={(event) => onSelectEvent(event)}
     />
   );
 };

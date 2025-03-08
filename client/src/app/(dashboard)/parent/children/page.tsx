@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Header from "@/components/Header";
 import Loading from "@/components/Loading";
 import {
@@ -18,10 +18,9 @@ import {
 } from "@/state/api";
 import { Eye, SlidersHorizontal, Trash2, X } from "lucide-react";
 import { Children } from "@/types";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { ChildDialog } from "@/components/dashboard/parent/ChildDialog";
 import { ConfirmDialog } from "@/components/dashboard/parent/ConfirmDialog";
 import { calculateAge } from "@/lib/utils";
