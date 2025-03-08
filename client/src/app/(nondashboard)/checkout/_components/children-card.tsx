@@ -20,9 +20,9 @@ const ChildrenCard = ({
       }`}
     >
       <CardContent className="grid p-4 gap-4">
-        <Label>{children.full_name}</Label>
-        <Label>Age: {children.age}</Label>
-        <Label>{children.grade_level}</Label>
+        <Label>{children.profile?.full_name}</Label>
+        <Label>Date of Birth: {children.date_of_birth.split("T")[0]}</Label>
+        <Label>{children.learning_goals}</Label>
       </CardContent>
     </Card>
   );

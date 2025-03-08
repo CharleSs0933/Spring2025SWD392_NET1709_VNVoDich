@@ -36,7 +36,7 @@ const BigCalendar = ({
       style={{ height: 650 }}
       onView={handleOnChangeView}
       min={new Date(2025, 1, 1, 6, 0, 0)}
-      max={new Date(2025, 1, 2, 22, 0, 0)}
+      max={new Date(2025, 1, 1, 23, 0, 0)}
       date={date}
       onNavigate={handleNavigate}
       onSelectEvent={(event) => onSelectEvent(event)}

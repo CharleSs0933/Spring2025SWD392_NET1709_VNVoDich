@@ -146,7 +146,7 @@ const CoursesDetail = () => {
       {/* {course?.tutor?.demo_video_url && ( */}
       <div className="space-y-2">
         <h3 className="text-lg font-semibold">Demo Video</h3>
-        <video controls className="w-full rounded-lg shadow-md">
+        <video controls className="w-full rounded-lg shadow-md max-h-[400px]">
           <source src={course?.tutor?.demo_video_url} type="video/mp4" />
         </video>
       </div>

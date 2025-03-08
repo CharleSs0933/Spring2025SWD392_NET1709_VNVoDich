@@ -123,12 +123,12 @@ export interface CustomFixedModalProps {
 
 export interface Children {
   id: number;
-  age: number;
-  grade_level: string;
+  date_of_birth: string;
   learning_goals: string;
-  full_name: string;
-  password: string;
   parent_id: number;
+  profile?: {
+    full_name: string;
+  };
 }
 
 export interface ChildrenDropTable {
@@ -152,20 +152,6 @@ export interface Availability {
   friday: DayAvailability;
   saturday: DayAvailability;
   sunday: DayAvailability;
-}
-
-export interface TeachingSession {
-  id: number;
-  google_meet_id: string;
-  startTime: string;
-  endTime: string;
-  status: string;
-  topics_covered: string;
-  homework_assigned: string;
-  subscription_id: number;
-  subscription?: {
-    course?: Course;
-  };
 }
 
 export interface TutorReview {
@@ -208,13 +194,11 @@ export interface Parent {
   courseReviews?: CourseReview[];
 }
 
-
-
-export interface TutorReviews{
-  tutor_id: number,
-  tutor_name: string,
-  average_rating: number,
-  reviews: any
+export interface TutorReviews {
+  tutor_id: number;
+  tutor_name: string;
+  average_rating: number;
+  reviews: any;
 }
 
 export interface TeachingSession {
@@ -231,16 +215,16 @@ export interface TeachingSession {
   };
 }
 
-export interface Parent{
-  id: number,
-  preferred_language: string,
-  notifications_enabled: boolean,
-  childrens: Array[],
+export interface Parent {
+  id: number;
+  preferred_language: string;
+  notifications_enabled: boolean;
+  childrens: Array[];
   profile: {
-      email: string,
-      full_name: string,
-      phone: string
-  }
+    email: string;
+    full_name: string;
+    phone: string;
+  };
 }
 
 export interface Users  {
