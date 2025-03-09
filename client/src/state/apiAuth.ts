@@ -1,4 +1,4 @@
-import { Children, Course, Tutor, Users } from "@/types";
+import { Children, Course, Package, Tutor, Users } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query";
 import { toast } from "sonner";
@@ -112,14 +112,57 @@ export const apiAuth = createApi({
     deleteUser: build.mutation<
       Users,
       {
-        username: string;
+        id: number;
       }
     >({
-      query: ({ username }) => ({
-        url: `/api/admin/users/${username}`,
+      query: ({ id }) => ({
+        url: `/api/admin/users/${id}`,
         method: "DELETE",
       }),
     }),
+
+    updateUser: build.mutation<
+      Users,
+      {
+        id: number;
+        email: string,
+        full_name: string,
+        phone: string
+      }
+    >({
+      query: ({ id, email , full_name , phone }) => ({
+        url: `/api/admin/user/update?id=${id}`,
+        method: "PUT",
+        body: {email , full_name , phone}
+      }),
+    }),
+
+  //Package
+  getPackage: build.query<Package[] | null, {}>({
+    query: ({}) => ({
+      url: `/subscription/plans`,
+      
+    }),
+    transformResponse: (response: { data: Package[] }) => response.data,
+    
+  }),
+
+  createPackageTutor: build.mutation<
+  any,
+  {
+    tutor_id: number;
+    plan_id: number;
+    billing_cycle: string;
+  }
+>({
+  query: (body) => ({
+    url: `/api/subscription`,
+    method: "POST",
+    body
+  }),
+}),
+
+
   }),
 });
 
@@ -130,4 +173,7 @@ export const {
   useSignupMutation,
   useGetUsersQuery,
   useDeleteUserMutation,
+  useGetPackageQuery,
+  useCreatePackageTutorMutation,
+  useUpdateUserMutation
 } = apiAuth;

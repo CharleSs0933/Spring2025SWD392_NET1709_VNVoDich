@@ -245,4 +245,17 @@ export interface Users  {
   username: string,
 }
 
-
+export interface Package {
+  CreatedAt: Date,
+  DeletedAt: Date,
+  ID: number,
+  UpdatedAt: Date,
+  commission_rate: number,
+  description: string,
+  features: [],
+  is_active: boolean,
+  max_courses: number,
+  name: string,
+  price_annually: number,
+  price_monthly: number
+}

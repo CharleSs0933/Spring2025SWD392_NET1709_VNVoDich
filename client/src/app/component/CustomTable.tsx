@@ -1,14 +1,15 @@
-import { Filter } from "lucide-react";
+import { Filter, PlusCircleIcon } from "lucide-react";
 import React, { useState } from "react";
 
 interface TableProps<T> {
   data: T[];
   columns: { key: keyof T; label: string }[];
-  onDelete: (username: string) => void;
-  onUpdate: (username: string) => void;
+  onDelete: (id: number) => void;
+  onUpdate: (id: number) => void;
+  onCreate: () => void;
 }
 
-const CustomTable = <T extends { username: string }>({ data, columns, onDelete, onUpdate }: TableProps<T>) => {
+const CustomTable = <T extends { id: number }>({ data, columns, onDelete, onUpdate, onCreate }: TableProps<T>) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortColumn, setSortColumn] = useState<keyof T | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
@@ -37,6 +38,7 @@ const CustomTable = <T extends { username: string }>({ data, columns, onDelete, 
 
   return (
     <div className="p-4">
+      <div className="flex items-center gap-5 justify-center">
       <input
         type="text"
         placeholder="Search..."
@@ -44,6 +46,8 @@ const CustomTable = <T extends { username: string }>({ data, columns, onDelete, 
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
+      <button onClick={onCreate} className="mb-4 text-green-600  p-3"> <PlusCircleIcon size={35}/> </button>
+      </div>
       <div className="overflow-x-auto">
         <table className="min-w-full border border-gray-300 rounded-lg">
           <thead>
@@ -71,13 +75,13 @@ const CustomTable = <T extends { username: string }>({ data, columns, onDelete, 
                   ))}
                   <td className="px-4 py-2 border text-center">
                     <button
-                      onClick={() => onUpdate(row.username)}
+                      onClick={() => onUpdate(row.id)}
                       className="mr-2 px-2 py-1 bg-blue-500 text-white-50 rounded"
                     >
                       Update
                     </button>
                     <button
-                      onClick={() => onDelete(row.username)}
+                      onClick={() => onDelete(row.id)}
                       className="px-2 p-2 py-1 bg-red-500 text-white-50 rounded"
                     >
                       Delete

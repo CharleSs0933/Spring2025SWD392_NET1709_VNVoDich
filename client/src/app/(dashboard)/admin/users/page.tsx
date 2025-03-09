@@ -1,21 +1,24 @@
 "use client";
 import CustomInput from "@/app/component/CustomInput";
 import CustomTable from "@/app/component/CustomTable";
-import { useDeleteUserMutation, useGetUsersQuery } from "@/state/apiAuth";
+import { useDeleteUserMutation, useGetUsersQuery, useUpdateUserMutation } from "@/state/apiAuth";
 import { Users } from "@/types";
 import React, { useEffect, useState } from "react";
 
 const ManagementUser = () => {
   const [isUpdate, setIsUpdate] = useState(false);
+  const [isCreate, setIsCreate] = useState(false);
   const [selectedUser, setSelectedUser] = useState<Users | null>(null);
   
-  const { data: users, isLoading } = useGetUsersQuery({});
+  const { data: users, isLoading, refetch } = useGetUsersQuery({});
   const [deleteUser] = useDeleteUserMutation();
+  const [updateUser] = useUpdateUserMutation();
 
   const [usersList, setUsersList] = useState<
     {
       id: number;
       username: string;
+      fullname: string;
       role: string;
       phone: string;
       is_verified: boolean;
@@ -29,6 +32,7 @@ const ManagementUser = () => {
       const transformedUsers = (users as Users[]).map((user) => ({
         id: user.ID || 0,
         username: user.username || "unknown",
+        fullname: user.full_name || "unknown",
         role: user.role || "unknown",
         phone: user.phone || "unknown",
         is_verified: user.is_verified || false,
@@ -37,30 +41,54 @@ const ManagementUser = () => {
       }));
       setUsersList(transformedUsers);
     }
-  }, [users]);
+  }, [users ]);
 
-  const handleDelete = async (username: string) => {
+  const handleDelete = async (id: number) => {
     try {
-      await deleteUser({ username }).unwrap();
-      setUsersList((prev) => prev.filter((user) => user.username !== username));
+      await deleteUser({ id }).unwrap();
+      setUsersList((prev) => prev.filter((user) => user.id !== id));
     } catch (error) {
       console.error("Failed to delete user:", error);
     }
   };
 
-  const handleUpdate = (username: string) => {
-    const userToUpdate = usersList.find((user) => user.username === username);
+  const handleUpdate = (id: number) => {
+    const userToUpdate = usersList.find((user) => user.id === id);
     if (userToUpdate) {
       setSelectedUser(userToUpdate);
       setIsUpdate(true);
     }
   };
+  
 
-  const handleSubmit = (data: Record<string, string>) => {
-    console.log("justin do ne", data);
-    setIsUpdate(false);
-    setSelectedUser(null);
+  const handleSubmit = async (data: Record<string, string>) => {
+  
+    try {
+      if(isUpdate){
+        await updateUser({
+          id: selectedUser?.id | 0, 
+          email: data.email, 
+          full_name: data.fullname, 
+          phone: data.phone,
+        }).unwrap();
+        setIsUpdate(false);
+        setSelectedUser(null);
+
+      }else{
+        setIsCreate(false)
+        console.log(data);
+        
+      }
+      
+      refetch()
+    } catch (error) {
+      console.error("Failed to update user:", error);
+    }
   };
+  
+  const handleCreate = () =>{
+    setIsCreate(!isCreate)
+  }
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
@@ -70,17 +98,18 @@ const ManagementUser = () => {
           Manage your users, update their details, and remove inactive accounts.
         </p>
 
-        {isUpdate && selectedUser ? (
+        {isUpdate && selectedUser  || isCreate ? (
           <div className="mb-6 bg-gray-50 shadow-md p-5 rounded-lg">
             
+
             <CustomInput
-              fields={["username", "role", "phone"]}
-              title={`Please Input New Data: ${selectedUser.username}`}
-              typeSubmit="Update"
+              fields={["fullname", "email","role", "phone"]}
+              title={`${isUpdate ? `Please Input New Data: ${selectedUser.username || "knownow"}` : 'Please Input User Data'}`}
+              typeSubmit={`${isUpdate ? "Update" : "Create"}`}
               onSubmit={handleSubmit}
             />
             <button
-              onClick={() => setIsUpdate(false)}
+              onClick={() => isUpdate ? setIsUpdate(false) : setIsCreate(false)}
               className="mt-3 text-red-500 font-semibold underline"
             >
               Cancel
@@ -88,12 +117,13 @@ const ManagementUser = () => {
           </div>
         ) : isLoading ? (
           <p className="text-black">Loading users...</p>
-        ) : (
+        )  :(
           <div className="bg-white-100 shadow-md rounded-lg overflow-hidden">
             <CustomTable
               data={usersList}
               columns={[
                 { key: "username", label: "User Name" },
+                { key: "fullname", label: "Full Name" },
                 { key: "role", label: "Role" },
                 { key: "phone", label: "Phone" },
                 { key: "is_verified", label: "Verified" },
@@ -102,6 +132,7 @@ const ManagementUser = () => {
               ]}
               onDelete={handleDelete}
               onUpdate={handleUpdate}
+              onCreate={handleCreate}
             />
             
           </div>
