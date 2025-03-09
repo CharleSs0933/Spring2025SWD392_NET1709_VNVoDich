@@ -40,7 +40,7 @@ const ChildSchedule = () => {
       setFormData({
         username: child.profile?.username || "",
         full_name: child.profile?.full_name || "",
-        password: child.password || "",
+        password: "",
         date_of_birth: child.date_of_birth || "",
         learning_goals: child.learning_goals || "",
       });
@@ -152,7 +152,7 @@ const ChildSchedule = () => {
         {/* Event Info */}
         {selectedEvent && (
           <Dialog open={eventDialogOpen} onOpenChange={setEventDialogOpen}>
-            <SessionDetailDialog course={selectedEvent} />
+            <SessionDetailDialog session={selectedEvent} />
           </Dialog>
         )}
       </div>

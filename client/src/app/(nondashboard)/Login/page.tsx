@@ -26,7 +26,7 @@ const Login = () => {
   const logoRef = useRef(null);
   const formRef = useRef(null);
   const buttonRef = useRef(null);
-  const { login, signUp, handleGoogleLogin } = useUser();
+  const { login, signUp } = useUser();
 
   const router = useRouter();
 
@@ -99,8 +99,6 @@ const Login = () => {
           role: signUpData.role,
         });
         // if(!response)
-        console.log(successSignUp, "cc");
-        console.log(errorSignUp);
       }
     } else {
       console.log(loginData);
@@ -113,13 +111,13 @@ const Login = () => {
     }
   };
 
-  // const handleGoogleLogin = async () => {
-  //   try {
-  //     window.location.href = "http://localhost:8080/google/auth/login";
-  //   } catch (error) {
-  //     console.error("Google login error:", error);
-  //   }
-  // };
+  const handleGoogleLogin = async () => {
+    try {
+      window.location.href = "http://localhost:8080/google/auth/login";
+    } catch (error) {
+      console.error("Google login error:", error);
+    }
+  };
 
   return (
     <div className="relative w-full h-[800px] overflow-hidden my-4">
