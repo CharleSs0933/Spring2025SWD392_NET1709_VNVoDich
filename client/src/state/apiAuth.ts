@@ -1,4 +1,4 @@
-import { Children, Course, Package, Tutor, Users } from "@/types";
+import { Children, Course, Package, Subscription, Tutor, Users } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query";
 import { toast } from "sonner";
@@ -14,7 +14,7 @@ const customBaseQuery = async (
     prepareHeaders: async (headers) => {
       const token = Cookies.get("authToken");
       console.log(token);
-      
+
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
@@ -125,43 +125,54 @@ export const apiAuth = createApi({
       Users,
       {
         id: number;
-        email: string,
-        full_name: string,
-        phone: string
+        email: string;
+        full_name: string;
+        phone: string;
       }
     >({
-      query: ({ id, email , full_name , phone }) => ({
+      query: ({ id, email, full_name, phone }) => ({
         url: `/api/admin/user/update?id=${id}`,
         method: "PUT",
-        body: {email , full_name , phone}
+        body: { email, full_name, phone },
       }),
     }),
 
-  //Package
-  getPackage: build.query<Package[] | null, {}>({
-    query: ({}) => ({
-      url: `/subscription/plans`,
-      
+    //Package
+    getPackage: build.query<Package[] | null, {}>({
+      query: ({}) => ({
+        url: `/subscription/plans`,
+      }),
+      transformResponse: (response: { data: Package[] }) => response.data,
     }),
-    transformResponse: (response: { data: Package[] }) => response.data,
-    
-  }),
 
-  createPackageTutor: build.mutation<
-  any,
-  {
-    tutor_id: number;
-    plan_id: number;
-    billing_cycle: string;
-  }
->({
-  query: (body) => ({
-    url: `/api/subscription`,
-    method: "POST",
-    body
-  }),
-}),
+    createPackageTutor: build.mutation<
+      any,
+      {
+        tutor_id: number;
+        plan_id: number;
+        billing_cycle: string;
+      }
+    >({
+      query: (body) => ({
+        url: `/api/subscription`,
+        method: "POST",
+        body,
+      }),
+    }),
 
+    getTutorSub: build.mutation<Subscription[] | null, {id : number}>({
+      query: ({id}) => ({
+        url: `/api/subscription/tutor/${id}`,
+      }),
+      transformResponse: (response: { data: Subscription[] }) => response.data,
+    }),
+
+    getSubscription: build.query<Subscription[] | null, {}>({
+      query: ({}) => ({
+        url: `/api/admin/subscriptions`,
+      }),
+      transformResponse: (response: { data: Subscription[] }) => response.data,
+    }),
 
   }),
 });
@@ -175,5 +186,7 @@ export const {
   useDeleteUserMutation,
   useGetPackageQuery,
   useCreatePackageTutorMutation,
-  useUpdateUserMutation
+  useUpdateUserMutation,
+  useGetTutorSubMutation,
+  useGetSubscriptionQuery
 } = apiAuth;

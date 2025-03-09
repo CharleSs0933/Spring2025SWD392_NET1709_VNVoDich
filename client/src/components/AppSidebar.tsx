@@ -16,8 +16,10 @@ import {
   Clock,
   LayoutDashboard,
   LogOut,
+  Package,
   PanelLeft,
   Settings,
+  SubscriptIcon,
   User,
   Users,
 } from "lucide-react";
@@ -48,6 +50,8 @@ const AppSidebar = () => {
     Admin: [
       { icon: BookOpen, label: "Courses", href: "/admin/courses" },
       { icon: User, label: "Profile", href: "/admin/users" },
+      { icon: Package, label: "Package", href: "/admin/package" },
+      { icon: SubscriptIcon, label: "Subscription", href: "/admin/subscription" },
     ],
   };
 

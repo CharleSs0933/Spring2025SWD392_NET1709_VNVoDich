@@ -8,7 +8,17 @@ import React, { useEffect, useState } from "react";
 const ManagementUser = () => {
   const [isUpdate, setIsUpdate] = useState(false);
   const [isCreate, setIsCreate] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<Users | null>(null);
+  const [selectedUser, setSelectedUser] = useState< {
+    id: number;
+    username: string;
+    fullname: string;
+    role: string;
+    phone: string;
+    email: string;
+    is_verified: boolean;
+    status: string;
+    account_locked: boolean;
+  } | null>(null);
   
   const { data: users, isLoading, refetch } = useGetUsersQuery({});
   const [deleteUser] = useDeleteUserMutation();
@@ -20,6 +30,7 @@ const ManagementUser = () => {
       username: string;
       fullname: string;
       role: string;
+      email: string;
       phone: string;
       is_verified: boolean;
       status: string;
@@ -34,12 +45,13 @@ const ManagementUser = () => {
         username: user.username || "unknown",
         fullname: user.full_name || "unknown",
         role: user.role || "unknown",
+        email: user.email || "unknown",
         phone: user.phone || "unknown",
         is_verified: user.is_verified || false,
         status: user.status || "unknown",
         account_locked: user.account_locked || false,
       }));
-      setUsersList(transformedUsers);
+      setUsersList(transformedUsers); 
     }
   }, [users ]);
 
@@ -66,7 +78,7 @@ const ManagementUser = () => {
     try {
       if(isUpdate){
         await updateUser({
-          id: selectedUser?.id | 0, 
+          id: selectedUser?.id ?? 0, 
           email: data.email, 
           full_name: data.fullname, 
           phone: data.phone,
@@ -104,9 +116,15 @@ const ManagementUser = () => {
 
             <CustomInput
               fields={["fullname", "email","role", "phone"]}
-              title={`${isUpdate ? `Please Input New Data: ${selectedUser.username || "knownow"}` : 'Please Input User Data'}`}
+              title={`${isUpdate ? `Please Input New Data: ${selectedUser?.username || "knownow"}` : 'Please Input User Data'}`}
               typeSubmit={`${isUpdate ? "Update" : "Create"}`}
               onSubmit={handleSubmit}
+              defaultValues={isUpdate ? {
+                  fullname: selectedUser?.fullname,
+                   role: selectedUser?.role , 
+                   phone: selectedUser?.phone, 
+                   email: selectedUser?.email
+              } : {} }
             />
             <button
               onClick={() => isUpdate ? setIsUpdate(false) : setIsCreate(false)}
@@ -125,6 +143,7 @@ const ManagementUser = () => {
                 { key: "username", label: "User Name" },
                 { key: "fullname", label: "Full Name" },
                 { key: "role", label: "Role" },
+                { key: "email", label: "Email" },
                 { key: "phone", label: "Phone" },
                 { key: "is_verified", label: "Verified" },
                 { key: "status", label: "Status" },
@@ -133,6 +152,7 @@ const ManagementUser = () => {
               onDelete={handleDelete}
               onUpdate={handleUpdate}
               onCreate={handleCreate}
+              ITEMS_PER_PAGE={6}
             />
             
           </div>

@@ -109,7 +109,7 @@ export const api = createApi({
 
     updateCourse: build.mutation<
       Course,
-      { courseId: string; formData: FormData }
+      { courseId: number; formData: FormData }
     >({
       query: ({ courseId, formData }) => ({
         url: `courses/${courseId}`,

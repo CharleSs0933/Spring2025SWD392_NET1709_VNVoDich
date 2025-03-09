@@ -1,14 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface CustomInputProps {
   fields: string[];
-  title: string,
-  typeSubmit: string,
+  title: string;
+  typeSubmit: string;
   onSubmit: (data: Record<string, string>) => void;
+  defaultValues?: Partial<Record<string, string>>; 
 }
 
-const CustomInput: React.FC<CustomInputProps> = ({ fields,title, typeSubmit , onSubmit }) => {
+const CustomInput: React.FC<CustomInputProps> = ({ 
+  fields, 
+  title, 
+  typeSubmit, 
+  onSubmit, 
+  defaultValues = {} 
+}) => {
   const [formData, setFormData] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    setFormData((prev) => {
+      const updatedData: Record<string, string> = {};
+      fields.forEach(field => {
+        updatedData[field] = defaultValues[field] ?? prev[field] ?? "";
+      });
+      return updatedData;
+    });
+  }, [defaultValues, fields]);
 
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
