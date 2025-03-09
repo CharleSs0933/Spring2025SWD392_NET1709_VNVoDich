@@ -273,5 +273,6 @@ export interface Subscription {
   plan_name: string,
   price: number,
   status: string,
-  tutor_id: number
+  tutor_id: number,
+    payment_order_id?: string,
 }
