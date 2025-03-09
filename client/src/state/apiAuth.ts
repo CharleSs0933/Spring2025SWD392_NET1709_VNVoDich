@@ -174,8 +174,37 @@ export const apiAuth = createApi({
       transformResponse: (response: { data: Subscription[] }) => response.data,
     }),
 
+    createPackage: build.mutation<Package | null, {
+      name: string, description: string , price_monthly: number , price_annually:number , max_courses: number , is_active:boolean
+    }>({
+      query: (body) => ({
+        url: `/api/admin/subscription/plans`,
+        method : "POST",
+        body
+      })
+    }),
+
+    updatePackage: build.mutation<Package | null, {
+     id: number , name: string, description: string , price_monthly: number , price_annually:number , max_courses: number , is_active:boolean
+    }>({
+      query: ({id, ...body}) => ({
+        url: `/api/admin/subscription/plans/${id}`,
+        method : "PUT",
+        body
+      })
+    }),
+
+    deletePackage: build.mutation<Package | null, {
+     id: number
+    }>({
+      query: ({id}) => ({
+        url: `/api/admin/subscription/plans/${id}`,
+        method : "DELETE"
+      })
+    })
+
   }),
-});
+}); 
 
 export const {
   useLoginMutation,
@@ -188,5 +217,9 @@ export const {
   useCreatePackageTutorMutation,
   useUpdateUserMutation,
   useGetTutorSubMutation,
-  useGetSubscriptionQuery
+  useGetSubscriptionQuery,
+  useCreatePackageMutation,
+  useUpdatePackageMutation,
+  useDeletePackageMutation
+  
 } = apiAuth;

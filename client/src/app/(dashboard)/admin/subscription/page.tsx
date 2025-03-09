@@ -17,16 +17,20 @@ const SubscriptionManagement = () => {
     status: string;
   } | null>(null);
 
-  const { data: Subscriptions, isLoading, refetch } = useGetSubscriptionQuery({});
+  const {
+    data: Subscriptions,
+    isLoading,
+    refetch,
+  } = useGetSubscriptionQuery({});
   //   const [createSubscription] = useCreateSubscriptionMutation();
   //   const [updateSubscription] = useUpdateSubscriptionMutation();
   //   const [deleteSubscription] = useDeleteSubscriptionMutation();
 
   const [SubscriptionsList, setSubscriptionsList] = useState<
     {
-        id: number,
-        tutor_id: number;
-        status: string;
+      id: number;
+      tutor_id: number;
+      status: string;
       price: number;
       plan_name: string;
     }[]
@@ -34,13 +38,15 @@ const SubscriptionManagement = () => {
 
   useEffect(() => {
     if (Subscriptions) {
-      const transformedSubscription = (Subscriptions as Subscription[]).map((sub) => ({
-        id: sub.id || 0,
-        tutor_id : sub.tutor_id || 0 ,
-        plan_name: sub.plan_name || "unknown",
-        status: sub.status || "unknown",
-        price: sub.price || 0,
-      }));
+      const transformedSubscription = (Subscriptions as Subscription[]).map(
+        (sub) => ({
+          id: sub.id || 0,
+          tutor_id: sub.tutor_id || 0,
+          plan_name: sub.plan_name || "unknown",
+          status: sub.status || "unknown",
+          price: sub.price || 0,
+        })
+      );
       setSubscriptionsList(transformedSubscription);
     }
   }, [Subscriptions]);
@@ -63,7 +69,7 @@ const SubscriptionManagement = () => {
     }
   };
 
-  const handleSubmit = async (data: Record<string, string>) => {
+  const handleSubmit = async (data: Record<string, string | boolean>) => {
     try {
       if (isUpdate) {
         // await updateSubscription({
@@ -109,7 +115,14 @@ const SubscriptionManagement = () => {
         {(isUpdate && selectedSubscription) || isCreate ? (
           <div className="mb-6 bg-gray-50 shadow-md p-5 rounded-lg">
             <CustomInput
-              fields={["plan_name", "price", "status"]}
+              fields={[
+                { name: "plan_name", type: "text" },
+                { name: "price", type: "text" },
+                {
+                  name: "status",
+                  type: "switch",
+                },
+              ]}
               title={
                 isUpdate
                   ? `Update Subscription: ${selectedSubscription?.id}`
@@ -117,12 +130,17 @@ const SubscriptionManagement = () => {
               }
               typeSubmit={isUpdate ? "Update" : "Create"}
               onSubmit={handleSubmit}
-              defaultValues={isUpdate ?  {
-                plan_name: selectedSubscription?.plan_name,
-                price: selectedSubscription?.price.toString(),
-                status: selectedSubscription?.status,
-              } : {}}
+              defaultValues={
+                isUpdate
+                  ? {
+                      plan_name: selectedSubscription?.plan_name,
+                      price: selectedSubscription?.price.toString(),
+                      status: selectedSubscription?.status,
+                    }
+                  : {}
+              }
             />
+
             <button
               onClick={() =>
                 isUpdate ? setIsUpdate(false) : setIsCreate(false)

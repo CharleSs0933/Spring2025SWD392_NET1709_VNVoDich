@@ -28,14 +28,14 @@ const Packages: React.FC<PackagesProps> = ({ packages, orderButton }) => {
               <p>💳 Annually: ${pkg.price_annually}</p>
             </div>
 
-            <ul className="mt-6 space-y-3 text-gray-700 w-full max-h-[100px] overflow-auto">
+            {/* <ul className="mt-6 space-y-3 text-gray-700 w-full max-h-[100px] overflow-auto">
               {pkg.features.map((feature, index) => (
                 <li key={index} className="flex items-center space-x-2">
                   <span className="text-blue-600">✔</span>
                   <span>{feature}</span>
                 </li>
               ))}
-            </ul>
+            </ul> */}
 
             <button
               onClick={() => orderButton(pkg.ID , "monthly")}

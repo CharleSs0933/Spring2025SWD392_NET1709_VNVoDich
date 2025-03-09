@@ -1,14 +1,18 @@
 "use client";
 import CustomInput from "@/app/component/CustomInput";
 import CustomTable from "@/app/component/CustomTable";
-import { useDeleteUserMutation, useGetUsersQuery, useUpdateUserMutation } from "@/state/apiAuth";
+import {
+  useDeleteUserMutation,
+  useGetUsersQuery,
+  useUpdateUserMutation,
+} from "@/state/apiAuth";
 import { Users } from "@/types";
 import React, { useEffect, useState } from "react";
 
 const ManagementUser = () => {
   const [isUpdate, setIsUpdate] = useState(false);
   const [isCreate, setIsCreate] = useState(false);
-  const [selectedUser, setSelectedUser] = useState< {
+  const [selectedUser, setSelectedUser] = useState<{
     id: number;
     username: string;
     fullname: string;
@@ -19,7 +23,7 @@ const ManagementUser = () => {
     status: string;
     account_locked: boolean;
   } | null>(null);
-  
+
   const { data: users, isLoading, refetch } = useGetUsersQuery({});
   const [deleteUser] = useDeleteUserMutation();
   const [updateUser] = useUpdateUserMutation();
@@ -51,9 +55,9 @@ const ManagementUser = () => {
         status: user.status || "unknown",
         account_locked: user.account_locked || false,
       }));
-      setUsersList(transformedUsers); 
+      setUsersList(transformedUsers);
     }
-  }, [users ]);
+  }, [users]);
 
   const handleDelete = async (id: number) => {
     try {
@@ -71,36 +75,32 @@ const ManagementUser = () => {
       setIsUpdate(true);
     }
   };
-  
 
-  const handleSubmit = async (data: Record<string, string>) => {
-  
+  const handleSubmit = async (data: Record<string, string | boolean>) => {
     try {
-      if(isUpdate){
+      if (isUpdate) {
         await updateUser({
-          id: selectedUser?.id ?? 0, 
-          email: data.email, 
-          full_name: data.fullname, 
-          phone: data.phone,
+          id: selectedUser?.id ?? 0,
+          email: String(data.email),
+          full_name: String(data.fullname),
+          phone: String(data.phone),
         }).unwrap();
         setIsUpdate(false);
         setSelectedUser(null);
-
-      }else{
-        setIsCreate(false)
+      } else {
+        setIsCreate(false);
         console.log(data);
-        
       }
-      
-      refetch()
+
+      refetch();
     } catch (error) {
       console.error("Failed to update user:", error);
     }
   };
-  
-  const handleCreate = () =>{
-    setIsCreate(!isCreate)
-  }
+
+  const handleCreate = () => {
+    setIsCreate(!isCreate);
+  };
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
@@ -110,24 +110,39 @@ const ManagementUser = () => {
           Manage your users, update their details, and remove inactive accounts.
         </p>
 
-        {isUpdate && selectedUser  || isCreate ? (
+        {(isUpdate && selectedUser) || isCreate ? (
           <div className="mb-6 bg-gray-50 shadow-md p-5 rounded-lg">
-            
-
             <CustomInput
-              fields={["fullname", "email","role", "phone"]}
-              title={`${isUpdate ? `Please Input New Data: ${selectedUser?.username || "knownow"}` : 'Please Input User Data'}`}
+              fields={[
+                { name: "fullname", type: "text" },
+                { name: "email", type: "text" },
+                { name: "role", type: "text" },
+                { name: "phone", type: "text" },
+              ]}
+              title={`${
+                isUpdate
+                  ? `Please Input New Data: ${
+                      selectedUser?.username || "knownow"
+                    }`
+                  : "Please Input User Data"
+              }`}
               typeSubmit={`${isUpdate ? "Update" : "Create"}`}
               onSubmit={handleSubmit}
-              defaultValues={isUpdate ? {
-                  fullname: selectedUser?.fullname,
-                   role: selectedUser?.role , 
-                   phone: selectedUser?.phone, 
-                   email: selectedUser?.email
-              } : {} }
+              defaultValues={
+                isUpdate
+                  ? {
+                      fullname: selectedUser?.fullname,
+                      role: selectedUser?.role,
+                      phone: selectedUser?.phone,
+                      email: selectedUser?.email,
+                    }
+                  : {}
+              }
             />
             <button
-              onClick={() => isUpdate ? setIsUpdate(false) : setIsCreate(false)}
+              onClick={() =>
+                isUpdate ? setIsUpdate(false) : setIsCreate(false)
+              }
               className="mt-3 text-red-500 font-semibold underline"
             >
               Cancel
@@ -135,7 +150,7 @@ const ManagementUser = () => {
           </div>
         ) : isLoading ? (
           <p className="text-black">Loading users...</p>
-        )  :(
+        ) : (
           <div className="bg-white-100 shadow-md rounded-lg overflow-hidden">
             <CustomTable
               data={usersList}
@@ -154,7 +169,6 @@ const ManagementUser = () => {
               onCreate={handleCreate}
               ITEMS_PER_PAGE={6}
             />
-            
           </div>
         )}
       </div>

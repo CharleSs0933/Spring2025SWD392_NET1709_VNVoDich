@@ -8,7 +8,6 @@ import {
   useDeleteCourseMutation,
 } from "@/state/api";
 import React, { useEffect, useState } from "react";
-import { number, string } from "zod";
 
 interface Course {
   id: number;
@@ -34,16 +33,17 @@ const ManagementCourses = () => {
   const [isCreate, setIsCreate] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [courses, setCourses] = useState<
-  {
-    id: number,
-    title: string,
-    price: number,
-    subject: string,
-    total_lessons: number,
-    tutor_id: number,
-    full_name: string,
-    phone: string
-  }[]>([]);
+    {
+      id: number;
+      title: string;
+      price: number;
+      subject: string;
+      total_lessons: number;
+      tutor_id: number;
+      full_name: string;
+      phone: string;
+    }[]
+  >([]);
 
   useEffect(() => {
     if (courseFilter) {
@@ -78,21 +78,21 @@ const ManagementCourses = () => {
     }
   };
 
-  const handleSubmit = async (data: Record<string, string>) => {
+  const handleSubmit = async (data: Record<string, string | boolean>) => {
     try {
       if (isUpdate) {
         const formData = new FormData();
-        formData.append("title", data.title);
-        formData.append("price", data.price);
-        formData.append("subject", data.subject);
-        formData.append("total_lessons", data.total_lessons);
-  
+        formData.append("title", String(data.title));
+        formData.append("price", String(data.price));
+        formData.append("subject", String(data.subject));
+        formData.append("total_lessons", String(data.total_lessons));
+
         await updateCourse({
           courseId: selectedCourse?.id || 0,
-          formData
+          formData,
         }).unwrap();
         setIsUpdate(false);
-        setSelectedCourse(null);  
+        setSelectedCourse(null);
       } else {
         setIsCreate(false);
         console.log(data);
@@ -120,7 +120,12 @@ const ManagementCourses = () => {
         {(isUpdate && selectedCourse) || isCreate ? (
           <div className="mb-6 bg-gray-50 shadow-md p-5 rounded-lg">
             <CustomInput
-              fields={["title", "price", "subject", "total_lessons"]}
+              fields={[
+                { name: "title", type: "text" },
+                { name: "price", type: "text" },
+                { name: "subject", type: "text" },
+                { name: "total_lessons", type: "text" },
+              ]}
               title={`${
                 isUpdate
                   ? `Please Input New Data: ${
@@ -130,13 +135,16 @@ const ManagementCourses = () => {
               }`}
               typeSubmit={isUpdate ? "Update" : "Create"}
               onSubmit={handleSubmit}
-              defaultValues={isUpdate ? {
-                title : selectedCourse?.title ,
-                price : selectedCourse?.price?.toString(),
-                subject : selectedCourse?.subject,
-                total_lessons : selectedCourse?.total_lessons?.toString()
-              } : {} }
-
+              defaultValues={
+                isUpdate
+                  ? {
+                      title: selectedCourse?.title,
+                      price: selectedCourse?.price?.toString(),
+                      subject: selectedCourse?.subject,
+                      total_lessons: selectedCourse?.total_lessons?.toString(),
+                    }
+                  : {}
+              }
             />
             <button
               onClick={() =>
@@ -159,7 +167,7 @@ const ManagementCourses = () => {
                 { key: "price", label: "Price" },
                 { key: "subject", label: "Subject" },
                 { key: "total_lessons", label: "Total Lessons" },
-                { key: "full_name" , label: "Tutor Name" },
+                { key: "full_name", label: "Tutor Name" },
                 { key: "phone", label: "Tutor Phone" },
               ]}
               onDelete={handleDelete}

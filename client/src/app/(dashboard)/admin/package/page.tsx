@@ -1,10 +1,14 @@
 "use client";
 import CustomInput from "@/app/component/CustomInput";
 import CustomTable from "@/app/component/CustomTable";
-import { useGetPackageQuery } from "@/state/apiAuth";
+import {
+  useCreatePackageMutation,
+  useDeletePackageMutation,
+  useGetPackageQuery,
+  useUpdatePackageMutation,
+} from "@/state/apiAuth";
 import { Package } from "@/types";
 import React, { useEffect, useState } from "react";
-import { number } from "zod";
 
 const PackageManagement = () => {
   const [isUpdate, setIsUpdate] = useState(false);
@@ -12,21 +16,27 @@ const PackageManagement = () => {
   const [selectedPackage, setSelectedPackage] = useState<{
     id: number;
     name: string;
-    price: number;
+    price_monthly: number;
+    price_annually: number;
+    max_courses: number;
     description: string;
+    is_active: boolean;
   } | null>(null);
 
   const { data: packages, isLoading, refetch } = useGetPackageQuery({});
-  //   const [createPackage] = useCreatePackageMutation();
-  //   const [updatePackage] = useUpdatePackageMutation();
-  //   const [deletePackage] = useDeletePackageMutation();
+  const [createPackage] = useCreatePackageMutation();
+  const [updatePackage] = useUpdatePackageMutation();
+  const [deletePackage] = useDeletePackageMutation();
 
   const [packagesList, setPackagesList] = useState<
     {
       id: number;
       name: string;
-      price: number;
+      price_annually: number;
+      price_monthly: number;
+      max_courses: number;
       description: string;
+      is_active: boolean;
     }[]
   >([]);
 
@@ -35,7 +45,10 @@ const PackageManagement = () => {
       const transformedPackage = (packages as Package[]).map((pkg) => ({
         id: pkg.ID || 0,
         name: pkg.name || "unknown",
-        price: typeof pkg.price_monthly === "number" ? pkg.price_monthly : 0,
+        price_annually: pkg.price_annually | 0,
+        price_monthly: pkg.price_monthly | 0,
+        is_active: pkg.is_active || false,
+        max_courses: pkg.max_courses | 0,
         description: pkg.description || "unknown",
       }));
       setPackagesList(transformedPackage);
@@ -44,9 +57,8 @@ const PackageManagement = () => {
 
   const handleDelete = async (id: number) => {
     try {
-      //   await deletePackage({ id }).unwrap();
-      //   setPackagesList(prev => prev.filter(pkg => pkg.id !== id));
-      alert(id);
+      setPackagesList((prev) => prev.filter((pkg) => pkg.id !== id));
+      await deletePackage({ id }).unwrap();
     } catch (error) {
       console.error("Failed to delete package:", error);
     }
@@ -60,25 +72,31 @@ const PackageManagement = () => {
     }
   };
 
-  const handleSubmit = async (data: Record<string, string>) => {
+  const handleSubmit = async (data: Record<string, string | boolean>) => {
     try {
       if (isUpdate) {
-        // await updatePackage({
-        //   id: selectedPackage.id,
-        //   name: data.name,
-        //   price: data.price,
-        //   duration: data.duration,
-        // }).unwrap();
+        await updatePackage({
+          id: Number(selectedPackage?.id),
+          name: String(data.name),
+          price_monthly: Number(data.price_monthly),
+          price_annually: Number(data.price_annually),
+          max_courses: Number(data.max_courses),
+          is_active: Boolean(data.is_active),
+          description: String(data.description),
+        }).unwrap();
         console.log(data);
 
         setIsUpdate(false);
         setSelectedPackage(null);
       } else {
-        // await createPackage({
-        //   name: data.name,
-        //   price: data.price,
-        //   duration: data.duration,
-        // }).unwrap();
+        await createPackage({
+          name: String(data.name),
+          price_monthly: Number(data.price_monthly),
+          price_annually: Number(data.price_annually),
+          max_courses: Number(data.max_courses),
+          is_active: Boolean(data.is_active),
+          description: String(data.description),
+        }).unwrap();
         console.log(data);
 
         setIsCreate(false);
@@ -106,7 +124,14 @@ const PackageManagement = () => {
         {(isUpdate && selectedPackage) || isCreate ? (
           <div className="mb-6 bg-gray-50 shadow-md p-5 rounded-lg">
             <CustomInput
-              fields={["name", "price", "duration"]}
+              fields={[
+                { name: "name", type: "text" },
+                { name: "price_annually", type: "text" },
+                { name: "price_monthly", type: "text" },
+                { name: "max_courses", type: "text" },
+                { name: "description", type: "text" },
+                { name: "is_active", type: "switch" },
+              ]}
               title={
                 isUpdate
                   ? `Update Package: ${selectedPackage?.name}`
@@ -114,11 +139,19 @@ const PackageManagement = () => {
               }
               typeSubmit={isUpdate ? "Update" : "Create"}
               onSubmit={handleSubmit}
-              defaultValues={isUpdate ?  {
-                name: selectedPackage?.name,
-                price: selectedPackage?.price.toString(),
-                description: selectedPackage?.description,
-              } : {}}
+              defaultValues={
+                isUpdate
+                  ? {
+                      name: selectedPackage?.name,
+                      price_annually:
+                        selectedPackage?.price_annually.toString(),
+                      price_monthly: selectedPackage?.price_monthly.toString(),
+                      description: selectedPackage?.description,
+                      max_courses: selectedPackage?.max_courses.toString(),
+                      is_active: selectedPackage?.is_active,
+                    }
+                  : {}
+              }
             />
             <button
               onClick={() =>
@@ -137,8 +170,11 @@ const PackageManagement = () => {
               data={packagesList}
               columns={[
                 { key: "name", label: "Package Name" },
-                { key: "price", label: "Price" },
+                { key: "price_monthly", label: "Price Monthly" },
+                { key: "price_annually", label: "Price Annually" },
                 { key: "description", label: "description" },
+                { key: "max_courses", label: "Amount Courses" },
+                { key: "is_active", label: "Active" },
               ]}
               onDelete={handleDelete}
               onUpdate={handleUpdate}
