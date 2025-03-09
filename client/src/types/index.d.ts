@@ -208,11 +208,8 @@ export interface TeachingSession {
   startTime: string;
   endTime: string;
   status: string;
-  topics_covered?: string;
-  homework_assigned?: string;
-  rating?: number;
-  comment?: string;
-  teaching_quality?: "POOR" | "FAIR" | "GOOD" | "EXCELLENT";
+  topics_covered: string;
+  homework_assigned: string;
   subscription_id: number;
   subscription?: {
     course?: Course;
@@ -277,4 +274,20 @@ export interface Subscription {
   price: number;
   status: string;
   tutor_id: number;
+}
+
+  billing_cycle: string,
+  cancel_at_period_end: string,
+  commission_rate: number,
+  current_period_end: Date,
+  current_period_start: Date,
+  features: [
+  ],
+  id: number,
+  max_courses: number,
+  plan_name: string,
+  price: number,
+  status: string,
+  tutor_id: number,
+    payment_order_id?: string,
 }

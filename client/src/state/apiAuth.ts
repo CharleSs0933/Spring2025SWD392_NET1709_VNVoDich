@@ -10,7 +10,7 @@ const customBaseQuery = async (
   extraOptions: any
 ) => {
   const baseQuery = fetchBaseQuery({
-    baseUrl: "http://localhost:8080",
+    baseUrl: "https://phrimp-81lk.tail682e6a.ts.net",
     prepareHeaders: async (headers) => {
       const token = Cookies.get("authToken");
 
@@ -62,7 +62,7 @@ const customBaseQuery = async (
 export const apiAuth = createApi({
   baseQuery: customBaseQuery,
   reducerPath: "apiAuth",
-  tagTypes: [],
+  tagTypes: ["Payment"],
   endpoints: (build) => ({
     login: build.mutation<any, { username: string; password: string }>({
       query: (body) => ({
@@ -159,11 +159,21 @@ export const apiAuth = createApi({
       }),
     }),
 
-    getTutorSub: build.mutation<Subscription[] | null, { id: number }>({
+    getTutorSub: build.mutation<any | null, { id: number }>({
       query: ({ id }) => ({
         url: `/api/subscription/tutor/${id}`,
       }),
-      transformResponse: (response: { data: Subscription[] }) => response.data,
+      transformResponse: (response: { data: any[] }) => response.data,
+    }),
+    createPayMent: build.mutation<
+      any | null,
+      { amount: number; description: string; orderId: string }
+    >({
+      query: ({ amount, description, orderId }) => ({
+        url: `/api/payment/create?amount=${amount}&description=${description}&orderId=${orderId}`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Payment"],
     }),
 
     getSubscription: build.query<Subscription[] | null, {}>({
@@ -239,4 +249,5 @@ export const {
   useCreatePackageMutation,
   useUpdatePackageMutation,
   useDeletePackageMutation,
+  useCreatePayMentMutation,
 } = apiAuth;
