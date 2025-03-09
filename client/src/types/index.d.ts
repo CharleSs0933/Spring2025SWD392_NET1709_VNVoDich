@@ -204,12 +204,15 @@ export interface TutorReviews {
 
 export interface TeachingSession {
   id: number;
-  google_meet_id: string;
+  google_meet_id?: string;
   startTime: string;
   endTime: string;
   status: string;
-  topics_covered: string;
-  homework_assigned: string;
+  topics_covered?: string;
+  homework_assigned?: string;
+  rating?: number;
+  comment?: string;
+  teaching_quality?: "POOR" | "FAIR" | "GOOD" | "EXCELLENT";
   subscription_id: number;
   subscription?: {
     course?: Course;

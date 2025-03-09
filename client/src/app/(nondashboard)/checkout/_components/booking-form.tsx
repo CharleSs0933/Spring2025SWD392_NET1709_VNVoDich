@@ -245,6 +245,14 @@ const BookingForm = ({ availabilities, course }: Props) => {
     router.push(`/checkout?step=2&id=${course.id}`);
   };
 
+  const isDayDisabled = (weekday: number) => {
+    return (
+      !course.lessons ||
+      (!selectedWeekdays.includes(weekday) &&
+        selectedWeekdays.length >= course.lessons.length)
+    );
+  };
+
   return (
     <div className="flex flex-col justify-center lg:flex-row">
       <CoursesDetails course={course} />
@@ -266,6 +274,7 @@ const BookingForm = ({ availabilities, course }: Props) => {
                       ? "default"
                       : "outline"
                   }
+                  disabled={isDayDisabled(day.weekday)}
                   className={`rounded-full  border-gray-400 ${
                     selectedWeekdays.includes(day.weekday)
                       ? "text-gray-100 bg-primary-700 hover:bg-primary-600"

@@ -72,7 +72,7 @@ const CourseEditor = () => {
       });
 
       await updateCourse({
-        courseId: id,
+        courseId: Number(id),
         formData,
       }).unwrap();
 

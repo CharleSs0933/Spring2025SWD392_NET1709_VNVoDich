@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Course } from "@/types";
 import { useAppSelector } from "@/state/redux";
 import { format } from "date-fns";
-import { formatPrice } from "@/lib/utils";
+import { calculateAge, formatPrice } from "@/lib/utils";
 
 export default function CourseDetails({ course }: { course: Course }) {
   const { selectedDates, selectedChild } = useAppSelector(
@@ -56,12 +56,12 @@ export default function CourseDetails({ course }: { course: Course }) {
           <div className="text-gray-600">
             <p>
               <span className="font-medium">Name:</span>
-              {selectedChild.full_name}
+              {selectedChild.profile?.full_name}
             </p>
             <p>
-              <span className="font-medium">Age:</span> {selectedChild.age}
+              <span className="font-medium">Age:</span>{" "}
+              {calculateAge(selectedChild.date_of_birth)}
             </p>
-            <p>{selectedChild.grade_level}</p>
           </div>
         </div>
       )}

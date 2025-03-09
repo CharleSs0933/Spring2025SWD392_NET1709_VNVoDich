@@ -92,3 +92,13 @@ export const parentSchema = z.object({
 });
 
 export type ParentFormData = z.infer<typeof parentSchema>;
+
+export const feedbackSchema = z.object({
+  rating: z.number().min(1).max(5, "Rating must be between 1 and 5"),
+  comment: z.string().optional(),
+  teachingQuality: z.string().optional(),
+  status: z.string().optional(),
+  homeworkAssigned: z.string(),
+});
+
+export type FeedbackFormData = z.infer<typeof feedbackSchema>;

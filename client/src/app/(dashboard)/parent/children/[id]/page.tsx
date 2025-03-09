@@ -37,7 +37,6 @@ const ChildSchedule = () => {
     learning_goals: "",
   });
 
-  // Query hooks - these should be called consistently in every render
   const {
     data: child,
     isLoading: isChildLoading,
@@ -51,19 +50,17 @@ const ChildSchedule = () => {
     refetch,
   } = useGetSessionQuery(
     {
-      userId: child?.id || Number(""),
+      userId: Number(id),
     },
-    { skip: !child?.id }
+    { skip: !id }
   );
 
   const [updateChild] = useUpdateChildrenMutation();
 
-  // Effect hooks
   useEffect(() => {
     setEventDialogOpen(selectedEvent !== null);
   }, [selectedEvent]);
 
-  // Event handler functions
   const handleEdit = () => {
     if (child) {
       setFormData({
@@ -103,7 +100,6 @@ const ChildSchedule = () => {
     setSelectedEvent(null);
   };
 
-  // Loading and error states
   if (isChildLoading || isTeachingSessionLoading) return <Loading />;
   if (isChildError || isTeachingSessionError || !child)
     return <div>Error loading child.</div>;

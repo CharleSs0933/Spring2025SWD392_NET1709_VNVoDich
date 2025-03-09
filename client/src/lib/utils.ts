@@ -40,6 +40,19 @@ export const courseGrades = [
   { value: "12", label: "Grade 12" },
 ];
 
+export const sessionStatus = [
+  { value: "NotYet", label: "Not Yet" },
+  { value: "Attended", label: "Attended" },
+  { value: "Absent", label: "Absent" },
+];
+
+export const teachingQualities = [
+  { value: "POOR", label: "Poor" },
+  { value: "FAIR", label: "Fair" },
+  { value: "GOOD", label: "Good" },
+  { value: "EXCELLENT", label: "Excellent" },
+];
+
 export const days = [
   "monday",
   "tuesday",
