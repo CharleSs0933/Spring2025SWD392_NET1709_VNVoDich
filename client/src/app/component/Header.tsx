@@ -27,8 +27,10 @@ const Header = () => {
 
   useEffect(() => {
     const userData = Cookies.get("user");
+
     if (userData) {
       const parsedUser = JSON.parse(userData);
+
       if (
         parsedUser.role === "Admin" ||
         parsedUser.role === "Parent" ||
@@ -47,7 +49,7 @@ const Header = () => {
   const navLinks = {
     Parent: [{ icon: BookOpen, label: "DashBoard", href: "/parent/children" }],
     Tutor: [
-      { icon: User, label: "DashBoard", href: "/tutor/courses" },
+      { icon: User, label: "DashBoard", href: "/tutor/schedule" },
       { icon: User, label: "Package", href: "/package" },
     ],
     Admin: [{ icon: BookOpen, label: "DashBoard", href: "/admin/users" }],

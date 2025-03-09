@@ -2,30 +2,17 @@ import { useGetSessionQuery } from "@/state/api";
 import Loading from "./Loading";
 import { parseISO, addHours } from "date-fns";
 import BigCalendar from "./BigCalendar";
+import { TeachingSession } from "@/types";
 
 const BigCalendarContainer = ({
-  id,
+  teachingSessions,
   onSelectEvent,
 }: {
-  id: number;
+  teachingSessions?: TeachingSession[];
   onSelectEvent: (event: any) => void;
 }) => {
-  const {
-    data: teachingSession,
-    isLoading,
-    isError,
-  } = useGetSessionQuery(
-    {
-      userId: id,
-    },
-    { skip: !id }
-  );
-
-  if (isLoading) return <Loading />;
-  if (isError) return <div>Error loading schedule.</div>;
-
-  const formattedData = teachingSession
-    ? teachingSession.map((event) => ({
+  const formattedData = teachingSessions
+    ? teachingSessions.map((event) => ({
         title: event.subscription?.course?.title || "No Title",
         start: addHours(parseISO(event.startTime), -7),
         end: addHours(parseISO(event.endTime), -7),

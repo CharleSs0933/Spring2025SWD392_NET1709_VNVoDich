@@ -111,7 +111,7 @@ export const ChildDialog = ({
             placeholder="Enter username"
             value={formData.username}
             onChange={handleChange}
-            disabled
+            // disabled
           />
           {/* <p className="text-red-500 text-sm ">{errors.password}</p> */}
         </div>

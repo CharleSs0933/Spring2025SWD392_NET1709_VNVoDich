@@ -20,7 +20,7 @@ const Navbar = () => {
             <div className="relative group">
               <Link
                 scroll={false}
-                href="/Courses"
+                href="/courses"
                 className="bg-customgreys-primarybg pl-10 sm:pl-14 pr-6 sm:pr-20 py-3 sm:py-4 rounded-xl text-customgreys-dirtyGrey hover:text-white-50 hover:bg-customgreys-darkerGrey transition-all duration-300 text-sm sm:text-base"
               >
                 <span className="hidden sm:inline">Search Courses</span>

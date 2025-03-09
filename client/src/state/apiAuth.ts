@@ -13,7 +13,6 @@ const customBaseQuery = async (
     baseUrl: "http://localhost:8080",
     prepareHeaders: async (headers) => {
       const token = Cookies.get("authToken");
-      console.log(token);
 
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
@@ -160,8 +159,8 @@ export const apiAuth = createApi({
       }),
     }),
 
-    getTutorSub: build.mutation<Subscription[] | null, {id : number}>({
-      query: ({id}) => ({
+    getTutorSub: build.mutation<Subscription[] | null, { id: number }>({
+      query: ({ id }) => ({
         url: `/api/subscription/tutor/${id}`,
       }),
       transformResponse: (response: { data: Subscription[] }) => response.data,
@@ -174,37 +173,56 @@ export const apiAuth = createApi({
       transformResponse: (response: { data: Subscription[] }) => response.data,
     }),
 
-    createPackage: build.mutation<Package | null, {
-      name: string, description: string , price_monthly: number , price_annually:number , max_courses: number , is_active:boolean
-    }>({
+    createPackage: build.mutation<
+      Package | null,
+      {
+        name: string;
+        description: string;
+        price_monthly: number;
+        price_annually: number;
+        max_courses: number;
+        is_active: boolean;
+      }
+    >({
       query: (body) => ({
         url: `/api/admin/subscription/plans`,
-        method : "POST",
-        body
-      })
+        method: "POST",
+        body,
+      }),
     }),
 
-    updatePackage: build.mutation<Package | null, {
-     id: number , name: string, description: string , price_monthly: number , price_annually:number , max_courses: number , is_active:boolean
-    }>({
-      query: ({id, ...body}) => ({
+    updatePackage: build.mutation<
+      Package | null,
+      {
+        id: number;
+        name: string;
+        description: string;
+        price_monthly: number;
+        price_annually: number;
+        max_courses: number;
+        is_active: boolean;
+      }
+    >({
+      query: ({ id, ...body }) => ({
         url: `/api/admin/subscription/plans/${id}`,
-        method : "PUT",
-        body
-      })
+        method: "PUT",
+        body,
+      }),
     }),
 
-    deletePackage: build.mutation<Package | null, {
-     id: number
-    }>({
-      query: ({id}) => ({
+    deletePackage: build.mutation<
+      Package | null,
+      {
+        id: number;
+      }
+    >({
+      query: ({ id }) => ({
         url: `/api/admin/subscription/plans/${id}`,
-        method : "DELETE"
-      })
-    })
-
+        method: "DELETE",
+      }),
+    }),
   }),
-}); 
+});
 
 export const {
   useLoginMutation,
@@ -220,6 +238,5 @@ export const {
   useGetSubscriptionQuery,
   useCreatePackageMutation,
   useUpdatePackageMutation,
-  useDeletePackageMutation
-  
+  useDeletePackageMutation,
 } = apiAuth;

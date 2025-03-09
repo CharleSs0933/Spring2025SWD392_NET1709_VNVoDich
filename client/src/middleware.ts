@@ -21,7 +21,7 @@ export async function middleware(request: NextRequest) {
   }
 
   if (pathname.startsWith("/checkout")) {
-    if (!isLogged || user.role !== "Parent") {
+    if (!isLogged) {
       const url = new URL("/login", request.url);
       return NextResponse.redirect(url);
     }

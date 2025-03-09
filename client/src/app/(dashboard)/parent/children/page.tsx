@@ -120,7 +120,7 @@ const ChildrenManagement = () => {
               </TableRow>
             </TableHeader>
             <TableBody className="child__table-body">
-              {children ? (
+              {children && children.length > 0 ? (
                 children.map((child) => (
                   <TableRow className="child__table-row" key={child.id}>
                     <TableCell className="child__table-cell">
@@ -170,8 +170,8 @@ const ChildrenManagement = () => {
       {deleteChildId !== null && (
         <ConfirmDialog
           full_name={
-            children.find((child) => child.id === deleteChildId)?.full_name ||
-            ""
+            children.find((child) => child.id === deleteChildId)?.profile
+              ?.full_name || ""
           }
           handleClose={() => setDeleteChildId(null)}
           handleDelete={handleConfirmDelete}

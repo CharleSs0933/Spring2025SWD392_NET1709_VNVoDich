@@ -2,7 +2,11 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { notFound, useParams, useRouter } from "next/navigation";
-import { useGetChildQuery, useUpdateChildrenMutation } from "@/state/api";
+import {
+  useGetChildQuery,
+  useGetSessionQuery,
+  useUpdateChildrenMutation,
+} from "@/state/api";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { DialogTrigger } from "@radix-ui/react-dialog";
@@ -19,12 +23,31 @@ const ChildSchedule = () => {
   const router = useRouter();
   const params = useParams();
   const id = params.id as string;
-  const { data: child, isLoading, isError } = useGetChildQuery({ id });
+  const {
+    data: child,
+    isLoading: isChildLoading,
+    isError: isChildError,
+  } = useGetChildQuery({ id });
+
+  if (!child) return <div>Error loading child.</div>;
+
+  const {
+    data: teachingSessions,
+    isLoading: isTeachingSessionLoading,
+    isError: isTeachingSessionError,
+    refetch,
+  } = useGetSessionQuery(
+    {
+      userId: child.id,
+    },
+    { skip: !child.id }
+  );
 
   const [selectedEvent, setSelectedEvent] = useState<TeachingSession | null>(
     null
   );
   const [updateChild] = useUpdateChildrenMutation();
+
   const [open, setOpen] = useState(false);
   const [eventDialogOpen, setEventDialogOpen] = useState(false);
   const [formData, setFormData] = useState<any>({
@@ -78,8 +101,9 @@ const ChildSchedule = () => {
     setSelectedEvent(null);
   };
 
-  if (isLoading) return <Loading />;
-  if (isError || !child) return <div>Error loading child.</div>;
+  if (isChildLoading || isTeachingSessionLoading) return <Loading />;
+  if (isChildError || isTeachingSessionError)
+    return <div>Error loading child. </div>;
 
   return (
     <div>
@@ -152,7 +176,7 @@ const ChildSchedule = () => {
         {/* Event Info */}
         {selectedEvent && (
           <Dialog open={eventDialogOpen} onOpenChange={setEventDialogOpen}>
-            <SessionDetailDialog session={selectedEvent} />
+            <SessionDetailDialog session={selectedEvent} refetch={refetch} />
           </Dialog>
         )}
       </div>
@@ -160,7 +184,10 @@ const ChildSchedule = () => {
       {/* Schedule */}
       <div className="mt-4 bg-white rounded-md p-4">
         <h1>Teacher&apos;s Schedule</h1>
-        <BigCalendarContainer id={child.id} onSelectEvent={setSelectedEvent} />
+        <BigCalendarContainer
+          teachingSessions={teachingSessions}
+          onSelectEvent={setSelectedEvent}
+        />
       </div>
     </div>
   );

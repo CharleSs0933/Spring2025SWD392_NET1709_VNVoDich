@@ -95,11 +95,9 @@ export const useUser = () => {
       });
     } catch (error) {
       console.error("signUp failed:", error);
-      return {error}
-
+      return { error };
     } finally {
       setLoading(false);
-      console.log(successSignUp);
     }
   };
 
@@ -108,6 +106,7 @@ export const useUser = () => {
     Cookies.remove("authToken");
     Cookies.remove("user");
     setUser(null);
+    router.push("/login");
   };
 
   const handleGoogleLogin = () => {

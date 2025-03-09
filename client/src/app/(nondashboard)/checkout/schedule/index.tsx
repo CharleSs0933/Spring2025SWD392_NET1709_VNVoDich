@@ -2,7 +2,6 @@
 
 import Loading from "@/components/Loading";
 import { useGetCourseAvailabilityQuery } from "@/state/api";
-import { useSearchParams } from "next/navigation";
 import React from "react";
 import BookingForm from "../_components/booking-form";
 import { useCurrentCourse } from "@/hooks/useCurrentCourse";

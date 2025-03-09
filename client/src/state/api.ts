@@ -11,6 +11,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query";
 import { toast } from "sonner";
 import Cookies from "js-cookie";
+import { string } from "zod";
 
 const customBaseQuery = async (
   args: string | FetchArgs,
@@ -69,7 +70,7 @@ const customBaseQuery = async (
 export const api = createApi({
   baseQuery: customBaseQuery,
   reducerPath: "api",
-  tagTypes: ["Courses", "Tutors", "Parents", "Children"],
+  tagTypes: ["Courses", "Tutors", "Parents", "Children", "TeachingSessions"],
   endpoints: (build) => ({
     getCourses: build.query<
       Course[],
@@ -334,12 +335,28 @@ export const api = createApi({
       }),
     }),
 
-    // Teaching session
+    /* 
+    ===============
+    TEACHING SESSIONS
+    =============== 
+    */
     getSession: build.query<TeachingSession[], { userId: number }>({
       query: ({ userId }) => ({
         url: `/teaching-sessions`,
         params: { userId },
       }),
+      providesTags: ["TeachingSessions"],
+    }),
+    rescheduleSession: build.mutation<
+      TeachingSession,
+      { startTime: string; endTime: string; id: number }
+    >({
+      query: ({ startTime, endTime, id }) => ({
+        url: `/teaching-sessions/reschedule/${id}`,
+        method: "PUT",
+        body: { startTime, endTime },
+      }),
+      invalidatesTags: ["TeachingSessions"],
     }),
 
     /* 
@@ -412,6 +429,7 @@ export const {
   useUpdateAvailabilityMutation,
   useGetCourseAvailabilityQuery,
   useGetSessionQuery,
+  useRescheduleSessionMutation,
   useCreateStripePaymentIntentMutation,
   useCreateTrialBookingMutation,
   useGetAllParentsQuery,
