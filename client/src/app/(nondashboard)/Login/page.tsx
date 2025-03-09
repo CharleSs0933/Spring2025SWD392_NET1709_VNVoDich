@@ -6,7 +6,11 @@ import logo from "@/asset/logo.jpg";
 import bg from "../../../../public/bg-login.jpg";
 import { useUser } from "@/hooks/useUser";
 import { useRouter } from "next/navigation";
-import { useGoogleLoginMutation } from "@/state/apiAuth";
+import Cookies from "js-cookie";
+import {
+  useGetTutorSubMutation,
+  useGoogleLoginMutation,
+} from "@/state/apiAuth";
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [loginData, setLoginData] = useState({
@@ -27,7 +31,7 @@ const Login = () => {
   const formRef = useRef(null);
   const buttonRef = useRef(null);
   const { login, signUp } = useUser();
-
+  const [tutorSub] = useGetTutorSubMutation();
   const router = useRouter();
 
   useLayoutEffect(() => {
@@ -92,13 +96,23 @@ const Login = () => {
       if (signUpData.passWord !== signUpData.confirmPassword) {
         alert("password dont match");
       } else {
-        await signUp({
+        const res = await signUp({
           username: signUpData.userName,
           email: signUpData.email,
           password: signUpData.passWord,
           role: signUpData.role,
         });
-        // if(!response)
+        if (!res?.error) {
+          setSignUpData({
+            fullName: "",
+            userName: "",
+            passWord: "",
+            confirmPassword: "",
+            email: "",
+            role: "Parent",
+          });
+          setIsSignUp(!isSignUp);
+        }
       }
     } else {
       console.log(loginData);
@@ -106,6 +120,11 @@ const Login = () => {
         username: loginData.userName,
         password: loginData.passWord,
       });
+      const userData = Cookies.get("user");
+      const parsedUser = JSON.parse(userData || "");
+
+      const res = await tutorSub({ id: parsedUser.ID });
+      console.log(res);
 
       router.push("/");
     }
@@ -135,7 +154,7 @@ const Login = () => {
       >
         <div
           ref={divLogo}
-          className="bg-[#25262F] w-[40%] h-[60%] bg-opacity-80 text-center flex flex-col items-center justify-start p-6"
+          className="bg-[#25262F] w-[40%] h-[60%] bg-opacity-80 text-center flex flex-col items-center justify-start p-6 rounded-xl"
         >
           <div ref={logoRef} className="mb-20 mt-10">
             <Image src={logo} alt="logo" width={250} height={200} />
@@ -147,7 +166,7 @@ const Login = () => {
 
         <div
           ref={formRef}
-          className="w-[25%] h-[60%] bg-white bg-opacity-70 backdrop-blur-md flex flex-col gap-16 p-6 text-green-900 "
+          className="w-[25%] h-[60%] bg-white bg-opacity-70 backdrop-blur-md flex flex-col gap-16 p-6 text-green-900 rounded-xl"
         >
           <p className="text-3xl">
             {isSignUp ? "Create an Account" : "Sign in to get started!"}

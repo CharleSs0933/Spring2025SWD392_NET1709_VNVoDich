@@ -16,8 +16,10 @@ import {
   Clock,
   LayoutDashboard,
   LogOut,
+  Package,
   PanelLeft,
   Settings,
+  SubscriptIcon,
   User,
   Users,
 } from "lucide-react";
@@ -45,14 +47,22 @@ const AppSidebar = () => {
       { icon: User, label: "Profile", href: "/tutor/profile" },
       { icon: Users, label: "Students", href: "/tutor/students" },
     ],
+    Admin: [
+      { icon: BookOpen, label: "Courses", href: "/admin/courses" },
+      { icon: User, label: "Profile", href: "/admin/users" },
+      { icon: Package, label: "Package", href: "/admin/package" },
+      { icon: SubscriptIcon, label: "Subscription", href: "/admin/subscription" },
+    ],
   };
 
   //   if (!isLoaded) return <Loading />;
   //   if (!user) return <div>User not found</div>;
 
-  const userType: "Tutor" | "Parent" =
-    user?.role === "Tutor" ? "Tutor" : "Parent";
-  const currentNavLinks = navLinks[userType];
+  const userType: "Tutor" | "Parent" | "Admin" =
+  user?.role === "Tutor" ? "Tutor" : user?.role === "Parent" ? "Parent" : "Admin";
+
+const currentNavLinks = navLinks[userType];
+
 
   return (
     <Sidebar

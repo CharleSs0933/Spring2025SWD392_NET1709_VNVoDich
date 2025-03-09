@@ -215,3 +215,63 @@ export interface TeachingSession {
     course?: Course;
   };
 }
+
+export interface Parent {
+  id: number;
+  preferred_language: string;
+  notifications_enabled: boolean;
+  childrens: Array[];
+  profile: {
+    email: string;
+    full_name: string;
+    phone: string;
+  };
+}
+
+export interface Users {
+  CreatedAt?: Date;
+  DeletedAt?: Date;
+  ID?: number;
+  UpdatedAt?: Date;
+  account_locked?: boolean;
+  email?: string;
+  full_name?: string;
+  google_token?: string;
+  is_verified?: boolean;
+  password_changed_at?: string;
+  phone?: string;
+  picture?: string;
+  role?: string;
+  status?: string;
+  username: string;
+}
+
+export interface Package {
+  CreatedAt: Date;
+  DeletedAt: Date;
+  ID: number;
+  UpdatedAt: Date;
+  commission_rate: number;
+  description: string;
+  features: [];
+  is_active: boolean;
+  max_courses: number;
+  name: string;
+  price_annually: number;
+  price_monthly: number;
+}
+
+export interface Subscription {
+  billing_cycle: string;
+  cancel_at_period_end: string;
+  commission_rate: number;
+  current_period_end: Date;
+  current_period_start: Date;
+  features: [];
+  id: number;
+  max_courses: number;
+  plan_name: string;
+  price: number;
+  status: string;
+  tutor_id: number;
+}

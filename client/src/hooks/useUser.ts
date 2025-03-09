@@ -94,7 +94,9 @@ export const useUser = () => {
         role,
       });
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error("signUp failed:", error);
+      return {error}
+
     } finally {
       setLoading(false);
       console.log(successSignUp);

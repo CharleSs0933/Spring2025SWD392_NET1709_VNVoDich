@@ -1,4 +1,4 @@
-import { Children, Course, Tutor, User } from "@/types";
+import { Children, Course, Package, Subscription, Tutor, Users } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query";
 import { toast } from "sonner";
@@ -11,13 +11,15 @@ const customBaseQuery = async (
 ) => {
   const baseQuery = fetchBaseQuery({
     baseUrl: "http://localhost:8080",
-    // prepareHeaders: async (headers) => {
-    //   const token = Cookies.get("authToken");
-    //   if (token) {
-    //     headers.set("Authorization", `Bearer ${token}`);
-    //   }
-    //   return headers;
-    // },
+    prepareHeaders: async (headers) => {
+      const token = Cookies.get("authToken");
+      console.log(token);
+
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`);
+      }
+      return headers;
+    },
   });
 
   try {
@@ -98,12 +100,126 @@ export const apiAuth = createApi({
         },
       }),
     }),
+
+    ///Admin
+    getUsers: build.query<Users[] | null, {}>({
+      query: ({}) => ({
+        url: `/api/admin/users`,
+      }),
+      transformResponse: (response: { data: Users[] }) => response.data,
+    }),
+
+    deleteUser: build.mutation<
+      Users,
+      {
+        id: number;
+      }
+    >({
+      query: ({ id }) => ({
+        url: `/api/admin/users/${id}`,
+        method: "DELETE",
+      }),
+    }),
+
+    updateUser: build.mutation<
+      Users,
+      {
+        id: number;
+        email: string;
+        full_name: string;
+        phone: string;
+      }
+    >({
+      query: ({ id, email, full_name, phone }) => ({
+        url: `/api/admin/user/update?id=${id}`,
+        method: "PUT",
+        body: { email, full_name, phone },
+      }),
+    }),
+
+    //Package
+    getPackage: build.query<Package[] | null, {}>({
+      query: ({}) => ({
+        url: `/subscription/plans`,
+      }),
+      transformResponse: (response: { data: Package[] }) => response.data,
+    }),
+
+    createPackageTutor: build.mutation<
+      any,
+      {
+        tutor_id: number;
+        plan_id: number;
+        billing_cycle: string;
+      }
+    >({
+      query: (body) => ({
+        url: `/api/subscription`,
+        method: "POST",
+        body,
+      }),
+    }),
+
+    getTutorSub: build.mutation<Subscription[] | null, {id : number}>({
+      query: ({id}) => ({
+        url: `/api/subscription/tutor/${id}`,
+      }),
+      transformResponse: (response: { data: Subscription[] }) => response.data,
+    }),
+
+    getSubscription: build.query<Subscription[] | null, {}>({
+      query: ({}) => ({
+        url: `/api/admin/subscriptions`,
+      }),
+      transformResponse: (response: { data: Subscription[] }) => response.data,
+    }),
+
+    createPackage: build.mutation<Package | null, {
+      name: string, description: string , price_monthly: number , price_annually:number , max_courses: number , is_active:boolean
+    }>({
+      query: (body) => ({
+        url: `/api/admin/subscription/plans`,
+        method : "POST",
+        body
+      })
+    }),
+
+    updatePackage: build.mutation<Package | null, {
+     id: number , name: string, description: string , price_monthly: number , price_annually:number , max_courses: number , is_active:boolean
+    }>({
+      query: ({id, ...body}) => ({
+        url: `/api/admin/subscription/plans/${id}`,
+        method : "PUT",
+        body
+      })
+    }),
+
+    deletePackage: build.mutation<Package | null, {
+     id: number
+    }>({
+      query: ({id}) => ({
+        url: `/api/admin/subscription/plans/${id}`,
+        method : "DELETE"
+      })
+    })
+
   }),
-});
+}); 
 
 export const {
   useLoginMutation,
   useGoogleLoginMutation,
   useGoogleLoginCallbackMutation,
   useSignupMutation,
+  useGetUsersQuery,
+  useDeleteUserMutation,
+  useGetPackageQuery,
+  useCreatePackageTutorMutation,
+  useUpdateUserMutation,
+  useGetTutorSubMutation,
+  useGetSubscriptionQuery,
+  useCreatePackageMutation,
+  useUpdatePackageMutation,
+  useDeletePackageMutation
+  
 } = apiAuth;

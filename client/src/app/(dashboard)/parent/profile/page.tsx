@@ -62,6 +62,7 @@ const Profile = () => {
     router.push(`/parent/children/${child.id}`);
   };
   console.log(parent);
+  console.log(parent);
 
   return (
     <div>
