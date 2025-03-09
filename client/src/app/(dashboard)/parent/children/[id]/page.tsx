@@ -15,7 +15,6 @@ import { useEffect, useState } from "react";
 import Loading from "@/components/Loading";
 import BigCalendarContainer from "@/components/BigCalendarContainer";
 import { TeachingSession } from "@/types";
-import moment from "moment";
 import { calculateAge } from "@/lib/utils";
 import { SessionDetailDialog } from "@/components/dashboard/parent/TeachingSessionDialog";
 
@@ -23,31 +22,11 @@ const ChildSchedule = () => {
   const router = useRouter();
   const params = useParams();
   const id = params.id as string;
-  const {
-    data: child,
-    isLoading: isChildLoading,
-    isError: isChildError,
-  } = useGetChildQuery({ id });
 
-  if (!child) return <div>Error loading child.</div>;
-
-  const {
-    data: teachingSessions,
-    isLoading: isTeachingSessionLoading,
-    isError: isTeachingSessionError,
-    refetch,
-  } = useGetSessionQuery(
-    {
-      userId: child.id,
-    },
-    { skip: !child.id }
-  );
-
+  // State hooks - define all state hooks at the top
   const [selectedEvent, setSelectedEvent] = useState<TeachingSession | null>(
     null
   );
-  const [updateChild] = useUpdateChildrenMutation();
-
   const [open, setOpen] = useState(false);
   const [eventDialogOpen, setEventDialogOpen] = useState(false);
   const [formData, setFormData] = useState<any>({
@@ -58,6 +37,33 @@ const ChildSchedule = () => {
     learning_goals: "",
   });
 
+  // Query hooks - these should be called consistently in every render
+  const {
+    data: child,
+    isLoading: isChildLoading,
+    isError: isChildError,
+  } = useGetChildQuery({ id });
+
+  const {
+    data: teachingSessions,
+    isLoading: isTeachingSessionLoading,
+    isError: isTeachingSessionError,
+    refetch,
+  } = useGetSessionQuery(
+    {
+      userId: child?.id || Number(""),
+    },
+    { skip: !child?.id }
+  );
+
+  const [updateChild] = useUpdateChildrenMutation();
+
+  // Effect hooks
+  useEffect(() => {
+    setEventDialogOpen(selectedEvent !== null);
+  }, [selectedEvent]);
+
+  // Event handler functions
   const handleEdit = () => {
     if (child) {
       setFormData({
@@ -73,10 +79,6 @@ const ChildSchedule = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
-  useEffect(() => {
-    setEventDialogOpen(selectedEvent !== null);
-  }, [selectedEvent]);
 
   const handleUpdate = async () => {
     try {
@@ -101,9 +103,10 @@ const ChildSchedule = () => {
     setSelectedEvent(null);
   };
 
+  // Loading and error states
   if (isChildLoading || isTeachingSessionLoading) return <Loading />;
-  if (isChildError || isTeachingSessionError)
-    return <div>Error loading child. </div>;
+  if (isChildError || isTeachingSessionError || !child)
+    return <div>Error loading child.</div>;
 
   return (
     <div>

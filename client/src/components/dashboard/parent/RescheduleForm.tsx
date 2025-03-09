@@ -8,10 +8,12 @@ const RescheduleForm = ({
   availabilities,
   sessionId,
   refetch,
+  setShowReschedule,
 }: {
   availabilities: { date: string; slots: string[] }[];
   sessionId: number;
   refetch: () => void;
+  setShowReschedule: (show: boolean) => void;
 }) => {
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [selectedTime, setSelectedTime] = useState("");
@@ -48,6 +50,7 @@ const RescheduleForm = ({
     }).unwrap();
 
     refetch();
+    setShowReschedule(false);
   };
 
   return (

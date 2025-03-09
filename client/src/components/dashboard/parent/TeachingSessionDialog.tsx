@@ -179,6 +179,7 @@ export const SessionDetailDialog = ({
             availabilities={availabilites || []}
             sessionId={session.id}
             refetch={refetch}
+            setShowReschedule={setShowReschedule}
           />
         ) : null}
       </div>
