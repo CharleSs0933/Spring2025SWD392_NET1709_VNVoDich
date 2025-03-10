@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { useGetCourseQuery } from "@/state/api";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import imgBg from "../../../../asset/img/khoahoc.jpg";
 import tutor from "../../../../asset/img/tutor3.jpg";
 import { useParams, useRouter } from "next/navigation";

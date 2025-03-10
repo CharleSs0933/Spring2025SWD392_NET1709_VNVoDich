@@ -2,7 +2,7 @@
 
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { Button } from "@/components/ui/button";
-import { Trash2, Edit, Plus, GripVertical } from "lucide-react";
+import { Trash2, Edit, GripVertical } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/state/redux";
 import { setLessons, deleteLesson, openLessonModal } from "@/state";
 import { Lesson } from "@/types";

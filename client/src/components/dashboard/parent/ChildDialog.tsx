@@ -26,6 +26,7 @@ export const ChildDialog = ({
   mode,
 }: Props) => {
   const [errors, setErrors] = useState({
+    username: "",
     full_name: "",
     password: "",
     date_of_birth: "",
@@ -33,7 +34,8 @@ export const ChildDialog = ({
   });
 
   const validateForm = () => {
-    let newErrors = {
+    const newErrors = {
+      username: "",
       full_name: "",
       password: "",
       date_of_birth: "",
@@ -41,17 +43,36 @@ export const ChildDialog = ({
     };
     let isValid = true;
 
+    if (!formData.username) {
+      newErrors.username = "User name is required";
+      isValid = false;
+    }
+
     if (!formData.full_name.trim()) {
       newErrors.full_name = "Full Name is required";
       isValid = false;
     }
 
-    if (!formData.password.trim()) {
+    if (mode === "create" && !formData.password.trim()) {
       newErrors.password = "Password is required";
       isValid = false;
-    } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
+    }
+
+    if (!formData.date_of_birth) {
+      newErrors.date_of_birth = "Date of Birth is required";
       isValid = false;
+    } else {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const dob = new Date(formData.date_of_birth);
+
+      if (isNaN(dob.getTime())) {
+        newErrors.date_of_birth = "Invalid date format";
+        isValid = false;
+      } else if (dob >= today) {
+        newErrors.date_of_birth = "Date of Birth must be in the past";
+        isValid = false;
+      }
     }
 
     if (!formData.learning_goals.trim()) {
@@ -71,6 +92,7 @@ export const ChildDialog = ({
 
   const handlerCloseDialong = () => {
     setErrors({
+      username: "",
       full_name: "",
       password: "",
       date_of_birth: "",
@@ -111,9 +133,9 @@ export const ChildDialog = ({
             placeholder="Enter username"
             value={formData.username}
             onChange={handleChange}
-            // disabled
+            disabled={mode === "edit"}
           />
-          {/* <p className="text-red-500 text-sm ">{errors.password}</p> */}
+          <p className="text-red-500 text-sm ">{errors.username}</p>
         </div>
 
         <div className="dialog_field">
@@ -125,11 +147,19 @@ export const ChildDialog = ({
             className="dialog_input"
             name="password"
             type="password"
-            placeholder="Enter password"
+            placeholder={
+              mode === "create"
+                ? "Enter password"
+                : "Enter new password (optional)"
+            }
             value={formData.password}
             onChange={handleChange}
           />
-          <p className="text-red-500 text-sm ">{errors.password}</p>
+          {mode === "edit" && (
+            <p className="text-gray-500 text-sm">
+              Leave blank to keep the existing password.
+            </p>
+          )}
         </div>
 
         <div className="dialog_field">

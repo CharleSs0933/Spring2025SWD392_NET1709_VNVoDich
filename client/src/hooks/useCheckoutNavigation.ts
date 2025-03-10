@@ -30,7 +30,7 @@ export const useCheckoutNavigation = () => {
       navigateToStep(1);
       dispatch(clearBooking());
     }
-  }, [loading, checkoutStep, navigateToStep]);
+  }, [loading, checkoutStep, navigateToStep, dispatch, user]);
 
   return { checkoutStep, navigateToStep };
 };

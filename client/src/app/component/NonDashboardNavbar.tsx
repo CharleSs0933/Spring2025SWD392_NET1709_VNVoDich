@@ -1,7 +1,4 @@
-import { Bell, BookOpen } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
-import React, { useState } from "react";
 import Logo from "../asset/logo.jpg";
 
 const NonDashboardNavbar = () => {
@@ -102,6 +99,3 @@ const NonDashboardNavbar = () => {
 };
 
 export default NonDashboardNavbar;
-
-
-

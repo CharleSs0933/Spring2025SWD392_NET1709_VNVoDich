@@ -1,12 +1,10 @@
 "use client";
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useGetCoursesQuery } from "@/state/api";
 import { FocusCards } from "../../component/ui/focus-cards";
 import searchCourses from "../../component/searchCourses";
 import gsap from "gsap";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Search from "@/app/component/search";
-import { log } from "console";
 const Page = () => {
   const [page, setPage] = useState(1);
   const [tagSelect, setTagSelect] = useState<string | null>(null);

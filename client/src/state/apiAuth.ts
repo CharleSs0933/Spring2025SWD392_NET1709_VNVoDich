@@ -1,4 +1,4 @@
-import { Children, Course, Package, Subscription, Tutor, Users } from "@/types";
+import { Package, Subscription, Users } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query";
 import { toast } from "sonner";
@@ -10,7 +10,7 @@ const customBaseQuery = async (
   extraOptions: any
 ) => {
   const baseQuery = fetchBaseQuery({
-    baseUrl: "https://phrimp-81lk.tail682e6a.ts.net",
+    baseUrl: "http://localhost:8080",
     prepareHeaders: async (headers) => {
       const token = Cookies.get("authToken");
 

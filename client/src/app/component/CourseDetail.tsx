@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { useGetCoursesQuery } from "@/lib/features/api/api"; // API hook
 import BannerCourses from "../asset/backgroundCourse.png";
+import { useGetCoursesQuery } from "@/state/api";
 
 const CourseDetail = () => {
   // Giả sử muốn hiển thị thông tin khóa học với ID 1

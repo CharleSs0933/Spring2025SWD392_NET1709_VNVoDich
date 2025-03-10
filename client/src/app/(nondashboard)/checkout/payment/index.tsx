@@ -23,11 +23,11 @@ const PaymentPageContent = () => {
   const { navigateToStep } = useCheckoutNavigation();
   const [createTrialBooking, { isLoading }] = useCreateTrialBookingMutation();
 
-  if (!course) return null;
-
   const { selectedChild, selectedDates } = useAppSelector(
     (state) => state.global.booking
   );
+
+  if (!course) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

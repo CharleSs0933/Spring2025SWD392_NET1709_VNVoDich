@@ -5,7 +5,7 @@ import { days } from "@/lib/utils";
 import { Availability } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { timeSlots } from "./data";
 import { Button } from "@/components/ui/button";
 import { useUpdateAvailabilityMutation } from "@/state/api";

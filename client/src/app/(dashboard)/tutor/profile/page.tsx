@@ -19,7 +19,6 @@ import { createTutorFormData } from "@/lib/utils";
 const Profile = () => {
   const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")!) : null;
   const userId = user?.ID;
-  const userRole = user?.role;
 
   const [demoVideoUrl, setDemoVideoUrl] = useState<string | null>(null);
   const [updateTutor] = useUpdateTutorMutation();

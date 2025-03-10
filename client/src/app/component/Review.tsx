@@ -1,24 +1,26 @@
 import React, { useState } from "react";
 import avarta from "../../asset/img/tutor4.jpg";
 import Image from "next/image";
-import { CoursesReview } from "@/types";
+import { CourseReview } from "@/types";
 
-const Review = ({ comments }: { comments: CoursesReview[] }) => {
+const Review = ({ comments }: { comments: CourseReview[] }) => {
   console.log("Comments Data:", comments);
 
   const [newComment, setNewComment] = useState("");
-  const [commentList, setCommentList] = useState<CoursesReview[]>(comments ?? []);
+  const [commentList, setCommentList] = useState<CourseReview[]>(
+    comments ?? []
+  );
 
   const handleAddComment = () => {
     if (newComment.trim() !== "") {
-      const newEntry: CoursesReview = {
+      const newEntry: CourseReview = {
         id: Date.now(),
         rating: 5,
         review_content: newComment,
-        createAt: new Date(),
+        createAt: "",
         course_id: 3,
-        parent_id: null,
-        parent: null,
+        parent_id: 0,
+        // parent: null,
       };
       setCommentList([newEntry, ...commentList]);
       setNewComment("");
@@ -31,14 +33,25 @@ const Review = ({ comments }: { comments: CoursesReview[] }) => {
       <div className="py-10">
         {commentList.length > 0 ? (
           commentList.map((comment, index) => (
-            <div key={comment.id ?? index} className="border-b pb-3 mb-3 flex items-start">
-              <Image width={30} height={50} src={avarta} alt="avatar" className="rounded-full mr-3 object-contain" />
+            <div
+              key={comment.id ?? index}
+              className="border-b pb-3 mb-3 flex items-start"
+            >
+              <Image
+                width={30}
+                height={50}
+                src={avarta}
+                alt="avatar"
+                className="rounded-full mr-3 object-contain"
+              />
               <div>
                 <h3 className="text-lg font-medium text-orange-400">
                   {comment.parent?.profile?.full_name ?? "Anonymous"}
                 </h3>
                 <p className="text-white-100">{comment.review_content}</p>
-                <p className="text-gray-500 text-sm">{new Date(comment.createAt).toLocaleString()}</p>
+                <p className="text-gray-500 text-sm">
+                  {new Date(comment.createAt).toLocaleString()}
+                </p>
               </div>
             </div>
           ))
@@ -55,7 +68,10 @@ const Review = ({ comments }: { comments: CoursesReview[] }) => {
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
         />
-        <button className="mt-2 px-4 py-2 bg-blue-500 text-white rounded" onClick={handleAddComment}>
+        <button
+          className="mt-2 px-4 py-2 bg-blue-500 text-white rounded"
+          onClick={handleAddComment}
+        >
           Submit
         </button>
       </div>

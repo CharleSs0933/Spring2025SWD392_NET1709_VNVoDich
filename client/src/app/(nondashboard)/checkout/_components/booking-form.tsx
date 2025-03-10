@@ -216,7 +216,7 @@ const BookingForm = ({ availabilities, course }: Props) => {
       if (!timeSlot) continue;
 
       // Find the next occurrence of this weekday
-      let nextDate = new Date(today);
+      const nextDate = new Date(today);
       while (nextDate.getDay() !== weekday) {
         nextDate.setDate(nextDate.getDate() + 1);
       }

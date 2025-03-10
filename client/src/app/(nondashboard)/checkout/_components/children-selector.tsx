@@ -1,4 +1,3 @@
-import Loading from "@/components/Loading";
 import { Button } from "@/components/ui/button";
 import { Children } from "@/types";
 import React from "react";
@@ -34,7 +33,7 @@ const ChildrenSelector = ({
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
         {availableChildren.map((child) => (
           <ChildrenCard
-            children={child}
+            child={child}
             key={child.id}
             selectedChild={selectedChild}
             setSelectedChild={(child) =>

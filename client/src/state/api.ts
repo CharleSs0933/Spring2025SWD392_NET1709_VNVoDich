@@ -5,13 +5,11 @@ import {
   Parent,
   TeachingSession,
   Tutor,
-  User,
 } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query";
 import { toast } from "sonner";
 import Cookies from "js-cookie";
-import { string } from "zod";
 
 const customBaseQuery = async (
   args: string | FetchArgs,

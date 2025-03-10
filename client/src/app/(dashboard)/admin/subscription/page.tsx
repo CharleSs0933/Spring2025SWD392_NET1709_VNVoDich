@@ -4,7 +4,6 @@ import CustomTable from "@/app/component/CustomTable";
 import { useGetSubscriptionQuery } from "@/state/apiAuth";
 import { Subscription } from "@/types";
 import React, { useEffect, useState } from "react";
-import { number } from "zod";
 
 const SubscriptionManagement = () => {
   const [isUpdate, setIsUpdate] = useState(false);

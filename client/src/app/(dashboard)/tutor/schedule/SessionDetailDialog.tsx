@@ -7,29 +7,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { TeachingSession } from "@/types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { useState } from "react";
 import { Book, Calendar, Clock, User, Video } from "lucide-react";
 import SessionFeedbackForm from "./SessionFeedbackForm";
-
-// Schema validation bằng Zod
-const feedbackSchema = z.object({
-  rating: z.number().min(1).max(5, "Rating must be between 1 and 5"),
-  comment: z.string().optional(),
-  teachingQuality: z
-    .string()
-    .optional()
-    .refine(
-      (val) => !val || ["Poor", "Fair", "Good", "Excellent"].includes(val),
-      {
-        message: "Invalid teaching quality value",
-      }
-    ),
-});
-
-type FeedbackFormValues = z.infer<typeof feedbackSchema>;
 
 type SessionDetailDialogProps = {
   session: TeachingSession;
@@ -40,49 +19,6 @@ export const SessionDetailDialog = ({
   session,
   refetch,
 }: SessionDetailDialogProps) => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // Khởi tạo form với react-hook-form và zod
-  const form = useForm<FeedbackFormValues>({
-    resolver: zodResolver(feedbackSchema),
-    defaultValues: {
-      rating: 0,
-      comment: "",
-      teachingQuality: "",
-    },
-  });
-
-  // Mutation để gửi feedback
-  //   const submitFeedback = useMutation({
-  //     mutationFn: async (data: FeedbackFormValues) => {
-  //       const response = await fetchWithAuth(`/api/session-feedback`, {
-  //         method: "POST",
-  //         body: JSON.stringify({
-  //           session_id: session.id,
-  //           rating: data.rating,
-  //           comment: data.comment || null,
-  //           teaching_quality: data.teachingQuality || null,
-  //         }),
-  //       });
-  //       return response.json();
-  //     },
-  //     onSuccess: () => {
-  //       refetch(); // Làm mới dữ liệu sau khi gửi feedback thành công
-  //       form.reset();
-  //     },
-  //     onError: (error) => {
-  //       console.error("Error submitting feedback:", error);
-  //     },
-  //     onSettled: () => {
-  //       setIsSubmitting(false);
-  //     },
-  //   });
-
-  //   const onSubmit = (data: FeedbackFormValues) => {
-  //     setIsSubmitting(true);
-  //     submitFeedback.mutate(data);
-  //   };
-
   return (
     <DialogContent className="max-w-5xl bg-customgreys-primarybg">
       <DialogHeader>

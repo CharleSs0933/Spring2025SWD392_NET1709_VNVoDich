@@ -9,25 +9,13 @@ import {
   useUpdateParentMutation,
 } from "@/state/api";
 import Loading from "@/components/Loading";
-import { Children, FieldConfig } from "@/types";
+import { Children } from "@/types";
 import Cookies from "js-cookie";
-import UserDetailCard from "@/components/UserDetailCard"; // Import component
+import UserDetailCard from "@/components/UserDetailCard";
 import Header from "@/components/Header";
 import { createParentFormData } from "@/lib/utils";
 import { ParentFormData } from "@/lib/schemas";
 import { AtSign, Phone, User, UserCircle2 } from "lucide-react";
-
-const parentFields: FieldConfig[] = [
-  {
-    name: "username",
-    label: "Username",
-    icon: <User size={22} />,
-    disabled: true,
-  },
-  { name: "email", label: "Email", icon: <AtSign size={22} />, disabled: true },
-  { name: "full_name", label: "Full name", icon: <UserCircle2 size={22} /> },
-  { name: "phone", label: "Phone number", icon: <Phone size={22} /> },
-];
 
 const Profile = () => {
   const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")!) : null;
@@ -40,37 +28,21 @@ const Profile = () => {
     refetch,
   } = useGetParentByIdQuery({ userId });
   const [updateParent] = useUpdateParentMutation();
-
   const router = useRouter();
-
-  const handleUpdate = async (data: ParentFormData) => {
-    try {
-      const formData = createParentFormData({
-        ...data,
-      });
-      await updateParent({
-        parentId: userId,
-        formData,
-      }).unwrap();
-      refetch();
-    } catch (err) {
-      console.error(err, "Error updating user");
-    }
-  };
 
   const handleViewChildSchedule = (child: Children) => {
     router.push(`/parent/children/${child.id}`);
   };
-  console.log(parent);
-  console.log(parent);
+
+  if (isLoading) return <Loading />;
+  if (isError || !parent) return <div>Error loading profile.</div>;
 
   return (
     <div>
       <Header title="Profile" subtitle="Information in detail" />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="col-span-2 flex flex-col gap-6">
-          {/* Card Info */}
-          <Card className="p-4 lg:h-64 md:h-60 sm: h-56 relative flex flex-col bg-[#352F44] border-none shadow-lg">
+          <Card className="p-4 lg:h-64 md:h-60 sm:h-56 relative flex flex-col bg-[#352F44] border-none shadow-lg">
             <CardHeader className="relative w-full bg-gradient-to-r from-[#FAF0E6] to-[#60567a] rounded-xl flex flex-1 items-end"></CardHeader>
             <CardContent className="p-0 relative flex flex-1">
               <div className="rounded-xl w-11/12 p-4 bg-white/30 backdrop-blur-3xl shadow-md absolute -top-14 left-1/2 -translate-x-1/2 flex justify-start items-center gap-6">
@@ -89,7 +61,6 @@ const Profile = () => {
             </CardContent>
           </Card>
 
-          {/* Children */}
           {userRole === "Parent" && (
             <Card>
               <CardHeader>
@@ -102,7 +73,7 @@ const Profile = () => {
                   <Loading />
                 ) : isError || !parent?.childrens ? (
                   <div>Error loading children.</div>
-                ) : !parent?.childrens ? (
+                ) : !parent.childrens.length ? (
                   <div>No children</div>
                 ) : (
                   parent.childrens.map((child) => (
@@ -111,10 +82,12 @@ const Profile = () => {
                       className="flex items-center justify-between gap-5 py-2"
                     >
                       <div className="size-12 aspect-square rounded-full flex items-center justify-center text-2xl font-bold uppercase text-white bg-gradient-to-r from-blue-500 to-indigo-600 shadow-md">
-                        {child.full_name.charAt(0)}
+                        {child.profile?.full_name.charAt(0)}
                       </div>
                       <div className="flex-1">
-                        <p className="font-medium">{child.full_name}</p>
+                        <p className="font-medium">
+                          {child.profile?.full_name}
+                        </p>
                         <p className="text-sm text-gray-500">
                           {child.learning_goals}
                         </p>
@@ -135,12 +108,10 @@ const Profile = () => {
         </div>
 
         <div className="flex flex-col gap-6">
-          {/* User Details */}
           {parent && (
             <UserDetailCard
-              // handleSubmit={handleUpdate}
-              fields={parentFields}
-              info={parent}
+              infoData={parent.profile}
+              // fields={parentFields}
               role={userRole}
             />
           )}

@@ -1,5 +1,3 @@
-import { string } from "zod";
-
 export interface Course {
   id: number;
   tutor_id: number;
@@ -16,7 +14,7 @@ export interface Course {
   // availabilitys?: Availability[];
   lessons?: Lesson[];
   // courseSubscriptions?: CourseSubscription[];
-  courseReviews?: CoursesReview[];
+  courseReviews?: CourseReview[];
 }
 
 export interface Lesson {
@@ -54,6 +52,8 @@ export interface Tutor {
     google_id: string;
     timezone: string;
   };
+
+  tutorReviews: TutorReviews[];
 }
 
 export interface Children {
@@ -171,12 +171,13 @@ export interface CourseReview {
   id: number;
   rating: number;
   review_content: string;
-  // createAt   :    DateTime
+  createAt: string;
 
   course_id: number;
-  course: Course;
   parent_id: number;
-  parent: Parent;
+
+  course?: Course;
+  parent?: Parent;
 }
 
 export interface Parent {
@@ -184,7 +185,7 @@ export interface Parent {
   preferred_language: string;
   notifications_enable: boolean;
 
-  profile?: {
+  profile: {
     email: string;
     full_name: string;
     phone: string;
@@ -210,6 +211,9 @@ export interface TeachingSession {
   status: string;
   topics_covered: string;
   homework_assigned: string;
+  rating?: number;
+  comment?: string;
+  teaching_quality?: string;
   subscription_id: number;
   subscription?: {
     course?: Course;
@@ -274,20 +278,4 @@ export interface Subscription {
   price: number;
   status: string;
   tutor_id: number;
-}
-
-  billing_cycle: string,
-  cancel_at_period_end: string,
-  commission_rate: number,
-  current_period_end: Date,
-  current_period_start: Date,
-  features: [
-  ],
-  id: number,
-  max_courses: number,
-  plan_name: string,
-  price: number,
-  status: string,
-  tutor_id: number,
-    payment_order_id?: string,
 }

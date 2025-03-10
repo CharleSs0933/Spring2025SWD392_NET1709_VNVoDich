@@ -1,17 +1,14 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
-import Image from "next/image";
 import { useCarousel } from "@/hooks/useCarousel";
-import { useGetCoursesQuery } from "@/lib/features/api/api";
 import CourseCardSearch from "@/components/CourseCardSearch";
 import { useRouter } from "next/navigation";
 import LoadingSkeleton from "./LoadingSkeletion";
 import { useDispatch } from "react-redux";
-import { addCourse } from "@/lib/features/courses/coursesSlice";
 import { courseSubjects } from "@/lib/utils";
+import { useGetCoursesQuery } from "@/state/api";
 
 const Landing = () => {
   const router = useRouter();
@@ -22,11 +19,7 @@ const Landing = () => {
     isLoading,
     isError,
   } = useGetCoursesQuery({ pageSize: 10, page: 1 });
-  useEffect(() => {
-    if (courses) {
-      dispatch(addCourse(courses));
-    }
-  }, [courses, dispatch]);
+
   const handleCourseClick = (courseId: number) => {
     router.push(`search?id=${courseId}`, { scroll: false });
   };

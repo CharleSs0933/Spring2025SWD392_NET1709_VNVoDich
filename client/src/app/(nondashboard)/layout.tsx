@@ -1,12 +1,6 @@
 "use client";
-import Loading from "@/components/Loading";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 // import ChaptersSidebar from "./user/courses/[courseId]/ChaptersSidebar";
-import AppSidebar from "@/components/AppSidebar";
-import Navbar from "@/components/Navbar";
 import Header from "../component/Header";
 import Footer from "../component/Footer";
 

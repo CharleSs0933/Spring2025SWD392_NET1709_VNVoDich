@@ -3,29 +3,37 @@ import Search from "@/app/component/search";
 import { FocusCards } from "@/app/component/ui/focus-cards";
 import { useGetTutorsQuery } from "@/state/api";
 import { useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
+
+const TutorsPage = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Page />
+    </Suspense>
+  );
+};
 
 const Page = () => {
   const [isSearchValue, setIsSearchValue] = useState(false);
   const param = useSearchParams();
-  
+
   const searchValue = param.get("query");
   const qualifications = param.get("qualifications");
   const teaching_style = param.get("teaching_style");
 
-  const { data: tutorsFilter, isLoading: isLoadingFilter } = useGetTutorsQuery(
+  const { data: tutorsFilter } = useGetTutorsQuery(
     searchValue && qualifications && teaching_style
       ? { qualifications, teaching_style }
       : {}
   );
 
-  const { data: tutors, isLoading, isError } = useGetTutorsQuery({});
+  const { data: tutors } = useGetTutorsQuery({});
 
   React.useEffect(() => {
     setIsSearchValue(!!searchValue && !!qualifications && !!teaching_style);
   }, [searchValue, qualifications, teaching_style]);
 
-  console.log(tutorsFilter)
+  console.log(tutorsFilter);
 
   return (
     <div className="my-5">
@@ -33,13 +41,13 @@ const Page = () => {
         Master New Skills
       </h1>
       <p className="text-xl text-center text-gray-400 max-w-2xl mx-auto">
-        Explore our curated collection of premium courses taught by industry experts
+        Explore our curated collection of premium courses taught by industry
+        experts
       </p>
       <div className="mx-auto">
         <Search tutors={tutors} />
       </div>
       {isSearchValue ? (
-        
         <FocusCards data={tutorsFilter || []} type="tutor" />
       ) : (
         <FocusCards data={tutors || []} type="tutor" />
@@ -48,4 +56,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default TutorsPage;

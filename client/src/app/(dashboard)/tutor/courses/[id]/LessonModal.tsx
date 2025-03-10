@@ -12,7 +12,6 @@ import { X } from "lucide-react";
 import { useParams } from "next/navigation";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 
 const LessonModal = () => {
   const params = useParams();

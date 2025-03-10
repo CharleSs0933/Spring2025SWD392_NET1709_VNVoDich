@@ -14,11 +14,7 @@ import React from "react";
 const Package = () => {
   const router = useRouter();
   const userData = Cookies.get("user");
-  const {
-    data: packages,
-    isLoading: isLoading,
-    error,
-  } = useGetPackageQuery({});
+  const { data: packages, isLoading: isLoading } = useGetPackageQuery({});
   const [tutorSub] = useGetTutorSubMutation();
   const [tutorPayment] = useCreatePayMentMutation();
 

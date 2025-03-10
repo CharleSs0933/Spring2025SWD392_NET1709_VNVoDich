@@ -16,7 +16,7 @@ import {
   useDeleteChildrenMutation,
   useGetChildrenQuery,
 } from "@/state/api";
-import { Eye, SlidersHorizontal, Trash2, X } from "lucide-react";
+import { Eye, Trash2 } from "lucide-react";
 import { Children } from "@/types";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -64,7 +64,7 @@ const ChildrenManagement = () => {
   const handleCreateChildAccount = async () => {
     console.log(formData);
 
-    const result = await createChild({
+    await createChild({
       username: formData.username,
       full_name: formData.full_name,
       password: formData.password,

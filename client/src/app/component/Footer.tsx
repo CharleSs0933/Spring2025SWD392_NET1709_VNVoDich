@@ -1,6 +1,5 @@
 import Link from "next/link";
 import React from "react";
-import Eyes from "./eyes";
 
 const Footer = () => {
   return (

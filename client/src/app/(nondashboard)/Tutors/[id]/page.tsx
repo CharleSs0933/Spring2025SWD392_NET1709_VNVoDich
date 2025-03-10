@@ -1,10 +1,8 @@
 "use client";
-import { useState } from "react";
 import { useGetTutorQuery } from "@/state/api";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Star } from "lucide-react";
 import tutors from "../../../../asset/img/tutor3.jpg";
 import Review from "@/app/component/Review";
 const TutorDetail = () => {
@@ -79,9 +77,7 @@ const TutorDetail = () => {
           <source src={tutor?.demo_video_url} type="video/mp4" />
         </video>
       </div>
-      <div>
-        <Review comments={tutor?.tutorReviews || []} />
-      </div>
+      <div>{/* <Review comments={tutor?.tutorReviews || []} /> */}</div>
     </div>
   );
 };

@@ -6,9 +6,6 @@ import { useLoginMutation, useSignupMutation } from "@/state/apiAuth";
 import { useRouter } from "next/navigation";
 
 // API endpoint
-const API_URL = "http://localhost:8080";
-
-interface User {}
 
 export const useUser = () => {
   const [user, setUser] = useState<{

@@ -3,20 +3,9 @@ import Cookies from "js-cookie";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import logo from "@/asset/logo.jpg";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/useUser";
-import {
-  BookOpen,
-  Calendar,
-  Clock,
-  LayoutDashboard,
-  LogOut,
-  Package,
-  Settings,
-  SubscriptIcon,
-  User,
-  Users,
-} from "lucide-react";
+import { BookOpen, User } from "lucide-react";
 import Link from "next/link";
 
 const Header = () => {

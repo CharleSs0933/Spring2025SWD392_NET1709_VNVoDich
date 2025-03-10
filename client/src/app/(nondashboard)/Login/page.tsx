@@ -6,7 +6,6 @@ import logo from "@/asset/logo.jpg";
 import bg from "../../../../public/bg-login.jpg";
 import { useUser } from "@/hooks/useUser";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
 // import {  useGetTutorSubMutation, useGoogleLoginMutation } from "@/state/apiAuth";
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);

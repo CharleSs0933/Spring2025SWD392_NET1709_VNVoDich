@@ -4,25 +4,25 @@ import { Children } from "@/types";
 import React from "react";
 
 const ChildrenCard = ({
-  children,
+  child,
   selectedChild,
   setSelectedChild,
 }: {
-  children: Children;
+  child: Children;
   selectedChild: Children | null; // Thay đổi type thành number | null để phù hợp với Redux
   setSelectedChild: (child: Children) => void;
 }) => {
   return (
     <Card
-      onClick={() => setSelectedChild(children)}
+      onClick={() => setSelectedChild(child)}
       className={`cursor-pointer ${
-        selectedChild?.id === children.id ? "border-primary" : "border-none"
+        selectedChild?.id === child.id ? "border-primary" : "border-none"
       }`}
     >
       <CardContent className="grid p-4 gap-4">
-        <Label>{children.profile?.full_name}</Label>
-        <Label>Date of Birth: {children.date_of_birth.split("T")[0]}</Label>
-        <Label>{children.learning_goals}</Label>
+        <Label>{child.profile?.full_name}</Label>
+        <Label>Date of Birth: {child.date_of_birth.split("T")[0]}</Label>
+        <Label>{child.learning_goals}</Label>
       </CardContent>
     </Card>
   );

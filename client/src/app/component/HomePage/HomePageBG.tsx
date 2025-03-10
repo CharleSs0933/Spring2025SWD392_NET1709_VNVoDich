@@ -79,22 +79,22 @@ function ScaleImage({
   );
 }
 
-function ParallaxImage({
-  artWorkParallaxImageRef,
-}: {
-  artWorkParallaxImageRef: MutableRefObject<HTMLDivElement | null>;
-}) {
-  return (
-    <div
-      className="absolute right-0 top-0 me-[10vw]"
-      ref={artWorkParallaxImageRef}
-    >
-      <div className="w-[30vw] relative aspect-[1/1]">
-        <Image src={bg2} alt="" className="w-full" fill />
-      </div>
-    </div>
-  );
-}
+// function ParallaxImage({
+//   artWorkParallaxImageRef,
+// }: {
+//   artWorkParallaxImageRef: MutableRefObject<HTMLDivElement | null>;
+// }) {
+//   return (
+//     <div
+//       className="absolute right-0 top-0 me-[10vw]"
+//       ref={artWorkParallaxImageRef}
+//     >
+//       <div className="w-[30vw] relative aspect-[1/1]">
+//         <Image src={bg2} alt="" className="w-full" fill />
+//       </div>
+//     </div>
+//   );
+// }
 
 function SplitText({
   children,
