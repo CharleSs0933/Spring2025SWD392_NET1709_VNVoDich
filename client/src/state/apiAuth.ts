@@ -10,7 +10,7 @@ const customBaseQuery = async (
   extraOptions: any
 ) => {
   const baseQuery = fetchBaseQuery({
-    baseUrl: "https://phrimp-81lk.tail682e6a.ts.net",
+    baseUrl: "http://localhost:8080",
     prepareHeaders: async (headers) => {
       const token = Cookies.get("authToken");
       console.log(token);
@@ -31,7 +31,7 @@ const customBaseQuery = async (
         errorData?.message ||
         result.error.status.toString() ||
         "An error occurred";
-      toast.error(`Error: ${errorMessage}`);
+      // toast.error(`Error: ${errorMessage}`);
     }
 
     const isMutationRequest =

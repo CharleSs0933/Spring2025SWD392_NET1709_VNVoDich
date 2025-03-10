@@ -33,6 +33,7 @@ const TutorCard = () => {
       const updatedTestimonials = tutor.map((item, index) => {
         
         return {
+          key: index,
           quote: item?.bio || "No bio available",
           name: item?.teaching_style || "Unknown",
           designation: item?.qualifications || "No qualifications available",

@@ -3,19 +3,12 @@ import Cookies from "js-cookie";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import logo from "@/asset/logo.jpg";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/useUser";
 import {
   BookOpen,
-  Calendar,
-  Clock,
-  LayoutDashboard,
-  LogOut,
-  Package,
-  Settings,
-  SubscriptIcon,
+
   User,
-  Users,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -58,35 +51,36 @@ const Header = () => {
   return (
     <div className="mx-16">
       <div className="absolute top-0 left-0 w-full py-3 bg-opacity-70 bg-black text-white z-10 flex justify-between items-center">
-        <button
-          onClick={() => router.push("/")}
+        <Link href='/' prefetch={true}
+          
           className="ml-16 cursor-pointer"
         >
           <Image src={logo} alt="logo" width={150} height={200} />
-        </button>
+        </Link>
         <div className="flex gap-8 items-center mr-16">
           {currentNavLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
+              prefetch={true}
               className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white font-semibold text-white-100 text-xl"
             >
               <span>{link.label}</span>
             </Link>
           ))}
-          <button
+          <Link href='/courses' prefetch={true}
             className="cursor-pointer font-semibold text-white-100 text-xl"
-            onClick={() => router.push("/courses")}
+            
           >
             Courses
-          </button>
+          </Link>
           {!token ? (
-            <button
+            <Link href='/login' prefetch={true}
               onClick={() => router.push("/login")}
               className="cursor-pointer font-semibold text-white-100 text-xl"
             >
               Login
-            </button>
+            </Link>
           ) : (
             <button
               className="cursor-pointer font-semibold text-white-100 text-xl"

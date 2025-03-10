@@ -7,6 +7,7 @@ import bg from "../../../../public/bg-login.jpg";
 import { useUser } from "@/hooks/useUser";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { useGetTutorSubMutation } from "@/state/apiAuth";
 // import {  useGetTutorSubMutation, useGoogleLoginMutation } from "@/state/apiAuth";
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -28,6 +29,8 @@ const Login = () => {
   const formRef = useRef(null);
   const buttonRef = useRef(null);
   const { login, signUp, handleGoogleLogin } = useUser();
+    const [tutorSub ] = useGetTutorSubMutation()
+
   const router = useRouter();
 
   useLayoutEffect(() => {
@@ -117,7 +120,17 @@ const Login = () => {
         password: loginData.passWord,
       });
 
-     
+   const userData = Cookies.get("user");
+   if(userData){
+     const parsedUser = JSON.parse(userData);
+    const res = await tutorSub({id : parsedUser.ID})
+    console.log(res);
+    if(res.data?.status){
+      Cookies.set("sub", res.data?.status, { path: "/", expires: 7 });
+    }else{
+      Cookies.remove('sub')
+    }
+   }
       router.push("/");
     }
   };

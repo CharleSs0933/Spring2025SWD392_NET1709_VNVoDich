@@ -19,7 +19,7 @@ const Package = () => {
   const handleOrderClick = async (plan_id: number , billing_cycle: string) => {
       console.log( plan_id , billing_cycle);
       if(userData && plan_id && billing_cycle){
-        const parsedUser = JSON.parse(userData);
+         const parsedUser = JSON.parse(userData);
         console.log(parsedUser.ID);
         const resCreate = await createPackage({tutor_id : parsedUser.ID , plan_id : plan_id , billing_cycle : billing_cycle})
         console.log(resCreate , "create");
@@ -30,6 +30,7 @@ const Package = () => {
        const resPayment = await tutorPayment({orderId : resGet?.data?.payment_order_id , amount: resGet?.data?.price , description : resGet?.data?.plan_name})
         console.log(resPayment, "ff");
         router.push(resPayment?.data?.redirectUrl)
+        
       }else{
         console.log("faild");
       }
@@ -45,7 +46,7 @@ const Package = () => {
       ) : (
         <div>
           <Packages orderButton={handleOrderClick} packages = {packages || []} />
-          <IntroPackages/>
+          {/* <IntroPackages/> */}
         </div>
       )}
     </div>
