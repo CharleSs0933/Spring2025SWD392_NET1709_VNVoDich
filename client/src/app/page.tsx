@@ -1,14 +1,13 @@
 "use client";
 
 import React from "react";
-import { TypewriterEffect } from "./component/ui/typewriter-effect";
-import { SparklesCore } from "./component/ui/SparklesPreview";
-import LazyLoad from "./component/LazzyLoad";
-import TutorProfessinal from "./component/HomePage/TutorProfessinal";
-import About from "./component/HomePage/About";
-import Introduce from "./component/HomePage/Introduce";
-import Header from "./component/Header";
-import Footer from "./component/Footer";
+import { TypewriterEffect } from "../components/nondashboard/ui/typewriter-effect";
+import { SparklesCore } from "../components/nondashboard/ui/SparklesPreview";
+import LazyLoad from "../components/nondashboard/LazzyLoad";
+import TutorProfessinal from "../components/nondashboard/HomePage/TutorProfessinal";
+import Introduce from "../components/nondashboard/HomePage/Introduce";
+import Header from "../components/nondashboard/Header";
+import Footer from "../components/nondashboard/Footer";
 export default function Home() {
   const words = [
     { text: "Grow" },

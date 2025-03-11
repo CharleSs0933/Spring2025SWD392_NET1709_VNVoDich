@@ -7,7 +7,6 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 const Navbar = () => {
   //   const { user } = useUser();
   //   const userRole = user?.publicMetadata?.userType as "student" | "teacher";
-  const userRole = "tutor";
 
   return (
     <nav className=" w-full mb-6 px-4 sm:px-8 pt-7 z-10">

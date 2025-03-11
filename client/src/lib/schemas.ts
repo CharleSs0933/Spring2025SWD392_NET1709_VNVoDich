@@ -1,4 +1,3 @@
-import { notFound } from "next/navigation";
 import * as z from "zod";
 
 // Course Editor Schemas

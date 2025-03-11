@@ -1,15 +1,10 @@
 "use client";
 
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import {
-  ParentFormData,
-  parentSchema,
-  TutorFormData,
-  tutorSchema,
-} from "@/lib/schemas";
+import { ParentFormData, parentSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User, UserCircle2, AtSign, Phone } from "lucide-react";
-import { JSX, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { CustomFormField } from "./CustomFormField";
 import { Form } from "./ui/form";

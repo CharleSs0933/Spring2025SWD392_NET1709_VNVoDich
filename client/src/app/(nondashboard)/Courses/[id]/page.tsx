@@ -7,7 +7,7 @@ import tutor from "../../../../asset/img/tutor3.jpg";
 import { useParams, useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ChevronDown, ChevronUp, Star } from "lucide-react";
-import Review from "@/app/component/Review";
+import Review from "@/components/nondashboard/Review";
 
 const CoursesDetail = () => {
   const { id } = useParams();
@@ -17,8 +17,6 @@ const CoursesDetail = () => {
     isError,
   } = useGetCourseQuery(id as string, { skip: !id });
   const router = useRouter();
-
-  console.log(course);
 
   const [expandedLesson, setExpandedLesson] = useState<string | null>(null);
 

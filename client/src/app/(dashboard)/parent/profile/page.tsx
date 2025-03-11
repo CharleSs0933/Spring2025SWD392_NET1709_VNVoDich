@@ -3,19 +3,12 @@
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import {
-  useGetChildrenQuery,
-  useGetParentByIdQuery,
-  useUpdateParentMutation,
-} from "@/state/api";
+import { useGetParentByIdQuery, useUpdateParentMutation } from "@/state/api";
 import Loading from "@/components/Loading";
 import { Children } from "@/types";
 import Cookies from "js-cookie";
 import UserDetailCard from "@/components/UserDetailCard";
 import Header from "@/components/Header";
-import { createParentFormData } from "@/lib/utils";
-import { ParentFormData } from "@/lib/schemas";
-import { AtSign, Phone, User, UserCircle2 } from "lucide-react";
 
 const Profile = () => {
   const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")!) : null;

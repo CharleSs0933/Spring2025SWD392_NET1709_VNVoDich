@@ -1,6 +1,5 @@
 "use client";
-import IntroPackages from "@/app/component/IntroPackages";
-import Packages from "@/app/component/Packages";
+import Packages from "@/components/nondashboard/Packages";
 import {
   useCreatePackageTutorMutation,
   useCreatePayMentMutation,

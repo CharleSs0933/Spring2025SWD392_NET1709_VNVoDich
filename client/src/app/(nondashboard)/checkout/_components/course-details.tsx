@@ -1,5 +1,5 @@
 import { Calendar, Clock } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Course } from "@/types";
 import { useAppSelector } from "@/state/redux";
 import { format } from "date-fns";

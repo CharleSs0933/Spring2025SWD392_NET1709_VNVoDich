@@ -2,23 +2,18 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { useCarousel } from "@/hooks/useCarousel";
 import CourseCardSearch from "@/components/CourseCardSearch";
 import { useRouter } from "next/navigation";
 import LoadingSkeleton from "./LoadingSkeletion";
-import { useDispatch } from "react-redux";
 import { courseSubjects } from "@/lib/utils";
 import { useGetCoursesQuery } from "@/state/api";
 
 const Landing = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
-  const currentImage = useCarousel({ totalImages: 3 });
-  const {
-    data: courses,
-    isLoading,
-    isError,
-  } = useGetCoursesQuery({ pageSize: 10, page: 1 });
+  const { data: courses, isLoading } = useGetCoursesQuery({
+    pageSize: 10,
+    page: 1,
+  });
 
   const handleCourseClick = (courseId: number) => {
     router.push(`search?id=${courseId}`, { scroll: false });

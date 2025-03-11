@@ -1,8 +1,8 @@
 "use client";
 import { usePathname } from "next/navigation";
 // import ChaptersSidebar from "./user/courses/[courseId]/ChaptersSidebar";
-import Header from "../component/Header";
-import Footer from "../component/Footer";
+import Header from "../../components/nondashboard/Header";
+import Footer from "../../components/nondashboard/Footer";
 
 export default function NonDashboardLayout({
   children,

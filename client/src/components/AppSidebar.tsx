@@ -19,13 +19,10 @@ import {
   Package,
   PanelLeft,
   ReceiptText,
-  Settings,
   SubscriptIcon,
   User,
   Users,
 } from "lucide-react";
-import Loading from "./Loading";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useUser } from "@/hooks/useUser";

@@ -1,5 +1,3 @@
-import { useGetSessionQuery } from "@/state/api";
-import Loading from "./Loading";
 import { parseISO, addHours } from "date-fns";
 import BigCalendar from "./BigCalendar";
 import { TeachingSession } from "@/types";

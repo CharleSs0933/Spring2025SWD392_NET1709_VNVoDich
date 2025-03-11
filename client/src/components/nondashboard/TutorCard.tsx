@@ -1,5 +1,4 @@
 import { useGetTutorsQuery } from "../../state/api";
-import { useRouter } from "next/navigation";
 import React, { useState, useEffect, useMemo } from "react";
 import LoadingSkeleton from "./LoadingSkeletion";
 import { AnimatedTestimonials } from "./ui/animated-testimonials";

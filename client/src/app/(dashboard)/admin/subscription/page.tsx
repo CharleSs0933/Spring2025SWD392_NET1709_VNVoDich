@@ -1,6 +1,6 @@
 "use client";
-import CustomInput from "@/app/component/CustomInput";
-import CustomTable from "@/app/component/CustomTable";
+import CustomInput from "@/components/nondashboard/CustomInput";
+import CustomTable from "@/components/nondashboard/CustomTable";
 import { useGetSubscriptionQuery } from "@/state/apiAuth";
 import { Subscription } from "@/types";
 import React, { useEffect, useState } from "react";
