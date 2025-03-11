@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 import { getAuth } from "./services/get-token";
 
 export async function middleware(request: NextRequest) {
-  const { user, isLogged } = await getAuth();
+  const { user, isLogged, isSub } = await getAuth();
   const { pathname } = request.nextUrl;
 
   if (pathname.startsWith("/parent/")) {
@@ -14,11 +14,14 @@ export async function middleware(request: NextRequest) {
   }
 
   if (pathname.startsWith("/tutor/")) {
-    if (user.role !== "Tutor" || !isLogged) {
-      const url = new URL("/", request.url);
-      return NextResponse.redirect(url);
+    if (!isLogged || user?.role !== "Tutor") {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+    if (!isSub) {
+      return NextResponse.redirect(new URL("/package", request.url));
     }
   }
+  
 
   if (pathname.startsWith("/checkout")) {
     if (!isLogged) {

@@ -100,6 +100,8 @@ export const useUser = () => {
 
   // Hàm đăng xuất
   const logout = () => {
+    router.prefetch("/login")
+    router.push("/login")
     Cookies.remove("authToken");
     Cookies.remove("user");
     setUser(null);

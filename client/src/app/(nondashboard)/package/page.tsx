@@ -55,7 +55,7 @@ const Package = () => {
       ) : (
         <div>
           <Packages orderButton={handleOrderClick} packages={packages || []} />
-          <IntroPackages />
+          {/* <IntroPackages/> */}
         </div>
       )}
     </div>
