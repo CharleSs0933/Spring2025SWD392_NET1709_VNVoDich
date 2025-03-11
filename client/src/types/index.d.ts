@@ -279,3 +279,14 @@ export interface Subscription {
   status: string;
   tutor_id: number;
 }
+
+export interface CourseSubcription {
+  id: number;
+  status: string;
+  sessions_remaining: number;
+  course_id: number;
+  chidlren_id: number;
+
+  course?: Course;
+  children?: Children;
+}

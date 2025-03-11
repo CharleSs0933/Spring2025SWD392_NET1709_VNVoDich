@@ -18,6 +18,7 @@ import {
   LogOut,
   Package,
   PanelLeft,
+  ReceiptText,
   Settings,
   SubscriptIcon,
   User,
@@ -38,7 +39,11 @@ const AppSidebar = () => {
     Parent: [
       { icon: BookOpen, label: "Children", href: "/parent/children" },
       { icon: User, label: "Profile", href: "/parent/profile" },
-      { icon: Settings, label: "Settings", href: "/parent/settings" },
+      {
+        icon: ReceiptText,
+        label: "Subcriptions",
+        href: "/parent/subcriptions",
+      },
     ],
     Tutor: [
       { icon: Calendar, label: "Schedule", href: "/tutor/schedule" },
@@ -51,7 +56,11 @@ const AppSidebar = () => {
       { icon: BookOpen, label: "Courses", href: "/admin/courses" },
       { icon: User, label: "Profile", href: "/admin/users" },
       { icon: Package, label: "Package", href: "/admin/package" },
-      { icon: SubscriptIcon, label: "Subscription", href: "/admin/subscription" },
+      {
+        icon: SubscriptIcon,
+        label: "Subscription",
+        href: "/admin/subscription",
+      },
     ],
   };
 
@@ -59,10 +68,13 @@ const AppSidebar = () => {
   //   if (!user) return <div>User not found</div>;
 
   const userType: "Tutor" | "Parent" | "Admin" =
-  user?.role === "Tutor" ? "Tutor" : user?.role === "Parent" ? "Parent" : "Admin";
+    user?.role === "Tutor"
+      ? "Tutor"
+      : user?.role === "Parent"
+      ? "Parent"
+      : "Admin";
 
-const currentNavLinks = navLinks[userType];
-
+  const currentNavLinks = navLinks[userType];
 
   return (
     <Sidebar

@@ -107,7 +107,7 @@ export const SessionDetailDialog = ({
             </div>
           </div>
         </div>
-        <SessionFeedbackForm session={session} />
+        <SessionFeedbackForm session={session} refetch={refetch} />
       </div>
     </DialogContent>
   );

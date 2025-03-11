@@ -3,12 +3,19 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { FeedbackFormData, feedbackSchema } from "@/lib/schemas";
 import { sessionStatus, teachingQualities } from "@/lib/utils";
+import { useUpdateSessionMutation } from "@/state/api";
 import { TeachingSession } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-const SessionFeedbackForm = ({ session }: { session: TeachingSession }) => {
+const SessionFeedbackForm = ({
+  session,
+  refetch,
+}: {
+  session: TeachingSession;
+  refetch: () => void;
+}) => {
   const methods = useForm<FeedbackFormData>({
     resolver: zodResolver(feedbackSchema),
     defaultValues: {
@@ -19,6 +26,8 @@ const SessionFeedbackForm = ({ session }: { session: TeachingSession }) => {
       status: "NotYet",
     },
   });
+
+  const [updateSession] = useUpdateSessionMutation();
 
   useEffect(() => {
     if (session) {
@@ -35,6 +44,17 @@ const SessionFeedbackForm = ({ session }: { session: TeachingSession }) => {
   const onSubmit = async (data: FeedbackFormData) => {
     try {
       console.log(data);
+
+      await updateSession({
+        id: session.id,
+        rating: data.rating,
+        comment: data.comment,
+        homework_assigned: data.homeworkAssigned,
+        teaching_quality: data.teachingQuality,
+        status: data.status,
+      }).unwrap();
+
+      refetch();
     } catch (error) {
       console.error("Failed to update session feedback: ", error);
     }
@@ -60,6 +80,7 @@ const SessionFeedbackForm = ({ session }: { session: TeachingSession }) => {
                 label="Teaching Quality"
                 type="select"
                 options={teachingQualities}
+                initialValue={session.teaching_quality}
                 className="border-none"
               />
               <CustomFormField
@@ -81,6 +102,7 @@ const SessionFeedbackForm = ({ session }: { session: TeachingSession }) => {
                 label="Status"
                 type="select"
                 options={sessionStatus}
+                initialValue={session.status}
                 className="border-none w-full"
               />
             </div>

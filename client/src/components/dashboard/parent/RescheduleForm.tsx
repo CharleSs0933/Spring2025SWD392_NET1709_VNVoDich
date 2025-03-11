@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useRescheduleSessionMutation } from "@/state/api";
+import { useUpdateSessionMutation } from "@/state/api";
 import { addHours, format, parse } from "date-fns";
 import React, { useState } from "react";
 import { DayPicker } from "react-day-picker";
@@ -26,7 +26,7 @@ const RescheduleForm = ({
       )?.slots || []
     : [];
 
-  const [rescheduleSession] = useRescheduleSessionMutation();
+  const [rescheduleSession] = useUpdateSessionMutation();
 
   const handleReschedule = async () => {
     if (!selectedDate || !selectedTime) return;

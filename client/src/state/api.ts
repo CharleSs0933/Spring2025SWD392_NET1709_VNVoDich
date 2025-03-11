@@ -2,6 +2,7 @@ import {
   Availability,
   Children,
   Course,
+  CourseSubcription,
   Parent,
   TeachingSession,
   Tutor,
@@ -345,14 +346,40 @@ export const api = createApi({
       }),
       providesTags: ["TeachingSessions"],
     }),
-    rescheduleSession: build.mutation<
+    updateSession: build.mutation<
       TeachingSession,
-      { startTime: string; endTime: string; id: number }
+      {
+        startTime?: string;
+        endTime?: string;
+        comment?: string;
+        rating?: number;
+        teaching_quality?: string;
+        status?: string;
+        homework_assigned?: string;
+        id: number;
+      }
     >({
-      query: ({ startTime, endTime, id }) => ({
-        url: `/teaching-sessions/reschedule/${id}`,
+      query: ({
+        startTime,
+        endTime,
+        comment,
+        rating,
+        teaching_quality,
+        status,
+        homework_assigned,
+        id,
+      }) => ({
+        url: `/teaching-sessions/${id}`,
         method: "PUT",
-        body: { startTime, endTime },
+        body: {
+          startTime,
+          endTime,
+          comment,
+          rating,
+          teaching_quality,
+          status,
+          homework_assigned,
+        },
       }),
       invalidatesTags: ["TeachingSessions"],
     }),
@@ -380,6 +407,12 @@ export const api = createApi({
         body,
       }),
     }),
+    getParentBookings: build.query<CourseSubcription[], any>({
+      query: () => ({
+        url: `/bookings/parent`,
+      }),
+    }),
+
     getAllParents: build.query<Parent[], void>({
       query: () => ({
         url: "/parent",
@@ -427,9 +460,10 @@ export const {
   useUpdateAvailabilityMutation,
   useGetCourseAvailabilityQuery,
   useGetSessionQuery,
-  useRescheduleSessionMutation,
+  useUpdateSessionMutation,
   useCreateStripePaymentIntentMutation,
   useCreateTrialBookingMutation,
+  useGetParentBookingsQuery,
   useGetAllParentsQuery,
   useGetParentByIdQuery,
   useUpdateParentMutation,

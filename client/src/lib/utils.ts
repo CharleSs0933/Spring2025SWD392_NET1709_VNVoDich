@@ -3,6 +3,7 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { TutorFormData } from "./schemas";
 import { ParentFormData } from "./schemas";
+import { Check, LucideIcon, Trophy, X } from "lucide-react";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -162,4 +163,35 @@ export const calculateAge = (dateOfBirth: string) => {
     age--;
   }
   return age;
+};
+
+export const getStatusStyles = (
+  status: string
+): { className: string; icon: LucideIcon } => {
+  switch (status.toLowerCase()) {
+    case "active":
+      return {
+        className:
+          "bg-green-500 text-white-50 px-1 py-1 rounded-full text-sm font-medium flex items-center justify-center gap-1",
+        icon: Check,
+      };
+    case "completed":
+      return {
+        className:
+          "bg-blue-500 text-white-50 px-1 py-1 rounded-full text-sm font-medium flex items-center justify-center gap-1",
+        icon: Trophy,
+      };
+    case "canceled":
+      return {
+        className:
+          "bg-red-500 text-white-50 px-1 py-1 rounded-full text-sm font-medium flex items-center justify-center gap-1",
+        icon: X,
+      };
+    default:
+      return {
+        className:
+          "bg-gray-500 text-white-50 px-1 py-1 rounded-full text-sm font-medium flex justify-center items-center gap-1",
+        icon: Check,
+      };
+  }
 };
