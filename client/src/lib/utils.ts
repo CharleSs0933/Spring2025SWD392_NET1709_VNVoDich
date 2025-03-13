@@ -172,25 +172,37 @@ export const getStatusStyles = (
     case "active":
       return {
         className:
-          "bg-green-500 text-white-50 px-1 py-1 rounded-full text-sm font-medium flex items-center justify-center gap-1",
+          "bg-green-500 text-white-50 px-2 py-1 rounded-full text-sm font-medium flex items-center justify-center gap-1",
         icon: Check,
       };
     case "completed":
       return {
         className:
-          "bg-blue-500 text-white-50 px-1 py-1 rounded-full text-sm font-medium flex items-center justify-center gap-1",
+          "bg-blue-500 text-white-50 px-2 py-1 rounded-full text-sm font-medium flex items-center justify-center gap-1",
         icon: Trophy,
       };
-    case "canceled":
+    case "rejected":
       return {
         className:
-          "bg-red-500 text-white-50 px-1 py-1 rounded-full text-sm font-medium flex items-center justify-center gap-1",
+          "bg-red-600 text-white-50 px-2 py-1 rounded-full text-sm font-medium flex items-center justify-center gap-1",
         icon: X,
+      };
+    case "approved":
+      return {
+        className:
+          "bg-blue-600 text-white-50 px-2 py-1 rounded-full text-sm font-medium flex items-center justify-center gap-1",
+        icon: Check,
+      };
+    case "pending":
+      return {
+        className:
+          "bg-yellow-500 text-black px-2 py-1 rounded-full text-sm font-medium flex items-center justify-center gap-1",
+        icon: Trophy,
       };
     default:
       return {
         className:
-          "bg-gray-500 text-white-50 px-1 py-1 rounded-full text-sm font-medium flex justify-center items-center gap-1",
+          "bg-gray-500 text-white-50 px-2 py-1 rounded-full text-sm font-medium flex justify-center items-center gap-1",
         icon: Check,
       };
   }

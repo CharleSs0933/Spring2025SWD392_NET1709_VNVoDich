@@ -1,3 +1,4 @@
+import { X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 interface FieldConfig {
@@ -11,6 +12,7 @@ interface CustomInputProps {
   title: string;
   typeSubmit: string;
   onSubmit: (data: Record<string, string | boolean>) => void;
+  onClose?: () => void;
   defaultValues?: Partial<Record<string, string | boolean>>;
 }
 
@@ -19,6 +21,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
   title, 
   typeSubmit, 
   onSubmit, 
+  onClose,
   defaultValues = {} 
 }) => {
   const [formData, setFormData] = useState<Record<string, string | boolean>>({});
@@ -42,10 +45,17 @@ const CustomInput: React.FC<CustomInputProps> = ({
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white shadow-lg rounded-2xl p-6">
-      <h2 className="text-xl font-semibold text-gray-700 text-center mb-4">
+    <div className="max-w-md mx-auto bg-white shadow-lg rounded-2xl p-6 ">
+      <div className="flex justify-center items-center gap-5 mb-4">
+      <h2 className="text-xl font-semibold text-gray-700 text-center ">
        {title}
       </h2>
+      {onClose && (
+      <button onClick={onClose} >
+        <X/>
+      </button>
+      )}
+      </div>
 
       <div className="space-y-4">
         {fields.map(({ name, type, options }) => (

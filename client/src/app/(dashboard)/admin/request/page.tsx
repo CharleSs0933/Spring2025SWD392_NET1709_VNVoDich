@@ -13,7 +13,7 @@ const RequestManagement = () => {
   const [isUpdate, setIsUpdate] = useState(false);
   const [isCreate, setIsCreate] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState<{
-    ID: number;
+    id: number;
     user_id: number;
     username: string;
     email: string;
@@ -50,13 +50,13 @@ const RequestManagement = () => {
   useEffect(() => {
     if (Requests) {
       const transformedRequest = (
-        Requests.recent_refunds as RefundRequest[]
+        (Requests as any).recent_refunds as RefundRequest[]
       ).map((req) => ({
         id: req.ID || 0,
         user_id: req.user_id,
         username: req.username || "unknown",
         email: req.email || "unknown",
-        card_number: req.card_number || "unknown",
+        card_number: String(req.card_number) || "unknown",
         reason: req.reason || "unknown",
         admin_note: req.admin_note || "unknown",
         status: req.status || "unknown",
@@ -67,47 +67,28 @@ const RequestManagement = () => {
     }
   }, [Requests]);
 
-  const handleDelete = async (id: number) => {
-    try {
-      setrequestList((prev) => prev.filter((req) => req.id !== id));
-      //   await deleteRequest({ id }).unwrap();
-    } catch (error) {
-      console.error("Failed to delete Request:", error);
-    }
-  };
-
   const handleUpdate = (id: number) => {
     const RequestToUpdate = requestList.find((req) => req.id === id);
     if (RequestToUpdate) {
       setSelectedRequest(RequestToUpdate);
-      
+
       setIsUpdate(true);
     }
   };
 
   const handleSubmit = async (data: Record<string, string | boolean>) => {
     try {
-        
-        if (isUpdate) {
+      if (isUpdate) {
         await updateStatusRequest({
           id: Number(selectedRequest?.id),
           status: String(data.status),
-          admin_note : String(data.admin_note)
+          admin_note: String(data.admin_note),
         }).unwrap();
 
         setIsUpdate(false);
         setSelectedRequest(null);
       } else {
-        // await createRequest({
-        //   name: String(data.name),
-        //   price_monthly: Number(data.price_monthly),
-        //   price_annually: Number(data.price_annually),
-        //   max_courses: Number(data.max_courses),
-        //   is_active: Boolean(data.is_active),
-        //   description: String(data.description),
-        // }).unwrap();
         console.log(data);
-
         setIsCreate(false);
       }
       refetch();
@@ -137,7 +118,7 @@ const RequestManagement = () => {
                 {
                   name: "status",
                   type: "select",
-                  options: ["approved", "rejected", "pending"],
+                  options: ["APPROVED", "REJECTED", "PENDING"],
                 },
                 { name: "admin_note", type: "text" },
               ]}
@@ -151,7 +132,7 @@ const RequestManagement = () => {
               defaultValues={
                 isUpdate
                   ? {
-                      status: 'pending',
+                      status: "pending",
                       admin_note: selectedRequest?.admin_note,
                     }
                   : {}

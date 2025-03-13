@@ -245,6 +245,12 @@ export const apiAuth = createApi({
       }),
       transformResponse: (response: { data: RefundRequest }) => response.data,
     }),
+    getRequestRefundOfParent: build.query< RefundRequest | null , {}>({
+      query: ({}) => ({
+        url: `/api/p-refunds`,
+      }),
+      transformResponse: (response: { data: RefundRequest }) => response.data,
+    }),
 
     getRefundStatistics: build.query<RefundRequest[] | null, {}>({
       query: () => ({
@@ -283,5 +289,6 @@ export const {
   useGetRefundStatisticsQuery,
   useGetRequestRefundByIDQuery,
   useUpdateStatusRefundRequestMutation,
+  useGetRequestRefundOfParentQuery
 
 } = apiAuth;

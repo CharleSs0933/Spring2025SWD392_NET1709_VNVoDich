@@ -278,6 +278,10 @@ export interface Subscription {
   price: number;
   status: string;
   tutor_id: number;
+  course: {
+    price: number
+    total_lessons: number
+  }
 }
 
 export interface CourseSubcription {
@@ -302,4 +306,5 @@ export interface RefundRequest  {
   status: string,
   user_id: number,
   username: string
+  recent_refunds : any
 }
