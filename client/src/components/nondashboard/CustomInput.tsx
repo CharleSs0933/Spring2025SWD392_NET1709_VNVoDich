@@ -22,7 +22,6 @@ const CustomInput: React.FC<CustomInputProps> = ({
   defaultValues = {} 
 }) => {
   const [formData, setFormData] = useState<Record<string, string | boolean>>({});
-  console.log(fields);
   
   useEffect(() => {
     setFormData((prev) => {

@@ -11,6 +11,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import {
+  Bell,
   BookOpen,
   Calendar,
   Clock,
@@ -58,6 +59,8 @@ const AppSidebar = () => {
         label: "Subscription",
         href: "/admin/subscription",
       },
+      { icon: Bell, label: "Request", href: "/admin/request" },
+
     ],
   };
 

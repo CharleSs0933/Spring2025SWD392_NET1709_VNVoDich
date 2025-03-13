@@ -18,6 +18,7 @@ import {
 import { useUser } from "@/hooks/useUser";
 import { getStatusStyles } from "@/lib/utils";
 import { useGetParentBookingsQuery } from "@/state/api";
+import { useCreateRequestRefundMutation } from "@/state/apiAuth";
 import { EllipsisVerticalIcon } from "lucide-react";
 import React from "react";
 
@@ -30,13 +31,21 @@ const SubcriptionListPage = () => {
     isLoading,
     isError,
   } = useGetParentBookingsQuery({});
-
+ const [ createRefundRequest] = useCreateRequestRefundMutation()
   console.log(subcriptions);
 
   if (loading) return <Loading />;
   if (!isLogged) return <div>Please sign in to access this page.</div>;
   if (isError) return <div>Failed to fetch course data</div>;
-
+  const handleCanncel = async() => {
+    await createRefundRequest({
+      order_id : 'ORD-Test',
+      amount: 199.8,
+      card_number : "4111111111114321",
+      reason : "Course was not what I expected. The description mentioned advanced topics that were not covered."
+    })
+    
+  }
   return (
     <div className="space-y-8">
       <div className="space-y-6 bg-customgreys-secondarybg">
@@ -108,7 +117,7 @@ const SubcriptionListPage = () => {
                             <EllipsisVerticalIcon size={16} />
                           </DropdownMenuTrigger>
                           <DropdownMenuContent className="bg-customgreys-primarybg">
-                            <DropdownMenuItem>
+                            <DropdownMenuItem onClick={handleCanncel}>
                               Cancel Subscription
                             </DropdownMenuItem>
                           </DropdownMenuContent>

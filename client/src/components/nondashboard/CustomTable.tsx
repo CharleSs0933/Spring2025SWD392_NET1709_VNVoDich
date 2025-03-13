@@ -4,22 +4,29 @@ import React, { useState } from "react";
 interface TableProps<T> {
   data: T[];
   columns: { key: keyof T; label: string }[];
-  onDelete: (id: number) => void;
-  onUpdate: (id: number) => void;
-  onCreate: () => void;
-  ITEMS_PER_PAGE : number
+  onDelete?: (id: number) => void;
+  onUpdate?: (id: number) => void;
+  onCreate?: () => void;
+  ITEMS_PER_PAGE: number;
 }
 
-
-
-const CustomTable = <T extends { id: number }>({ data, columns, ITEMS_PER_PAGE, onDelete, onUpdate, onCreate }: TableProps<T>) => {
+const CustomTable = <T extends { id: number }>({
+  data,
+  columns,
+  ITEMS_PER_PAGE,
+  onDelete,
+  onUpdate,
+  onCreate,
+}: TableProps<T>) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortColumn, setSortColumn] = useState<keyof T | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [currentPage, setCurrentPage] = useState(1);
 
   const filteredData = data.filter((row) =>
-    columns.some((col) => String(row[col.key]).toLowerCase().includes(searchTerm.toLowerCase()))
+    columns.some((col) =>
+      String(row[col.key]).toLowerCase().includes(searchTerm.toLowerCase())
+    )
   );
 
   const sortedData = [...filteredData].sort((a, b) => {
@@ -33,7 +40,10 @@ const CustomTable = <T extends { id: number }>({ data, columns, ITEMS_PER_PAGE, 
 
   // Pagination
   const totalPages = Math.ceil(sortedData.length / ITEMS_PER_PAGE);
-  const paginatedData = sortedData.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+  const paginatedData = sortedData.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
 
   const handleSort = (colKey: keyof T) => {
     if (sortColumn === colKey) {
@@ -68,7 +78,12 @@ const CustomTable = <T extends { id: number }>({ data, columns, ITEMS_PER_PAGE, 
                   className="px-4 py-2 text-left border cursor-pointer"
                   onClick={() => handleSort(col.key)}
                 >
-                  {col.label} {sortColumn === col.key ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+                  {col.label}{" "}
+                  {sortColumn === col.key
+                    ? sortOrder === "asc"
+                      ? "▲"
+                      : "▼"
+                    : ""}
                 </th>
               ))}
               <th className="px-4 py-2 text-left border">Actions</th>
@@ -79,29 +94,39 @@ const CustomTable = <T extends { id: number }>({ data, columns, ITEMS_PER_PAGE, 
               paginatedData.map((row, rowIndex) => (
                 <tr key={rowIndex} className="border">
                   {columns.map((col) => (
-                    <td key={String(col.key)} className="px-4 py-2 border text-black">
+                    <td
+                      key={String(col.key)}
+                      className="px-4 py-2 border text-black"
+                    >
                       {String(row[col.key])}
                     </td>
                   ))}
                   <td className="px-4 py-2 border text-center">
-                    <button
-                      onClick={() => onUpdate(row.id)}
-                      className="mr-2 px-2 py-1 bg-blue-500 text-white rounded"
-                    >
-                      Update
-                    </button>
-                    <button
-                      onClick={() => onDelete(row.id)}
-                      className="px-2 py-1 bg-red-500 text-white rounded"
-                    >
-                      Delete
-                    </button>
+                    {onUpdate && (
+                      <button
+                        onClick={() => onUpdate(row.id)}
+                        className="mr-2 px-2 py-1 bg-blue-500 text-white rounded"
+                      >
+                        Update
+                      </button>
+                    )}
+                    {onDelete && (
+                      <button
+                        onClick={() => onDelete(row.id)}
+                        className="px-2 py-1 bg-red-500 text-white rounded"
+                      >
+                        Delete
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={columns.length + 1} className="px-4 py-2 text-center">
+                <td
+                  colSpan={columns.length + 1}
+                  className="px-4 py-2 text-center"
+                >
                   No results found
                 </td>
               </tr>
@@ -123,7 +148,9 @@ const CustomTable = <T extends { id: number }>({ data, columns, ITEMS_PER_PAGE, 
           Page {currentPage} of {totalPages}
         </span>
         <button
-          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          onClick={() =>
+            setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+          }
           disabled={currentPage === totalPages}
           className="px-3 py-1 bg-gray-300 text-black rounded disabled:opacity-50"
         >

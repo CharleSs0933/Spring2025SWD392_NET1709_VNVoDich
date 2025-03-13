@@ -1,4 +1,4 @@
-import { Package, Subscription, Users } from "@/types";
+import { Package, RefundRequest, Subscription, Users } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query";
 import { toast } from "sonner";
@@ -10,7 +10,7 @@ const customBaseQuery = async (
   extraOptions: any
 ) => {
   const baseQuery = fetchBaseQuery({
-    baseUrl: "http://localhost:8080",
+    baseUrl: "https://desktop-7aud0c8.tail682e6a.ts.net/",
     prepareHeaders: async (headers) => {
       const token = Cookies.get("authToken");
 
@@ -231,6 +231,35 @@ export const apiAuth = createApi({
         method: "DELETE",
       }),
     }),
+
+    createRequestRefund: build.mutation< any | null , {order_id : string , amount: number , card_number: string ,reason : string}>({
+      query: ( body ) => ({
+        url: `/api/refunds`,
+        method: "POST",
+        body: body
+      }),
+    }),
+    getRequestRefundByID: build.query< RefundRequest | null , {id : number}>({
+      query: (id) => ({
+        url: `/api/refunds/${id}`,
+      }),
+      transformResponse: (response: { data: RefundRequest }) => response.data,
+    }),
+
+    getRefundStatistics: build.query<RefundRequest[] | null, {}>({
+      query: () => ({
+        url: `/api/admin/refunds/statistics`,
+      }),
+      transformResponse: (response: { data: RefundRequest[] }) => response.data,
+    }),
+
+    updateStatusRefundRequest : build.mutation< any | null , {id: number , status : string , admin_note: string}>({
+      query: ({ id, ...body} ) => ({
+        url: `/api/admin/refunds/${id}/process`,
+        method: "PUT",
+        body : body
+      }),
+    }),
   }),
 });
 
@@ -250,4 +279,9 @@ export const {
   useUpdatePackageMutation,
   useDeletePackageMutation,
   useCreatePayMentMutation,
+  useCreateRequestRefundMutation,
+  useGetRefundStatisticsQuery,
+  useGetRequestRefundByIDQuery,
+  useUpdateStatusRefundRequestMutation,
+
 } = apiAuth;

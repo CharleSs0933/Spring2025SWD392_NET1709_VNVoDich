@@ -290,3 +290,16 @@ export interface CourseSubcription {
   course?: Course;
   children?: Children;
 }
+
+export interface RefundRequest  {
+  ID: number,
+  admin_note?:string,
+  amount:number,
+  card_number: number,
+  email: string,
+  order_id: string,
+  reason: string,
+  status: string,
+  user_id: number,
+  username: string
+}
