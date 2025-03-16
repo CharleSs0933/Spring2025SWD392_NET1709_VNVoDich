@@ -279,9 +279,9 @@ export interface Subscription {
   status: string;
   tutor_id: number;
   course: {
-    price: number
-    total_lessons: number
-  }
+    price: number;
+    total_lessons: number;
+  };
 }
 
 export interface CourseSubcription {
@@ -295,16 +295,22 @@ export interface CourseSubcription {
   children?: Children;
 }
 
-export interface RefundRequest  {
-  ID: number,
-  admin_note?:string,
-  amount:number,
-  card_number: number,
-  email: string,
-  order_id: string,
-  reason: string,
-  status: string,
-  user_id: number,
-  username: string
-  recent_refunds : any
+export interface RefundRequest {
+  ID: number;
+  admin_note?: string;
+  amount: number;
+  card_number: number;
+  email: string;
+  order_id: string;
+  reason: string;
+  status: string;
+  user_id: number;
+  username: string;
+  recent_refunds: any;
+}
+export interface FieldConfig {
+  name: string;
+  label: string;
+  icon: JSX.Element;
+  disabled?: boolean;
 }

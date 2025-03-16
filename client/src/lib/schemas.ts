@@ -87,7 +87,7 @@ export const parentSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters"),
   full_name: z.string().min(5, "Full Name must be at least 5 characters"),
   email: z.string().email("Invalid email"),
-  phone: z.string().regex(/^\d{10,11}$/, "Invalid Phone"),
+  phone: z.string().min(10, "Phone number must have 10 digits"),
 });
 
 export type ParentFormData = z.infer<typeof parentSchema>;

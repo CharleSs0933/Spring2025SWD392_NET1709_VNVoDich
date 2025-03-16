@@ -4,22 +4,23 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { ParentFormData, parentSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User, UserCircle2, AtSign, Phone } from "lucide-react";
-import { useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { CustomFormField } from "./CustomFormField";
 import { Form } from "./ui/form";
 import { Button } from "./ui/button";
-// import { useUpdateParentMutation, useUpdateTutorMutation } from "@/state/api";
-// import { FieldConfig } from "@/types";
 
 interface UserDetailCardProps {
+  submit: () => void;
   infoData: ParentFormData;
-  role: "Parent" | "Tutor";
+  setFormData: (data: ParentFormData) => void;
 }
 
-const UserDetailCard = ({ infoData, role }: UserDetailCardProps) => {
-  const [isEditing, setIsEditing] = useState<string | null>(null);
-
+const UserDetailCard = ({
+  infoData,
+  submit,
+  setFormData,
+}: UserDetailCardProps) => {
   const methods = useForm<ParentFormData>({
     resolver: zodResolver(parentSchema),
     defaultValues: {
@@ -30,12 +31,12 @@ const UserDetailCard = ({ infoData, role }: UserDetailCardProps) => {
     },
   });
 
-  const {
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = methods;
+  const { handleSubmit, watch } = methods;
   const currentValues = watch();
+
+  useEffect(() => {
+    setFormData(currentValues);
+  }, [currentValues, setFormData]);
 
   const hasChanges = Object.keys(currentValues).some(
     (key) =>
@@ -44,8 +45,7 @@ const UserDetailCard = ({ infoData, role }: UserDetailCardProps) => {
   );
 
   const onSubmit = (data: ParentFormData) => {
-    console.log("Updated Data:", data);
-    setIsEditing(null);
+    submit();
   };
 
   return (
@@ -95,7 +95,6 @@ const UserDetailCard = ({ infoData, role }: UserDetailCardProps) => {
               className="fieldProfile"
               initialValue={infoData.phone}
             />
-
             {hasChanges && (
               <div className="flex justify-end mt-4">
                 <Button type="submit" variant="default">

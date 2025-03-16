@@ -9,22 +9,56 @@ import { Children } from "@/types";
 import Cookies from "js-cookie";
 import UserDetailCard from "@/components/UserDetailCard";
 import Header from "@/components/Header";
+import { createParentFormData } from "@/lib/utils";
+import { ParentFormData } from "@/lib/schemas";
+import { AtSign, Phone, User, UserCircle2 } from "lucide-react";
+import { useState } from "react";
+import { useUser } from "@/hooks/useUser";
 
 const Profile = () => {
-  const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")!) : null;
-  const userId = user.ID;
-  const userRole = user.role;
+  const { user } = useUser();
   const {
     data: parent,
     isLoading,
     isError,
     refetch,
-  } = useGetParentByIdQuery({ userId });
+  } = useGetParentByIdQuery({ userId: Number(user?.ID) });
   const [updateParent] = useUpdateParentMutation();
   const router = useRouter();
 
+  const [formData, setFormData] = useState<ParentFormData>({
+    username: parent?.profile.username || "",
+    full_name: parent?.profile.full_name || "",
+    email: parent?.profile.email || "",
+    phone: parent?.profile.phone || "",
+  });
+
   const handleViewChildSchedule = (child: Children) => {
     router.push(`/parent/children/${child.id}`);
+  };
+
+  const handleUpdate = async () => {
+    const parentId = parent?.id;
+    if (!parentId) {
+      console.error("Parent ID is not available");
+      return;
+    }
+
+    const updatedFormData = new FormData();
+    updatedFormData.append("full_name", formData.full_name);
+    updatedFormData.append("phone", formData.phone);
+    console.log(updatedFormData, "updatedFormData");
+
+    try {
+      const result = await updateParent({
+        parentId,
+        formData: updatedFormData,
+      }).unwrap();
+      console.log("Parent profile updated successfully:", result);
+      refetch();
+    } catch (error) {
+      console.error("Error updating parent profile:", error);
+    }
   };
 
   if (isLoading) return <Loading />;
@@ -40,7 +74,7 @@ const Profile = () => {
             <CardContent className="p-0 relative flex flex-1">
               <div className="rounded-xl w-11/12 p-4 bg-white/30 backdrop-blur-3xl shadow-md absolute -top-14 left-1/2 -translate-x-1/2 flex justify-start items-center gap-6">
                 <div className="w-24 h-24 aspect-square rounded-xl flex items-center justify-center text-6xl font-bold uppercase text-white bg-gradient-to-r from-blue-500 to-indigo-600 shadow-md">
-                  {parent?.profile?.username.charAt(0)}
+                  {parent?.profile?.full_name.charAt(0)}
                 </div>
                 <div className="flex flex-col justify-between items-start gap-3">
                   <h2 className="text-3xl font-bold text-primary-50">
@@ -54,58 +88,53 @@ const Profile = () => {
             </CardContent>
           </Card>
 
-          {userRole === "Parent" && (
-            <Card>
-              <CardHeader>
-                <span className="text-xl font-bold text-primary-400">
-                  Children
-                </span>
-              </CardHeader>
-              <CardContent>
-                {isLoading ? (
-                  <Loading />
-                ) : isError || !parent?.childrens ? (
-                  <div>Error loading children.</div>
-                ) : !parent.childrens.length ? (
-                  <div>No children</div>
-                ) : (
-                  parent.childrens.map((child) => (
-                    <div
-                      key={child.id}
-                      className="flex items-center justify-between gap-5 py-2"
-                    >
-                      <div className="size-12 aspect-square rounded-full flex items-center justify-center text-2xl font-bold uppercase text-white bg-gradient-to-r from-blue-500 to-indigo-600 shadow-md">
-                        {child.profile?.full_name.charAt(0)}
-                      </div>
-                      <div className="flex-1">
-                        <p className="font-medium">
-                          {child.profile?.full_name}
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          {child.learning_goals}
-                        </p>
-                      </div>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleViewChildSchedule(child)}
-                      >
-                        Details
-                      </Button>
+          <Card>
+            <CardHeader>
+              <span className="text-xl font-bold text-primary-400">
+                Children
+              </span>
+            </CardHeader>
+            <CardContent>
+              {isLoading ? (
+                <Loading />
+              ) : isError || !parent?.childrens ? (
+                <div>Error loading children.</div>
+              ) : !parent.childrens.length ? (
+                <div>No children</div>
+              ) : (
+                parent.childrens.map((child: any) => (
+                  <div
+                    key={child.id}
+                    className="flex items-center justify-between gap-5 py-2"
+                  >
+                    <div className="size-12 aspect-square rounded-full flex items-center justify-center text-2xl font-bold uppercase text-white bg-gradient-to-r from-blue-500 to-indigo-600 shadow-md">
+                      {child.profile?.full_name.charAt(0)}
                     </div>
-                  ))
-                )}
-              </CardContent>
-            </Card>
-          )}
+                    <div className="flex-1">
+                      <p className="font-medium">{child.profile?.full_name}</p>
+                      <p className="text-sm text-gray-500">
+                        {child.learning_goals}
+                      </p>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleViewChildSchedule(child)}
+                    >
+                      Details
+                    </Button>
+                  </div>
+                ))
+              )}
+            </CardContent>
+          </Card>
         </div>
-
         <div className="flex flex-col gap-6">
           {parent && (
             <UserDetailCard
+              submit={handleUpdate}
               infoData={parent.profile}
-              // fields={parentFields}
-              role={userRole}
+              setFormData={setFormData}
             />
           )}
         </div>

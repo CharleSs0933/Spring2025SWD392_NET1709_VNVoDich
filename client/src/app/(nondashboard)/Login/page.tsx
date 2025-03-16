@@ -101,6 +101,7 @@ const Login = () => {
           password: signUpData.passWord,
           role: signUpData.role,
         });
+<<<<<<< HEAD
         if (!res?.error) {
           setSignUpData({
             fullName: "",
@@ -112,9 +113,11 @@ const Login = () => {
           });
           setIsSignUp(!isSignUp);
         }
+=======
+        // if(!response)
+>>>>>>> 0b828a7b5ff31bc79781412ceba9f70dc02db4e3
       }
     } else {
-      console.log(loginData);
       await login({
         username: loginData.userName,
         password: loginData.passWord,

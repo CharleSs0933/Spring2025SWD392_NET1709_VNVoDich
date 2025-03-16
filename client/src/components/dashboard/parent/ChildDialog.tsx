@@ -34,7 +34,7 @@ export const ChildDialog = ({
   });
 
   const validateForm = () => {
-    const newErrors = {
+    let newErrors = {
       username: "",
       full_name: "",
       password: "",

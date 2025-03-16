@@ -60,20 +60,19 @@ const AppSidebar = () => {
         href: "/admin/subscription",
       },
       { icon: Bell, label: "Request", href: "/admin/request" },
-
     ],
+    Children: [{ icon: Calendar, label: "Schedule", href: "/child" }],
   };
 
   //   if (!isLoaded) return <Loading />;
   //   if (!user) return <div>User not found</div>;
 
-  const userType: "Tutor" | "Parent" | "Admin" =
+  const userType: "Tutor" | "Parent" | "Children" =
     user?.role === "Tutor"
       ? "Tutor"
-      : user?.role === "Parent"
-      ? "Parent"
-      : "Admin";
-
+      : user?.role === "Children"
+      ? "Children"
+      : "Parent";
   const currentNavLinks = navLinks[userType];
 
   return (
