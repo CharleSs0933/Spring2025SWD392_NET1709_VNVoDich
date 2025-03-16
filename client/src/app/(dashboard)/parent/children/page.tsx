@@ -170,8 +170,8 @@ const ChildrenManagement = () => {
       {deleteChildId !== null && (
         <ConfirmDialog
           full_name={
-            children.find((child) => child.id === deleteChildId)?.full_name ||
-            ""
+            children.find((child) => child.id === deleteChildId)?.profile
+              ?.full_name || ""
           }
           handleClose={() => setDeleteChildId(null)}
           handleDelete={handleConfirmDelete}

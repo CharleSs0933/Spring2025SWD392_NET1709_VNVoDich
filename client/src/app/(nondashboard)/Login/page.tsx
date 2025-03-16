@@ -99,11 +99,8 @@ const Login = () => {
           role: signUpData.role,
         });
         // if(!response)
-        console.log(successSignUp, "cc");
-        console.log(errorSignUp);
       }
     } else {
-      console.log(loginData);
       await login({
         username: loginData.userName,
         password: loginData.passWord,

@@ -184,7 +184,7 @@ export interface Parent {
   preferred_language: string;
   notifications_enable: boolean;
 
-  profile?: {
+  profile: {
     email: string;
     full_name: string;
     phone: string;
@@ -214,4 +214,11 @@ export interface TeachingSession {
   subscription?: {
     course?: Course;
   };
+}
+
+export interface FieldConfig {
+  name: string;
+  label: string;
+  icon: JSX.Element;
+  disabled?: boolean;
 }

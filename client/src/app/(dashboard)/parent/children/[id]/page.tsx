@@ -40,10 +40,10 @@ const ChildSchedule = () => {
       setFormData({
         username: child.profile?.username || "",
         full_name: child.profile?.full_name || "",
-        password: child.password || "",
         date_of_birth: child.date_of_birth || "",
         learning_goals: child.learning_goals || "",
       });
+      console.log(formData);
     }
   };
 

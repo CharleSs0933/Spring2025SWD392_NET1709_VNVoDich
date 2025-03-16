@@ -48,7 +48,7 @@ export const SessionDetailDialog = ({
           </strong>
           <span className="col-span-3 text-base">
             <a
-              href={course.google_meet_id}
+              href={`https://meet.google.com/${course.google_meet_id}`}
               target="_blank"
               className="text-blue-500 underline hover:text-blue-300"
             >

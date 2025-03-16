@@ -45,13 +45,18 @@ const AppSidebar = () => {
       { icon: User, label: "Profile", href: "/tutor/profile" },
       { icon: Users, label: "Students", href: "/tutor/students" },
     ],
+    Children: [{ icon: Calendar, label: "Schedule", href: "/child" }],
   };
 
   //   if (!isLoaded) return <Loading />;
   //   if (!user) return <div>User not found</div>;
 
-  const userType: "Tutor" | "Parent" =
-    user?.role === "Tutor" ? "Tutor" : "Parent";
+  const userType: "Tutor" | "Parent" | "Children" =
+    user?.role === "Tutor"
+      ? "Tutor"
+      : user?.role === "Children"
+      ? "Children"
+      : "Parent";
   const currentNavLinks = navLinks[userType];
 
   return (

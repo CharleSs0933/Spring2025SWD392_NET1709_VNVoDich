@@ -97,7 +97,6 @@ export const useUser = () => {
       console.error("Login failed:", error);
     } finally {
       setLoading(false);
-      console.log(successSignUp);
     }
   };
 
