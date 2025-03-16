@@ -103,6 +103,7 @@ export const useUser = () => {
     router.push("/login");
     Cookies.remove("authToken");
     Cookies.remove("user");
+    Cookies.remove("status");
     setUser(null);
     router.push("/login");
   };

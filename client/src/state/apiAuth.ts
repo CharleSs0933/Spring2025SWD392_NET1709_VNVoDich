@@ -10,7 +10,7 @@ const customBaseQuery = async (
   extraOptions: any
 ) => {
   const baseQuery = fetchBaseQuery({
-    baseUrl: "https://desktop-7aud0c8.tail682e6a.ts.net/",
+    baseUrl: "http://localhost:8080/",
     prepareHeaders: async (headers) => {
       const token = Cookies.get("authToken");
 

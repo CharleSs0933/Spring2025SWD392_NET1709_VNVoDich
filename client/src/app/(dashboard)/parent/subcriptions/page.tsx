@@ -52,6 +52,8 @@ const SubcriptionListPage = () => {
     setOpenInput(!openInput);
   };
   const handleSubmit = async (data: Record<string, string | boolean>) => {
+    console.log(data, "fff");
+    
     if (selectedSub) {
       const priceRefund =
         selectedSub.course?.price -

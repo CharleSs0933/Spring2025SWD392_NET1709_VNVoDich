@@ -123,8 +123,9 @@ const Login = () => {
       const userData = Cookies.get("user");
       if (userData) {
         const parsedUser = JSON.parse(userData);
+        console.log(parsedUser);
         const res = await tutorSub({ id: parsedUser.ID });
-        console.log(res);
+        console.log(res, "ggg");
         if (res.data?.status) {
           Cookies.set("sub", res.data?.status, { path: "/", expires: 7 });
         } else {

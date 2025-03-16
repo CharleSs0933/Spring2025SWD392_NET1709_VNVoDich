@@ -20,51 +20,8 @@ interface CardProp {
 export const Card = React.memo(
   ({ data, type, index, hovered, setHovered, cardRef }: CardProp) => {
     const router = useRouter();
-    const handleMouseEnter = () => {
-      setHovered(index);
-      if (cardRef.current) {
-        const elementTop = cardRef.current.offsetTop;
-        const windowHeight = window.innerHeight;
-        const scrollToY =
-          elementTop - windowHeight / 2 + cardRef.current.offsetHeight / 2;
-
-        const animation = gsap.to(window, {
-          scrollTo: { y: scrollToY, autoKill: false },
-          duration: 1,
-        });
-
-        const cancelScroll = () => {
-          animation.kill();
-          window.removeEventListener("wheel", cancelScroll);
-        };
-
-        window.addEventListener("wheel", cancelScroll, { passive: true });
-      }
-      gsap.fromTo(
-        cardRef.current,
-        { x: 0, opacity: 0, scale: 1 },
-        {
-          x: -40,
-          opacity: 1,
-          scale: 0.9,
-          duration: 1,
-        }
-      );
-    };
-    const handleMouseLeave = () => {
-      setHovered(null);
-
-      gsap.fromTo(
-        cardRef.current,
-        { x: -40, opacity: 1, scale: 0.9 },
-        {
-          x: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 1,
-        }
-      );
-    };
+   
+  
 
     const handleOnClick = (item: string) => {
       if (type === "course") {
@@ -93,8 +50,6 @@ export const Card = React.memo(
         <div
           ref={cardRef}
           onClick={() => handleOnClick(data.id as string)}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
           className={cn(
             "rounded-2xl relative bg-gray-100 cursor-pointer   dark:bg-neutral-900 overflow-hidden h-80 md:h-[450px] ml-[5%]  w-full transition-all duration-300 ease-out",
             hovered !== null &&

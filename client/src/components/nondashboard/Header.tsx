@@ -7,8 +7,8 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/useUser";
 import { BookOpen, User } from "lucide-react";
 import Link from "next/link";
-
-const Header = () => {
+import { getAuth } from "@/services/get-token";
+const Header =  () => {
   const { logout, user } = useUser();
   const [role, setRole] = useState<string | null>(null);
   const router = useRouter();
@@ -16,10 +16,9 @@ const Header = () => {
 
   useEffect(() => {
     const userData = Cookies.get("user");
-
     if (userData) {
       const parsedUser = JSON.parse(userData);
-
+      console.log(parsedUser, "fff");
       if (
         parsedUser.role === "Admin" ||
         parsedUser.role === "Parent" ||
@@ -39,7 +38,7 @@ const Header = () => {
     Parent: [{ icon: BookOpen, label: "DashBoard", href: "/parent/children" }],
     Tutor: [
       { icon: User, label: "DashBoard", href: "/tutor/schedule" },
-      { icon: User, label: "Package", href: "/package" },
+     { icon: User, label: "Package", href: "/package" },
     ],
     Admin: [{ icon: BookOpen, label: "DashBoard", href: "/admin/users" }],
   };
@@ -70,6 +69,7 @@ const Header = () => {
           >
             Courses
           </Link>
+         
           {!token ? (
             <Link
               href="/login"
