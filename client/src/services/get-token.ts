@@ -9,7 +9,7 @@ export async function getAuth() {
   const user: {
     ID: number;
     username: string;
-    role: "Parent" | "Tutor" | "Children";
+    role: "Parent" | "Tutor" | "Children" | "Admin";
   } = JSON.parse(cookieStore.get("user")?.value?.toString() || "{}");
   const isLogged = !!user;
 

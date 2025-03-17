@@ -10,7 +10,13 @@ import { timeSlots } from "./data";
 import { Button } from "@/components/ui/button";
 import { useUpdateAvailabilityMutation } from "@/state/api";
 
-const AvailabilityForm = ({ initialData }: { initialData: Availability }) => {
+const AvailabilityForm = ({
+  initialData,
+  refetch,
+}: {
+  initialData: Availability;
+  refetch: () => void;
+}) => {
   const [updateAvailability, { isLoading }] = useUpdateAvailabilityMutation();
 
   const methods = useForm<Availability>({
@@ -21,6 +27,7 @@ const AvailabilityForm = ({ initialData }: { initialData: Availability }) => {
   const onSubmit = async (data: Availability) => {
     // console.log(data);
     await updateAvailability(data);
+    refetch();
   };
 
   return (

@@ -73,7 +73,13 @@ export const apiAuth = createApi({
     }),
     signup: build.mutation<
       any,
-      { username: string; password: string; email: string; role: string }
+      {
+        username: string;
+        password: string;
+        email: string;
+        role: string;
+        full_name: string;
+      }
     >({
       query: (body) => ({
         url: `auth/register`,
@@ -232,20 +238,23 @@ export const apiAuth = createApi({
       }),
     }),
 
-    createRequestRefund: build.mutation< any | null , {order_id : string , amount: number , card_number: string ,reason : string}>({
-      query: ( body ) => ({
+    createRequestRefund: build.mutation<
+      any | null,
+      { order_id: string; amount: number; card_number: string; reason: string }
+    >({
+      query: (body) => ({
         url: `/api/refunds`,
         method: "POST",
-        body: body
+        body: body,
       }),
     }),
-    getRequestRefundByID: build.query< RefundRequest | null , {id : number}>({
+    getRequestRefundByID: build.query<RefundRequest | null, { id: number }>({
       query: (id) => ({
         url: `/api/refunds/${id}`,
       }),
       transformResponse: (response: { data: RefundRequest }) => response.data,
     }),
-    getRequestRefundOfParent: build.query< RefundRequest | null , {}>({
+    getRequestRefundOfParent: build.query<RefundRequest | null, {}>({
       query: ({}) => ({
         url: `/api/p-refunds`,
       }),
@@ -259,11 +268,14 @@ export const apiAuth = createApi({
       transformResponse: (response: { data: RefundRequest[] }) => response.data,
     }),
 
-    updateStatusRefundRequest : build.mutation< any | null , {id: number , status : string , admin_note: string}>({
-      query: ({ id, ...body} ) => ({
+    updateStatusRefundRequest: build.mutation<
+      any | null,
+      { id: number; status: string; admin_note: string }
+    >({
+      query: ({ id, ...body }) => ({
         url: `/api/admin/refunds/${id}/process`,
         method: "PUT",
-        body : body
+        body: body,
       }),
     }),
   }),
@@ -289,6 +301,5 @@ export const {
   useGetRefundStatisticsQuery,
   useGetRequestRefundByIDQuery,
   useUpdateStatusRefundRequestMutation,
-  useGetRequestRefundOfParentQuery
-
+  useGetRequestRefundOfParentQuery,
 } = apiAuth;

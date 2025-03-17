@@ -79,7 +79,7 @@ export const SessionDetailDialog = ({
 
     <DialogContent
       className={`p-0 overflow-hidden rounded-lg ${
-        showReschedule ? "max-w-5xl" : ""
+        showReschedule ? "max-w-6xl" : ""
       }`}
     >
       <DialogTitle className="sr-only">Details</DialogTitle>

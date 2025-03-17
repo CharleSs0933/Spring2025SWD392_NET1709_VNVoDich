@@ -27,6 +27,7 @@ const Courses = () => {
     data: courses,
     isLoading,
     isError,
+    refetch,
   } = useGetCoursesQuery(
     {
       pageSize: 20,
@@ -54,8 +55,9 @@ const Courses = () => {
   const handleCreateCourse = async () => {
     if (!user) return;
     const result = await createCourse({
-      tutor_id: "1",
+      tutor_id: user.ID,
     }).unwrap();
+    refetch();
     router.push(`/tutor/courses/${result.id}`, { scroll: false });
   };
 

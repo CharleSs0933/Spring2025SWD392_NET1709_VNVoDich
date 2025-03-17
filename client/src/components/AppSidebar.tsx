@@ -27,11 +27,12 @@ import {
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useUser } from "@/hooks/useUser";
+import Loading from "./Loading";
 
 const AppSidebar = () => {
   const pathname = usePathname();
   const { toggleSidebar } = useSidebar();
-  const { logout, user } = useUser();
+  const { logout, user, loading } = useUser();
 
   const navLinks = {
     Parent: [
@@ -52,7 +53,7 @@ const AppSidebar = () => {
     ],
     Admin: [
       { icon: BookOpen, label: "Courses", href: "/admin/courses" },
-      { icon: User, label: "Profile", href: "/admin/users" },
+      { icon: User, label: "Users", href: "/admin/users" },
       { icon: Package, label: "Package", href: "/admin/package" },
       {
         icon: SubscriptIcon,
@@ -64,15 +65,10 @@ const AppSidebar = () => {
     Children: [{ icon: Calendar, label: "Schedule", href: "/child" }],
   };
 
-  //   if (!isLoaded) return <Loading />;
-  //   if (!user) return <div>User not found</div>;
+  // if (!loading) return <Loading />;
+  if (!user) return <div>User not found</div>;
 
-  const userType: "Tutor" | "Parent" | "Children" =
-    user?.role === "Tutor"
-      ? "Tutor"
-      : user?.role === "Children"
-      ? "Children"
-      : "Parent";
+  const userType: "Tutor" | "Parent" | "Children" | "Admin" = user?.role;
   const currentNavLinks = navLinks[userType];
 
   return (

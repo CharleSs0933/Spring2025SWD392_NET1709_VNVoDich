@@ -8,21 +8,23 @@ import { useUser } from "@/hooks/useUser";
 import { BookOpen, User } from "lucide-react";
 import Link from "next/link";
 import { getAuth } from "@/services/get-token";
-const Header =  () => {
+const Header = () => {
   const { logout, user } = useUser();
   const [role, setRole] = useState<string | null>(null);
   const router = useRouter();
   const token = Cookies.get("authToken");
 
+  console.log(token);
+
   useEffect(() => {
     const userData = Cookies.get("user");
     if (userData) {
       const parsedUser = JSON.parse(userData);
-      console.log(parsedUser, "fff");
       if (
         parsedUser.role === "Admin" ||
         parsedUser.role === "Parent" ||
-        parsedUser.role === "Tutor"
+        parsedUser.role === "Tutor" ||
+        parsedUser.role === "Chilren"
       ) {
         setRole(parsedUser.role);
       }
@@ -38,9 +40,10 @@ const Header =  () => {
     Parent: [{ icon: BookOpen, label: "DashBoard", href: "/parent/children" }],
     Tutor: [
       { icon: User, label: "DashBoard", href: "/tutor/schedule" },
-     { icon: User, label: "Package", href: "/package" },
+      { icon: User, label: "Package", href: "/package" },
     ],
     Admin: [{ icon: BookOpen, label: "DashBoard", href: "/admin/users" }],
+    Chilren: [{ icon: BookOpen, label: "Schedule", href: "/child" }],
   };
 
   const currentNavLinks = role ? navLinks[role as keyof typeof navLinks] : [];
@@ -69,7 +72,7 @@ const Header =  () => {
           >
             Courses
           </Link>
-         
+
           {!token ? (
             <Link
               href="/login"

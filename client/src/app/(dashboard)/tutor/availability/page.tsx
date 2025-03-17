@@ -12,6 +12,8 @@ const Availability = () => {
     data: availability,
     isLoading,
     isError,
+
+    refetch,
   } = useGetTutorAvailabilityQuery({});
 
   if (isLoading) return <Loading />;
@@ -20,7 +22,10 @@ const Availability = () => {
   return (
     <div className="w-full h-full">
       <Header title="Availability" subtitle="Browse your availability" />
-      <AvailabilityForm initialData={availability || defaultAvailability} />
+      <AvailabilityForm
+        initialData={availability || defaultAvailability}
+        refetch={refetch}
+      />
     </div>
   );
 };

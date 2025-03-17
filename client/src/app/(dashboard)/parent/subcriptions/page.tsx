@@ -37,12 +37,12 @@ const SubcriptionListPage = () => {
     data: subcriptions,
     isLoading,
     isError,
+    refetch,
   } = useGetParentBookingsQuery({});
   const { data: requests } = useGetRequestRefundOfParentQuery({});
   const requestArray = Array.isArray(requests) ? requests : [];
 
   const [createRefundRequest] = useCreateRequestRefundMutation();
-  console.log(subcriptions);
 
   if (loading) return <Loading />;
   if (!isLogged) return <div>Please sign in to access this page.</div>;
@@ -53,7 +53,7 @@ const SubcriptionListPage = () => {
   };
   const handleSubmit = async (data: Record<string, string | boolean>) => {
     console.log(data, "fff");
-    
+
     if (selectedSub) {
       const priceRefund =
         selectedSub.course?.price -
@@ -64,6 +64,7 @@ const SubcriptionListPage = () => {
         card_number: String(data.card_number),
         reason: String(data.reason),
       });
+      refetch();
     }
   };
   const handleClose = () => {
@@ -129,9 +130,9 @@ const SubcriptionListPage = () => {
                               (res) => res.order_id === String(subscription.id)
                             );
                             const status =
-                              foundRequest?.status || subscription.status; 
+                              foundRequest?.status || subscription.status;
 
-                            const { className, icon } = getStatusStyles(status); 
+                            const { className, icon } = getStatusStyles(status);
 
                             return (
                               <span className={className}>

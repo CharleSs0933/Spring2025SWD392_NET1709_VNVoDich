@@ -220,18 +220,6 @@ export interface TeachingSession {
   };
 }
 
-export interface Parent {
-  id: number;
-  preferred_language: string;
-  notifications_enabled: boolean;
-  childrens: Array[];
-  profile: {
-    email: string;
-    full_name: string;
-    phone: string;
-  };
-}
-
 export interface Users {
   CreatedAt?: Date;
   DeletedAt?: Date;

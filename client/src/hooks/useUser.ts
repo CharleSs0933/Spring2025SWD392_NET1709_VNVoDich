@@ -11,7 +11,8 @@ export const useUser = () => {
   const [user, setUser] = useState<{
     ID: string;
     username: string;
-    role: "Parent" | "Tutor" | "Children";
+    role: "Parent" | "Tutor" | "Children" | "Admin";
+    user_id: number;
   } | null>(null);
   const [loading, setLoading] = useState(true);
   const [signUpApi] = useSignupMutation();
@@ -73,11 +74,13 @@ export const useUser = () => {
   const signUp = async ({
     username,
     password,
+    full_name,
     email,
     role,
   }: {
     username: string;
     password: string;
+    full_name: string;
     email: string;
     role: string;
   }) => {
@@ -86,6 +89,7 @@ export const useUser = () => {
       await signUpApi({
         username,
         password,
+        full_name,
         email,
         role,
       });

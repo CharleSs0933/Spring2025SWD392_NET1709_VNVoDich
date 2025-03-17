@@ -4,7 +4,7 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { ParentFormData, parentSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User, UserCircle2, AtSign, Phone } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CustomFormField } from "./CustomFormField";
 import { Form } from "./ui/form";
@@ -23,12 +23,7 @@ const UserDetailCard = ({
 }: UserDetailCardProps) => {
   const methods = useForm<ParentFormData>({
     resolver: zodResolver(parentSchema),
-    defaultValues: {
-      username: infoData?.username || "",
-      full_name: infoData?.full_name || "",
-      email: infoData?.email || "",
-      phone: infoData?.phone || "",
-    },
+    defaultValues: infoData,
   });
 
   const { handleSubmit, watch } = methods;
@@ -38,12 +33,17 @@ const UserDetailCard = ({
     setFormData(currentValues);
   }, [currentValues, setFormData]);
 
-  const hasChanges = Object.keys(currentValues).some(
-    (key) =>
-      currentValues[key as keyof ParentFormData] !==
-      infoData[key as keyof ParentFormData]
-  );
+  const [hasChanges, setHasChanges] = useState(false);
 
+  useEffect(() => {
+    setHasChanges(
+      Object.keys(currentValues).some(
+        (key) =>
+          currentValues[key as keyof ParentFormData] !==
+          infoData[key as keyof ParentFormData]
+      )
+    );
+  }, [currentValues, infoData]);
   const onSubmit = (data: ParentFormData) => {
     submit();
   };

@@ -66,6 +66,8 @@ const CourseEditor = () => {
 
   const onSubmit = async (data: CourseFormData) => {
     try {
+      console.log(data);
+
       const formData = createCourseFormData({
         ...data,
         courseImage: courseImage || "",

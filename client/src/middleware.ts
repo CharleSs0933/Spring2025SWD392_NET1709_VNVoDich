@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 import { getAuth } from "./services/get-token";
 
 export async function middleware(request: NextRequest) {
-  const { user, isLogged, isSub } = await getAuth();
+  const { user, isLogged, isSub, authToken } = await getAuth();
   const { pathname } = request.nextUrl;
 
   if (pathname.startsWith("/parent/")) {
@@ -21,7 +21,6 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/package", request.url));
     }
   }
-  
 
   if (pathname.startsWith("/checkout")) {
     if (!isLogged) {
