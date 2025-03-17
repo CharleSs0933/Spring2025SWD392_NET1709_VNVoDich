@@ -22,7 +22,10 @@ const TutorCourseCard = ({
     <Card className="w-full h-[400px] p-0 bg-background border-none text-foreground bg-customgreys-primarybg overflow-hidden hover:bg-white-100/10 transition duration-200 flex flex-col">
       <CardHeader className=" p-0 h-[400px] overflow-hidden">
         <Image
-          src={course.image || "/placeholder.png"}
+          src={
+            course.image ||
+            "https://4mlgzdj164.ufs.sh/f/Y1D5BsqL0EJaGDlbfnCYoelCZpOLjK3mR2NJ98iUEDdr0Qcu"
+          }
           alt={course.title}
           width={370}
           height={150}

@@ -17,7 +17,10 @@ const CourseCardSearch = ({
     >
       <div className="relative w-auto pt-[56.25%]">
         <Image
-          src={course.image || "/placeholder.png"}
+          src={
+            course.image ||
+            "https://4mlgzdj164.ufs.sh/f/Y1D5BsqL0EJaGDlbfnCYoelCZpOLjK3mR2NJ98iUEDdr0Qcu"
+          }
           alt={course.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

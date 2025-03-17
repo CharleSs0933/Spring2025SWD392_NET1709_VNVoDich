@@ -2,8 +2,6 @@
 import { useState } from "react";
 import { useGetCourseQuery } from "@/state/api";
 import Image from "next/image";
-import imgBg from "../../../../asset/img/khoahoc.jpg";
-import tutor from "../../../../asset/img/tutor3.jpg";
 import { useParams, useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ChevronDown, ChevronUp, Star } from "lucide-react";
@@ -36,7 +34,9 @@ const CoursesDetail = () => {
     <div className="max-w-7xl mx-auto p-6 bg-white shadow-lg rounded-xl space-y-6">
       <div className="relative w-full h-[400px] rounded-lg overflow-hidden ">
         <Image
-          src={imgBg}
+          src={
+            "https://4mlgzdj164.ufs.sh/f/Y1D5BsqL0EJaKr6YrDUHqNlbdZjVuCEQYR4cBTUgHwPJshIA"
+          }
           alt={course?.title || "Course Image"}
           layout="fill"
           objectFit="cover"
@@ -50,7 +50,9 @@ const CoursesDetail = () => {
             <p className="text-gray-400 my-5">{course?.description}</p>
             <div className="flex gap-2   items-center">
               <Image
-                src={tutor}
+                src={
+                  "https://4mlgzdj164.ufs.sh/f/Y1D5BsqL0EJaPqMBrRF3Fqngb9BSzfQNZAkciVmasJtIHwlT"
+                }
                 alt="tutor"
                 width={30}
                 height={20}

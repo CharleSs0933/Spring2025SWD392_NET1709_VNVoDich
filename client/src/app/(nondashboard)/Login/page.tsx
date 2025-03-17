@@ -2,8 +2,6 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
-import logo from "@/asset/logo.jpg";
-import bg from "../../../../public/bg-login.jpg";
 import { useUser } from "@/hooks/useUser";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
@@ -147,7 +145,9 @@ const Login = () => {
   return (
     <div className="relative w-full h-[800px] overflow-hidden my-4">
       <Image
-        src={bg}
+        src={
+          "https://4mlgzdj164.ufs.sh/f/Y1D5BsqL0EJazReJSMBrHCa7AFqZWjLYJ5hKQEGNmvpufUMs"
+        }
         alt="Background"
         fill
         objectFit="cover"
@@ -163,7 +163,14 @@ const Login = () => {
           className="bg-[#25262F] w-[40%] h-[60%] bg-opacity-80 text-center flex flex-col items-center justify-start p-6 rounded-xl"
         >
           <div ref={logoRef} className="mb-20 mt-10">
-            <Image src={logo} alt="logo" width={250} height={200} />
+            <Image
+              src={
+                "https://4mlgzdj164.ufs.sh/f/Y1D5BsqL0EJaZBbwU6xaDpOV7H6W5L9RExeFt2Bmfv30zZqP"
+              }
+              alt="logo"
+              width={250}
+              height={200}
+            />
           </div>
           <div className="pb-10">
             <h1 className="text-3xl font-bold">Welcome to Login Page</h1>

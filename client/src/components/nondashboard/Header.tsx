@@ -2,7 +2,6 @@
 import Cookies from "js-cookie";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import logo from "@/asset/logo.jpg";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/useUser";
 import { BookOpen, User } from "lucide-react";
@@ -52,7 +51,14 @@ const Header = () => {
     <div className="mx-16">
       <div className="absolute top-0 left-0 w-full py-3 bg-opacity-70 bg-black text-white z-10 flex justify-between items-center">
         <Link href="/" prefetch={true} className="ml-16 cursor-pointer">
-          <Image src={logo} alt="logo" width={150} height={200} />
+          <Image
+            src={
+              "https://4mlgzdj164.ufs.sh/f/Y1D5BsqL0EJaZBbwU6xaDpOV7H6W5L9RExeFt2Bmfv30zZqP"
+            }
+            alt="logo"
+            width={150}
+            height={200}
+          />
         </Link>
         <div className="flex gap-8 items-center mr-16">
           {currentNavLinks.map((link) => (

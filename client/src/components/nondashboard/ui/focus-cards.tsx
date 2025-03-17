@@ -3,7 +3,6 @@ import Image from "next/image";
 import React, { useState, useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { cn } from "@/lib/utils";
-import imgBg from "../../../asset/img/khoahoc.jpg";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { useRouter } from "next/navigation";
 
@@ -20,8 +19,6 @@ interface CardProp {
 export const Card = React.memo(
   ({ data, type, index, hovered, setHovered, cardRef }: CardProp) => {
     const router = useRouter();
-   
-  
 
     const handleOnClick = (item: string) => {
       if (type === "course") {
@@ -59,7 +56,10 @@ export const Card = React.memo(
           )}
         >
           <Image
-            src={imgBg || data?.image}
+            src={
+              data?.image ||
+              "https://4mlgzdj164.ufs.sh/f/Y1D5BsqL0EJaKr6YrDUHqNlbdZjVuCEQYR4cBTUgHwPJshIA"
+            }
             alt={data?.title || data?.user?.full_name}
             fill
             className="object-cover absolute inset-0"

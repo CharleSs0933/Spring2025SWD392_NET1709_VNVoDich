@@ -17,9 +17,6 @@ const Footer = () => {
           </Link>
         ))}
       </div>
-      {/* <div className="flex justify-center items-center mt-4">
-        <Eyes/>
-      </div> */}
     </div>
   );
 };

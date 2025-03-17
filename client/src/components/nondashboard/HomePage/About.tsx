@@ -7,7 +7,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { useLayoutEffect, useRef } from "react";
 import SplitType from "split-type";
-import bg2 from "../../../asset/img/tutor5.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -34,7 +33,14 @@ const About = () => {
             transform: "translateY(30%)",
           }}
         >
-          <Image src={bg2} alt="" className="w-full" fill />
+          <Image
+            src={
+              "https://4mlgzdj164.ufs.sh/f/Y1D5BsqL0EJahtSLgpGYsOb7t58UPcog9KNpiFTMv4XhBQlL"
+            }
+            alt=""
+            className="w-full"
+            fill
+          />
         </div>
         <div className="uppercase text-[max(1.146vw,22px)] my-[30%]">
           <div className="reveal_text max-w-[31rem] overflow-hidden 2xl:max-w-[50rem]  font-mono leading-tight">
