@@ -7,8 +7,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { MutableRefObject, useLayoutEffect, useRef } from "react";
-import bg from "../../asset/img/tutor4.jpg";
-import bg2 from "../../asset/img/tutor3.jpg";
 import SplitType from "split-type";
 gsap.registerPlugin(ScrollTrigger);
 
@@ -63,7 +61,9 @@ function ScaleImage({
       ref={artWorkScaleImageRef}
     >
       <Image
-        src={bg}
+        src={
+          "https://4mlgzdj164.ufs.sh/f/Y1D5BsqL0EJaYUgva9qL0EJajd3g15XqruxQM6Ck2cPmvOKw"
+        }
         alt="Art female face"
         width={0}
         height={0}

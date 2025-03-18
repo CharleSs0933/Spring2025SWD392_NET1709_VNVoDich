@@ -1,12 +1,13 @@
 import Image from "next/image";
-import Logo from "../asset/logo.jpg";
 
 const NonDashboardNavbar = () => {
   return (
     <nav className=" box-border bg-gray-100 p-4">
       <div className="container flex flex-nowrap justify-start w-auto mx-20 px-6 items-center">
         <Image
-          src={Logo}
+          src={
+            "https://4mlgzdj164.ufs.sh/f/Y1D5BsqL0EJaZBbwU6xaDpOV7H6W5L9RExeFt2Bmfv30zZqP"
+          }
           alt="LogoLMS"
           className="object-contain w-28 rounded-xl"
         />

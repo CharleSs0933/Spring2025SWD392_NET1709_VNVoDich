@@ -13,7 +13,7 @@ import { useState } from "react";
 import { useUser } from "@/hooks/useUser";
 
 const Profile = () => {
-  const { user, loading } = useUser();
+  const { user } = useUser();
 
   const {
     data: parent,

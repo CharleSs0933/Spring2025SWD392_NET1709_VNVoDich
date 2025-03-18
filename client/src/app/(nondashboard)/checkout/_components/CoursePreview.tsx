@@ -10,7 +10,10 @@ const CoursePreview = ({ course }: { course: Course }) => {
       <div className="w-full bg-customgreys-secondarybg py-8 px-10 flex flex-col gap-5 rounded-lg">
         <div className="mb-2 bg-white-50">
           <Image
-            src={course.image || "/placeholder.png"}
+            src={
+              course.image ||
+              "https://4mlgzdj164.ufs.sh/f/Y1D5BsqL0EJaGDlbfnCYoelCZpOLjK3mR2NJ98iUEDdr0Qcu"
+            }
             alt="Course Preview"
             width={640}
             height={360}

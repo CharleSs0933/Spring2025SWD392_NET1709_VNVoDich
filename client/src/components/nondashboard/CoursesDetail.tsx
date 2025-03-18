@@ -1,18 +1,20 @@
-import { Course } from '@/types';
-import Image from 'next/image';
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import imgBg from "@/app/asset/img/khoahoc.jpg";
+import { Course } from "@/types";
+import Image from "next/image";
+import React from "react";
+import { Button } from "@/components/ui/button";
 
-const CoursesDetail = ( item  : Course) => {
+const CoursesDetail = (item: Course) => {
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       {/* Course Image */}
       <div className="relative w-full h-64 rounded-lg overflow-hidden">
-        <Image 
-          src={item.image || imgBg} 
-          alt={item.title} 
-          layout="fill" 
+        <Image
+          src={
+            item.image ||
+            "https://4mlgzdj164.ufs.sh/f/Y1D5BsqL0EJaKr6YrDUHqNlbdZjVuCEQYR4cBTUgHwPJshIA"
+          }
+          alt={item.title}
+          layout="fill"
           objectFit="cover"
         />
       </div>
@@ -26,22 +28,26 @@ const CoursesDetail = ( item  : Course) => {
             {item.status}
           </span>
           <span className="text-gray-700 font-medium">Grade: {item.grade}</span>
-          <span className="text-gray-700 font-medium">{item.total_lessons} Lessons</span>
+          <span className="text-gray-700 font-medium">
+            {item.total_lessons} Lessons
+          </span>
           <span className="text-gray-700 font-medium">${item.price}</span>
         </div>
       </div>
 
       {/* Tutor Section */}
       <div className="mt-6 p-4 bg-gray-100 rounded-lg flex items-center">
-        <Image 
-          src={item.tutor?.image || '/placeholder-avatar.jpg'} 
-          alt={item.tutor?.profile?.full_name || "IMAGE"} 
-          width={80} 
-          height={80} 
+        <Image
+          src={item.tutor?.image || "/placeholder-avatar.jpg"}
+          alt={item.tutor?.profile?.full_name || "IMAGE"}
+          width={80}
+          height={80}
           className="rounded-full object-cover"
         />
         <div className="ml-4">
-          <h2 className="text-lg font-bold">{item.tutor?.profile?.full_name  }</h2>
+          <h2 className="text-lg font-bold">
+            {item.tutor?.profile?.full_name}
+          </h2>
           <p className="text-sm text-gray-600">{item.tutor?.bio}</p>
           <p className="text-sm text-gray-600">{item.tutor?.qualifications}</p>
         </div>

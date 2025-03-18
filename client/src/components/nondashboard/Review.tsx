@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import avarta from "../../asset/img/tutor4.jpg";
 import Image from "next/image";
 import { CourseReview } from "@/types";
 
@@ -40,7 +39,9 @@ const Review = ({ comments }: { comments: CourseReview[] }) => {
               <Image
                 width={30}
                 height={50}
-                src={avarta}
+                src={
+                  "https://4mlgzdj164.ufs.sh/f/Y1D5BsqL0EJaYUgva9qL0EJajd3g15XqruxQM6Ck2cPmvOKw"
+                }
                 alt="avatar"
                 className="rounded-full mr-3 object-contain"
               />
