@@ -1,14 +1,11 @@
 "use client";
 
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { ParentFormData, parentSchema } from "@/lib/schemas";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { ParentFormData } from "@/lib/schemas";
 import { User, UserCircle2, AtSign, Phone } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { CustomFormField } from "./CustomFormField";
-import { Form } from "./ui/form";
+import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 
 interface UserDetailCardProps {
   submit: () => void;
@@ -17,35 +14,26 @@ interface UserDetailCardProps {
 }
 
 const UserDetailCard = ({
-  infoData,
   submit,
+  infoData,
   setFormData,
 }: UserDetailCardProps) => {
-  const methods = useForm<ParentFormData>({
-    resolver: zodResolver(parentSchema),
-    defaultValues: infoData,
-  });
-
-  const { handleSubmit, watch } = methods;
-  const currentValues = watch();
-
-  useEffect(() => {
-    setFormData(currentValues);
-  }, [currentValues, setFormData]);
-
+  const [data, setData] = useState(infoData);
   const [hasChanges, setHasChanges] = useState(false);
 
   useEffect(() => {
+    setFormData(data);
     setHasChanges(
-      Object.keys(currentValues).some(
+      Object.keys(data).some(
         (key) =>
-          currentValues[key as keyof ParentFormData] !==
+          data[key as keyof ParentFormData] !==
           infoData[key as keyof ParentFormData]
       )
     );
-  }, [currentValues, infoData]);
-  const onSubmit = (data: ParentFormData) => {
-    submit();
+  }, [data, infoData, setFormData]);
+
+  const handleChange = (field: keyof ParentFormData, value: string) => {
+    setData((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -55,55 +43,38 @@ const UserDetailCard = ({
           More Details
         </span>
       </CardHeader>
-      <CardContent className="flex flex-col gap-8">
-        <Form {...methods}>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="detail_info flex flex-col gap-4"
-          >
-            <CustomFormField
-              icon={<User size={22} />}
-              name="username"
-              label="Username"
-              type="text"
-              className="fieldProfile"
-              initialValue={infoData.username}
-              disabled
-            />
-            <CustomFormField
-              icon={<AtSign size={22} />}
-              name="email"
-              label="Email"
-              type="text"
-              className="fieldProfile"
-              initialValue={infoData.email}
-              disabled
-            />
-            <CustomFormField
-              icon={<UserCircle2 size={22} />}
-              name="full_name"
-              label="Full Name"
-              type="text"
-              className="fieldProfile"
-              initialValue={infoData.full_name}
-            />
-            <CustomFormField
-              icon={<Phone size={22} />}
-              name="phone"
-              label="Phone Number"
-              type="text"
-              className="fieldProfile"
-              initialValue={infoData.phone}
-            />
-            {hasChanges && (
-              <div className="flex justify-end mt-4">
-                <Button type="submit" variant="default">
-                  Save
-                </Button>
-              </div>
-            )}
-          </form>
-        </Form>
+      <CardContent className="flex flex-col gap-4">
+        <div className="flex items-center gap-2">
+          <User size={22} />
+          <Input value={data.username} disabled className="fieldProfile" />
+        </div>
+        <div className="flex items-center gap-2">
+          <AtSign size={22} />
+          <Input value={data.email} disabled className="fieldProfile" />
+        </div>
+        <div className="flex items-center gap-2">
+          <UserCircle2 size={22} />
+          <Input
+            value={data.full_name}
+            onChange={(e) => handleChange("full_name", e.target.value)}
+            className="fieldProfile"
+          />
+        </div>
+        <div className="flex items-center gap-2">
+          <Phone size={22} />
+          <Input
+            value={data.phone}
+            onChange={(e) => handleChange("phone", e.target.value)}
+            className="fieldProfile"
+          />
+        </div>
+        {hasChanges && (
+          <div className="flex justify-end mt-4">
+            <Button onClick={submit} variant="default">
+              Save
+            </Button>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

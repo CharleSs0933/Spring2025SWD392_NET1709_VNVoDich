@@ -15,18 +15,12 @@ import { useUser } from "@/hooks/useUser";
 const Profile = () => {
   const { user, loading } = useUser();
 
-  if (loading) return <Loading />;
-  if (!user) return <div>Please sign in to access this page.</div>;
-
   const {
     data: parent,
     isLoading,
     isError,
     refetch,
-  } = useGetParentByIdQuery(
-    { userId: Number(user?.ID) || user?.user_id },
-    { skip: !user }
-  );
+  } = useGetParentByIdQuery({ userId: Number(user?.ID) }, { skip: !user });
   const [updateParent] = useUpdateParentMutation();
   const router = useRouter();
 
