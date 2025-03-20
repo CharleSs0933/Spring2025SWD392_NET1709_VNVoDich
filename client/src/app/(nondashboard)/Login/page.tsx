@@ -151,7 +151,6 @@ const Login = () => {
         alt="Background"
         fill
         objectFit="cover"
-        className="absolute inset-0"
       />
 
       <div
