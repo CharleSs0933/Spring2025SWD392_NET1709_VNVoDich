@@ -6,12 +6,14 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/useUser";
 import { BookOpen, User } from "lucide-react";
 import Link from "next/link";
-import { getAuth } from "@/services/get-token";
+import { useGetTutorSubMutation } from "@/state/apiAuth";
 const Header = () => {
   const { logout, user } = useUser();
   const [role, setRole] = useState<string | null>(null);
+  const [isSub, setIsSub] = useState<string | null>(null);
   const router = useRouter();
   const token = Cookies.get("authToken");
+  const [tutorSub] = useGetTutorSubMutation();
 
   console.log(token);
 
@@ -27,6 +29,13 @@ const Header = () => {
       ) {
         setRole(parsedUser.role);
       }
+      const fetch = async () => {
+        const check = await  Cookies.get("sub");
+        if(check){
+          setIsSub(check )
+        }
+      };
+      fetch();
     }
   }, []);
 
@@ -37,10 +46,7 @@ const Header = () => {
 
   const navLinks = {
     Parent: [{ icon: BookOpen, label: "DashBoard", href: "/parent/children" }],
-    Tutor: [
-      { icon: User, label: "DashBoard", href: "/tutor/schedule" },
-      { icon: User, label: "Package", href: "/package" },
-    ],
+    Tutor: [{ icon: User, label: "DashBoard", href: "/tutor/schedule" }],
     Admin: [{ icon: BookOpen, label: "DashBoard", href: "/admin/users" }],
     Chilren: [{ icon: BookOpen, label: "Schedule", href: "/child" }],
   };
@@ -71,14 +77,25 @@ const Header = () => {
               <span>{link.label}</span>
             </Link>
           ))}
-          <Link
-            href="/courses"
-            prefetch={true}
-            className="cursor-pointer font-semibold text-white-100 text-xl"
-          >
-            Courses
-          </Link>
-
+          {role !== "Admin" && role !== "Tutor" && (
+            <Link
+              href="/courses"
+              prefetch={true}
+              className="cursor-pointer font-semibold text-white-100 text-xl"
+            >
+              Courses
+            </Link>
+          )}
+          {role === "Tutor" && !isSub &&  (
+            <Link
+              href="/package"
+              prefetch={true}
+              onClick={() => router.push("/package")}
+              className="cursor-pointer font-semibold text-white-100 text-xl"
+            >
+              Package
+            </Link>
+          )}
           {!token ? (
             <Link
               href="/login"

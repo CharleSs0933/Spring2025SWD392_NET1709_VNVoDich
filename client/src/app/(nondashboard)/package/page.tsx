@@ -40,6 +40,7 @@ const Package = () => {
       });
       console.log(resPayment, "ff");
       router.push(resPayment?.data?.redirectUrl);
+     
     } else {
       console.log("faild");
     }

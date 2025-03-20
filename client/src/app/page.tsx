@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { TypewriterEffect } from "../components/nondashboard/ui/typewriter-effect";
 import { SparklesCore } from "../components/nondashboard/ui/SparklesPreview";
 import LazyLoad from "../components/nondashboard/LazzyLoad";
@@ -8,7 +8,27 @@ import TutorProfessinal from "../components/nondashboard/HomePage/TutorProfessin
 import Introduce from "../components/nondashboard/HomePage/Introduce";
 import Header from "../components/nondashboard/Header";
 import Footer from "../components/nondashboard/Footer";
+import Cookies from "js-cookie";
+import { useGetTutorSubMutation } from "@/state/apiAuth";
+
 export default function Home() {
+  const [tutorSub] = useGetTutorSubMutation();
+
+  useEffect(() => {
+    const fetch = async () => {
+      const userData = Cookies.get("user");
+      const parsedUser = JSON.parse(userData || "");
+      console.log(parsedUser);
+      const res = await tutorSub({ id: Number(parsedUser.ID) });
+      console.log(res, "ggg");
+      if (res.data?.status) {
+        Cookies.set("sub", res.data?.status, { path: "/", expires: 7 });
+      } else {
+        Cookies.remove("sub");
+      }
+    };
+    fetch();
+  }, []);
   const words = [
     { text: "Grow" },
     { text: "Yours" },
