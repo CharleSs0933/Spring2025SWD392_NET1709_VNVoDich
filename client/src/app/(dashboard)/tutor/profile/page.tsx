@@ -1,6 +1,10 @@
 "use client";
 
-import { useGetTutorQuery, useUpdateTutorMutation } from "@/state/api";
+import {
+  useGetTutorQuery,
+  useLazyCheckTutorConnectionQuery,
+  useUpdateTutorMutation,
+} from "@/state/api";
 import Cookies from "js-cookie";
 import Header from "@/components/Header";
 import Loading from "@/components/Loading";
@@ -15,13 +19,16 @@ import Hint from "@/components/Hint";
 import { Trash } from "lucide-react";
 import { UploadDropzone } from "@/lib/uploadthing";
 import { createTutorFormData } from "@/lib/utils";
+import { toast } from "sonner";
 
 const Profile = () => {
   const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")!) : null;
   const userId = user?.ID;
+  const [isCheckingConnection, setIsCheckingConnection] = useState(false);
 
   const [demoVideoUrl, setDemoVideoUrl] = useState<string | null>(null);
   const [updateTutor] = useUpdateTutorMutation();
+  const [checkTutorConnection] = useLazyCheckTutorConnectionQuery();
 
   const {
     data: tutor,
@@ -80,6 +87,23 @@ const Profile = () => {
     setDemoVideoUrl(null);
   };
 
+  const checkStripeConnection = async () => {
+    setIsCheckingConnection(true);
+    try {
+      const data = await checkTutorConnection({ userId }).unwrap();
+
+      if (data.isConnected) {
+        toast.success(data.description);
+      } else {
+        toast.error(data.description);
+      }
+    } catch (error) {
+      toast.error("Failed to check Stripe connection");
+    } finally {
+      setIsCheckingConnection(false);
+    }
+  };
+
   if (isLoading) return <Loading />;
   if (isError || !tutor) return <div>Error fetching tutor details.</div>;
 
@@ -91,12 +115,25 @@ const Profile = () => {
             title="Profile"
             subtitle="View and edit your profile"
             rightElement={
-              <Button
-                type="submit"
-                className="bg-primary-700 hover:bg-primary-600"
-              >
-                Save Profile
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  // variant="outline"
+                  onClick={checkStripeConnection}
+                  disabled={isCheckingConnection}
+                  className="bg-primary-700 hover:bg-primary-600"
+                >
+                  {isCheckingConnection
+                    ? "Checking..."
+                    : "Check Stripe Connection"}
+                </Button>
+                <Button
+                  type="submit"
+                  className="bg-primary-700 hover:bg-primary-600"
+                >
+                  Save Profile
+                </Button>
+              </div>
             }
           />
           <div className="flex justify-between md:flex-row flex-col gap-10 mt-5 font-ds-sans">

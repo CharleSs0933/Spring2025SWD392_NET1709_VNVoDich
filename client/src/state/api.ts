@@ -137,6 +137,18 @@ export const api = createApi({
       providesTags: (result, error, id) => [{ type: "Tutors", id }],
     }),
 
+    checkTutorConnection: build.query<
+      {
+        isConnected: boolean;
+        description: string;
+      },
+      { userId: number }
+    >({
+      query: ({ userId }) => ({
+        url: `tutors/${userId}/check-connection`,
+      }),
+    }),
+
     getTutors: build.query<
       Tutor[],
       {
@@ -467,4 +479,5 @@ export const {
   useGetAllParentsQuery,
   useGetParentByIdQuery,
   useUpdateParentMutation,
+  useLazyCheckTutorConnectionQuery,
 } = api;

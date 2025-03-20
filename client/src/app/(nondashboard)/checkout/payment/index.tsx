@@ -60,6 +60,7 @@ const PaymentPageContent = () => {
         children_id: selectedChild?.id,
         courseId,
         dates: selectedDates,
+        transactionId: result.paymentIntent.id,
       };
 
       await createTrialBooking(bookingData);

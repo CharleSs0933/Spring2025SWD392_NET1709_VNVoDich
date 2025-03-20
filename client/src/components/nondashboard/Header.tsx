@@ -13,7 +13,7 @@ const Header = () => {
   const router = useRouter();
   const token = Cookies.get("authToken");
 
-  console.log(token);
+  console.log(user);
 
   useEffect(() => {
     const userData = Cookies.get("user");
