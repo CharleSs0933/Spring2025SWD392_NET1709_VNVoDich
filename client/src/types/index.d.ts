@@ -23,6 +23,7 @@ export interface Lesson {
   description?: string;
   learning_objectives?: string;
   materials_needed?: string;
+  homework?: string;
 }
 
 export interface User {
@@ -43,6 +44,7 @@ export interface Tutor {
   is_available: boolean;
   demo_video_url?: string;
   image?: string;
+  stripe_account_id?: string;
 
   profile?: {
     username: string;
@@ -276,6 +278,9 @@ export interface CourseSubcription {
   id: number;
   status: string;
   sessions_remaining: number;
+  price: number;
+  transactionId?: string;
+  refundId?: string;
   course_id: number;
   chidlren_id: number;
 

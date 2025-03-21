@@ -35,7 +35,7 @@ const SessionFeedbackForm = ({
         rating: session.rating,
         comment: session.comment,
         teachingQuality: session.teaching_quality,
-        homeworkAssigned: session.homework_assigned,
+        homeworkAssigned: session.homework_assigned || "",
         status: session.status,
       });
     }
@@ -49,7 +49,7 @@ const SessionFeedbackForm = ({
         id: session.id,
         rating: data.rating,
         comment: data.comment,
-        homework_assigned: data.homeworkAssigned,
+        homework_assigned: data.homeworkAssigned || "",
         teaching_quality: data.teachingQuality,
         status: data.status,
       }).unwrap();

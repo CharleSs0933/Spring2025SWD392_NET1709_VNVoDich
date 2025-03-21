@@ -149,6 +149,16 @@ export const api = createApi({
       }),
     }),
 
+    connectToStripe: build.mutation<
+      { destination: string; onboardingUrl: string },
+      {}
+    >({
+      query: () => ({
+        url: "tutors/create-connected-account",
+        method: "POST",
+      }),
+    }),
+
     getTutors: build.query<
       Tutor[],
       {
@@ -189,6 +199,7 @@ export const api = createApi({
         description: string;
         learning_objectives: string;
         materials_needed: string;
+        homework: string;
       }
     >({
       query: ({
@@ -197,6 +208,7 @@ export const api = createApi({
         description,
         learning_objectives,
         materials_needed,
+        homework,
       }) => ({
         url: `courses/${courseId}/add-lesson`,
         method: "PUT",
@@ -205,6 +217,7 @@ export const api = createApi({
           description,
           learning_objectives,
           materials_needed,
+          homework,
         },
       }),
       invalidatesTags: ["Courses"],
@@ -480,4 +493,5 @@ export const {
   useGetParentByIdQuery,
   useUpdateParentMutation,
   useLazyCheckTutorConnectionQuery,
+  useConnectToStripeMutation,
 } = api;

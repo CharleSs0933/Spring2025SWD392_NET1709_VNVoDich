@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useConnectToStripeMutation,
   useGetTutorQuery,
   useLazyCheckTutorConnectionQuery,
   useUpdateTutorMutation,
@@ -25,10 +26,12 @@ const Profile = () => {
   const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")!) : null;
   const userId = user?.ID;
   const [isCheckingConnection, setIsCheckingConnection] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
 
   const [demoVideoUrl, setDemoVideoUrl] = useState<string | null>(null);
   const [updateTutor] = useUpdateTutorMutation();
   const [checkTutorConnection] = useLazyCheckTutorConnectionQuery();
+  const [connectToStripeAPI] = useConnectToStripeMutation();
 
   const {
     data: tutor,
@@ -36,6 +39,8 @@ const Profile = () => {
     isError,
     refetch,
   } = useGetTutorQuery(userId as string);
+
+  console.log(tutor);
 
   const methods = useForm<TutorFormData>({
     resolver: zodResolver(tutorSchema),
@@ -104,6 +109,21 @@ const Profile = () => {
     }
   };
 
+  const connectToStripe = async () => {
+    setIsConnecting(true);
+    try {
+      const data = await connectToStripeAPI({}).unwrap();
+
+      if (data.onboardingUrl) {
+        window.location.href = data.onboardingUrl;
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsConnecting(false);
+    }
+  };
+
   if (isLoading) return <Loading />;
   if (isError || !tutor) return <div>Error fetching tutor details.</div>;
 
@@ -116,17 +136,27 @@ const Profile = () => {
             subtitle="View and edit your profile"
             rightElement={
               <div className="flex gap-2">
-                <Button
-                  type="button"
-                  // variant="outline"
-                  onClick={checkStripeConnection}
-                  disabled={isCheckingConnection}
-                  className="bg-primary-700 hover:bg-primary-600"
-                >
-                  {isCheckingConnection
-                    ? "Checking..."
-                    : "Check Stripe Connection"}
-                </Button>
+                {tutor.stripe_account_id ? (
+                  <Button
+                    type="button"
+                    onClick={checkStripeConnection}
+                    disabled={isCheckingConnection}
+                    className="bg-primary-700 hover:bg-primary-600"
+                  >
+                    {isCheckingConnection
+                      ? "Checking..."
+                      : "Check Stripe Connection"}
+                  </Button>
+                ) : (
+                  <Button
+                    type="button"
+                    onClick={connectToStripe}
+                    disabled={isConnecting}
+                    className="bg-primary-700 hover:bg-primary-600"
+                  >
+                    {isConnecting ? "Connecting..." : "Connect To Stripe"}
+                  </Button>
+                )}
                 <Button
                   type="submit"
                   className="bg-primary-700 hover:bg-primary-600"

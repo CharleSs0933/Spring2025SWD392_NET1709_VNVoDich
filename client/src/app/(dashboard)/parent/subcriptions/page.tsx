@@ -116,7 +116,7 @@ const SubcriptionListPage = () => {
                           {subscription.course?.grade}
                         </TableCell>
                         <TableCell className="border-none p-4">
-                          ${subscription.course?.price}
+                          ${subscription.price}
                         </TableCell>
                         <TableCell className="border-none p-4">
                           {subscription.course?.total_lessons}
