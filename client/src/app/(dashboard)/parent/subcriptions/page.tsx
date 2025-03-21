@@ -19,16 +19,20 @@ import {
 } from "@/components/ui/table";
 import { useUser } from "@/hooks/useUser";
 import { getStatusStyles } from "@/lib/utils";
-import { useGetParentBookingsQuery } from "@/state/api";
+import {
+  useCancelBookingMutation,
+  useGetParentBookingsQuery,
+} from "@/state/api";
 import {
   useCreateRequestRefundMutation,
   useGetRequestRefundOfParentQuery,
 } from "@/state/apiAuth";
-import { Subscription, TeachingSession } from "@/types";
+import { CourseSubcription, Subscription, TeachingSession } from "@/types";
 import { ChevronDownIcon, EllipsisVerticalIcon } from "lucide-react";
 import React, { useState } from "react";
 import { SessionDetailDialog } from "../../tutor/schedule/SessionDetailDialog";
 import { Dialog } from "@/components/ui/dialog";
+import { RescheduleSessionDialog } from "@/components/dashboard/parent/TeachingSessionDialog";
 
 const SubcriptionListPage = () => {
   const [selectedSub, setSelectedSub] = useState<Subscription | null>(null);
@@ -36,6 +40,8 @@ const SubcriptionListPage = () => {
   const [selectedSession, setSelectedSession] =
     useState<TeachingSession | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isRescheduleDialogOpen, setIsRescheduleDialogOpen] = useState(false);
+
   const [expandedSubscriptionId, setExpandedSubscriptionId] = useState<
     number | null
   >(null);
@@ -52,33 +58,19 @@ const SubcriptionListPage = () => {
   const requestArray = Array.isArray(requests) ? requests : [];
 
   const [createRefundRequest] = useCreateRequestRefundMutation();
+  const [cancelBooking] = useCancelBookingMutation();
 
   if (loading) return <Loading />;
   if (!isLogged) return <div>Please sign in to access this page.</div>;
   if (isError) return <div>Failed to fetch course data</div>;
 
-  const handleCanncel = async (sub: any) => {
-    setSelectedSub(sub);
-    setOpenInput(!openInput);
-  };
-
-  const handleSubmit = async (data: Record<string, string | boolean>) => {
-    if (selectedSub) {
-      const priceRefund =
-        selectedSub.course?.price -
-        (selectedSub.course?.price / selectedSub.course?.total_lessons) * 3;
-      await createRefundRequest({
-        order_id: String(selectedSub.id),
-        amount: priceRefund,
-        card_number: String(data.card_number),
-        reason: String(data.reason),
-      });
+  const handleCanncel = async (sub: CourseSubcription) => {
+    try {
+      await cancelBooking({ subscriptionId: sub.id }).unwrap();
       refetch();
+    } catch (err) {
+      console.log(err);
     }
-  };
-
-  const handleClose = () => {
-    setOpenInput(!openInput);
   };
 
   const toggleExpand = (subscriptionId: number) => {
@@ -94,6 +86,16 @@ const SubcriptionListPage = () => {
 
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
+    setSelectedSession(null);
+  };
+
+  const handleOpenRescheduleDialog = (session: TeachingSession) => {
+    setSelectedSession(session);
+    setIsRescheduleDialogOpen(true);
+  };
+
+  const handleCloseRescheduleDialog = () => {
+    setIsRescheduleDialogOpen(false);
     setSelectedSession(null);
   };
 
@@ -152,7 +154,7 @@ const SubcriptionListPage = () => {
                             {subscription.course?.grade}
                           </TableCell>
                           <TableCell className="border-none p-4 text-customgreys-blueGrey">
-                            ${subscription.course?.price}
+                            ${subscription.price}
                           </TableCell>
                           <TableCell className="border-none p-4 text-customgreys-blueGrey">
                             {subscription.course?.total_lessons}
@@ -259,6 +261,11 @@ const SubcriptionListPage = () => {
                                                 className="text-white-50 text-sm bg-gray-600 rounded-full"
                                                 variant="outline"
                                                 size="sm"
+                                                onClick={() =>
+                                                  handleOpenRescheduleDialog(
+                                                    session
+                                                  )
+                                                }
                                               >
                                                 Change
                                               </Button>
@@ -289,18 +296,6 @@ const SubcriptionListPage = () => {
               </Table>
             </div>
           )}
-          {openInput && (
-            <CustomInput
-              fields={[
-                { name: "card_number", type: "text" },
-                { name: "reason", type: "text" },
-              ]}
-              onSubmit={handleSubmit}
-              onClose={handleClose}
-              title="Please Input Your Information"
-              typeSubmit="Submit"
-            />
-          )}
         </div>
       </div>
 
@@ -309,6 +304,19 @@ const SubcriptionListPage = () => {
           <SessionDetailDialog
             session={selectedSession}
             refetch={() => refetch()}
+            isTutor={false}
+          />
+        )}
+      </Dialog>
+
+      <Dialog
+        open={isRescheduleDialogOpen}
+        onOpenChange={handleCloseRescheduleDialog}
+      >
+        {selectedSession && (
+          <RescheduleSessionDialog
+            session={selectedSession}
+            refetch={refetch}
           />
         )}
       </Dialog>

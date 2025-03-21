@@ -217,9 +217,7 @@ export interface TeachingSession {
   comment?: string;
   teaching_quality?: string;
   subscription_id: number;
-  subscription?: {
-    course?: Course;
-  };
+  subscription?: CourseSubcription;
 }
 
 export interface Users {
@@ -284,8 +282,9 @@ export interface CourseSubcription {
   course_id: number;
   chidlren_id: number;
 
-  course?: Course;
-  children?: Children;
+  course: Course;
+  children: Children;
+  teachingSessions: TeachingSession[];
 }
 
 export interface RefundRequest {

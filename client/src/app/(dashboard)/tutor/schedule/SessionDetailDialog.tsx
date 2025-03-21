@@ -2,7 +2,6 @@
 
 import {
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -13,11 +12,13 @@ import SessionFeedbackForm from "./SessionFeedbackForm";
 type SessionDetailDialogProps = {
   session: TeachingSession;
   refetch: () => void;
+  isTutor: boolean;
 };
 
 export const SessionDetailDialog = ({
   session,
   refetch,
+  isTutor,
 }: SessionDetailDialogProps) => {
   return (
     <DialogContent className="max-w-5xl bg-customgreys-primarybg p-0">
@@ -107,7 +108,11 @@ export const SessionDetailDialog = ({
             </div>
           </div>
         </div>
-        <SessionFeedbackForm session={session} refetch={refetch} />
+        <SessionFeedbackForm
+          session={session}
+          refetch={refetch}
+          isTutor={isTutor}
+        />
       </div>
     </DialogContent>
   );

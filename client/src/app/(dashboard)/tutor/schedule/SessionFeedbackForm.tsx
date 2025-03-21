@@ -1,6 +1,7 @@
 import { CustomFormField } from "@/components/CustomFormField";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
 import { FeedbackFormData, feedbackSchema } from "@/lib/schemas";
 import { sessionStatus, teachingQualities } from "@/lib/utils";
 import { useUpdateSessionMutation } from "@/state/api";
@@ -12,9 +13,11 @@ import { useForm } from "react-hook-form";
 const SessionFeedbackForm = ({
   session,
   refetch,
+  isTutor,
 }: {
   session: TeachingSession;
   refetch: () => void;
+  isTutor: boolean;
 }) => {
   const methods = useForm<FeedbackFormData>({
     resolver: zodResolver(feedbackSchema),
@@ -73,48 +76,70 @@ const SessionFeedbackForm = ({
                 name="rating"
                 label="Rating"
                 type="number"
+                disabled={!isTutor}
                 className="border-none w-full"
               />
               <CustomFormField
                 name="teachingQuality"
                 label="Teaching Quality"
-                type="select"
+                type={isTutor ? "select" : "text"}
                 options={teachingQualities}
                 initialValue={session.teaching_quality}
+                disabled={!isTutor}
                 className="border-none"
               />
-              <CustomFormField
-                name="homeworkAssigned"
-                label="Homework Assigned"
-                type="text"
-                placeholder="Write homework here"
-                className="border-none"
-              />
+              {isTutor ? (
+                <CustomFormField
+                  name="homeworkAssigned"
+                  label="Homework Assigned"
+                  type="text"
+                  placeholder="Write homework here"
+                  className="border-none"
+                />
+              ) : (
+                <>
+                  <Label className={`text-customgreys-dirtyGrey text-sm`}>
+                    <span>Homework Assigned</span>
+                  </Label>
+                  <a
+                    href={session.homework_assigned}
+                    target="_blank"
+                    className="text-blue-500 hover:underline text-sm mt-2 block text-center"
+                  >
+                    Download PDF
+                  </a>
+                </>
+              )}
               <CustomFormField
                 name="comment"
                 label="Comment"
                 type="text"
                 placeholder="Write comment here"
+                disabled={!isTutor}
                 className="border-none"
               />
               <CustomFormField
                 name="status"
                 label="Status"
-                type="select"
+                type={isTutor ? "select" : "text"}
                 options={sessionStatus}
                 initialValue={session.status}
+                disabled={!isTutor}
                 className="border-none w-full"
               />
             </div>
           </div>
-          <div className="w-full flex justify-end">
-            <Button
-              type="submit"
-              className="bg-primary-700 hover:bg-primary-600 mt-2"
-            >
-              Save
-            </Button>
-          </div>
+          {/* Submit Button */}
+          {isTutor && (
+            <div className="w-full flex justify-end">
+              <Button
+                type="submit"
+                className="bg-primary-700 hover:bg-primary-600 mt-2"
+              >
+                Save
+              </Button>
+            </div>
+          )}
         </form>
       </Form>
     </div>

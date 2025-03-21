@@ -11,6 +11,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query";
 import { toast } from "sonner";
 import Cookies from "js-cookie";
+import { url } from "inspector";
 
 const customBaseQuery = async (
   args: string | FetchArgs,
@@ -432,6 +433,16 @@ export const api = createApi({
         body,
       }),
     }),
+    cancelBooking: build.mutation<
+      CourseSubcription,
+      { subscriptionId: number }
+    >({
+      query: ({ subscriptionId }) => ({
+        url: `/bookings/cancel`,
+        method: "PUT",
+        body: { subscriptionId },
+      }),
+    }),
     getParentBookings: build.query<CourseSubcription[], any>({
       query: () => ({
         url: `/bookings/parent`,
@@ -488,6 +499,7 @@ export const {
   useUpdateSessionMutation,
   useCreateStripePaymentIntentMutation,
   useCreateTrialBookingMutation,
+  useCancelBookingMutation,
   useGetParentBookingsQuery,
   useGetAllParentsQuery,
   useGetParentByIdQuery,

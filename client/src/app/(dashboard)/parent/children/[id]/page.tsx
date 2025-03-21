@@ -16,7 +16,7 @@ import Loading from "@/components/Loading";
 import BigCalendarContainer from "@/components/BigCalendarContainer";
 import { TeachingSession } from "@/types";
 import { calculateAge } from "@/lib/utils";
-import { SessionDetailDialog } from "@/components/dashboard/parent/TeachingSessionDialog";
+import { SessionDetailDialog } from "@/app/(dashboard)/tutor/schedule/SessionDetailDialog";
 
 const ChildSchedule = () => {
   const router = useRouter();
@@ -175,8 +175,15 @@ const ChildSchedule = () => {
 
         {/* Event Info */}
         {selectedEvent && (
+          // <Dialog open={eventDialogOpen} onOpenChange={setEventDialogOpen}>
+          //   <SessionDetailDialog session={selectedEvent} refetch={refetch} />
+          // </Dialog>
           <Dialog open={eventDialogOpen} onOpenChange={setEventDialogOpen}>
-            <SessionDetailDialog session={selectedEvent} refetch={refetch} />
+            <SessionDetailDialog
+              session={selectedEvent}
+              refetch={() => refetch()}
+              isTutor={false}
+            />
           </Dialog>
         )}
       </div>
