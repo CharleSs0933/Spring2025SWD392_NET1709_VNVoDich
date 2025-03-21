@@ -2,6 +2,7 @@
 
 import Loading from "@/components/Loading";
 import CustomInput from "@/components/nondashboard/CustomInput";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,15 +24,21 @@ import {
   useCreateRequestRefundMutation,
   useGetRequestRefundOfParentQuery,
 } from "@/state/apiAuth";
-import { Subscription } from "@/types";
-import { EllipsisVerticalIcon } from "lucide-react";
+import { Subscription, TeachingSession } from "@/types";
+import { ChevronDownIcon, EllipsisVerticalIcon } from "lucide-react";
 import React, { useState } from "react";
-
-// Helper function to calculate age
+import { SessionDetailDialog } from "../../tutor/schedule/SessionDetailDialog";
+import { Dialog } from "@/components/ui/dialog";
 
 const SubcriptionListPage = () => {
   const [selectedSub, setSelectedSub] = useState<Subscription | null>(null);
   const [openInput, setOpenInput] = useState(false);
+  const [selectedSession, setSelectedSession] =
+    useState<TeachingSession | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [expandedSubscriptionId, setExpandedSubscriptionId] = useState<
+    number | null
+  >(null);
   const { loading, isLogged } = useUser();
   const {
     data: subcriptions,
@@ -39,6 +46,8 @@ const SubcriptionListPage = () => {
     isError,
     refetch,
   } = useGetParentBookingsQuery({});
+  console.log(subcriptions);
+
   const { data: requests } = useGetRequestRefundOfParentQuery({});
   const requestArray = Array.isArray(requests) ? requests : [];
 
@@ -47,13 +56,13 @@ const SubcriptionListPage = () => {
   if (loading) return <Loading />;
   if (!isLogged) return <div>Please sign in to access this page.</div>;
   if (isError) return <div>Failed to fetch course data</div>;
+
   const handleCanncel = async (sub: any) => {
     setSelectedSub(sub);
     setOpenInput(!openInput);
   };
-  const handleSubmit = async (data: Record<string, string | boolean>) => {
-    console.log(data, "fff");
 
+  const handleSubmit = async (data: Record<string, string | boolean>) => {
     if (selectedSub) {
       const priceRefund =
         selectedSub.course?.price -
@@ -67,9 +76,27 @@ const SubcriptionListPage = () => {
       refetch();
     }
   };
+
   const handleClose = () => {
     setOpenInput(!openInput);
   };
+
+  const toggleExpand = (subscriptionId: number) => {
+    setExpandedSubscriptionId(
+      expandedSubscriptionId === subscriptionId ? null : subscriptionId
+    );
+  };
+
+  const handleOpenDialog = (session: TeachingSession) => {
+    setSelectedSession(session);
+    setIsDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+    setSelectedSession(null);
+  };
+
   return (
     <div className="space-y-8">
       <div className="space-y-6 bg-customgreys-secondarybg">
@@ -82,6 +109,7 @@ const SubcriptionListPage = () => {
               <Table className="text-customgreys-dirtyGrey min-h-[200px]">
                 <TableHeader className="bg-customgreys-darkGrey">
                   <TableRow className="border-none text-white-50">
+                    <TableHead className="border-none p-4"> </TableHead>
                     <TableHead className="border-none p-4">Child </TableHead>
                     <TableHead className="border-none p-4">
                       Course Title
@@ -102,68 +130,156 @@ const SubcriptionListPage = () => {
                 <TableBody className="bg-customgreys-primarybg min-h-[200px]">
                   {subcriptions && subcriptions.length > 0 ? (
                     subcriptions.map((subscription) => (
-                      <TableRow className="border-none" key={subscription.id}>
-                        <TableCell className="border-none p-4 font-medium">
-                          {subscription.children?.profile?.full_name}
-                        </TableCell>
-                        <TableCell className="border-none p-4">
-                          {subscription.course?.title}
-                        </TableCell>
-                        <TableCell className="border-none p-4">
-                          {subscription.course?.subject}
-                        </TableCell>
-                        <TableCell className="border-none p-4">
-                          {subscription.course?.grade}
-                        </TableCell>
-                        <TableCell className="border-none p-4">
-                          ${subscription.price}
-                        </TableCell>
-                        <TableCell className="border-none p-4">
-                          {subscription.course?.total_lessons}
-                        </TableCell>
-                        <TableCell className="border-none p-4">
-                          {subscription.sessions_remaining}
-                        </TableCell>
-                        <TableCell className="border-none p-4">
-                          {(() => {
-                            const foundRequest = requestArray?.find(
-                              (res) => res.order_id === String(subscription.id)
-                            );
-                            const status =
-                              foundRequest?.status || subscription.status;
+                      <React.Fragment key={subscription.id}>
+                        <TableRow className="border-none">
+                          <TableCell className="border-none p-4 font-medium text-customgreys-blueGrey">
+                            <button
+                              onClick={() => toggleExpand(subscription.id)}
+                            >
+                              <ChevronDownIcon size={16} />
+                            </button>
+                          </TableCell>
+                          <TableCell className="border-none p-4 font-medium text-customgreys-blueGrey">
+                            {subscription.children?.profile?.full_name}
+                          </TableCell>
+                          <TableCell className="border-none p-4 text-customgreys-blueGrey">
+                            {subscription.course?.title}
+                          </TableCell>
+                          <TableCell className="border-none p-4 text-customgreys-blueGrey">
+                            {subscription.course?.subject}
+                          </TableCell>
+                          <TableCell className="border-none p-4 text-customgreys-blueGrey">
+                            {subscription.course?.grade}
+                          </TableCell>
+                          <TableCell className="border-none p-4 text-customgreys-blueGrey">
+                            ${subscription.course?.price}
+                          </TableCell>
+                          <TableCell className="border-none p-4 text-customgreys-blueGrey">
+                            {subscription.course?.total_lessons}
+                          </TableCell>
+                          <TableCell className="border-none p-4 text-customgreys-blueGrey">
+                            {subscription.sessions_remaining}
+                          </TableCell>
+                          <TableCell className="border-none p-4 text-customgreys-blueGrey">
+                            {(() => {
+                              const foundRequest = requestArray?.find(
+                                (res) =>
+                                  res.order_id === String(subscription.id)
+                              );
+                              const status =
+                                foundRequest?.status || subscription.status;
 
-                            const { className, icon } = getStatusStyles(status);
+                              const { className, icon } =
+                                getStatusStyles(status);
 
-                            return (
-                              <span className={className}>
-                                {React.createElement(icon)}
-                                {status}
-                              </span>
-                            );
-                          })()}
-                        </TableCell>
-
-                        <TableCell className="border-none p-4">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger>
-                              <EllipsisVerticalIcon size={16} />
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent className="bg-customgreys-primarybg">
-                              <DropdownMenuItem
-                                onClick={() => handleCanncel(subscription)}
-                              >
-                                Cancel Subscription
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        </TableCell>
-                      </TableRow>
+                              return (
+                                <span className={className}>
+                                  {React.createElement(icon)}
+                                  {status}
+                                </span>
+                              );
+                            })()}
+                          </TableCell>
+                          <TableCell className="border-none p-4">
+                            <DropdownMenu>
+                              <DropdownMenuTrigger>
+                                <EllipsisVerticalIcon size={16} />
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent className="bg-customgreys-primarybg">
+                                <DropdownMenuItem
+                                  onClick={() => handleCanncel(subscription)}
+                                >
+                                  Cancel Subscription
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </TableCell>
+                        </TableRow>
+                        {expandedSubscriptionId === subscription.id && (
+                          <TableRow>
+                            <TableCell colSpan={10} className="p-0">
+                              <div className="bg-customgreys-lightGrey">
+                                <Table>
+                                  <TableHeader className="bg-gray-800">
+                                    <TableRow>
+                                      <TableHead></TableHead>
+                                      <TableHead className="text-white-100 p-3">
+                                        Topic
+                                      </TableHead>
+                                      <TableHead className="text-white-100 p-3">
+                                        Date
+                                      </TableHead>
+                                      <TableHead className="text-white-100 p-3">
+                                        Status
+                                      </TableHead>
+                                      <TableHead className="text-white-100 p-3">
+                                        Actions
+                                      </TableHead>
+                                    </TableRow>
+                                  </TableHeader>
+                                  <TableBody>
+                                    {subscription.teachingSessions.map(
+                                      (session) => (
+                                        <TableRow key={session.id}>
+                                          <TableCell></TableCell>
+                                          <TableCell className="p-3 border-b text-gray-300">
+                                            {session.topics_covered}
+                                          </TableCell>
+                                          <TableCell className="p-3 border-b text-gray-300">
+                                            {new Date(
+                                              session.startTime
+                                            ).toLocaleDateString()}
+                                          </TableCell>
+                                          <TableCell className="p-3 border-b">
+                                            <span
+                                              className={`px-4 py-1 rounded-full text-base ${
+                                                session.status === "attend"
+                                                  ? "bg-green-100 text-green-800"
+                                                  : session.status === "absent"
+                                                  ? "bg-red-100 text-red-800"
+                                                  : "bg-blue-100 text-blue-800"
+                                              }`}
+                                            >
+                                              {session.status}
+                                            </span>
+                                          </TableCell>
+                                          <TableCell className="p-3 border-b">
+                                            <div className="flex space-x-2">
+                                              <Button
+                                                className="text-white-50 text-sm bg-gray-600 rounded-full"
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() =>
+                                                  handleOpenDialog(session)
+                                                }
+                                              >
+                                                Detail
+                                              </Button>
+                                              <Button
+                                                className="text-white-50 text-sm bg-gray-600 rounded-full"
+                                                variant="outline"
+                                                size="sm"
+                                              >
+                                                Change
+                                              </Button>
+                                            </div>
+                                          </TableCell>
+                                        </TableRow>
+                                      )
+                                    )}
+                                  </TableBody>
+                                </Table>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        )}
+                      </React.Fragment>
                     ))
                   ) : (
                     <TableRow className="border-none">
                       <TableCell
                         className="border-none p-4 text-center"
-                        colSpan={9} // Adjusted to match the number of columns
+                        colSpan={9}
                       >
                         No subscriptions to display
                       </TableCell>
@@ -187,6 +303,15 @@ const SubcriptionListPage = () => {
           )}
         </div>
       </div>
+
+      <Dialog open={isDialogOpen} onOpenChange={handleCloseDialog}>
+        {selectedSession && (
+          <SessionDetailDialog
+            session={selectedSession}
+            refetch={() => refetch()}
+          />
+        )}
+      </Dialog>
     </div>
   );
 };
