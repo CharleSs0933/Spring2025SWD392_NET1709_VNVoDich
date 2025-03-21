@@ -77,12 +77,14 @@ export const useUser = () => {
     full_name,
     email,
     role,
+    phone
   }: {
     username: string;
     password: string;
     full_name: string;
     email: string;
     role: string;
+    phone: string;
   }) => {
     setLoading(true);
     try {
@@ -92,6 +94,7 @@ export const useUser = () => {
         full_name,
         email,
         role,
+        phone
       });
     } catch (error) {
       console.error("signUp failed:", error);

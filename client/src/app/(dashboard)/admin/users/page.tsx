@@ -5,6 +5,7 @@ import {
   useDeleteUserMutation,
   useGetUsersQuery,
   useUpdateUserMutation,
+  useUpdateUserStatusMutation,
 } from "@/state/apiAuth";
 import { Users } from "@/types";
 import React, { useEffect, useState } from "react";
@@ -27,11 +28,13 @@ const ManagementUser = () => {
   const { data: users, isLoading, refetch } = useGetUsersQuery({});
   const [deleteUser] = useDeleteUserMutation();
   const [updateUser] = useUpdateUserMutation();
-
+  const [updateUserStatus] = useUpdateUserStatusMutation();
+  console.log(users);
+  
   const [usersList, setUsersList] = useState<
     {
       id: number;
-      username: string;
+      username: string; 
       fullname: string;
       role: string;
       email: string;
@@ -75,9 +78,15 @@ const ManagementUser = () => {
       setIsUpdate(true);
     }
   };
+  const handleUpdateStatus = async(id : number) => {
+    const userToUpdate = usersList.find((user) => user.id === id);
+   await updateUserStatus({username : String(userToUpdate?.username.trim()), status : String('Banned')}).unwrap();
+  };
 
   const handleSubmit = async (data: Record<string, string | boolean>) => {
     try {
+      console.log(data);
+      
       if (isUpdate) {
         await updateUser({
           id: selectedUser?.id ?? 0,
@@ -116,8 +125,8 @@ const ManagementUser = () => {
               fields={[
                 { name: "fullname", type: "text" },
                 { name: "email", type: "text" },
-                { name: "role", type: "text" },
                 { name: "phone", type: "text" },
+                
               ]}
               title={`${
                 isUpdate
@@ -132,7 +141,6 @@ const ManagementUser = () => {
                 isUpdate
                   ? {
                       fullname: selectedUser?.fullname,
-                      role: selectedUser?.role,
                       phone: selectedUser?.phone,
                       email: selectedUser?.email,
                     }
@@ -158,15 +166,13 @@ const ManagementUser = () => {
                 { key: "username", label: "User Name" },
                 { key: "fullname", label: "Full Name" },
                 { key: "role", label: "Role" },
-                { key: "email", label: "Email" },
                 { key: "phone", label: "Phone" },
-                { key: "is_verified", label: "Verified" },
                 { key: "status", label: "Status" },
-                { key: "account_locked", label: "Locked" },
               ]}
               onDelete={handleDelete}
               onUpdate={handleUpdate}
-              onCreate={handleCreate}
+              onUpdateStatus={handleUpdateStatus}
+              // onCreate={handleCreate}
               ITEMS_PER_PAGE={6}
             />
           </div>

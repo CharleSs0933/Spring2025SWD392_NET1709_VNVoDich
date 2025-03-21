@@ -7,6 +7,7 @@ interface TableProps<T> {
   onDelete?: (id: number) => void;
   onUpdate?: (id: number) => void;
   onCreate?: () => void;
+  onUpdateStatus?: (id : number) => void;
   ITEMS_PER_PAGE: number;
 }
 
@@ -17,6 +18,7 @@ const CustomTable = <T extends { id: number }>({
   onDelete,
   onUpdate,
   onCreate,
+  onUpdateStatus,
 }: TableProps<T>) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortColumn, setSortColumn] = useState<keyof T | null>(null);
@@ -64,9 +66,11 @@ const CustomTable = <T extends { id: number }>({
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <button onClick={onCreate} className="mb-4 text-green-600 p-3">
-          <PlusCircleIcon size={35} />
-        </button>
+        {onCreate && (
+          <button onClick={onCreate} className="mb-4 text-green-600 p-3">
+            <PlusCircleIcon size={35} />
+          </button>
+        )}
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full border border-gray-300 rounded-lg">
@@ -113,9 +117,17 @@ const CustomTable = <T extends { id: number }>({
                     {onDelete && (
                       <button
                         onClick={() => onDelete(row.id)}
-                        className="px-2 py-1 bg-red-500 text-white rounded"
+                        className="mr-2 px-2 py-1 bg-red-500 text-white rounded"
                       >
                         Delete
+                      </button>
+                    )}
+                    {onUpdateStatus && (
+                      <button
+                        onClick={() => onUpdateStatus(row.id)}
+                        className="mr-2 px-2 py-1 bg-red-500 text-white rounded"
+                      >
+                        Banned
                       </button>
                     )}
                   </td>

@@ -19,6 +19,7 @@ const Login = () => {
     passWord: "",
     confirmPassword: "",
     email: "",
+    phone: "",
     role: "Parent",
   });
   const containerRef = useRef(null);
@@ -99,6 +100,7 @@ const Login = () => {
           full_name: signUpData.fullName,
           password: signUpData.passWord,
           role: signUpData.role,
+          phone: signUpData.phone,
         });
         if (!res?.error) {
           setSignUpData({
@@ -107,6 +109,7 @@ const Login = () => {
             passWord: "",
             confirmPassword: "",
             email: "",
+            phone: "",
             role: "Parent",
           });
           setIsSignUp(!isSignUp);
@@ -218,6 +221,15 @@ const Login = () => {
                   placeholder="Confirm Password"
                   name="confirmPassword"
                   value={signUpData.confirmPassword}
+                  onChange={handleChange}
+                  required
+                />
+                <input
+                  className="p-2 border rounded-[7px]"
+                  type="text"
+                  placeholder="Phone Number"
+                  name="phone"
+                  value={signUpData.phone}
                   onChange={handleChange}
                   required
                 />

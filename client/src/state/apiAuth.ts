@@ -79,6 +79,7 @@ export const apiAuth = createApi({
         email: string;
         role: string;
         full_name: string;
+        phone: string;
       }
     >({
       query: (body) => ({
@@ -139,6 +140,18 @@ export const apiAuth = createApi({
         url: `/api/admin/user/update?id=${id}`,
         method: "PUT",
         body: { email, full_name, phone },
+      }),
+    }),
+    updateUserStatus: build.mutation<
+      Users,
+      {
+        username: string;
+        status: string;
+      }
+    >({
+      query: ({ username, status }) => ({
+        url: `/api/admin/users/${username}/status?status=${status}`,
+        method: "PATCH",
       }),
     }),
 
@@ -302,4 +315,5 @@ export const {
   useGetRequestRefundByIDQuery,
   useUpdateStatusRefundRequestMutation,
   useGetRequestRefundOfParentQuery,
+  useUpdateUserStatusMutation,
 } = apiAuth;

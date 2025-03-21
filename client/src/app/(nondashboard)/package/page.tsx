@@ -38,7 +38,6 @@ const Package = () => {
         amount: resGet?.data?.price,
         description: resGet?.data?.plan_name,
       });
-      console.log(resPayment, "ff");
       router.push(resPayment?.data?.redirectUrl);
      
     } else {

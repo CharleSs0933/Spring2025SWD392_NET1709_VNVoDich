@@ -14,6 +14,8 @@ const SubscriptionManagement = () => {
     plan_name: string;
     price: number;
     status: string;
+    current_period_end : string;
+    current_period_start : string;
   } | null>(null);
 
   const {
@@ -25,6 +27,8 @@ const SubscriptionManagement = () => {
   //   const [updateSubscription] = useUpdateSubscriptionMutation();
   //   const [deleteSubscription] = useDeleteSubscriptionMutation();
 
+  console.log(Subscriptions);
+  
   const [SubscriptionsList, setSubscriptionsList] = useState<
     {
       id: number;
@@ -32,11 +36,19 @@ const SubscriptionManagement = () => {
       status: string;
       price: number;
       plan_name: string;
+      current_period_end : string;
+      current_period_start : string;
     }[]
   >([]);
 
   useEffect(() => {
+
     if (Subscriptions) {
+
+      const parseDate = (isoString : any ) => {
+        return new Date(isoString).toLocaleDateString("en-US"); 
+      };
+      
       const transformedSubscription = (Subscriptions as Subscription[]).map(
         (sub) => ({
           id: sub.id || 0,
@@ -44,6 +56,8 @@ const SubscriptionManagement = () => {
           plan_name: sub.plan_name || "unknown",
           status: sub.status || "unknown",
           price: sub.price || 0,
+          current_period_start: sub.current_period_start ? parseDate(sub.current_period_start) : "unknown",
+          current_period_end: sub.current_period_end ? parseDate(sub.current_period_end) : "unknown",
         })
       );
       setSubscriptionsList(transformedSubscription);
@@ -160,10 +174,12 @@ const SubscriptionManagement = () => {
                 { key: "plan_name", label: "Subscription Name" },
                 { key: "price", label: "Price" },
                 { key: "status", label: "status" },
+                { key: "current_period_start", label: "Sub Start" },
+                { key: "current_period_end", label: "Sub End" },
               ]}
-              onDelete={handleDelete}
-              onUpdate={handleUpdate}
-              onCreate={handleCreate}
+              // onDelete={handleDelete}
+              // onUpdate={handleUpdate}
+              // onCreate={handleCreate}
               ITEMS_PER_PAGE={6}
             />
           </div>
