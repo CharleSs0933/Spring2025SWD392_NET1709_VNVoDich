@@ -17,12 +17,14 @@ export default function Home() {
   useEffect(() => {
     const fetch = async () => {
       const userData = Cookies.get("user");
+      if(!userData) return
       const parsedUser = JSON.parse(userData || "");
       console.log(parsedUser);
-      const res = await tutorSub({ id: Number(parsedUser.ID) });
-      console.log(res, "ggg");
-      if (res.data?.status) {
-        Cookies.set("sub", res.data?.status, { path: "/", expires: 7 });
+      if (parsedUser.role === "Tutor") {
+        const res = await tutorSub({ id: Number(parsedUser.ID) });
+        if (res.data?.status) {
+          Cookies.set("sub", res.data?.status, { path: "/", expires: 7 });
+        }
       } else {
         Cookies.remove("sub");
       }

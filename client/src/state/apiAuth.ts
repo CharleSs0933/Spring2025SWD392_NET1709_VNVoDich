@@ -30,7 +30,7 @@ const customBaseQuery = async (
         errorData?.message ||
         result.error.status.toString() ||
         "An error occurred";
-      // toast.error(`Error: ${errorMessage}`);
+      toast.error(`Error: ${errorMessage}`);
     }
 
     const isMutationRequest =
