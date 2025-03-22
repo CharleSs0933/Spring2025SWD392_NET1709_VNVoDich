@@ -231,8 +231,6 @@ const BookingForm = ({ availabilities, course }: Props) => {
       );
       const endTime = new Date(startTime.getTime() + 50 * 60000); // Giả sử course.duration là phút
 
-      console.log(startTime);
-
       formattedBookings.push({
         startTime: startTime.toISOString(),
         endTime: endTime.toISOString(),

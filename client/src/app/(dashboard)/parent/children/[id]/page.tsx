@@ -70,7 +70,6 @@ const ChildSchedule = () => {
         date_of_birth: child.date_of_birth || "",
         learning_goals: child.learning_goals || "",
       });
-      console.log(formData);
     }
   };
 

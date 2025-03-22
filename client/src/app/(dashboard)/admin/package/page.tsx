@@ -84,7 +84,6 @@ const PackageManagement = () => {
           is_active: Boolean(data.is_active),
           description: String(data.description),
         }).unwrap();
-        console.log(data);
 
         setIsUpdate(false);
         setSelectedPackage(null);
@@ -97,7 +96,6 @@ const PackageManagement = () => {
           is_active: Boolean(data.is_active),
           description: String(data.description),
         }).unwrap();
-        console.log(data);
 
         setIsCreate(false);
       }

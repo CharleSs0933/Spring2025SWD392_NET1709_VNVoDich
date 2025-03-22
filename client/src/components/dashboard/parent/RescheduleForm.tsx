@@ -57,7 +57,7 @@ const RescheduleForm = ({
       </div>
 
       <div className="flex flex-col gap-8">
-        <div className="md:h-96 flex flex-col md:flex-row gap-5">
+        <div className=" flex flex-col md:flex-row gap-5">
           <div className="w-full">
             <h3 className="text-lg font-medium text-gray-300 mb-2">
               Select Date
@@ -97,7 +97,7 @@ const RescheduleForm = ({
                 <h4 className="font-medium text-gray-300">
                   {format(new Date(selectedDate), "EEEE, MMMM d, yyyy")}
                 </h4>
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {timeSlots.map((slot) => (
                     <div key={slot} className="">
                       <Button

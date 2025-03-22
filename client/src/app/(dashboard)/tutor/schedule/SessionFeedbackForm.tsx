@@ -46,8 +46,6 @@ const SessionFeedbackForm = ({
 
   const onSubmit = async (data: FeedbackFormData) => {
     try {
-      console.log(data);
-
       await updateSession({
         id: session.id,
         rating: data.rating,

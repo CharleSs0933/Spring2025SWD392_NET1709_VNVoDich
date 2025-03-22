@@ -88,7 +88,6 @@ const RequestManagement = () => {
         setIsUpdate(false);
         setSelectedRequest(null);
       } else {
-        console.log(data);
         setIsCreate(false);
       }
       refetch();

@@ -62,8 +62,6 @@ const ChildrenManagement = () => {
   };
 
   const handleCreateChildAccount = async () => {
-    console.log(formData);
-
     await createChild({
       username: formData.username,
       full_name: formData.full_name,

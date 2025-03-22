@@ -25,7 +25,6 @@ const page = () => {
   useEffect(() => {
     setEventDialogOpen(selectedEvent !== null);
   }, [selectedEvent]);
-  console.log(user);
 
   if (isLoading) return <Loading />;
   if (isError || !child) return <div>Error loading child.</div>;

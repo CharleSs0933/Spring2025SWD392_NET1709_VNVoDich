@@ -43,8 +43,6 @@ export async function GET(req: NextRequest) {
       }
     );
 
-    console.log(data);
-
     const params = new URLSearchParams({
       client_id: process.env.GOOGLE_CLIENT_ID || "",
       client_secret: process.env.GOOGLE_CLIENT_SECRET || "",
@@ -60,8 +58,6 @@ export async function GET(req: NextRequest) {
     });
 
     const tokenData: GoogleTokenResponse = await tokenResponse.json();
-
-    // console.log(tokenData);
 
     if (!tokenData.access_token) {
       return NextResponse.json(

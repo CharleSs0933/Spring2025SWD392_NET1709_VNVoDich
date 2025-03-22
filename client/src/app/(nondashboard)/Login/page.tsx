@@ -89,7 +89,6 @@ const Login = () => {
 
   const handleSubmit = async () => {
     if (isSignUp) {
-      console.log(signUpData);
       if (signUpData.passWord !== signUpData.confirmPassword) {
         alert("password dont match");
       } else {
@@ -122,7 +121,7 @@ const Login = () => {
       if (userData) {
         const parsedUser = JSON.parse(userData);
         const res = await tutorSub({ id: parsedUser.ID });
-        console.log(res, "ggg");
+
         if (res.data?.status) {
           Cookies.set("sub", res.data?.status, { path: "/", expires: 7 });
         } else {

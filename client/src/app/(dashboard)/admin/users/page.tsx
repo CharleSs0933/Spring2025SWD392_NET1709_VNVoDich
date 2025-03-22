@@ -89,7 +89,6 @@ const ManagementUser = () => {
         setSelectedUser(null);
       } else {
         setIsCreate(false);
-        console.log(data);
       }
 
       refetch();
