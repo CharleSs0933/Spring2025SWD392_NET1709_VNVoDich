@@ -141,9 +141,9 @@ const ManagementCourses = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100  min-h-screen">
-      <div className="bg-white shadow-lg rounded-lg p-6">
-        <h1 className="text-3xl text-black font-bold mb-2">
+    <div className="p-6 bg-customgreys-secondarybg min-h-screen">
+      <div className="bg-white  rounded-lg p-6">
+        <h1 className="text-3xl text-white-100 font-bold mb-2">
           Courses Management
         </h1>
         <p className="text-gray-600 mb-6">
@@ -151,7 +151,7 @@ const ManagementCourses = () => {
         </p>
 
         {(isUpdate && selectedCourse) || isCreate ? (
-          <div className="mb-6 bg-gray-50 shadow-md p-5 rounded-lg">
+          <div className="mb-6 bg-customgreys-secondarybg  p-5 rounded-lg">
             <CustomInput
               fields={[
                 { name: "title", type: "text" },
@@ -195,7 +195,7 @@ const ManagementCourses = () => {
         ) : isLoading ? (
           <p>Loading courses...</p>
         ) : (
-          <div className="bg-white-100 shadow-md rounded-lg overflow-hidden">
+          <div className="bg-customgreys-secondarybg  rounded-lg overflow-hidden">
             <CustomTable
               data={courses}
               columns={[

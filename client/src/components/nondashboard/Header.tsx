@@ -21,11 +21,13 @@ const Header = () => {
     const userData = Cookies.get("user");
     if (userData) {
       const parsedUser = JSON.parse(userData);
+      console.log(parsedUser);
+      
       if (
         parsedUser.role === "Admin" ||
         parsedUser.role === "Parent" ||
         parsedUser.role === "Tutor" ||
-        parsedUser.role === "Chilren"
+        parsedUser.role === "Children"
       ) {
         setRole(parsedUser.role);
       }
@@ -33,6 +35,8 @@ const Header = () => {
         const check = await  Cookies.get("sub");
         if(check){
           setIsSub(check )
+          console.log(check);
+          
         }
       };
       fetch();
@@ -48,7 +52,7 @@ const Header = () => {
     Parent: [{ icon: BookOpen, label: "DashBoard", href: "/parent/children" }],
     Tutor: [{ icon: User, label: "DashBoard", href: "/tutor/schedule" }],
     Admin: [{ icon: BookOpen, label: "DashBoard", href: "/admin/users" }],
-    Chilren: [{ icon: BookOpen, label: "Schedule", href: "/child" }],
+    Children: [{ icon: BookOpen, label: "Schedule", href: "/child" }],
   };
 
   const currentNavLinks = role ? navLinks[role as keyof typeof navLinks] : [];

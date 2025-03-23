@@ -131,15 +131,14 @@ export const apiAuth = createApi({
       Users,
       {
         id: number;
-        email: string;
         full_name: string;
         phone: string;
       }
     >({
-      query: ({ id, email, full_name, phone }) => ({
+      query: ({ id, full_name, phone }) => ({
         url: `/api/admin/user/update?id=${id}`,
         method: "PUT",
-        body: { email, full_name, phone },
+        body: { full_name, phone },
       }),
     }),
     updateUserStatus: build.mutation<
