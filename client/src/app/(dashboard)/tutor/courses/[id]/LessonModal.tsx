@@ -63,6 +63,13 @@ const LessonModal = () => {
   }, [lesson, methods]);
 
   const onClose = () => {
+    methods.reset({
+      title: "",
+      description: "",
+      learning_objectives: "",
+      materials_needed: "",
+      homework: "",
+    });
     dispatch(closeLessonModal());
   };
 
@@ -107,15 +114,13 @@ const LessonModal = () => {
           description: data.description,
           learning_objectives: data.learning_objectives,
           materials_needed: data.materials_needed,
+          homework: homeworkFile || "",
         }).unwrap();
       } catch (error) {
         console.log("Failed to update course: ", error);
       }
     }
 
-    // toast.success(
-    //   `Lesson added/updated successfully but you need to save the course to apply the changes`
-    // );
     methods.reset({
       title: "",
       description: "",

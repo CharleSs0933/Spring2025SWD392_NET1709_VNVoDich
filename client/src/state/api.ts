@@ -233,6 +233,7 @@ export const api = createApi({
         description: string;
         learning_objectives: string;
         materials_needed: string;
+        homework: string;
       }
     >({
       query: ({
@@ -242,6 +243,7 @@ export const api = createApi({
         description,
         learning_objectives,
         materials_needed,
+        homework,
       }) => ({
         url: `courses/${courseId}/update-lesson/${lessonId}`,
         method: "PUT",
@@ -250,6 +252,7 @@ export const api = createApi({
           description,
           learning_objectives,
           materials_needed,
+          homework,
         },
       }),
       invalidatesTags: ["Courses"],

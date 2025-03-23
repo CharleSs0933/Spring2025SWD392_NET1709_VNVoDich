@@ -183,18 +183,22 @@ const SubcriptionListPage = () => {
                             })()}
                           </TableCell>
                           <TableCell className="border-none p-4">
-                            <DropdownMenu>
-                              <DropdownMenuTrigger>
-                                <EllipsisVerticalIcon size={16} />
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent className="bg-customgreys-primarybg">
-                                <DropdownMenuItem
-                                  onClick={() => handleCanncel(subscription)}
-                                >
-                                  Cancel Subscription
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
+                            {subscription.course.total_lessons -
+                              subscription.sessions_remaining <
+                              3 && (
+                              <DropdownMenu>
+                                <DropdownMenuTrigger>
+                                  <EllipsisVerticalIcon size={16} />
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className="bg-customgreys-primarybg">
+                                  <DropdownMenuItem
+                                    onClick={() => handleCanncel(subscription)}
+                                  >
+                                    Cancel Subscription
+                                  </DropdownMenuItem>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            )}
                           </TableCell>
                         </TableRow>
                         {expandedSubscriptionId === subscription.id && (

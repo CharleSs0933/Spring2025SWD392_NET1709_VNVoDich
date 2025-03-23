@@ -42,7 +42,7 @@ const CourseEditor = () => {
       courseDescription: "",
       courseSubject: "",
       courseGrade: "",
-      coursePrice: "0",
+      coursePrice: 0,
       courseStatus: false,
       courseImage: "",
     },
@@ -55,7 +55,7 @@ const CourseEditor = () => {
         courseDescription: course.description,
         courseSubject: course.subject,
         courseGrade: course.grade.toString(),
-        coursePrice: course.price.toString(),
+        coursePrice: course.price,
         courseStatus: course.status === "Published",
         courseImage: course.image,
       });
@@ -170,7 +170,7 @@ const CourseEditor = () => {
                   name="coursePrice"
                   label="Course Price"
                   type="number"
-                  placeholder="0"
+                  placeholder="Enter course price here"
                   initialValue={course?.price}
                 />
                 {courseImage ? (

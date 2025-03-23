@@ -113,7 +113,7 @@ export interface CourseFormData {
   courseDescription: string;
   courseSubject: string;
   courseGrade: string;
-  coursePrice: string;
+  coursePrice: number;
   courseStatus: boolean;
   courseImage: string;
 }
