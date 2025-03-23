@@ -23,10 +23,26 @@ interface Course {
       phone?: string;
     };
   };
+  lessons?: [
+    {
+      id: number;
+      title: string;
+      description: string;
+      learning_objectives: string;
+      materials_needed: string;
+      courses_id: number;
+    }
+  ];
+  status: string;
 }
 
 const ManagementCourses = () => {
-  const { data: courseFilter, isLoading, refetch } = useGetCoursesQuery({});
+  const {
+    data: courseFilter,
+    isLoading,
+    refetch,
+  } = useGetCoursesQuery({ pageSize: 30 });
+
   const [updateCourse] = useUpdateCourseMutation();
   const [deleteCourse] = useDeleteCourseMutation();
 
@@ -43,6 +59,8 @@ const ManagementCourses = () => {
       tutor_id: number;
       full_name: string;
       phone: string;
+      status: string;
+      grade: number;
     }[]
   >([]);
 
@@ -57,6 +75,8 @@ const ManagementCourses = () => {
         tutor_id: cor.tutor_id ?? 0,
         full_name: cor.tutor?.profile?.full_name ?? "Unknown",
         phone: cor.tutor?.profile?.phone ?? "N/A",
+        status: cor.status ?? "Draw",
+        grade: cor.grade ?? 0,
       }));
       setCourses(transformedCourses);
     }
@@ -82,21 +102,38 @@ const ManagementCourses = () => {
   const handleSubmit = async (data: Record<string, string | boolean>) => {
     try {
       if (isUpdate) {
+        if (!selectedCourse?.id) {
+          console.error("Error: No course selected for update.");
+          return;
+        }
+
         const formData = new FormData();
-        formData.append("title", String(data.title));
-        formData.append("price", String(data.price));
-        formData.append("subject", String(data.subject));
-        formData.append("total_lessons", String(data.total_lessons));
+        formData.append("title", String(data.title || ""));
+        formData.append("price", String(data.price || "0"));
+        formData.append("subject", String(data.subject || ""));
+        formData.append("status", data.status ? "Published" : "Draft");
+        formData.append("grade", String(data.grade || ""));
+        formData.append(
+          "description",
+          data.description ? String(data.description) : "null"
+        );
+        console.log("Submitting formData:");
+        for (let [key, value] of formData.entries()) {
+          console.log(`${key}: ${value}`);
+        }
 
         await updateCourse({
           courseId: selectedCourse.id,
           formData,
         }).unwrap();
+
         setIsUpdate(false);
         setSelectedCourse(null);
       } else {
         setIsCreate(false);
+        console.log("New Course Data:", data);
       }
+
       refetch();
     } catch (error) {
       console.error("Failed to update course:", error);
@@ -125,6 +162,8 @@ const ManagementCourses = () => {
                 { name: "price", type: "text" },
                 { name: "subject", type: "text" },
                 { name: "total_lessons", type: "text" },
+                { name: "grade", type: "text" },
+                { name: "status", type: "switch" },
               ]}
               title={`${
                 isUpdate
