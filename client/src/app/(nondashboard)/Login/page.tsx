@@ -124,9 +124,9 @@ const Login = () => {
       if (userData) {
         const parsedUser = JSON.parse(userData);
         console.log(parsedUser);
+        router.push("/");
         if (parsedUser.role === "Tutor") {
           const res = await tutorSub({ id: parsedUser.ID });
-          router.push("/");
           if (res.data?.status) {
             Cookies.set("sub", res.data?.status, { path: "/", expires: 7 });
           }
