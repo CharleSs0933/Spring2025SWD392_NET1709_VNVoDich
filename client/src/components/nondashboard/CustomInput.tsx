@@ -47,7 +47,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
   return (
     <div className="max-w-md mx-auto bg-white shadow-lg rounded-2xl p-6 ">
       <div className="flex justify-center items-center gap-5 mb-4">
-      <h2 className="text-xl font-semibold text-gray-700 text-center ">
+      <h2 className="text-xl font-semibold text-white-100 text-center ">
        {title}
       </h2>
       {onClose && (
@@ -60,7 +60,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
       <div className="space-y-4">
         {fields.map(({ name, type, options }) => (
           <div key={name} className="flex flex-col">
-            <label className="text-black font-medium capitalize mb-1">
+            <label className="text-white-100 font-medium capitalize mb-1">
               {name}
             </label>
 

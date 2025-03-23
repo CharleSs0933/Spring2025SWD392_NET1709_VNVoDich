@@ -127,7 +127,7 @@ const Login = () => {
         console.log(parsedUser);
         if (parsedUser.role === "Tutor") {
           const res = await tutorSub({ id: parsedUser.ID });
-          console.log(res, "ggg");
+          router.push("/");
           if (res.data?.status) {
             Cookies.set("sub", res.data?.status, { path: "/", expires: 7 });
           }
@@ -135,7 +135,6 @@ const Login = () => {
           Cookies.remove("sub");
         }
       }
-      router.push("/");
     }
   };
 

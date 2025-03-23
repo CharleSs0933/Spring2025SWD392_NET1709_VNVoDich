@@ -57,7 +57,7 @@ const CustomTable = <T extends { id: number }>({
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 bg-customgreys-secondarybg ">
       <div className="flex items-center gap-5 justify-center">
         <input
           type="text"
@@ -75,7 +75,7 @@ const CustomTable = <T extends { id: number }>({
       <div className="overflow-x-auto">
         <table className="min-w-full border border-gray-300 rounded-lg">
           <thead>
-            <tr className="bg-gray-200 text-black text-center">
+            <tr className="bg-customgreys-secondarybg text-white-100 text-center">
               {columns.map((col) => (
                 <th
                   key={String(col.key)}
@@ -100,7 +100,7 @@ const CustomTable = <T extends { id: number }>({
                   {columns.map((col) => (
                     <td
                       key={String(col.key)}
-                      className="px-4 py-2 border text-black"
+                      className="px-4 py-2 border text-customgreys-blueGrey"
                     >
                       {String(row[col.key])}
                     </td>

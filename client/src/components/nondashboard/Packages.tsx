@@ -24,7 +24,6 @@ const Packages: React.FC<PackagesProps> = ({ packages, orderButton }) => {
             <p className="text-gray-500 text-lg mt-2 font-medium">{pkg.description}</p>
 
             <div className="mt-4 text-gray-900 font-semibold text-lg">
-              <p>💰 Monthly: ${pkg.price_monthly}</p>
               <p>💳 Annually: ${pkg.price_annually}</p>
             </div>
 

@@ -113,6 +113,7 @@ export const useUser = () => {
     Cookies.remove("authToken");
     Cookies.remove("user");
     Cookies.remove("status");
+    Cookies.remove("sub");
     setUser(null);
     router.push("/login");
   };

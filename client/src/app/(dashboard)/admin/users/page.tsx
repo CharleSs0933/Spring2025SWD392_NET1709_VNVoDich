@@ -90,7 +90,6 @@ const ManagementUser = () => {
       if (isUpdate) {
         await updateUser({
           id: selectedUser?.id ?? 0,
-          email: String(data.email),
           full_name: String(data.fullname),
           phone: String(data.phone),
         }).unwrap();
@@ -112,19 +111,18 @@ const ManagementUser = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <div className="  bg-white shadow-lg rounded-lg p-6">
-        <h1 className="text-3xl font-bold text-black mb-2">User Management</h1>
+    <div className="p-6 bg-customgreys-secondarybg min-h-screen">
+      <div className="  bg-white  rounded-lg p-6">
+        <h1 className="text-3xl font-bold text-white-100 mb-2">User Management</h1>
         <p className="text-gray-600 mb-6">
           Manage your users, update their details, and remove inactive accounts.
         </p>
 
         {(isUpdate && selectedUser) || isCreate ? (
-          <div className="mb-6 bg-gray-50 shadow-md p-5 rounded-lg">
+          <div className="mb-6 bg-customgreys-secondarybg  p-5 rounded-lg">
             <CustomInput
               fields={[
                 { name: "fullname", type: "text" },
-                { name: "email", type: "text" },
                 { name: "phone", type: "text" },
                 
               ]}
@@ -142,7 +140,6 @@ const ManagementUser = () => {
                   ? {
                       fullname: selectedUser?.fullname,
                       phone: selectedUser?.phone,
-                      email: selectedUser?.email,
                     }
                   : {}
               }
@@ -159,7 +156,7 @@ const ManagementUser = () => {
         ) : isLoading ? (
           <p className="text-black">Loading users...</p>
         ) : (
-          <div className="bg-white-100 shadow-md rounded-lg overflow-hidden">
+          <div className="bg-customgreys-secondarybg rounded-lg overflow-hidden">
             <CustomTable
               data={usersList}
               columns={[

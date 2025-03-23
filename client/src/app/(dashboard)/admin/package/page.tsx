@@ -112,9 +112,9 @@ const PackageManagement = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <div className="bg-white shadow-lg rounded-lg p-6">
-        <h1 className="text-3xl font-bold text-black mb-2">
+    <div className="p-6 bg-customgreys-secondarybg min-h-screen">
+      <div className="bg-white  rounded-lg p-6">
+        <h1 className="text-3xl font-bold text-white-100 mb-2">
           Package Management
         </h1>
         <p className="text-gray-600 mb-6">
@@ -122,7 +122,7 @@ const PackageManagement = () => {
         </p>
 
         {(isUpdate && selectedPackage) || isCreate ? (
-          <div className="mb-6 bg-gray-50 shadow-md p-5 rounded-lg">
+          <div className="mb-6 bg-customgreys-secondarybg  p-5 rounded-lg">
             <CustomInput
               fields={[
                 { name: "name", type: "text" },
@@ -165,12 +165,11 @@ const PackageManagement = () => {
         ) : isLoading ? (
           <p className="text-black">Loading packages...</p>
         ) : (
-          <div className="bg-white-100 shadow-md rounded-lg overflow-hidden">
+          <div className="bg-customgreys-secondarybg  rounded-lg overflow-hidden">
             <CustomTable
               data={packagesList}
               columns={[
                 { key: "name", label: "Package Name" },
-                { key: "price_monthly", label: "Price Monthly" },
                 { key: "price_annually", label: "Price Annually" },
                 { key: "description", label: "description" },
                 { key: "max_courses", label: "Amount Courses" },
