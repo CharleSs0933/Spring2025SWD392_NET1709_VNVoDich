@@ -45,14 +45,13 @@ const Profile = () => {
     const updatedFormData = new FormData();
     updatedFormData.append("full_name", formData.full_name);
     updatedFormData.append("phone", formData.phone);
-    console.log(updatedFormData, "updatedFormData");
 
     try {
       const result = await updateParent({
         parentId,
         formData: updatedFormData,
       }).unwrap();
-      console.log("Parent profile updated successfully:", result);
+
       refetch();
     } catch (error) {
       console.error("Error updating parent profile:", error);

@@ -91,7 +91,6 @@ const SubscriptionManagement = () => {
         //   price: data.price,
         //   duration: data.duration,
         // }).unwrap();
-        console.log(data);
 
         setIsUpdate(false);
         setSelectedSubscription(null);
@@ -101,7 +100,6 @@ const SubscriptionManagement = () => {
         //   price: data.price,
         //   duration: data.duration,
         // }).unwrap();
-        console.log(data);
 
         setIsCreate(false);
       }

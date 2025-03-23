@@ -70,7 +70,6 @@ const ChildSchedule = () => {
         date_of_birth: child.date_of_birth || "",
         learning_goals: child.learning_goals || "",
       });
-      console.log(formData);
     }
   };
 
@@ -82,7 +81,6 @@ const ChildSchedule = () => {
     try {
       await updateChild({
         id: id,
-        username: formData.username,
         full_name: formData.full_name,
         password: formData.password,
         date_of_birth: new Date(formData.date_of_birth).toISOString(),

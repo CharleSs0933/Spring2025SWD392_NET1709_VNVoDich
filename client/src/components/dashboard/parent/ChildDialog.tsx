@@ -43,7 +43,7 @@ export const ChildDialog = ({
     };
     let isValid = true;
 
-    if (!formData.username) {
+    if (mode === "create" && !formData.username) {
       newErrors.username = "User name is required";
       isValid = false;
     }
@@ -121,22 +121,22 @@ export const ChildDialog = ({
           />
           <p className="text-red-500 text-sm">{errors.full_name}</p>
         </div>
-
-        <div className="dialog_field">
-          <label className="dialog_label" htmlFor="username">
-            Username
-          </label>
-          <Input
-            id="username"
-            className="dialog_input"
-            name="username"
-            placeholder="Enter username"
-            value={formData.username}
-            onChange={handleChange}
-            disabled={mode === "edit"}
-          />
-          <p className="text-red-500 text-sm ">{errors.username}</p>
-        </div>
+        {mode === "create" && (
+          <div className="dialog_field">
+            <label className="dialog_label" htmlFor="username">
+              Username
+            </label>
+            <Input
+              id="username"
+              className="dialog_input"
+              name="username"
+              placeholder="Enter username"
+              value={formData.username}
+              onChange={handleChange}
+            />
+            <p className="text-red-500 text-sm ">{errors.username}</p>
+          </div>
+        )}
 
         <div className="dialog_field">
           <label className="dialog_label" htmlFor="password">

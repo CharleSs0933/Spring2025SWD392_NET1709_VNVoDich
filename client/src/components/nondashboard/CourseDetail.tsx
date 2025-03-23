@@ -13,7 +13,7 @@ const CourseDetail = () => {
     isLoading,
     error,
   } = useGetCoursesQuery({ pageSize: 1 });
-  console.log(courses);
+
   // Lấy chi tiết khóa học với ID tương ứng
   const course = courses?.find((item) => item.id === courseId);
 

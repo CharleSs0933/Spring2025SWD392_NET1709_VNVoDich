@@ -3,8 +3,6 @@ import Image from "next/image";
 import { CourseReview } from "@/types";
 
 const Review = ({ comments }: { comments: CourseReview[] }) => {
-  console.log("Comments Data:", comments);
-
   const [newComment, setNewComment] = useState("");
   const [commentList, setCommentList] = useState<CourseReview[]>(
     comments ?? []

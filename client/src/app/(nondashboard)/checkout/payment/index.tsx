@@ -43,8 +43,6 @@ const PaymentPageContent = () => {
       ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
       : undefined;
 
-    console.log(baseUrl);
-
     const result = await stripe.confirmPayment({
       elements,
       confirmParams: {
@@ -54,8 +52,6 @@ const PaymentPageContent = () => {
     });
 
     if (result.paymentIntent?.status === "succeeded") {
-      console.log("Payment succeeded");
-
       const bookingData = {
         children_id: selectedChild?.id,
         courseId,

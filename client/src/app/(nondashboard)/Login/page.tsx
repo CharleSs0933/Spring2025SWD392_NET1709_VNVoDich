@@ -90,7 +90,6 @@ const Login = () => {
 
   const handleSubmit = async () => {
     if (isSignUp) {
-      console.log(signUpData);
       if (signUpData.passWord !== signUpData.confirmPassword) {
         alert("password dont match");
       } else {

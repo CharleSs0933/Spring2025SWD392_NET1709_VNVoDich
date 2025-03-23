@@ -52,7 +52,6 @@ const SubcriptionListPage = () => {
     isError,
     refetch,
   } = useGetParentBookingsQuery({});
-  console.log(subcriptions);
 
   const { data: requests } = useGetRequestRefundOfParentQuery({});
   const requestArray = Array.isArray(requests) ? requests : [];
@@ -109,7 +108,7 @@ const SubcriptionListPage = () => {
           ) : (
             <div className={`${openInput ? "blur-sm" : ""}`}>
               <Table className="text-customgreys-dirtyGrey min-h-[200px]">
-                <TableHeader className="bg-customgreys-darkGrey">
+                <TableHeader className="bg-[#5C5470]">
                   <TableRow className="border-none text-white-50">
                     <TableHead className="border-none p-4"> </TableHead>
                     <TableHead className="border-none p-4">Child </TableHead>
@@ -213,7 +212,7 @@ const SubcriptionListPage = () => {
                                         Topic
                                       </TableHead>
                                       <TableHead className="text-white-100 p-3">
-                                        Date
+                                        Time
                                       </TableHead>
                                       <TableHead className="text-white-100 p-3">
                                         Status
@@ -224,59 +223,97 @@ const SubcriptionListPage = () => {
                                     </TableRow>
                                   </TableHeader>
                                   <TableBody>
-                                    {subscription.teachingSessions.map(
-                                      (session) => (
-                                        <TableRow key={session.id}>
-                                          <TableCell></TableCell>
-                                          <TableCell className="p-3 border-b text-gray-300">
-                                            {session.topics_covered}
-                                          </TableCell>
-                                          <TableCell className="p-3 border-b text-gray-300">
-                                            {new Date(
-                                              session.startTime
-                                            ).toLocaleDateString()}
-                                          </TableCell>
-                                          <TableCell className="p-3 border-b">
-                                            <span
-                                              className={`px-4 py-1 rounded-full text-base ${
-                                                session.status === "attend"
-                                                  ? "bg-green-100 text-green-800"
-                                                  : session.status === "absent"
-                                                  ? "bg-red-100 text-red-800"
-                                                  : "bg-blue-100 text-blue-800"
-                                              }`}
-                                            >
-                                              {session.status}
-                                            </span>
-                                          </TableCell>
-                                          <TableCell className="p-3 border-b">
-                                            <div className="flex space-x-2">
-                                              <Button
-                                                className="text-white-50 text-sm bg-gray-600 rounded-full"
-                                                variant="outline"
-                                                size="sm"
-                                                onClick={() =>
-                                                  handleOpenDialog(session)
+                                    {subscription.teachingSessions.length <
+                                    0 ? (
+                                      <TableRow>
+                                        <TableCell
+                                          colSpan={10}
+                                          className="text-white-100 p-3"
+                                        >
+                                          No teaching sessions found
+                                        </TableCell>
+                                      </TableRow>
+                                    ) : (
+                                      <>
+                                        {subscription.teachingSessions.map(
+                                          (session) => (
+                                            <TableRow key={session.id}>
+                                              <TableCell></TableCell>
+                                              <TableCell className="p-3 border-b text-gray-300">
+                                                {session.topics_covered}
+                                              </TableCell>
+                                              <TableCell className="p-3 border-b text-gray-300">
+                                                {
+                                                  session.startTime.split(
+                                                    /[T,:]/
+                                                  )[1]
                                                 }
-                                              >
-                                                Detail
-                                              </Button>
-                                              <Button
-                                                className="text-white-50 text-sm bg-gray-600 rounded-full"
-                                                variant="outline"
-                                                size="sm"
-                                                onClick={() =>
-                                                  handleOpenRescheduleDialog(
-                                                    session
-                                                  )
+                                                {":"}
+                                                {
+                                                  session.startTime.split(
+                                                    /[T,:]/
+                                                  )[2]
+                                                }{" "}
+                                                -{" "}
+                                                {
+                                                  session.endTime.split(
+                                                    /[T,:]/
+                                                  )[1]
                                                 }
-                                              >
-                                                Change
-                                              </Button>
-                                            </div>
-                                          </TableCell>
-                                        </TableRow>
-                                      )
+                                                {":"}
+                                                {
+                                                  session.endTime.split(
+                                                    /[T,:]/
+                                                  )[2]
+                                                }
+                                              </TableCell>
+                                              <TableCell className="p-3 border-b">
+                                                <span
+                                                  className={`px-4 py-1 rounded-full text-base ${
+                                                    session.status === "attend"
+                                                      ? "bg-green-100 text-green-800"
+                                                      : session.status ===
+                                                        "absent"
+                                                      ? "bg-red-100 text-red-800"
+                                                      : "bg-blue-100 text-blue-800"
+                                                  }`}
+                                                >
+                                                  {session.status}
+                                                </span>
+                                              </TableCell>
+                                              <TableCell className="p-3 border-b">
+                                                <div className="flex space-x-2">
+                                                  <Button
+                                                    className="text-white-50 text-sm bg-gray-600 rounded-full"
+                                                    variant="outline"
+                                                    size="sm"
+                                                    onClick={() =>
+                                                      handleOpenDialog(session)
+                                                    }
+                                                  >
+                                                    Detail
+                                                  </Button>
+                                                  {session.status ===
+                                                    "NotYet" && (
+                                                    <Button
+                                                      className="text-white-50 text-sm bg-gray-600 rounded-full"
+                                                      variant="outline"
+                                                      size="sm"
+                                                      onClick={() =>
+                                                        handleOpenRescheduleDialog(
+                                                          session
+                                                        )
+                                                      }
+                                                    >
+                                                      Change
+                                                    </Button>
+                                                  )}
+                                                </div>
+                                              </TableCell>
+                                            </TableRow>
+                                          )
+                                        )}
+                                      </>
                                     )}
                                   </TableBody>
                                 </Table>

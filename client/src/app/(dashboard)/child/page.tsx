@@ -1,22 +1,28 @@
 "use client";
 import BigCalendarContainer from "@/components/BigCalendarContainer";
-import { SessionDetailDialog } from "@/components/dashboard/parent/TeachingSessionDialog";
 import Loading from "@/components/Loading";
 import { Dialog } from "@/components/ui/dialog";
 import { useUser } from "@/hooks/useUser";
-import { useGetChildQuery } from "@/state/api";
+import { useGetChildQuery, useGetSessionQuery } from "@/state/api";
 import { TeachingSession } from "@/types";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { SessionDetailDialog } from "../tutor/schedule/SessionDetailDialog";
 
 const page = () => {
   const { user } = useUser();
   const {
-    data: child,
+    data: teachingSessions,
     isLoading,
     isError,
-  } = useGetChildQuery({ id: user?.ID });
+    refetch,
+  } = useGetSessionQuery({
+    userId: Number(user?.ID),
+  });
+
   const [eventDialogOpen, setEventDialogOpen] = useState(false);
+
+  console.log(user);
 
   const [selectedEvent, setSelectedEvent] = useState<TeachingSession | null>(
     null
@@ -25,22 +31,28 @@ const page = () => {
   useEffect(() => {
     setEventDialogOpen(selectedEvent !== null);
   }, [selectedEvent]);
-  console.log(user);
 
   if (isLoading) return <Loading />;
-  if (isError || !child) return <div>Error loading child.</div>;
+  if (isError || !teachingSessions) return <div>Error loading child.</div>;
   return (
     <div>
       <div className="flex items-center gap-40">
         {selectedEvent && (
           <Dialog open={eventDialogOpen} onOpenChange={setEventDialogOpen}>
-            <SessionDetailDialog course={selectedEvent} />
+            <SessionDetailDialog
+              session={selectedEvent}
+              refetch={() => refetch()}
+              isTutor={false}
+            />
           </Dialog>
         )}
       </div>
       <div className="mt-4 bg-white rounded-md p-4">
         <h1>Teacher&apos;s Schedule</h1>
-        <BigCalendarContainer id={child.id} onSelectEvent={setSelectedEvent} />
+        <BigCalendarContainer
+          teachingSessions={teachingSessions}
+          onSelectEvent={setSelectedEvent}
+        />
       </div>
     </div>
   );

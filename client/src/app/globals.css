@@ -409,3 +409,23 @@ body,
 .fieldProfile span {
   @apply text-primary-50 text-base;
 }
+
+.rdp-months {
+  @apply w-full;
+}
+
+.rdp-nav {
+  @apply flex justify-center items-center gap-10;
+}
+
+.rdp-month_caption {
+  @apply flex justify-center items-center text-base;
+}
+
+.rdp-weekdays .rdp-weekday {
+  @apply p-3;
+}
+
+.rdp-day {
+  @apply py-3 text-center;
+}

@@ -25,7 +25,6 @@ const AvailabilityForm = ({
   });
 
   const onSubmit = async (data: Availability) => {
-    // console.log(data);
     await updateAvailability(data);
     refetch();
   };

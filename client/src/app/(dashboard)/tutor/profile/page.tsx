@@ -40,8 +40,6 @@ const Profile = () => {
     refetch,
   } = useGetTutorQuery(userId as string);
 
-  console.log(tutor);
-
   const methods = useForm<TutorFormData>({
     resolver: zodResolver(tutorSchema),
     defaultValues: {
