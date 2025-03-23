@@ -15,7 +15,7 @@ const Header = () => {
   const token = Cookies.get("authToken");
   const [tutorSub] = useGetTutorSubMutation();
 
-  console.log(token);
+  console.log(user);
 
   useEffect(() => {
     const userData = Cookies.get("user");

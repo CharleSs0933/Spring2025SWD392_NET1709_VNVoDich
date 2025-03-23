@@ -42,7 +42,11 @@ const SchedulePage = () => {
       </div>
       {selectedEvent && (
         <Dialog open={eventDialogOpen} onOpenChange={setEventDialogOpen}>
-          <SessionDetailDialog session={selectedEvent} refetch={refetch} />
+          <SessionDetailDialog
+            session={selectedEvent}
+            refetch={refetch}
+            isTutor={true}
+          />
         </Dialog>
       )}
     </div>

@@ -11,6 +11,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FetchArgs, BaseQueryApi } from "@reduxjs/toolkit/query";
 import { toast } from "sonner";
 import Cookies from "js-cookie";
+import { url } from "inspector";
 
 const customBaseQuery = async (
   args: string | FetchArgs,
@@ -137,6 +138,28 @@ export const api = createApi({
       providesTags: (result, error, id) => [{ type: "Tutors", id }],
     }),
 
+    checkTutorConnection: build.query<
+      {
+        isConnected: boolean;
+        description: string;
+      },
+      { userId: number }
+    >({
+      query: ({ userId }) => ({
+        url: `tutors/${userId}/check-connection`,
+      }),
+    }),
+
+    connectToStripe: build.mutation<
+      { destination: string; onboardingUrl: string },
+      {}
+    >({
+      query: () => ({
+        url: "tutors/create-connected-account",
+        method: "POST",
+      }),
+    }),
+
     getTutors: build.query<
       Tutor[],
       {
@@ -177,6 +200,7 @@ export const api = createApi({
         description: string;
         learning_objectives: string;
         materials_needed: string;
+        homework: string;
       }
     >({
       query: ({
@@ -185,6 +209,7 @@ export const api = createApi({
         description,
         learning_objectives,
         materials_needed,
+        homework,
       }) => ({
         url: `courses/${courseId}/add-lesson`,
         method: "PUT",
@@ -193,6 +218,7 @@ export const api = createApi({
           description,
           learning_objectives,
           materials_needed,
+          homework,
         },
       }),
       invalidatesTags: ["Courses"],
@@ -407,6 +433,16 @@ export const api = createApi({
         body,
       }),
     }),
+    cancelBooking: build.mutation<
+      CourseSubcription,
+      { subscriptionId: number }
+    >({
+      query: ({ subscriptionId }) => ({
+        url: `/bookings/cancel`,
+        method: "PUT",
+        body: { subscriptionId },
+      }),
+    }),
     getParentBookings: build.query<CourseSubcription[], any>({
       query: () => ({
         url: `/bookings/parent`,
@@ -463,8 +499,11 @@ export const {
   useUpdateSessionMutation,
   useCreateStripePaymentIntentMutation,
   useCreateTrialBookingMutation,
+  useCancelBookingMutation,
   useGetParentBookingsQuery,
   useGetAllParentsQuery,
   useGetParentByIdQuery,
   useUpdateParentMutation,
+  useLazyCheckTutorConnectionQuery,
+  useConnectToStripeMutation,
 } = api;

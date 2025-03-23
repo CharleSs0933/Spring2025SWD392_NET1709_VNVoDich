@@ -7,7 +7,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (pathname.startsWith("/parent/")) {
-    if (user.role !== "Parent" || !isLogged) {
+    if (!isLogged || user?.role !== "Parent") {
       const url = new URL("/", request.url);
       return NextResponse.redirect(url);
     }

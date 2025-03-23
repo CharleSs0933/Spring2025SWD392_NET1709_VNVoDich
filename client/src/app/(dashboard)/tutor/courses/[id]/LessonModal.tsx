@@ -1,21 +1,25 @@
 import { CustomFormField } from "@/components/CustomFormField";
 import CustomModal from "@/components/CustomModal";
+import Hint from "@/components/Hint";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { LessonFormData, lessonSchema } from "@/lib/schemas";
+import { UploadDropzone } from "@/lib/uploadthing";
 import { addLesson, closeLessonModal, editLesson } from "@/state";
 import { useAddLessonMutation, useUpdateLessonMutation } from "@/state/api";
 import { useAppDispatch, useAppSelector } from "@/state/redux";
 import { Lesson } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { X } from "lucide-react";
+import { Trash, X } from "lucide-react";
 import { useParams } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 const LessonModal = () => {
   const params = useParams();
   const id = params.id as string;
+
+  const [homeworkFile, setHomeworkFile] = useState<string | null>(null);
 
   const dispatch = useAppDispatch();
   const { isLessonModalOpen, selectedLessonIndex, selectedLessonId, lessons } =
@@ -33,6 +37,7 @@ const LessonModal = () => {
       description: "",
       learning_objectives: "",
       materials_needed: "",
+      homework: "",
     },
   });
 
@@ -43,13 +48,16 @@ const LessonModal = () => {
         description: lesson.description,
         learning_objectives: lesson.learning_objectives,
         materials_needed: lesson.materials_needed,
+        homework: lesson.homework,
       });
+      setHomeworkFile(lesson.homework || "");
     } else {
       methods.reset({
         title: "",
         description: "",
         learning_objectives: "",
         materials_needed: "",
+        homework: "",
       });
     }
   }, [lesson, methods]);
@@ -65,6 +73,7 @@ const LessonModal = () => {
       description: data.description,
       learning_objectives: data.learning_objectives,
       materials_needed: data.materials_needed,
+      homework: homeworkFile || "",
     };
 
     if (selectedLessonIndex === null) {
@@ -77,6 +86,7 @@ const LessonModal = () => {
           description: data.description,
           learning_objectives: data.learning_objectives,
           materials_needed: data.materials_needed,
+          homework: homeworkFile || "",
         }).unwrap();
       } catch (error) {
         console.log("Failed to update course: ", error);
@@ -113,6 +123,10 @@ const LessonModal = () => {
       materials_needed: "",
     });
     onClose();
+  };
+
+  const handleRemoveFile = () => {
+    setHomeworkFile(null);
   };
 
   return (
@@ -155,6 +169,59 @@ const LessonModal = () => {
               type="textarea"
               placeholder="Write materials needed here"
             />
+
+            {homeworkFile ? (
+              <div className="relative rounded-xl overflow-hidden border border-white-100/10">
+                <div className="absolute top-2 right-2 z-[10]">
+                  <Hint label="Remove file" asChild side="left">
+                    <Button
+                      type="button"
+                      className="h-auto w-auto p-1.5 bg-red-500 hover:bg-red-600"
+                      onClick={handleRemoveFile}
+                    >
+                      <Trash className="w-4 h-4" />
+                    </Button>
+                  </Hint>
+                </div>
+                <div className="w-full h-[400px]">
+                  {" "}
+                  {/* Adjustable height */}
+                  <iframe
+                    src={homeworkFile}
+                    title="Homework PDF"
+                    className="w-full h-full"
+                    style={{ border: "none" }}
+                  />
+                  <a
+                    href={homeworkFile}
+                    download
+                    className="text-blue-500 hover:underline text-sm mt-2 block text-center"
+                  >
+                    Download PDF
+                  </a>
+                </div>
+              </div>
+            ) : (
+              <UploadDropzone
+                endpoint={"lessonHomeWorkUploader"}
+                appearance={{
+                  label: {
+                    color: "#FFFFFF",
+                  },
+                  allowedContent: {
+                    color: "#FFFFFF",
+                  },
+                  button: {
+                    color: "#7878fc",
+                  },
+                }}
+                onClientUploadComplete={(res) => {
+                  if (res?.[0]?.url) {
+                    setHomeworkFile(res[0].url);
+                  }
+                }}
+              />
+            )}
 
             <div className="flex justify-end space-x-2 mt-6">
               <Button type="button" variant="outline" onClick={onClose}>

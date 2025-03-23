@@ -19,6 +19,7 @@ export const lessonSchema = z.object({
   description: z.string().min(10, "Description must be at least 10 characters"),
   learning_objectives: z.string(),
   materials_needed: z.string(),
+  homework: z.string(),
 });
 
 export type LessonFormData = z.infer<typeof lessonSchema>;
@@ -101,7 +102,7 @@ export const feedbackSchema = z.object({
   comment: z.string().optional(),
   teachingQuality: z.string().optional(),
   status: z.string().optional(),
-  homeworkAssigned: z.string(),
+  homeworkAssigned: z.string().optional(),
 });
 
 export type FeedbackFormData = z.infer<typeof feedbackSchema>;

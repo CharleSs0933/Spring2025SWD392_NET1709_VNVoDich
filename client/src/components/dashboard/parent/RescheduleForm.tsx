@@ -8,12 +8,10 @@ const RescheduleForm = ({
   availabilities,
   sessionId,
   refetch,
-  setShowReschedule,
 }: {
   availabilities: { date: string; slots: string[] }[];
   sessionId: number;
   refetch: () => void;
-  setShowReschedule: (show: boolean) => void;
 }) => {
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [selectedTime, setSelectedTime] = useState("");
@@ -50,11 +48,10 @@ const RescheduleForm = ({
     }).unwrap();
 
     refetch();
-    setShowReschedule(false);
   };
 
   return (
-    <div className="w-full md:w-3/5 bg-[#1b1c22] p-6 text-white">
+    <div className="w-full bg-customgreys-primarybg p-6 text-white">
       <div className="flex items-center justify-between mb-6 border-b border-gray-700 pb-3">
         <h2 className="text-2xl font-bold">Reschedule Session</h2>
       </div>
@@ -100,14 +97,14 @@ const RescheduleForm = ({
                 <h4 className="font-medium text-gray-300">
                   {format(new Date(selectedDate), "EEEE, MMMM d, yyyy")}
                 </h4>
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 mt-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                   {timeSlots.map((slot) => (
                     <div key={slot} className="">
                       <Button
                         key={slot}
                         variant={selectedTime === slot ? "default" : "outline"}
                         onClick={() => setSelectedTime(slot)}
-                        className={`border-gray-600 ${
+                        className={`border-gray-600 w-full ${
                           selectedTime === slot
                             ? "bg-indigo-600 hover:bg-indigo-700 text-white"
                             : "bg-customgreys-secondarybg hover:bg-gray-700 text-white"

@@ -13,8 +13,6 @@ export default function DashboardLayout({
 }) {
   const { user, loading } = useUser();
 
-  console.log(user);
-
   if (loading) return <Loading />;
   if (!user) return <div>Please sign in to access this page.</div>;
 

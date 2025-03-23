@@ -13,6 +13,8 @@ export const useUser = () => {
     username: string;
     role: "Parent" | "Tutor" | "Children" | "Admin";
     user_id: number;
+    status: string;
+    email: string;
   } | null>(null);
   const [loading, setLoading] = useState(true);
   const [signUpApi] = useSignupMutation();
