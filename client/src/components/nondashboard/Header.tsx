@@ -21,7 +21,7 @@ const Header = () => {
         parsedUser.role === "Admin" ||
         parsedUser.role === "Parent" ||
         parsedUser.role === "Tutor" ||
-        parsedUser.role === "Chilren"
+        parsedUser.role === "Children"
       ) {
         setRole(parsedUser.role);
       }
@@ -40,7 +40,7 @@ const Header = () => {
       { icon: User, label: "Package", href: "/package" },
     ],
     Admin: [{ icon: BookOpen, label: "DashBoard", href: "/admin/users" }],
-    Chilren: [{ icon: BookOpen, label: "Schedule", href: "/child" }],
+    Children: [{ icon: BookOpen, label: "Schedule", href: "/child" }],
   };
 
   const currentNavLinks = role ? navLinks[role as keyof typeof navLinks] : [];

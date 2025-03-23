@@ -121,6 +121,7 @@ const Login = () => {
       if (userData) {
         const parsedUser = JSON.parse(userData);
         const res = await tutorSub({ id: parsedUser.ID });
+        router.push("/");
 
         if (res.data?.status) {
           Cookies.set("sub", res.data?.status, { path: "/", expires: 7 });
@@ -128,7 +129,6 @@ const Login = () => {
           Cookies.remove("sub");
         }
       }
-      router.push("/");
     }
   };
 
