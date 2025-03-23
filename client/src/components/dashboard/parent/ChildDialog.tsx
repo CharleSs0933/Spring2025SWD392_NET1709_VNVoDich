@@ -155,6 +155,10 @@ export const ChildDialog = ({
             value={formData.password}
             onChange={handleChange}
           />
+          {mode === "create" && (
+            <p className="text-red-500 text-sm ">{errors.password}</p>
+          )}
+
           {mode === "edit" && (
             <p className="text-gray-500 text-sm">
               Leave blank to keep the existing password.

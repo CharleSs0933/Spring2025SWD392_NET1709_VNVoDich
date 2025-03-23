@@ -80,9 +80,11 @@ const ManagementUser = () => {
   };
   const handleUpdateStatus = async (id: number) => {
     const userToUpdate = usersList.find((user) => user.id === id);
+
     await updateUserStatus({
       username: String(userToUpdate?.username.trim()),
-      status: String("Banned"),
+      status:
+        userToUpdate?.status === "Banned" ? String("Active") : String("Banned"),
     }).unwrap();
   };
 

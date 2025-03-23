@@ -270,12 +270,13 @@ const SubcriptionListPage = () => {
                                               <TableCell className="p-3 border-b">
                                                 <span
                                                   className={`px-4 py-1 rounded-full text-base ${
-                                                    session.status === "attend"
-                                                      ? "bg-green-100 text-green-800"
+                                                    session.status ===
+                                                    "Attended"
+                                                      ? "bg-green-300 text-green-800"
                                                       : session.status ===
-                                                        "absent"
-                                                      ? "bg-red-100 text-red-800"
-                                                      : "bg-blue-100 text-blue-800"
+                                                        "Absent"
+                                                      ? "bg-red-300 text-red-800"
+                                                      : "bg-blue-300 text-blue-800"
                                                   }`}
                                                 >
                                                   {session.status}

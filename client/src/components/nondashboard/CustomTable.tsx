@@ -7,7 +7,7 @@ interface TableProps<T> {
   onDelete?: (id: number) => void;
   onUpdate?: (id: number) => void;
   onCreate?: () => void;
-  onUpdateStatus?: (id : number) => void;
+  onUpdateStatus?: (id: number) => void;
   ITEMS_PER_PAGE: number;
 }
 
@@ -127,7 +127,7 @@ const CustomTable = <T extends { id: number }>({
                         onClick={() => onUpdateStatus(row.id)}
                         className="mr-2 px-2 py-1 bg-red-500 text-white rounded"
                       >
-                        Banned
+                        Update Status
                       </button>
                     )}
                   </td>
