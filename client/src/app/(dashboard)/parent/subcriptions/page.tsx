@@ -222,10 +222,11 @@ const SubcriptionListPage = () => {
                                     {subscription.teachingSessions.length <
                                     0 ? (
                                       <TableRow>
-                                        <TableCell>
-                                          <p className="text-white-100 p-3">
-                                            No teaching sessions found
-                                          </p>
+                                        <TableCell
+                                          colSpan={10}
+                                          className="text-white-100 p-3"
+                                        >
+                                          No teaching sessions found
                                         </TableCell>
                                       </TableRow>
                                     ) : (

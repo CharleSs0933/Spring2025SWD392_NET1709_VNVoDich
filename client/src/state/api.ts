@@ -303,7 +303,7 @@ export const api = createApi({
       Children,
       {
         id: string;
-        username: string;
+
         full_name: string;
         password: string;
         date_of_birth: string;
@@ -312,7 +312,7 @@ export const api = createApi({
     >({
       query: ({
         id,
-        username,
+
         full_name,
         learning_goals,
         password,
@@ -320,7 +320,7 @@ export const api = createApi({
       }) => ({
         url: `/childrens/${id}`,
         method: "PUT",
-        body: { username, full_name, learning_goals, password, date_of_birth },
+        body: { full_name, learning_goals, password, date_of_birth },
       }),
       invalidatesTags: (result, error, { id }) => [{ type: "Children", id }],
     }),
