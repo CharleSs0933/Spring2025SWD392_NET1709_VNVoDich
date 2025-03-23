@@ -30,11 +30,11 @@ const ManagementUser = () => {
   const [updateUser] = useUpdateUserMutation();
   const [updateUserStatus] = useUpdateUserStatusMutation();
   console.log(users);
-  
+
   const [usersList, setUsersList] = useState<
     {
       id: number;
-      username: string; 
+      username: string;
       fullname: string;
       role: string;
       email: string;
@@ -78,15 +78,18 @@ const ManagementUser = () => {
       setIsUpdate(true);
     }
   };
-  const handleUpdateStatus = async(id : number) => {
+  const handleUpdateStatus = async (id: number) => {
     const userToUpdate = usersList.find((user) => user.id === id);
-   await updateUserStatus({username : String(userToUpdate?.username.trim()), status : String('Banned')}).unwrap();
+    await updateUserStatus({
+      username: String(userToUpdate?.username.trim()),
+      status: String("Banned"),
+    }).unwrap();
   };
 
   const handleSubmit = async (data: Record<string, string | boolean>) => {
     try {
       console.log(data);
-      
+
       if (isUpdate) {
         await updateUser({
           id: selectedUser?.id ?? 0,
@@ -112,7 +115,9 @@ const ManagementUser = () => {
   return (
     <div className="p-6 bg-customgreys-secondarybg min-h-screen">
       <div className="  bg-white  rounded-lg p-6">
-        <h1 className="text-3xl font-bold text-white-100 mb-2">User Management</h1>
+        <h1 className="text-3xl font-bold text-white-100 mb-2">
+          User Management
+        </h1>
         <p className="text-gray-600 mb-6">
           Manage your users, update their details, and remove inactive accounts.
         </p>
@@ -123,7 +128,6 @@ const ManagementUser = () => {
               fields={[
                 { name: "fullname", type: "text" },
                 { name: "phone", type: "text" },
-                
               ]}
               title={`${
                 isUpdate

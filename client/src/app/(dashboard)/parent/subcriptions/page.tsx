@@ -327,7 +327,7 @@ const SubcriptionListPage = () => {
                     <TableRow className="border-none">
                       <TableCell
                         className="border-none p-4 text-center"
-                        colSpan={9}
+                        colSpan={10}
                       >
                         No subscriptions to display
                       </TableCell>
