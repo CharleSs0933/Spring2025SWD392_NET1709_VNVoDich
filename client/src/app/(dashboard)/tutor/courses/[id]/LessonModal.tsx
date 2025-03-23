@@ -63,13 +63,8 @@ const LessonModal = () => {
   }, [lesson, methods]);
 
   const onClose = () => {
-    methods.reset({
-      title: "",
-      description: "",
-      learning_objectives: "",
-      materials_needed: "",
-      homework: "",
-    });
+    setHomeworkFile(null);
+
     dispatch(closeLessonModal());
   };
 
