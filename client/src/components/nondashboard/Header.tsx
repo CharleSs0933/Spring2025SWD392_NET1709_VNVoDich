@@ -7,6 +7,7 @@ import { useUser } from "@/hooks/useUser";
 import { BookOpen, User } from "lucide-react";
 import Link from "next/link";
 import { useGetTutorSubMutation } from "@/state/apiAuth";
+
 const Header = () => {
   const { logout, user } = useUser();
   const [role, setRole] = useState<string | null>(null);
@@ -14,37 +15,38 @@ const Header = () => {
   const router = useRouter();
   const token = Cookies.get("authToken");
   const [tutorSub] = useGetTutorSubMutation();
+  const [mounted, setMounted] = useState(false);
+
+  // Prevent SSR mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const userData = Cookies.get("user");
+
     if (userData) {
       const parsedUser = JSON.parse(userData);
-      console.log(parsedUser);
-      
-      if (
-        parsedUser.role === "Admin" ||
-        parsedUser.role === "Parent" ||
-        parsedUser.role === "Tutor" ||
-        parsedUser.role === "Children"
-      ) {
-        setRole(parsedUser.role);
-      }
-      const fetch = async () => {
-        const check = await  Cookies.get("sub");
-        if(check){
-          setIsSub(check )
-          console.log(check);
-          
-        }
-      };
-      fetch();
+      setRole(parsedUser.role);
     }
+  }, []);
+
+  useEffect(() => {
+    const fetchSubscription = async () => {
+      const check = Cookies.get("sub");
+      if (check) {
+        setIsSub(check);
+      }
+    };
+    fetchSubscription();
   }, []);
 
   const handleLogout = async () => {
     await logout();
     setRole(null);
   };
+
+  if (!mounted) return null; // Prevent SSR mismatch
 
   const navLinks = {
     Parent: [{ icon: BookOpen, label: "DashBoard", href: "/parent/children" }],
@@ -88,7 +90,7 @@ const Header = () => {
               Courses
             </Link>
           )}
-          {role === "Tutor" && !isSub &&  (
+          {role === "Tutor" && !isSub && (
             <Link
               href="/package"
               prefetch={true}

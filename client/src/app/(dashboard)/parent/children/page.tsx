@@ -45,6 +45,7 @@ const ChildrenManagement = () => {
   const [formData, setFormData] = useState<any>({
     full_name: "",
     password: "",
+    username : "",
     date_of_birth: "",
     learning_goals: "",
   });

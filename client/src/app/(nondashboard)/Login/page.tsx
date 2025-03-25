@@ -1,5 +1,5 @@
 "use client";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { useUser } from "@/hooks/useUser";
@@ -8,6 +8,12 @@ import Cookies from "js-cookie";
 import { useGetTutorSubMutation } from "@/state/apiAuth";
 // import {  useGetTutorSubMutation, useGoogleLoginMutation } from "@/state/apiAuth";
 const Login = () => {
+  const [isMounted, setIsMounted] = useState(false);
+ 
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const [isSignUp, setIsSignUp] = useState(false);
   const [loginData, setLoginData] = useState({
     userName: "",
@@ -87,6 +93,8 @@ const Login = () => {
       }));
     }
   };
+
+  
 
   const handleSubmit = async () => {
     if (isSignUp) {
