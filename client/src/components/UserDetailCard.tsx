@@ -137,7 +137,10 @@ const UserDetailCard = ({
     const fullNameError = validateField("full_name", data.profile.full_name);
     const phoneError = validateField("phone", data.profile.phone);
     const dateOfBirthError = validateField("date_of_birth", data.date_of_birth);
-    if (fullNameError.length > 0 || phoneError.length > 0) {
+    if (
+      (fullNameError.length > 0 || phoneError.length > 0,
+      dateOfBirthError.length > 0)
+    ) {
       setErrors({
         date_of_birth: dateOfBirthError,
         full_name: fullNameError,
@@ -215,7 +218,7 @@ const UserDetailCard = ({
               <span className="font-bold">Date of birth</span>
             </div>
             <Input
-              value={data.date_of_birth.split("T")[0]}
+              value={data.date_of_birth?.split("T")[0]}
               type="date"
               onChange={(e) => handleChange("date_of_birth", e.target.value)}
               className="fieldProfile"
