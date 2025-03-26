@@ -38,14 +38,18 @@ const UserDetailCard = ({
 
   const validateField = (field: keyof ParentFormData, value: string) => {
     let error = "";
-    if (field === "full_name" && !value.trim()) {
-      error = "Full name is required";
+    if (field === "full_name") {
+      if (!value.trim()) {
+        error = "Full name is required";
+      } else if (/[^a-zA-Z\s]/.test(value)) {
+        error = "Full name must contain only letters and spaces";
+      }
     }
     if (field === "phone") {
-      if (!value.trim()) {
-        error = "Phone number is required";
-      } else if (!/^\d{10,15}$/.test(value)) {
+      if (value.length > 1 && !/^\d{10,15}$/.test(value)) {
         error = "Phone number must be 10-15 digits";
+      } else if (/[^0-9]/.test(value)) {
+        error = "Phone number must contain only digits";
       }
     }
     return error;
@@ -60,11 +64,12 @@ const UserDetailCard = ({
   const handleSubmit = () => {
     const fullNameError = validateField("full_name", data.full_name);
     const phoneError = validateField("phone", data.phone);
-
-    setErrors({
-      full_name: fullNameError,
-      phone: phoneError,
-    });
+    if (fullNameError.length > 0 || phoneError.length > 0) {
+      setErrors({
+        full_name: fullNameError,
+        phone: phoneError,
+      });
+    }
 
     if (!fullNameError && !phoneError && hasChanges) {
       submit();
