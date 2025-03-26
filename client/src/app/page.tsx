@@ -31,6 +31,8 @@ export default function Home() {
     };
     fetch();
   }, []);
+
+  
   const words = [
     { text: "Grow" },
     { text: "Yours" },

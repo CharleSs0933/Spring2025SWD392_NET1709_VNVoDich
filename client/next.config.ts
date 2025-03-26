@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  reactStrictMode: false,
   images: {
     domains: ["images.unsplash.com", "4mlgzdj164.ufs.sh"],
     remotePatterns: [
@@ -12,6 +13,7 @@ const nextConfig: NextConfig = {
   // experimental: {
   //   optimizeCss: true,
   // },
+  
 };
 
 export default nextConfig;
