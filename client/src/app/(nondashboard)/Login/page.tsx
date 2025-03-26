@@ -154,6 +154,10 @@ const Login = () => {
     }
   };
 
+if(!isMounted){
+  return null;  
+}
+
   return (
     <div className="relative w-full h-[800px] overflow-hidden my-4">
       <Image
