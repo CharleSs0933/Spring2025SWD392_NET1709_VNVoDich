@@ -395,7 +395,17 @@ body,
 }
 
 .fieldProfile {
-  @apply mb-4;
+  max-width: 370px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #333;
+}
+
+.fieldProfile:disabled {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
 }
 
 .fieldProfile label {
