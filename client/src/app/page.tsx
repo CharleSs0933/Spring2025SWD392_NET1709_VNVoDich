@@ -17,7 +17,7 @@ export default function Home() {
   useEffect(() => {
     const fetch = async () => {
       const userData = Cookies.get("user");
-      if(!userData) return
+      if (!userData) return;
       const parsedUser = JSON.parse(userData || "");
       console.log(parsedUser);
       if (parsedUser.role === "Tutor") {
@@ -32,7 +32,6 @@ export default function Home() {
     fetch();
   }, []);
 
-  
   const words = [
     { text: "Grow" },
     { text: "Yours" },

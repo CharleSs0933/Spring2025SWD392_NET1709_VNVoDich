@@ -56,6 +56,17 @@ export interface Tutor {
   };
 
   tutorReviews: TutorReviews[];
+  tutorSpecialty: TutorSpecialty[];
+}
+
+export interface TutorSpecialty {
+  id: number;
+  subject: string;
+  level: string;
+  certification: string;
+  years_experience: number;
+
+  tutor_id: number;
 }
 
 export interface Children {

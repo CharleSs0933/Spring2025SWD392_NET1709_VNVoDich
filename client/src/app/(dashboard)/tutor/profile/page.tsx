@@ -17,10 +17,11 @@ import { CustomFormField } from "@/components/CustomFormField";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Hint from "@/components/Hint";
-import { Trash } from "lucide-react";
+import { Plus, Trash } from "lucide-react";
 import { UploadDropzone } from "@/lib/uploadthing";
 import { createTutorFormData } from "@/lib/utils";
 import { toast } from "sonner";
+import SpecialtyList from "./SpecialtyList";
 
 const Profile = () => {
   const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")!) : null;
@@ -219,7 +220,35 @@ const Profile = () => {
               </div>
             </div>
             <div className="basis-1/2">
-              <div className="space-y-4">
+              <div className="bg-customgreys-darkGrey mt-4 md:mt-0 p-4 rounded-xl">
+                <div className="flex justify-between items-center mb-2 ">
+                  <h2 className="text-2xl font-semibold text-secondary-foreground">
+                    Tutor Specialties
+                  </h2>
+
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    // onClick={() =>
+                    //   // dispatch(
+                    //   //   openLessonModal({
+                    //   //     lessonIndex: null,
+                    //   //     lessonId: undefined,
+                    //   //   })
+                    //   // )
+                    // }
+                    className="border-none group text-primary-700"
+                  >
+                    <Plus className="mr-1 h-4 w-4 text-primary-700 group-hover:white-100" />
+                    <span className="text-primary-700 group-hover:white-100">
+                      Add Specialty
+                    </span>
+                  </Button>
+                </div>
+                <SpecialtyList specialties={tutor.tutorSpecialty} />
+              </div>
+              <div className="space-y-4 mt-2">
                 {demoVideoUrl ? (
                   <div className="relative aspect-video rounded-xl overflow-hidden border border-white-100/10">
                     <div className="absolute top-2 right-2 ring-2 z-[10]">

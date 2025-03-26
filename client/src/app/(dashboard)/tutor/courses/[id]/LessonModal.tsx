@@ -87,8 +87,6 @@ const LessonModal = () => {
 
     if (selectedLessonIndex === null) {
       try {
-        dispatch(addLesson(newLesson));
-
         await addLessonToCourses({
           courseId: id,
           title: data.title,
@@ -97,18 +95,12 @@ const LessonModal = () => {
           materials_needed: data.materials_needed,
           homework: homeworkFile || "",
         }).unwrap();
+        dispatch(addLesson(newLesson));
       } catch (error) {
         console.log("Failed to update course: ", error);
       }
     } else {
       try {
-        dispatch(
-          editLesson({
-            lessonIndex: selectedLessonIndex,
-            lesson: newLesson,
-          })
-        );
-
         await updateLesson({
           courseId: id,
           lessonId: selectedLessonId?.toString(),
@@ -118,6 +110,12 @@ const LessonModal = () => {
           materials_needed: data.materials_needed,
           homework: homeworkFile || "",
         }).unwrap();
+        dispatch(
+          editLesson({
+            lessonIndex: selectedLessonIndex,
+            lesson: newLesson,
+          })
+        );
       } catch (error) {
         console.log("Failed to update course: ", error);
       }

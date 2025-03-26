@@ -13,8 +13,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import DroppableComponent from "./Droppable";
-import { courseSchema } from "@/lib/schemas";
-import { CourseFormData } from "@/types";
+import { CourseFormData, courseSchema } from "@/lib/schemas";
 import LessonModal from "./LessonModal";
 import { courseSubjects } from "@/lib/utils";
 import Loading from "@/components/Loading";
@@ -57,7 +56,7 @@ const CourseEditor = () => {
         courseGrade: course.grade.toString(),
         coursePrice: course.price,
         courseStatus: course.status === "Published",
-        courseImage: course.image,
+        courseImage: course.image || undefined,
       });
       dispatch(setLessons(course.lessons || []));
       setCourseImage(course.image || "");
@@ -65,6 +64,7 @@ const CourseEditor = () => {
   }, [course, methods, dispatch]);
 
   const onSubmit = async (data: CourseFormData) => {
+    console.log("Form submitted with data:", data);
     try {
       const formData = createCourseFormData({
         ...data,
@@ -101,7 +101,11 @@ const CourseEditor = () => {
         </button>
       </div>
       <Form {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)}>
+        <form
+          onSubmit={methods.handleSubmit(onSubmit, (errors) => {
+            console.log("Validation errors:", errors); // Debug log
+          })}
+        >
           <Header
             title="Course Setup"
             subtitle="Complete all fields and save your course"

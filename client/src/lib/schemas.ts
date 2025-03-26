@@ -8,7 +8,7 @@ export const courseSchema = z.object({
   courseGrade: z.string().min(1, "Grade is required"),
   coursePrice: z.coerce.number().min(0, "Price must be 0 or more"),
   courseStatus: z.boolean(),
-  courseImage: z.string(),
+  courseImage: z.string().optional(),
 });
 
 export type CourseFormData = z.infer<typeof courseSchema>;

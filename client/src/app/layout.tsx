@@ -25,7 +25,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${dmSans.className} flex flex-col`}>
+      <body
+        className={`${dmSans.className} flex flex-col`}
+        suppressHydrationWarning
+      >
         <main className="mx-auto w-full h-full justify-center items-center">
           {/* <ThemeProvider attribute="class" defaultTheme="system" enableSystem> */}
           <Providers>{children}</Providers>
