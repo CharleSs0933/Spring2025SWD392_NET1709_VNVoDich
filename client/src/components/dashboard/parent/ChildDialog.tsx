@@ -43,21 +43,57 @@ export const ChildDialog = ({
     };
     let isValid = true;
 
-    if (mode === "create" && !formData.username) {
-      newErrors.username = "User name is required";
-      isValid = false;
+    if (mode === "create") {
+      if (!formData.username.trim()) {
+        newErrors.username = "Username is required";
+        isValid = false;
+      } else if (
+        formData.username.length < 3 ||
+        formData.username.length > 20
+      ) {
+        newErrors.username = "Username must be 3-20 characters long";
+        isValid = false;
+      } else if (!/^[a-zA-Z0-9_]+$/.test(formData.username)) {
+        newErrors.username =
+          "Username can only contain letters, numbers, and underscores";
+        isValid = false;
+      }
     }
 
+    // Full Name validation
     if (!formData.full_name.trim()) {
       newErrors.full_name = "Full Name is required";
       isValid = false;
-    }
-
-    if (mode === "create" && !formData.password.trim()) {
-      newErrors.password = "Password is required";
+    } else if (
+      formData.full_name.length < 2 ||
+      formData.full_name.length > 50
+    ) {
+      newErrors.full_name = "Full Name must be 2-50 characters long";
+      isValid = false;
+    } else if (/[^a-zA-Z\s]/.test(formData.full_name)) {
+      newErrors.full_name = "Full Name must contain only letters and spaces";
       isValid = false;
     }
 
+    // Password validation (only for create mode, optional for edit)
+    if (mode === "create" && !formData.password.trim()) {
+      newErrors.password = "Password is required";
+      isValid = false;
+    } else if (
+      mode === "create" &&
+      (formData.password.length < 6 || formData.password.length > 20)
+    ) {
+      newErrors.password = "Password must be 6-20 characters long";
+      isValid = false;
+    } else if (
+      mode === "create" &&
+      !/^(?=.*[a-zA-Z])(?=.*[0-9])/.test(formData.password)
+    ) {
+      newErrors.password = "Password must contain both letters and numbers";
+      isValid = false;
+    }
+
+    // Date of Birth validation
     if (!formData.date_of_birth) {
       newErrors.date_of_birth = "Date of Birth is required";
       isValid = false;
@@ -65,6 +101,8 @@ export const ChildDialog = ({
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       const dob = new Date(formData.date_of_birth);
+      const ageInYears =
+        (today.getTime() - dob.getTime()) / (1000 * 60 * 60 * 24 * 365.25);
 
       if (isNaN(dob.getTime())) {
         newErrors.date_of_birth = "Invalid date format";
@@ -72,11 +110,21 @@ export const ChildDialog = ({
       } else if (dob >= today) {
         newErrors.date_of_birth = "Date of Birth must be in the past";
         isValid = false;
+      } else if (ageInYears < 5) {
+        newErrors.date_of_birth = "Child must be at least 5 years old";
+        isValid = false;
+      } else if (ageInYears > 18) {
+        newErrors.date_of_birth = "Child must be under 18 years old";
+        isValid = false;
       }
     }
 
+    // Learning Goals validation
     if (!formData.learning_goals.trim()) {
       newErrors.learning_goals = "Learning Goals are required";
+      isValid = false;
+    } else if (formData.learning_goals.length < 5) {
+      newErrors.learning_goals = "Learning Goals must be at least 5 characters";
       isValid = false;
     }
 

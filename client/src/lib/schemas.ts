@@ -87,12 +87,25 @@ export type TutorFormData = z.infer<typeof tutorSchema>;
 export const parentSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters"),
   full_name: z.string().min(5, "Full Name must be at least 5 characters"),
+  date_of_birth: z
+    .string()
+    .refine((date) => {
+      const d = new Date(date);
+      return !isNaN(d.getTime());
+    }, "Invalid date format")
+    .refine((date) => {
+      const d = new Date(date);
+      const today = new Date();
+      return d <= today;
+    }, "Date of birth cannot be in the future")
+    .refine((date) => {
+      const d = new Date(date);
+      const minDate = new Date();
+      minDate.setFullYear(minDate.getFullYear() - 120);
+      return d >= minDate;
+    }, "Date of birth is too far in the past"),
   email: z.string().email("Invalid email"),
   phone: z.string().min(10, "Phone number must have 10 digits"),
-  // .regex(
-  //   new RegExp(/^[+]{1}(?:[0-9\-\(\)\/\.]\s?){6, 15}[0-9]{1}$/),
-  //   "Invalid phone number"
-  // ),
 });
 
 export type ParentFormData = z.infer<typeof parentSchema>;

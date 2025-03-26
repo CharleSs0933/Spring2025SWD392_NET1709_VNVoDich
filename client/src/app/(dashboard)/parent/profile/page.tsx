@@ -25,11 +25,14 @@ const Profile = () => {
   const router = useRouter();
 
   const [formData, setFormData] = useState<ParentFormData>({
-    username: parent?.profile.username || "",
-    full_name: parent?.profile.full_name || "",
-    email: parent?.profile.email || "",
-    phone: parent?.profile.phone || "",
+    username: "",
+    full_name: "",
+    date_of_birth: "",
+    email: "",
+    phone: "",
   });
+
+  console.log(formData, "form");
 
   const handleViewChildSchedule = (child: Children) => {
     router.push(`/parent/children/${child.id}`);
@@ -45,6 +48,10 @@ const Profile = () => {
     const updatedFormData = new FormData();
     updatedFormData.append("full_name", formData.full_name);
     updatedFormData.append("phone", formData.phone);
+    updatedFormData.append(
+      "date_of_birth",
+      new Date(formData.date_of_birth).toISOString()
+    );
 
     try {
       const result = await updateParent({
@@ -130,7 +137,7 @@ const Profile = () => {
           {parent && (
             <UserDetailCard
               submit={handleUpdate}
-              infoData={parent.profile}
+              infoData={parent}
               setFormData={setFormData}
             />
           )}

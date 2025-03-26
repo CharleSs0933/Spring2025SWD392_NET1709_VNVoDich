@@ -186,6 +186,7 @@ export interface Parent {
   id: number;
   preferred_language: string;
   notifications_enable: boolean;
+  date_of_birth: string;
 
   profile: {
     email: string;
