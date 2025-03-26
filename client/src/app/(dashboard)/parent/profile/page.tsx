@@ -78,7 +78,7 @@ const Profile = () => {
                     {parent?.profile?.username}
                   </h2>
                   <p className="text-primary-500">
-                    {parent?.profile?.full_name || "#N/A"}
+                    {parent?.profile?.full_name}
                   </p>
                 </div>
               </div>

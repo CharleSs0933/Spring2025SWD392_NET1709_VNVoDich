@@ -412,6 +412,24 @@ export const api = createApi({
       }),
       invalidatesTags: ["TeachingSessions"],
     }),
+    rescheduleSession: build.mutation<
+      TeachingSession,
+      {
+        startTime?: string;
+        endTime?: string;
+        id: number;
+      }
+    >({
+      query: ({ startTime, endTime, id }) => ({
+        url: `/teaching-sessions/${id}/reschedule`,
+        method: "PUT",
+        body: {
+          startTime,
+          endTime,
+        },
+      }),
+      invalidatesTags: ["TeachingSessions"],
+    }),
 
     /* 
     ===============
@@ -500,6 +518,7 @@ export const {
   useGetCourseAvailabilityQuery,
   useGetSessionQuery,
   useUpdateSessionMutation,
+  useRescheduleSessionMutation,
   useCreateStripePaymentIntentMutation,
   useCreateTrialBookingMutation,
   useCancelBookingMutation,

@@ -49,6 +49,7 @@ const Courses = () => {
   const handleDelete = async (course: Course) => {
     if (window.confirm("Are you sure you want to delete this course?")) {
       await deleteCourse(course.id).unwrap();
+      refetch();
     }
   };
 

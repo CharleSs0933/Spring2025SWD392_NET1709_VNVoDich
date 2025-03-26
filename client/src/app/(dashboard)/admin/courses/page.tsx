@@ -117,10 +117,6 @@ const ManagementCourses = () => {
           "description",
           data.description ? String(data.description) : "null"
         );
-        console.log("Submitting formData:");
-        for (let [key, value] of formData.entries()) {
-          console.log(`${key}: ${value}`);
-        }
 
         await updateCourse({
           courseId: selectedCourse.id,

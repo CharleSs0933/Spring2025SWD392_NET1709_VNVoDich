@@ -63,6 +63,13 @@ const LessonModal = () => {
   }, [lesson, methods]);
 
   const onClose = () => {
+    methods.reset({
+      title: "",
+      description: "",
+      learning_objectives: "",
+      materials_needed: "",
+    });
+
     setHomeworkFile(null);
 
     dispatch(closeLessonModal());
@@ -116,12 +123,6 @@ const LessonModal = () => {
       }
     }
 
-    methods.reset({
-      title: "",
-      description: "",
-      learning_objectives: "",
-      materials_needed: "",
-    });
     onClose();
   };
 
