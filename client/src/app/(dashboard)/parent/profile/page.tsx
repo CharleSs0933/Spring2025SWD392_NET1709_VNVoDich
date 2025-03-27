@@ -41,7 +41,7 @@ const Profile = () => {
   const handleUpdate = async () => {
     const parentId = parent?.id;
     if (!parentId) {
-      console.error("Parent ID is not available");
+      console.log("Parent ID is not available");
       return;
     }
 
@@ -61,7 +61,7 @@ const Profile = () => {
 
       refetch();
     } catch (error) {
-      console.error("Error updating parent profile:", error);
+      console.log("Error updating parent profile:", error);
     }
   };
 

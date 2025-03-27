@@ -87,7 +87,7 @@ export async function GET(req: NextRequest) {
     // const response = NextResponse.redirect(new URL("/login", req.url));
     // return response;
   } catch (error) {
-    console.error("Google OAuth Error:", error);
+    console.log("Google OAuth Error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

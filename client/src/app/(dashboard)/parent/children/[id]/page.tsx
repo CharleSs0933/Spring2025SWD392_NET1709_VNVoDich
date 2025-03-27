@@ -89,7 +89,7 @@ const ChildSchedule = () => {
 
       setOpen(false);
     } catch (error) {
-      console.error("Update failed:", error);
+      console.log("Update failed:", error);
     }
   };
 

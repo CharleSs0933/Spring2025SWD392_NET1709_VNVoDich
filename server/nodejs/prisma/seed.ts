@@ -14,7 +14,7 @@ async function deleteAllData(orderedFileNames: string[]) {
     try {
       await model.deleteMany({});
     } catch (error) {
-      console.error(`Error clearing data from ${modelName}:`, error);
+      console.log(`Error clearing data from ${modelName}:`, error);
     }
   }
 }
@@ -52,11 +52,11 @@ async function main() {
         await model.create({ data });
       }
     } catch (error) {
-      console.error(`Error seeding data for ${modelName}:`, error);
+      console.log(`Error seeding data for ${modelName}:`, error);
     }
   }
 }
 
 main()
-  .catch((e) => console.error(e))
+  .catch((e) => console.log(e))
   .finally(async () => await prisma.$disconnect());

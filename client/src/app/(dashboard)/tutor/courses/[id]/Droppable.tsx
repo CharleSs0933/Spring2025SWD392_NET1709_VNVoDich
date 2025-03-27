@@ -115,7 +115,7 @@ const LessonHeader = ({
 
                   dispatch(deleteLesson(lessonIndex));
                 } catch (error) {
-                  console.error("Failed to delete lesson: ", error);
+                  console.log("Failed to delete lesson: ", error);
                 }
               }}
             >

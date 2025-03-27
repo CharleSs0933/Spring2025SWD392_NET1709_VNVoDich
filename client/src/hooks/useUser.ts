@@ -29,7 +29,7 @@ export const useUser = () => {
       try {
         setUser(JSON.parse(userData)); // Đọc thông tin user từ cookies
       } catch (error) {
-        console.error("Invalid user data in cookies", error);
+        console.log("Invalid user data in cookies", error);
         setUser(null);
       }
     } else {
@@ -79,7 +79,7 @@ export const useUser = () => {
     full_name,
     email,
     role,
-    phone
+    phone,
   }: {
     username: string;
     password: string;
@@ -96,10 +96,10 @@ export const useUser = () => {
         full_name,
         email,
         role,
-        phone
+        phone,
       });
     } catch (error) {
-      console.error("signUp failed:", error);
+      console.log("signUp failed:", error);
       return { error };
     } finally {
       setLoading(false);

@@ -57,7 +57,7 @@ const SessionFeedbackForm = ({
 
       refetch();
     } catch (error) {
-      console.error("Failed to update session feedback: ", error);
+      console.log("Failed to update session feedback: ", error);
     }
   };
 

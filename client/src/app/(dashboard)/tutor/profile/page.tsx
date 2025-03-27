@@ -83,7 +83,7 @@ const Profile = () => {
       }).unwrap();
       refetch();
     } catch (error) {
-      console.error("Failed to update profile: ", error);
+      console.log("Failed to update profile: ", error);
     }
   };
 

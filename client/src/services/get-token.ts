@@ -19,7 +19,7 @@ export async function getAuth() {
       user = JSON.parse(userCookie);
     }
   } catch (error) {
-    console.error("Failed to parse user cookie:", error);
+    console.log("Failed to parse user cookie:", error);
   }
 
   const isLogged = !!user;

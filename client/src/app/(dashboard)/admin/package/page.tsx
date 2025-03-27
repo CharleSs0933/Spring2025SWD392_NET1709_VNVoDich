@@ -60,7 +60,7 @@ const PackageManagement = () => {
       setPackagesList((prev) => prev.filter((pkg) => pkg.id !== id));
       await deletePackage({ id }).unwrap();
     } catch (error) {
-      console.error("Failed to delete package:", error);
+      console.log("Failed to delete package:", error);
     }
   };
 
@@ -101,7 +101,7 @@ const PackageManagement = () => {
       }
       refetch();
     } catch (error) {
-      console.error("Failed to update package:", error);
+      console.log("Failed to update package:", error);
     }
   };
 

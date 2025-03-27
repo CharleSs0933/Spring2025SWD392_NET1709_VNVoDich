@@ -92,7 +92,7 @@ const RequestManagement = () => {
       }
       refetch();
     } catch (error) {
-      console.error("Failed to update Request:", error);
+      console.log("Failed to update Request:", error);
     }
   };
 

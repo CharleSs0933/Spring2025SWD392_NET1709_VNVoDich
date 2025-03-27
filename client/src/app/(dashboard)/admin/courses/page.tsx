@@ -87,7 +87,7 @@ const ManagementCourses = () => {
       await deleteCourse(id).unwrap();
       setCourses((prev) => prev.filter((course) => course.id !== id));
     } catch (error) {
-      console.error("Failed to delete course:", error);
+      console.log("Failed to delete course:", error);
     }
   };
 
@@ -103,7 +103,7 @@ const ManagementCourses = () => {
     try {
       if (isUpdate) {
         if (!selectedCourse?.id) {
-          console.error("Error: No course selected for update.");
+          console.log("Error: No course selected for update.");
           return;
         }
 
@@ -136,7 +136,7 @@ const ManagementCourses = () => {
 
       refetch();
     } catch (error) {
-      console.error("Failed to update course:", error);
+      console.log("Failed to update course:", error);
     }
   };
 

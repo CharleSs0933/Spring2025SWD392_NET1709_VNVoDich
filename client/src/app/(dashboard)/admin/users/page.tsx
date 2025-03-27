@@ -67,7 +67,7 @@ const ManagementUser = () => {
       await deleteUser({ id }).unwrap();
       setUsersList((prev) => prev.filter((user) => user.id !== id));
     } catch (error) {
-      console.error("Failed to delete user:", error);
+      console.log("Failed to delete user:", error);
     }
   };
 
@@ -106,7 +106,7 @@ const ManagementUser = () => {
 
       refetch();
     } catch (error) {
-      console.error("Failed to update user:", error);
+      console.log("Failed to update user:", error);
     }
   };
 

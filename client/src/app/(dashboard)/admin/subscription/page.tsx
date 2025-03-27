@@ -14,8 +14,8 @@ const SubscriptionManagement = () => {
     plan_name: string;
     price: number;
     status: string;
-    current_period_end : string;
-    current_period_start : string;
+    current_period_end: string;
+    current_period_start: string;
   } | null>(null);
 
   const {
@@ -28,7 +28,7 @@ const SubscriptionManagement = () => {
   //   const [deleteSubscription] = useDeleteSubscriptionMutation();
 
   console.log(Subscriptions);
-  
+
   const [SubscriptionsList, setSubscriptionsList] = useState<
     {
       id: number;
@@ -36,19 +36,17 @@ const SubscriptionManagement = () => {
       status: string;
       price: number;
       plan_name: string;
-      current_period_end : string;
-      current_period_start : string;
+      current_period_end: string;
+      current_period_start: string;
     }[]
   >([]);
 
   useEffect(() => {
-
     if (Subscriptions) {
-
-      const parseDate = (isoString : any ) => {
-        return new Date(isoString).toLocaleDateString("en-US"); 
+      const parseDate = (isoString: any) => {
+        return new Date(isoString).toLocaleDateString("en-US");
       };
-      
+
       const transformedSubscription = (Subscriptions as Subscription[]).map(
         (sub) => ({
           id: sub.id || 0,
@@ -56,8 +54,12 @@ const SubscriptionManagement = () => {
           plan_name: sub.plan_name || "unknown",
           status: sub.status || "unknown",
           price: sub.price || 0,
-          current_period_start: sub.current_period_start ? parseDate(sub.current_period_start) : "unknown",
-          current_period_end: sub.current_period_end ? parseDate(sub.current_period_end) : "unknown",
+          current_period_start: sub.current_period_start
+            ? parseDate(sub.current_period_start)
+            : "unknown",
+          current_period_end: sub.current_period_end
+            ? parseDate(sub.current_period_end)
+            : "unknown",
         })
       );
       setSubscriptionsList(transformedSubscription);
@@ -70,7 +72,7 @@ const SubscriptionManagement = () => {
       //   setSubscriptionsList(prev => prev.filter(sub => sub.id !== id));
       alert(id);
     } catch (error) {
-      console.error("Failed to delete Subscription:", error);
+      console.log("Failed to delete Subscription:", error);
     }
   };
 
@@ -105,7 +107,7 @@ const SubscriptionManagement = () => {
       }
       refetch();
     } catch (error) {
-      console.error("Failed to update Subscription:", error);
+      console.log("Failed to update Subscription:", error);
     }
   };
 

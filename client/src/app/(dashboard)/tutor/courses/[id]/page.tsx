@@ -78,7 +78,7 @@ const CourseEditor = () => {
 
       refetch();
     } catch (error) {
-      console.error("Failed to update course: ", error);
+      console.log("Failed to update course: ", error);
     }
   };
 

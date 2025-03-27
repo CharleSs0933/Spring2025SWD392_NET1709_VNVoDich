@@ -9,7 +9,7 @@ import { useGetTutorSubMutation } from "@/state/apiAuth";
 // import {  useGetTutorSubMutation, useGoogleLoginMutation } from "@/state/apiAuth";
 const Login = () => {
   const [isMounted, setIsMounted] = useState(false);
- 
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -94,8 +94,6 @@ const Login = () => {
     }
   };
 
-  
-
   const handleSubmit = async () => {
     if (isSignUp) {
       if (signUpData.passWord !== signUpData.confirmPassword) {
@@ -150,13 +148,13 @@ const Login = () => {
     try {
       window.location.href = "http://localhost:8080/google/auth/login";
     } catch (error) {
-      console.error("Google login error:", error);
+      console.log("Google login error:", error);
     }
   };
 
-if(!isMounted){
-  return null;  
-}
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <div className="relative w-full h-[800px] overflow-hidden my-4">
