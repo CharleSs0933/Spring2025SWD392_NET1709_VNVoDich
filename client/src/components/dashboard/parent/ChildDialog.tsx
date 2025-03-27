@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -44,7 +45,7 @@ export const ChildDialog = ({
     let isValid = true;
 
     if (mode === "create") {
-      if (!formData.username.trim()) {
+      if (!formData.username?.trim()) {
         newErrors.username = "Username is required";
         isValid = false;
       } else if (

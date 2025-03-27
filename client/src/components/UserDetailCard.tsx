@@ -186,7 +186,7 @@ const UserDetailCard = ({
               <span className="font-bold">Full name</span>
             </div>
             <Input
-              value={data.profile.full_name}
+              value={data.profile.full_name || ""}
               onChange={(e) => handleChange("full_name", e.target.value)}
               className="fieldProfile"
             />
@@ -202,7 +202,7 @@ const UserDetailCard = ({
               <span className="font-bold">Phone</span>
             </div>
             <Input
-              value={data.profile.phone}
+              value={data.profile.phone || ""}
               onChange={(e) => handleChange("phone", e.target.value)}
               className="fieldProfile"
             />

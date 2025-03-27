@@ -395,7 +395,7 @@ body,
 }
 
 .fieldProfile {
-  max-width: 370px;
+  width: 250px;
   padding: 8px;
   border-radius: 4px;
   border: 1px solid #ccc;
