@@ -19,7 +19,18 @@ const UserDetailCard = ({
   infoData,
   setFormData,
 }: UserDetailCardProps) => {
-  const [data, setData] = useState(infoData);
+  // Initialize state with fallback values to ensure controlled inputs
+  const [data, setData] = useState<Parent>(() => ({
+    ...infoData,
+    profile: {
+      ...infoData.profile,
+      username: infoData.profile.username || "",
+      email: infoData.profile.email || "",
+      full_name: infoData.profile.full_name || "",
+      phone: infoData.profile.phone || "",
+    },
+    date_of_birth: infoData.date_of_birth || "",
+  }));
   const [hasChanges, setHasChanges] = useState(false);
   const [errors, setErrors] = useState({
     date_of_birth: "",
@@ -28,7 +39,18 @@ const UserDetailCard = ({
   });
 
   useEffect(() => {
-    setData(infoData);
+    // Ensure data is always fully defined when infoData changes
+    setData({
+      ...infoData,
+      profile: {
+        ...infoData.profile,
+        username: infoData.profile.username || "",
+        email: infoData.profile.email || "",
+        full_name: infoData.profile.full_name || "",
+        phone: infoData.profile.phone || "",
+      },
+      date_of_birth: infoData.date_of_birth || "",
+    });
   }, [infoData]);
 
   useEffect(() => {
@@ -49,21 +71,20 @@ const UserDetailCard = ({
   const validateField = (field: keyof ParentFormData, value: string) => {
     let error = "";
     if (field === "full_name") {
-      if (!value.trim()) {
+      if (!value?.trim()) {
         error = "Full name is required";
       } else if (/[^a-zA-Z\s]/.test(value)) {
         error = "Full name must contain only letters and spaces";
       }
     }
     if (field === "phone") {
-      if (!value.trim()) {
+      if (!value?.trim()) {
         error = "Phone number is required";
       } else if (/[^0-9]/.test(value)) {
         error = "Phone number must contain only digits";
       } else if (!/^\d{10,15}$/.test(value)) {
         error = "Phone number must be 10-15 digits";
       } else {
-        // Valid Vietnamese mobile
         const validPrefixes = [
           "032",
           "033",
@@ -72,29 +93,29 @@ const UserDetailCard = ({
           "036",
           "037",
           "038",
-          "039", // Viettel
+          "039",
           "070",
           "076",
           "077",
           "078",
-          "079", // MobiFone
+          "079",
           "081",
           "082",
           "083",
           "084",
           "085",
-          "088", // Vinaphone
-          "086", // Viettel
-          "089", // MobiFone
+          "088",
+          "086",
+          "089",
           "090",
-          "093", // MobiFone
+          "093",
           "091",
-          "094", // Vinaphone
-          "092", // Vietnamobile
+          "094",
+          "092",
           "096",
           "097",
-          "098", // Viettel
-          "099", // Gmobile
+          "098",
+          "099",
         ];
         const prefix = value.slice(0, 3);
         if (!validPrefixes.includes(prefix)) {
@@ -108,7 +129,9 @@ const UserDetailCard = ({
       const minDate = new Date();
       minDate.setFullYear(today.getFullYear() - 120);
 
-      if (isNaN(date.getTime())) {
+      if (!value) {
+        error = "Date of birth is required";
+      } else if (isNaN(date.getTime())) {
         error = "Invalid date format";
       } else if (date > today) {
         error = "Date of birth cannot be in the future";
@@ -137,16 +160,11 @@ const UserDetailCard = ({
     const fullNameError = validateField("full_name", data.profile.full_name);
     const phoneError = validateField("phone", data.profile.phone);
     const dateOfBirthError = validateField("date_of_birth", data.date_of_birth);
-    if (
-      (fullNameError.length > 0 || phoneError.length > 0,
-      dateOfBirthError.length > 0)
-    ) {
-      setErrors({
-        date_of_birth: dateOfBirthError,
-        full_name: fullNameError,
-        phone: phoneError,
-      });
-    }
+    setErrors({
+      date_of_birth: dateOfBirthError,
+      full_name: fullNameError,
+      phone: phoneError,
+    });
 
     if (!fullNameError && !phoneError && !dateOfBirthError && hasChanges) {
       submit();
@@ -218,7 +236,7 @@ const UserDetailCard = ({
               <span className="font-bold">Date of birth</span>
             </div>
             <Input
-              value={data.date_of_birth?.split("T")[0]}
+              value={data.date_of_birth ? data.date_of_birth.split("T")[0] : ""}
               type="date"
               onChange={(e) => handleChange("date_of_birth", e.target.value)}
               className="fieldProfile"
